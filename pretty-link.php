@@ -2,7 +2,7 @@
 /*
 Plugin Name: Pretty Link
 Plugin URI: http://blairwilliams.com/pretty-link
-Description: Create shortened, named URLs using your blog. This plugin makes the best possible links for your affiliate campaigns or other endeavors because the links appear to be coming from your site instead of from tinyurl, budurl or one of the other link shrinking services. You can track stats on your links easily and keep that data on your own database (instead of allowing it to be managed on other machines).
+Description: Creates shortened, named URLs using your blog. This plugin makes the best possible links for your affiliate campaigns or other endeavors because the links appear to be coming from your site instead of from tinyurl, budurl or one of the other link shrinking services. You can track stats on your links easily and keep that data on your own database (instead of allowing it to be managed on other machines).
 Version: 0.0.1
 Author: Blair Williams
 Author URI: http://blairwilliams.com/
