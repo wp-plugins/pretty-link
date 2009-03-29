@@ -3,7 +3,7 @@
 Plugin Name: Pretty Link
 Plugin URI: http://blairwilliams.com/pretty-link
 Description: Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service. With Pretty Link you can create random shortened or named URLs using your website's domain name. When these links are used, pretty link keeps track of the click count.
-Version: 0.0.3
+Version: 0.0.4
 Author: Blair Williams
 Author URI: http://blairwilliams.com/
 Copyright: 2009, Blair Williams
@@ -32,7 +32,7 @@ register_activation_hook(__FILE__,'prli_install');
 add_action('admin_menu', 'prli_menu');
 
 function prli_menu() {
-      add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/bookmark.png'); 
+      add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
 //      add_submenu_page(PRLI_PATH.'/prli-main.php', 'Pretty Link | Links', 'Links', 8, PRLI_PATH.'/prli-links.php');
 //      add_submenu_page(PRLI_PATH.'/prli-main.php', 'Pretty Link | Reports', 'Reports', 8, PRLI_PATH.'/prli-links.php');
 }
