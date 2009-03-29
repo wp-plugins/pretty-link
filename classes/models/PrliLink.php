@@ -88,6 +88,32 @@ class PrliLink
         return $results;
     }
 
+    /** I'm generating a slug that is by default 2-3 characters long.
+      * This gives us a possibility of 36^3 - 37 = 46,619 possible
+      * random slugs. That should be *more* than enough slugs for
+      * any website -- if I get any feedback that we need more then
+      * I can always make a config option to raise the # of chars.
+      */
+    public function generateValidSlug($num_chars = 3)
+    {
+      global $wpdb, $prli_utils;
+
+      // We're doing a base 36 hash which is why we're always doing everything by 36
+      $max_slug_value = pow(36,$num_chars);
+      $min_slug_value = 37; // we want to have at least 2 characters in the slug
+      $slug = base_convert( rand($min_slug_value,$max_slug_value), 10, 36 );
+
+      $query = "SELECT slug FROM " . $this->table_name; // . " WHERE slug='" . $slug . "'";
+      $slugs = $wpdb->get_col($query,0);
+
+      // It is highly unlikely that we'll ever see 2 identical random slugs
+      // but just in case, here's some code to prevent collisions
+      while( in_array($slug,$slugs) or !$prli_utils->slugIsAvailable($slug) )
+        $slug = base_convert( rand($min_slug_value,$max_slug_value), 10, 36 );
+
+      return $slug;
+    }
+
     public function validate( $values )
     {
       global $wpdb, $prli_utils;

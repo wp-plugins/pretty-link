@@ -4,28 +4,36 @@ Donate link: http://blairwilliams.com/
 Tags: links, pretty, link, url, urls, redirect, redirect, rewrite, short, tinyurl, budurl, shrink, mask, slug, slugs
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: trunk
+Stable tag: 0.0.3
 
-With Pretty Link you can create shortened, named URLs using your website's domain name.
+Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service. With Pretty Link you can create random shortened or named URLs using your website's domain name. When these links are used, pretty link keeps track of the click count.
 
 == Description ==
 
-With Pretty Link you can create shortened, named URLs using your website's domain name. This plugin makes the cleanest links possible because they are on your site instead of from tinyurl, budurl or one of the other link shrinking services. You can also track stats on your links easily and keep that data on your own database.
+Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service. With Pretty Link you can create random shortened or named URLs using your website's domain name. When these links are used, pretty link keeps track of the click count.
+
+NOTE: You must have pretty permalinks and rewrite working in your Wordpress/PHP/Apache install before pretty links will work (this is already done in most cases but if you can't get anything but Default permalinks working then you may need to contact your system administrator). Pretty links utlilzes Wordpress's URL rewriting capabilities (via Apache's mod_rewrite) which are only turned on when you change the settings in "Settings -> Permalinks" from "Default" to something else. If you want your blog to have any kind of decent SEO then you really should do this anyway.
 
 == Installation ==
 
-1. Upload `plugin-name.php` to the `/wp-content/plugins/` directory
+1. Upload 'pretty-link.zip' to the '/wp-content/plugins/' directory
+
 2. Activate the plugin through the 'Plugins' menu in WordPress
+
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible tags.
 
 = Features =
 
 * Add URL Redirects to your Blog : You can redirect and track any link
+* Generates random 2-3 character slugs for your URL or allows you to name a custom url
 
 == Frequently Asked Questions ==
 
-* http://blairwilliams.com/pretty-link/faq
+* This plugin is dead simple. All you have to do is to find the pretty link admin menu (bottom left of your admin page)
 
 == Screenshots ==
 
-* http://blairwilliams.com/pretty-link/screenshots
+1. Screenshot List of Links
+2. Screenshot Adding a Link
+3. Screenshot Editing a Link
+4. Screenshot Copying a Link

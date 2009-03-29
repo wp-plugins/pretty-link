@@ -13,13 +13,13 @@
 <table class="form-table">
   <tr>
     <td width="75px">URL*: </td>
-    <td><input type="text" name="url" value="<?php print (($_POST['url'] != null)?$_POST['url']:'http://yoururl.com'); ?>" size="75">
-      <br/><span class="setting-description">Enter the URL you want to mask and track.</span></td>
+    <td><input type="text" name="url" value="<?php print (($_POST['url'] != null)?$_POST['url']:''); ?>" size="75">
+      <br/><span class="setting-description">Enter the URL you want to mask and track. Don't forget to start your url with <code>http://</code> or <code>https://</code>. Example: <code>http://www.yoururl.com</code></span></td>
   </tr>
   <tr>
     <td>Pretty Link*: </td>
-    <td><strong><?php print get_option('siteurl'); ?></strong>/<input type="text" name="slug" value="<?php print (($_POST['slug'] != null)?$_POST['slug']:''); ?>" size="25">
-    <br/><span class="setting-description">Enter the slug (word trailing your main URL) that will form your pretty link and redirect to the URL above.</span></td>
+    <td><strong><?php print get_option('siteurl'); ?></strong>/<input type="text" name="slug" value="<?php print (($_POST['slug'] != null)?$_POST['slug']:$prli_link->generateValidSlug()); ?>" size="25">
+    <br/><span class="setting-description">Use the auto-generated short slug (2-3 characters) here or enter any word (must only contain letters, numbers or the following special characters: ".","-" or "_") that will form your pretty link and redirect to the URL above.</span></td>
   </tr>
 </table>
 
