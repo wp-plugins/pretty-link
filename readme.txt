@@ -1,10 +1,10 @@
 === Pretty Link ===
 Contributors: supercleanse
-Donate link: http://blairwilliams.com/
+Donate link: http://blairwilliams.com/pretty-link/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, redirect, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 0.0.4
+Stable tag: 0.0.5
 
 Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service. With Pretty Link you can create random shortened or named URLs using your website's domain name. When these links are used, pretty link keeps track of the click count.
 
