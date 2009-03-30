@@ -1,6 +1,6 @@
 === Pretty Link ===
 Contributors: supercleanse
-Donate link: http://blairwilliams.com/pretty-link/
+Donate link: http://blairwilliams.com/pretty-link
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, redirect, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs
 Requires at least: 2.7.1
 Tested up to: 2.7.1
