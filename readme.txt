@@ -4,19 +4,21 @@ Donate link: http://blairwilliams.com/pretty-link
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, redirect, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 
-Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks they get using Pretty Link. For instance, this URL: http://www.yourdomain.com/cnn could link to http://www.cnn.com -- this is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of the click count.
+Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
 
 == Description ==
 
-Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks they get using Pretty Link. For instance, this URL: http://www.yourdomain.com/cnn could link to http://www.cnn.com -- this is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of the click count.
+Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
 
 = Features =
 
 * Gives you the ability to create clean, simple URLs on your website that redirect to any other URL
 * Generates random 2-3 character slugs for your URL or allows you to name a custom slug for your URL
 * Tracks the Number of Clicks per link
+* Tracks the Number of Unique Clicks per link
+* Provides a reporting interface where you can see a configurable chart of clicks per day. This report can be filtered by the specific link clicked, date range, and/or unique clicks.
 
 == Installation ==
 
@@ -37,6 +39,7 @@ You must have pretty permalinks and rewrite working in your Wordpress/PHP/Apache
 
 == Screenshots ==
 
-1. Screenshot List of Links
-2. Screenshot Adding a Link
-3. Screenshot Editing a Link
+1. Link Management Screen
+2. Add a Link Screen
+3. Edit a Link Screen
+4. Analyze Click Data
