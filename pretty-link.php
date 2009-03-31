@@ -31,10 +31,155 @@ register_activation_hook(__FILE__,'prli_install');
 
 add_action('admin_menu', 'prli_menu');
 
-function prli_menu() {
-      add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
-//      add_submenu_page(PRLI_PATH.'/prli-main.php', 'Pretty Link | Links', 'Links', 8, PRLI_PATH.'/prli-links.php');
-//      add_submenu_page(PRLI_PATH.'/prli-main.php', 'Pretty Link | Reports', 'Reports', 8, PRLI_PATH.'/prli-links.php');
+function prli_menu()
+{
+  add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Reports', 'Reports', 8, PRLI_PATH.'/prli-reports.php');
+
+  add_action('admin_head-pretty-link/prli-reports.php', 'prli_reports_admin_header');
+}
+
+
+/* Add header to prli-reports page */
+function prli_reports_admin_header()
+{
+    global $prli_report, $prli_utils;
+
+    if(isset($_POST['link']))
+      $link_id = $_POST['link'];
+    else
+      $link_id = "all";
+
+    if(isset($_POST['type']))
+      $type = $_POST['type'];
+    else
+      $type = "all";
+
+    $first_click = $prli_utils->getFirstClickDate();
+
+    // Adjust for the first click
+    if(isset($first_click))
+    {
+      $min_date = (int)((time()-$first_click)/60/60/24);
+
+      if(isset($_POST['sdate']) and $_POST['sdate'] != '')
+      {
+        $sdate = explode("-",$_POST['sdate']);
+        $start_timestamp = mktime(0,0,0,$sdate[1],$sdate[2],$sdate[0]);
+      }
+      else
+      {
+        // Default to min_date or 30 days ago
+        if($min_date < 30)
+          $start_timestamp = time()-60*60*24*(int)$min_date;
+        else
+          $start_timestamp = time()-60*60*24*30;
+      }
+
+      if(isset($_POST['edate']) and $_POST['edate'] != '')
+      {
+        $edate = explode("-",$_POST['edate']);
+        $end_timestamp = mktime(0,0,0,$edate[1],$edate[2],$edate[0]);
+      }
+      else
+      {
+        $end_timestamp = time();
+      }
+    }
+    else
+    {
+      $min_date = 0;
+      $start_timestamp = time();
+      $end_timestamp = time();
+    }
+?>
+<link type="text/css" href="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/css/ui-lightness/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-ui-1.7.1.custom.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+                $("#sdate").datepicker({ dateFormat: 'yy-mm-dd', defaultDate: -30, minDate: -<?php echo $min_date; ?>, maxDate: 0 });
+                $("#edate").datepicker({ dateFormat: 'yy-mm-dd', minDate: -<?php echo $min_date; ?>, maxDate: 0 });
+                  });
+</script>
+<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/json/json2.js"></script>
+<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/swfobject.js"></script>
+<script type="text/javascript">
+var params = {};
+params.wmode = "transparent"; 
+
+swfobject.embedSWF("/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "400", "9.0.0","expressInstall.swf", params);
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#sdate").datepicker();
+    $("#edate").datepicker();
+  });
+</script>
+
+
+<script type="text/javascript">
+
+function ofc_ready() 
+{ 
+  //alert('ofc_ready');
+}
+
+function open_flash_chart_data()
+{
+  //alert( 'reading data' );
+  return JSON.stringify(data);
+}
+
+function findSWF(movieName) {
+  if (navigator.appName.indexOf("Microsoft")!= -1) {
+    return window[movieName];
+  } else {
+    return document[movieName];
+  }
+}
+ 
+OFC = {};
+ 
+OFC.jquery = {
+  name: "jQuery",
+  version: function(src) { return $('#'+ src)[0].get_version() },
+  rasterize: function (src, dst) { $('#'+ dst).replaceWith(OFC.jquery.image(src)) },
+  image: function(src) { return "<img src='data:image/png;base64," + $('#'+src)[0].get_img_binary() + "' />"},
+  popup: function(src) {
+    var img_win = window.open('', 'Charts: Export as Image')
+    with(img_win.document) {
+      write('<html><head><title>Charts: Export as Image<\/title><\/head><body>' + OFC.jquery.image(src) + '<div>Right-Click on the above Image to Save<\/div><\/body><\/html>') }
+    // stop the 'loading...' message
+    img_win.document.close();
+  }
+}
+ 
+// Using an object as namespaces is JS Best Practice. I like the Control.XXX style.
+//if (!Control) {var Control = {}}
+//if (typeof(Control == "undefined")) {var Control = {}}
+if (typeof(Control == "undefined")) {var Control = {OFC: OFC.jquery}}
+ 
+ 
+// By default, right-clicking on OFC and choosing "save image locally" calls this function.
+// You are free to change the code in OFC and call my wrapper (Control.OFC.your_favorite_save_method)
+// function save_image() { alert(1); Control.OFC.popup('my_chart') }
+function save_image() {
+    //alert(1);
+    OFC.jquery.popup('my_chart')
+}
+
+function moo() {
+    //alert(99);
+};
+    
+var data = <?php echo $prli_report->setupClickReport($start_timestamp,$end_timestamp,$link_id,$type); ?>;
+
+</script>
+
+<?php
 }
 
 /********* ADD REDIRECTS YO ***********/

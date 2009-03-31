@@ -31,6 +31,21 @@ public function getTopValue($values_array)
   return $values_array[0];
 }
 
+public function getFirstClickDate()
+{
+  global $wpdb;
+
+  $clicks_table = $wpdb->prefix . "prli_clicks";
+  $query = "SELECT created_at FROM $clicks_table ORDER BY created_at LIMIT 1";
+  $first_click = $wpdb->get_var($query);
+
+  if(isset($first_click))
+  {
+    return strtotime($first_click);
+  }
+  else
+    return null; 
+}
 
 public function getMonthsArray()
 {
