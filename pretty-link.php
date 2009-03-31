@@ -2,7 +2,7 @@
 /*
 Plugin Name: Pretty Link
 Plugin URI: http://blairwilliams.com/pretty-link
-Description: Create clean, simple links on your website that link to other URLs using Pretty Link. For instance, this URL: http://www.yourdomain.com/cnn could link to http://www.cnn.com -- this is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of the click count.
+Description: Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks they get using Pretty Link. For instance, this URL: http://www.yourdomain.com/cnn could link to http://www.cnn.com -- this is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of the click count.
 Version: 1.0.0
 Author: Blair Williams
 Author URI: http://blairwilliams.com
