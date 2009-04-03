@@ -106,10 +106,7 @@ function prli_reports_admin_header()
 <script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/json/json2.js"></script>
 <script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/swfobject.js"></script>
 <script type="text/javascript">
-var params = {};
-params.wmode = "transparent"; 
-
-swfobject.embedSWF("/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "400", "9.0.0","expressInstall.swf", params);
+swfobject.embedSWF("/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "400", "9.0.0");
 </script>
 
 <script type="text/javascript">

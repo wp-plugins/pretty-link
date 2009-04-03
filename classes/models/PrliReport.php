@@ -66,14 +66,14 @@ public function setupClickReport($start_timestamp,$end_timestamp, $link_id = "al
       "width" => 2
     ) ),
     "title" => array(
-      "text" => 'Affiliate Program: '.$type_string.' on '.$link_name. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp) . ' for ' . $user_string,
+      "text" => 'Pretty Link: '.$type_string.' on '.$link_name. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp) . ' for ' . $user_string,
       "style" => "font-size: 16px; font-weight: bold; color: #3030d0; text-align: center; padding-bottom: 5px;"
     ),
     "bg_colour" => "-1",
     "y_axis" => array(
       "min" => 0,
-      "max" => 15,
-      "steps" => 1,
+      "max" => $top_click_count,
+      "steps" => (int)(($top_click_count>=10)?$top_click_count/10:1),
       "colour" => "#A2ACBA"
     ),
     "x_axis" => array(
