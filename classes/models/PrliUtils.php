@@ -8,7 +8,7 @@ class PrliUtils
   * this is so that the values we have will work with google
   * charts.
   */
-public function percentagizeArray($data,$max_value)
+function percentagizeArray($data,$max_value)
 {
     $new_data = array();
     foreach($data as $point)
@@ -25,13 +25,13 @@ public function percentagizeArray($data,$max_value)
     return $new_data;
 }
 
-public function getTopValue($values_array)
+function getTopValue($values_array)
 {
   rsort($values_array);
   return $values_array[0];
 }
 
-public function getFirstClickDate()
+function getFirstClickDate()
 {
   global $wpdb;
 
@@ -47,7 +47,7 @@ public function getFirstClickDate()
     return null; 
 }
 
-public function getMonthsArray()
+function getMonthsArray()
 {
     global $wpdb;
     global $prli_click;
@@ -79,13 +79,13 @@ public function getMonthsArray()
 }
 
 // For Pagination
-public function getLastRecordNum($r_count,$current_p,$p_size)
+function getLastRecordNum($r_count,$current_p,$p_size)
 {
     return (($r_count < ($current_p * $p_size))?$r_count:($current_p * $p_size));
 }
 
 // For Pagination
-public function getFirstRecordNum($r_count,$current_p,$p_size)
+function getFirstRecordNum($r_count,$current_p,$p_size)
 {
     if($current_p == 1)
     {
@@ -97,7 +97,7 @@ public function getFirstRecordNum($r_count,$current_p,$p_size)
     }
 }
 
-public function slugIsAvailable($slug)
+function slugIsAvailable($slug)
 {
   global $wpdb;
 
@@ -110,5 +110,5 @@ public function slugIsAvailable($slug)
   return ( $post_slug != $slug and $term_slug != $slug );
 }
 
-};
+}
 ?>

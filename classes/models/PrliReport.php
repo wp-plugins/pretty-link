@@ -4,7 +4,7 @@
 
 class PrliReport {
 
-public function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $type = "all")
+function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $type = "all")
 {
   global $wpdb, $prli_utils;
 
@@ -140,4 +140,5 @@ public function setupClickReport($start_timestamp,$end_timestamp, $link_id = "al
   */
 }
 
-};
+}
+?>
