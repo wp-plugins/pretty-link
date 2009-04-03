@@ -1,6 +1,6 @@
 <?php
 
-include PRLI_PATH.'/includes/version-2-ichor/php-ofc-library/open-flash-chart.php';
+//include PRLI_PATH.'/includes/version-2-ichor/php-ofc-library/open-flash-chart.php';
 
 class PrliReport {
 
@@ -52,6 +52,47 @@ public function setupClickReport($start_timestamp,$end_timestamp, $link_id = "al
   else
     $type_string = "Unique clicks";
 
+  $json_array = array(
+    "elements" => array( array( 
+      "type" => "line", 
+      "values" => array_values($data_array),
+      "dot-style" => array( 
+        "type" => "dot",
+        "dot-size" => 4,
+        "colour" => "#ffc94e",
+        "halo-size" => 1,
+        "tip" => "#val# $type_string"
+      ),
+      "width" => 2
+    ) ),
+    "title" => array(
+      "text" => 'Affiliate Program: '.$type_string.' on '.$link_name. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp) . ' for ' . $user_string,
+      "style" => "font-size: 16px; font-weight: bold; color: #3030d0; text-align: center; padding-bottom: 5px;"
+    ),
+    "bg_colour" => "-1",
+    "y_axis" => array(
+      "min" => 0,
+      "max" => 15,
+      "steps" => 1,
+      "colour" => "#A2ACBA"
+    ),
+    "x_axis" => array(
+      "colour" => "#A2ACBA",
+      "grid-colour" => "#ffefa7",
+      "offset" => false,
+      "steps" => 4,
+      "labels" => array(
+        "steps" => 2,
+        "rotate" => 45,
+        "colour" => "#000000",
+        "labels" => array_keys($data_array) 
+      )
+    )
+  );
+
+  return json_encode($json_array);
+
+  /*
   $title = new title('Pretty Link: '.$type_string.' on '.$link_slug. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp));
 
   $title->set_style('font-size: 16px; font-weight: bold; color: #3030d0; text-align: center; padding-bottom: 5px;');
@@ -95,18 +136,8 @@ public function setupClickReport($start_timestamp,$end_timestamp, $link_id = "al
   $x->set_labels( $x_labels );
   $chart->set_x_axis( $x );
 
-    /*
-    $title = new title( date("D M d Y") );
-
-    $bar = new bar();
-    $bar->set_values( array(9,8,7,6,5,4,3,2,1) );
-
-    $chart = new open_flash_chart();
-    $chart->set_title( $title );
-    $chart->add_element( $bar );
-
-    */
   return $chart->toPrettyString();
+  */
 }
 
 };
