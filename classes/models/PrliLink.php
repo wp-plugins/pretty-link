@@ -11,9 +11,11 @@ class PrliLink
     {
       global $wpdb, $wp_rewrite;
       $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,created_at) VALUES (\'' .
+               ' (url,slug,forward_params,track_as_img,created_at) VALUES (\'' .
                      $values['url'] . '\',\'' . 
                      $values['slug'] . '\',' . 
+                     (int)isset($values['forward_params']) . ',' . 
+                     (int)isset($values['track_as_img']) . ',' . 
                      'NOW())';
       $query_results = $wpdb->query($query);
       $wp_rewrite->flush_rules();
@@ -25,8 +27,10 @@ class PrliLink
       global $wpdb, $wp_rewrite;
       $query = 'UPDATE ' . $this->table_name() . 
                   ' SET url=\'' . $values['url'] . '\', ' .
-                      ' slug=\'' . $values['slug'] . '\' ' .
-                  'WHERE id='.$id;
+                      ' slug=\'' . $values['slug'] . '\', ' .
+                      ' forward_params=' . (int)isset($values['forward_params']) . ', ' .
+                      ' track_as_img=' . (int)isset($values['track_as_img']) .
+                  ' WHERE id='.$id;
       $query_results = $wpdb->query($query);
       $wp_rewrite->flush_rules();
       return $query_results;
@@ -121,7 +125,7 @@ class PrliLink
       if( !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) )
         $errors[] = "Link URL must be a correctly formatted url";
 
-      if( !preg_match('/^[a-z0-9\.\-_]+$/', $values['slug'] ) )
+      if( !preg_match('/^[a-zA-Z0-9\.\-_]+$/', $values['slug'] ) )
         $errors[] = "Pretty Link must not contain spaces or special characters";
 
       if($values['id'] != null and $values['id'] != '')
@@ -133,6 +137,15 @@ class PrliLink
 
       if( $slug_already_exists or !$prli_utils->slugIsAvailable($values['slug']) )
         $errors[] = "This pretty link slug is already taken, please choose a different one";
+
+      if(isset($values['track_as_img']) and $values['track_as_img'] == 'on' and $values['url'] != null and $values['url'] != '')
+      {
+        $size = getimagesize($values['url']);
+        if(!preg_match('#image#',$size['mime']))
+        {
+          $errors[] = "If you want to track this pretty link as an image then your target url must be an image (png, jpeg, gif, etc.)";
+        }
+      }
 
       return $errors;
     }

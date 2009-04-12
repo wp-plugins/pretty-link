@@ -3,14 +3,14 @@
 
 require_once(dirname(__FILE__) . '/../../../wp-config.php');
 
-if( $_GET['s'] != null and $_GET['s'] != '' )
+if( $_GET['sprli'] != null and $_GET['sprli'] != '' )
 {
-    $slug = $_GET['s'];
+    $slug = $_GET['sprli'];
 
     $click_table = $wpdb->prefix . "prli_clicks";
     $pretty_links_table = $wpdb->prefix . "prli_links";
 
-    $query = "SELECT id,url FROM $pretty_links_table WHERE slug='$slug' LIMIT 1";
+    $query = "SELECT id,url,forward_params,track_as_img FROM $pretty_links_table WHERE slug='$slug' LIMIT 1";
     $pretty_link = $wpdb->get_row($query);
 
     $first_click = false;
@@ -33,7 +33,37 @@ if( $_GET['s'] != null and $_GET['s'] != '' )
 
     $results = $wpdb->query( $insert );
 
+    $param_string = '';
+
+    if(isset($pretty_link->forward_params) and $pretty_link->forward_params and isset($_GET) and count($_GET) > 1)
+    {
+      $first_param = true;
+      foreach($_GET as $key => $value)
+      {
+        // Ignore the 'sprli' parameter
+        if($key != 'sprli')
+        {
+          if($first_param)
+          {
+            $param_string = (preg_match("#\?#", $pretty_link->url)?"&":"?");
+            $first_param = false;
+          }
+          else
+            $param_string .= "&";
+
+          $param_string .= "$key=$value";
+        }
+      }
+    }
+
     //Redirect to Product URL
-    header("Location: $pretty_link->url");
+    if(isset($pretty_link->track_as_img) and $pretty_link->track_as_img)
+    {
+      $size = getimagesize($pretty_link->url); 
+      header('Content-Type: '.$size['mime']);
+      echo file_get_contents($pretty_link->url.$param_string);
+    }
+    else
+      header("Location: $pretty_link->url".$param_string);
 }
 ?>

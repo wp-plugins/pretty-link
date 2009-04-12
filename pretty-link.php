@@ -3,7 +3,7 @@
 Plugin Name: Pretty Link
 Plugin URI: http://blairwilliams.com/pretty-link
 Description: Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
-Version: 1.1.3
+Version: 1.1.4
 Author: Blair Williams
 Author URI: http://blairwilliams.com
 Copyright: 2009, Blair Williams
@@ -189,7 +189,7 @@ function link_rewrite($wp_rewrite) {
   {
     if( $pl->slug != null and $pl->slug != '' and $prli_utils->slugIsAvailable($pl->slug) )
     {
-      add_rewrite_rule('(' . $pl->slug . ')/?$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?s=$1');
+      add_rewrite_rule('(' . $pl->slug . ')/?\??(.*?)$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1&$2');
     }
       
   }
@@ -199,10 +199,10 @@ function link_rewrite($wp_rewrite) {
 add_filter('generate_rewrite_rules', 'link_rewrite');
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.0.3";
+$prli_db_version = "0.0.4";
 
 function prli_install() {
-  global $wpdb;
+  global $wpdb, $wp_rewrite;
   global $prli_db_version;
 
 
@@ -236,6 +236,8 @@ function prli_install() {
               id int(11) NOT NULL auto_increment,
               url varchar(255) default NULL,
               slug varchar(255) default NULL,
+              track_as_img tinyint(1) default 0,
+              forward_params tinyint(1) default 0,
               created_at datetime NOT NULL,
               PRIMARY KEY  (id),
               KEY slug (slug)
@@ -245,5 +247,7 @@ function prli_install() {
     
     dbDelta($sql);
   }
+
+  $wp_rewrite->flush_rules();
 }
 ?>
