@@ -1,0 +1,56 @@
+=== Pretty Link ===
+Contributors: supercleanse
+Donate link: http://blairwilliams.com/pretty-link
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, redirect, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic
+Requires at least: 2.7.1
+Tested up to: 2.7.1
+Stable tag: 1.1.7
+
+Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
+
+== Description ==
+
+Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
+
+= Features =
+
+* Gives you the ability to create clean, simple URLs on your website that redirect to any other URL
+* Generates random 2-3 character slugs for your URL or allows you to name a custom slug for your URL
+* Tracks the Number of Clicks per link
+* Tracks the Number of Unique Clicks per link
+* Provides a reporting interface where you can see a configurable chart of clicks per day. This report can be filtered by the specific link clicked, date range, and/or unique clicks.
+* Track impressions by loading images through pretty link
+* Pass custom parameters to your scripts through pretty link and still have full tracking ability
+
+== Installation ==
+
+1. Upload 'pretty-link.zip' to the '/wp-content/plugins/' directory
+
+2. Activate the plugin through the 'Plugins' menu in WordPress
+
+3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
+
+== Frequently Asked Questions ==
+
+* This plugin is extremely simple. All you have to do is to find the pretty link admin menu (bottom left of your admin page) and start by clicking "Add a Pretty Link."
+
+= SYSTEM REQUIREMENTS: =
+
+1. WordPress 2.7.1
+2. PHP 5.2+
+3. Mysql 5.0+
+4. Apache (hasn't been tested on IIS)
+5. Mod Rewrite must be installed and functioning
+6. Your WordPress install must have write privileges for your .htaccess file
+7. Unix based web host (hasn't been tested on Windows)
+
+= NOTE: =
+
+You must have pretty permalinks and rewrite working in your Wordpress/PHP/Apache install before pretty links will work (this is already done in most cases but if you can't get anything but Default permalinks working then you may need to contact your system administrator). Pretty links utlilzes Wordpress's URL rewriting capabilities (via Apache's mod_rewrite) which are only turned on when you change the settings in "Settings -> Permalinks" from "Default" to something else. If you want your blog to have any kind of decent SEO then you really should do this anyway.
+
+== Screenshots ==
+
+1. Analyze Click Data
+2. Link Management Screen
+3. Add a Link Screen
+4. Edit a Link Screen
