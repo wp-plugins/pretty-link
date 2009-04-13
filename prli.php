@@ -14,7 +14,7 @@ if( $_GET['sprli'] != null and $_GET['sprli'] != '' )
     $click_table = $wpdb->prefix . "prli_clicks";
     $pretty_links_table = $wpdb->prefix . "prli_links";
 
-    $query = "SELECT id,url,forward_params,track_as_img FROM $pretty_links_table WHERE slug='$slug' LIMIT 1";
+    $query = "SELECT * FROM $pretty_links_table WHERE slug='$slug' LIMIT 1";
     $pretty_link = $wpdb->get_row($query);
 
     $first_click = false;

@@ -24,18 +24,17 @@
   <tr>
     <td colspan="2">
       <h3>Advanced Options:</h3>
-      <span class="setting-description">Don't select these options unless you know what you're doing.</span>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <input type="checkbox" name="forward_params" <?php print ((($_POST['forward_params'] or $record->forward_params) and ($_POST['forward_params'] == 'on' or $record->forward_params == 1))?'checked="true"':''); ?>/>&nbsp; Forward Parameters
+      <input type="checkbox" name="forward_params" <?php print ((($_POST['forward_params'] or $record->forward_params) and ($_POST['forward_params'] == 'on' or $record->forward_params == 1))?'checked="true"':''); ?>/>&nbsp; Forward Parameters (experimental)
       <br/><span class="setting-description">Select this option if you want to forward custom parameters through your pretty link to your target url. Note: The Pretty Link plugin uses a parameter named <code>sprli</code> for tracking purposes and is therefore not available as one of your custom parameters.</span>
     </td>
   </tr>
   <tr>
     <td colspan="2">
-      <input type="checkbox" name="track_as_img" <?php print ((($_POST['track_as_img'] or $record->track_as_img) and ($_POST['track_as_img'] == 'on' or $record->track_as_img == 1))?'checked="true"':''); ?>/>&nbsp; Track as an Image
+      <input type="checkbox" name="track_as_img" <?php print ((($_POST['track_as_img'] or $record->track_as_img) and ($_POST['track_as_img'] == 'on' or $record->track_as_img == 1))?'checked="true"':''); ?>/>&nbsp; Track as an Image (experimental)
       <br/><span class="setting-description">Select this option if you want to track this link as an image instead of as a link. This option is useful if you want to track the number of times a page or email is opened. If you place your Pretty Link inside an img tag on the page (Example: <code>&lt;img src="<?php echo get_option('siteurl') . "/yourslug"; ?>" /&gt;</code>) then the image will be tracked as a click and then displayed. Note: If this option is selected your target url must be an image.</span>
     </td>
   </tr>

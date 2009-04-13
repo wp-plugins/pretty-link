@@ -6,6 +6,11 @@ $controller_file = 'prli-links.php';
 
 if($_GET['action'] == null and $_POST['action'] == null)
 {
+  if(isset($_GET['regenerate']) and $_GET['regenerate'] == 'true')
+  {
+    $wp_rewrite->flush_rules();
+  }
+
   // Required for Pagination to work
   if($_GET['paged'] != null)
   {

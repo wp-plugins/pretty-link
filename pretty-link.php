@@ -189,7 +189,10 @@ function prli_link_rewrite($wp_rewrite) {
   {
     if( $pl->slug != null and $pl->slug != '' and $prli_utils->slugIsAvailable($pl->slug) )
     {
-      add_rewrite_rule('(' . $pl->slug . ')/?\??(.*?)$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1&$2');
+      if(isset($pl->forward_params) and $pl->forward_params)
+        add_rewrite_rule('(' . $pl->slug . ')/?\??(.*?)$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1&$2');
+      else
+        add_rewrite_rule('(' . $pl->slug . ')/?$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1');
     }
       
   }
@@ -199,10 +202,10 @@ function prli_link_rewrite($wp_rewrite) {
 add_filter('generate_rewrite_rules', 'prli_link_rewrite');
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.0.4";
+$prli_db_version = "0.0.8";
 
 function prli_install() {
-  global $wpdb, $wp_rewrite, $prli_db_version;
+  global $wpdb, $prli_db_version;
 
   $clicks_table = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
@@ -245,8 +248,5 @@ function prli_install() {
     
     dbDelta($sql);
   }
-
-  prli_link_rewrite($wp_rewrite);
-  $wp_rewrite->flush_rules();
 }
 ?>

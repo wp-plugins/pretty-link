@@ -1,7 +1,7 @@
 <div class="wrap">
   <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Links</h2>
   <p>Get started by <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=new">adding a URL</a> that you want to turn into a pretty link. Come back to check how many times it was clicked.</p> 
-<p><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=new"><img src="<?php echo PRLI_URL.'/images/pretty-link-add.png'; ?>"/> Add a Pretty Link</a></p>
+<p><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=new"><img src="<?php echo PRLI_URL.'/images/pretty-link-add.png'; ?>"/> Add a Pretty Link</a>&nbsp;|&nbsp;<a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&regenerate=true">Manually Regenerate Pretty Links</a></p>
 <?php
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');
 ?>
