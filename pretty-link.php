@@ -3,7 +3,7 @@
 Plugin Name: Pretty Link
 Plugin URI: http://blairwilliams.com/pretty-link
 Description: Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
-Version: 1.1.4
+Version: 1.1.5
 Author: Blair Williams
 Author URI: http://blairwilliams.com
 Copyright: 2009, Blair Williams
@@ -27,7 +27,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 require_once('prli-config.php');
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
-register_activation_hook(__FILE__,'prli_install');
+register_activation_hook(basename(__FILE__),'prli_install');
 
 add_action('admin_menu', 'prli_menu');
 
@@ -180,7 +180,7 @@ var data = <?php echo $prli_report->setupClickReport($start_timestamp,$end_times
 }
 
 /********* ADD REDIRECTS YO ***********/
-function link_rewrite($wp_rewrite) {
+function prli_link_rewrite($wp_rewrite) {
   global $prli_link, $prli_utils;
 
   $pretty_links = $prli_link->getAll();
@@ -196,15 +196,13 @@ function link_rewrite($wp_rewrite) {
 }
 
 // Add rules after the rest of the rules are run
-add_filter('generate_rewrite_rules', 'link_rewrite');
+add_filter('generate_rewrite_rules', 'prli_link_rewrite');
 
 /********* INSTALL PLUGIN ***********/
 $prli_db_version = "0.0.4";
 
 function prli_install() {
-  global $wpdb, $wp_rewrite;
-  global $prli_db_version;
-
+  global $wpdb, $wp_rewrite, $prli_db_version;
 
   $clicks_table = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
@@ -248,6 +246,7 @@ function prli_install() {
     dbDelta($sql);
   }
 
+  prli_link_rewrite($wp_rewrite);
   $wp_rewrite->flush_rules();
 }
 ?>
