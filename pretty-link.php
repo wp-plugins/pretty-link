@@ -27,9 +27,6 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 require_once('prli-config.php');
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
-register_activation_hook(__FILE__,'prli_install');
-
-add_action('admin_menu', 'prli_menu');
 
 function prli_menu()
 {
@@ -39,6 +36,7 @@ function prli_menu()
   add_action('admin_head-pretty-link/prli-reports.php', 'prli_reports_admin_header');
 }
 
+add_action('admin_menu', 'prli_menu');
 
 /* Add header to prli-reports page */
 function prli_reports_admin_header()
@@ -249,4 +247,8 @@ function prli_install() {
     dbDelta($sql);
   }
 }
+
+// Ensure this gets called on first install
+register_activation_hook(__FILE__,'prli_install');
+
 ?>

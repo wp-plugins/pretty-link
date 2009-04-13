@@ -90,7 +90,7 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
     )
   );
 
-  return json_encode($json_array);
+  return $this->prli_json_encode($json_array);
 
   /*
   $title = new title('Pretty Link: '.$type_string.' on '.$link_slug. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp));
@@ -140,5 +140,87 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
   */
 }
 
+// Detects whether an array is a true numerical array or an
+// associative array (or hash).
+function prli_array_type($item)
+{
+  $array_type = 'unknown';
+
+  if(is_array($item))
+  {
+    $array_type = 'array';
+
+    foreach($item as $key => $value)
+    {
+      if(!is_numeric($key))
+      {
+        $array_type = 'hash';
+        break;
+      }
+    }
+  }
+
+  return $array_type;
 }
+
+// This eliminates the need to use php's built in json_encoder
+// which only works with PHP 5.2 and above.
+function prli_json_encode($json_array)
+{
+  $json_str = '';
+
+  if(is_array($json_array))
+  {
+    if($this->prli_array_type($json_array) == 'array')
+    {
+      $first = true;
+      $json_str .= "[";
+      foreach($json_array as $item)
+      {
+        if(!$first)
+          $json_str .= ",";
+
+        if(is_numeric($item))
+          $json_str .= (($item < 0)?"\"$item\"":$item);
+        else if(is_array($item))
+          $json_str .= $this->prli_json_encode($item);
+        else if(is_string($item))
+          $json_str .= '"'.$item.'"';
+        else if(is_bool($item))
+          $json_str .= (($item)?"true":"false");
+
+        $first = false;
+      }
+      $json_str .= "]";
+    }
+    else if($this->prli_array_type($json_array) == 'hash')
+    {
+      $first = true;
+      $json_str .= "{";
+      foreach($json_array as $key => $item)
+      {
+        if(!$first)
+          $json_str .= ",";
+
+        $json_str .= "\"$key\":";
+
+        if(is_numeric($item))
+          $json_str .= (($item < 0)?"\"$item\"":$item);
+        else if(is_array($item))
+          $json_str .= $this->prli_json_encode($item);
+        else if(is_string($item))
+          $json_str .= "\"$item\"";
+        else if(is_bool($item))
+          $json_str .= (($item)?"true":"false");
+
+        $first = false;
+      }
+      $json_str .= "}";
+    }
+  }
+
+  return $json_str;
+}
+}
+
 ?>
