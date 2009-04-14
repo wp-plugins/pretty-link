@@ -21,11 +21,10 @@
     <td><strong><?php print get_option('siteurl'); ?></strong>/<input type="text" name="slug" value="<?php print (($_POST['slug'] != null and $record == null)?$_POST['slug']:$record->slug); ?>" size="25">
     <br/><span class="setting-description">Enter the slug (word trailing your main URL) that will form your pretty link and redirect to the URL above.</span></td>
   </tr>
-  <tr>
-    <td colspan="2">
-      <h3>Advanced Options:</h3>
-    </td>
-  </tr>
+</table>
+<a href="#" class="advanced_toggle">Advanced Options</a>
+<div class="advanced_pane" style="display:none;">
+<table class="form-table">
   <tr>
     <td colspan="2">
       <input type="checkbox" name="forward_params" <?php print ((($_POST['forward_params'] or $record->forward_params) and ($_POST['forward_params'] == 'on' or $record->forward_params == 1))?'checked="true"':''); ?>/>&nbsp; Forward Parameters (experimental)
@@ -39,6 +38,7 @@
     </td>
   </tr>
 </table>
+</div>
 
 <p class="submit">
 <input type="submit" name="Submit" value="Update" />&nbsp;or&nbsp;<a href="?page=<?php print PRLI_PLUGIN_NAME ?>/prli-links.php">Cancel</a>

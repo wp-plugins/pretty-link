@@ -21,11 +21,10 @@
     <td><strong><?php print get_option('siteurl'); ?></strong>/<input type="text" name="slug" value="<?php print (($_POST['slug'] != null)?$_POST['slug']:$prli_link->generateValidSlug()); ?>" size="25">
     <br/><span class="setting-description">Use the auto-generated short slug (2-3 characters) here or enter any word (must only contain letters, numbers or the following special characters: ".","-" or "_") that will form your pretty link and redirect to the URL above. Just refresh this page to auto-generate another slug.</span></td>
   </tr>
-  <tr>
-    <td colspan="2">
-      <h3>Advanced:</h3>
-    </td>
-  </tr>
+</table>
+<a href="#" class="advanced_toggle">Advanced Options</a>
+<div class="advanced_pane" style="display:none;">
+<table class="form-table">
   <tr>
     <td colspan="2">
       <input type="checkbox" name="forward_params" <?php print ((isset($_POST['forward_params']) and $_POST['forward_params'] == 'on')?'checked="true"':''); ?>/>&nbsp; Forward Parameters (experimental)
@@ -39,6 +38,7 @@
     </td>
   </tr>
 </table>
+</div>
 
 <p class="submit">
 <input type="submit" name="Submit" value="Create" />&nbsp;or&nbsp;<a href="?page=<?php print PRLI_PLUGIN_NAME ?>/prli-links.php">Cancel</a>

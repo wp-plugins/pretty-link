@@ -34,6 +34,7 @@ function prli_menu()
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Reports', 'Reports', 8, PRLI_PATH.'/prli-reports.php');
 
   add_action('admin_head-pretty-link/prli-reports.php', 'prli_reports_admin_header');
+  add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');
 }
 
 add_action('admin_menu', 'prli_menu');
@@ -91,29 +92,52 @@ function prli_reports_admin_header()
       $end_timestamp = time();
     }
 ?>
+
+<!-- JQuery UI Includes -->
 <link type="text/css" href="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/css/ui-lightness/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
 <script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-ui-1.7.1.custom.min.js"></script>
 
 <script type="text/javascript">
-    $(document).ready(function(){
-                $("#sdate").datepicker({ dateFormat: 'yy-mm-dd', defaultDate: -30, minDate: -<?php echo $min_date; ?>, maxDate: 0 });
-                $("#edate").datepicker({ dateFormat: 'yy-mm-dd', minDate: -<?php echo $min_date; ?>, maxDate: 0 });
-                  });
+  $(document).ready(function(){
+    $("#sdate").datepicker({ dateFormat: 'yy-mm-dd', defaultDate: -30, minDate: -<?php echo $min_date; ?>, maxDate: 0 });
+    $("#edate").datepicker({ dateFormat: 'yy-mm-dd', minDate: -<?php echo $min_date; ?>, maxDate: 0 });
+  });
 </script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".filter_toggle").click( function () {
+      $(".filter_pane").slideToggle("slow");
+  });
+});
+</script>
+
+<style type="text/css">
+.filter_toggle {
+  line-height: 34px;
+  font-size: 14px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.filter_pane {
+  background-color: white;
+  border: 2px solid #777777;
+  height: 275px;
+  width: 600px;
+  padding-left: 20px;
+  padding-top: 10px;
+}
+
+</style>
+
+<!-- Open Flash Chart Includes -->
 <script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/json/json2.js"></script>
 <script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/swfobject.js"></script>
 <script type="text/javascript">
 swfobject.embedSWF("/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "400", "9.0.0");
 </script>
-
-<script type="text/javascript">
-  $(document).ready(function(){
-    $("#sdate").datepicker();
-    $("#edate").datepicker();
-  });
-</script>
-
 
 <script type="text/javascript">
 
@@ -175,6 +199,54 @@ var data = <?php echo $prli_report->setupClickReport($start_timestamp,$end_times
 </script>
 
 <?php
+}
+
+function prli_links_admin_header()
+{
+  ?>
+<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".edit_link").hover(
+    function () {
+      $(this).find(".link_actions").fadeIn(500);
+    }, 
+    function () {
+      $(this).find(".link_actions").fadeOut(300);
+    }
+  );
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".advanced_toggle").click( function () {
+      $(".advanced_pane").slideToggle("slow");
+  });
+});
+</script>
+
+<style type="text/css">
+
+.advanced_toggle {
+  line-height: 34px;
+  font-size: 12px;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+.edit_link {
+  height: 50px;
+}
+.slug_name {
+  font-size: 12px;
+  font-weight: bold;
+}
+.link_actions {
+  padding-top: 5px;
+}
+</style>
+  <?php
 }
 
 /********* ADD REDIRECTS YO ***********/

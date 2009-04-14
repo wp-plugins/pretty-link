@@ -6,9 +6,12 @@ $controller_file = 'prli-links.php';
 
 if($_GET['action'] == null and $_POST['action'] == null)
 {
+  $prli_message = "Get started by <a href=\"?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
+
   if(isset($_GET['regenerate']) and $_GET['regenerate'] == 'true')
   {
     $wp_rewrite->flush_rules();
+    $prli_message = "Your Pretty Links were Successfully Regenerated";
   }
 
   // Required for Pagination to work
@@ -52,6 +55,7 @@ else if($_GET['action'] == 'create' or $_POST['action'] == 'create')
     $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
     $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
     $page_params = "";
+    $prli_message = "Your Pretty Link was Successfully Created";
 
     require_once 'classes/views/prli-links/list.php';
   }
@@ -82,6 +86,7 @@ else if($_GET['action'] == 'update' or $_POST['action'] == 'update')
     $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
     $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
     $page_params = "";
+    $prli_message = "Your Pretty Link was Successfully Updated";
 
     require_once 'classes/views/prli-links/list.php';
   }
@@ -98,6 +103,7 @@ else if($_GET['action'] == 'destroy')
   $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
   $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
   $page_params = "";
+  $prli_message = "Your Pretty Link was Successfully Destroyed";
   require_once 'classes/views/prli-links/list.php';
 }
 ?>

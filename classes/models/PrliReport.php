@@ -45,7 +45,7 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
   if($link_id == "all")
     $link_slug = "all links";
   else
-    $link_slug = "'".$wpdb->get_var("SELECT slug FROM $links_table WHERE id=$link_id") . "' link";
+    $link_slug = "'".$wpdb->get_var("SELECT slug FROM $links_table WHERE id=$link_id") . "'";
 
   if($type == "all")
     $type_string = "All clicks";
@@ -66,7 +66,7 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
       "width" => 2
     ) ),
     "title" => array(
-      "text" => 'Pretty Link: '.$type_string.' on '.$link_name. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp) . ' for ' . $user_string,
+      "text" => 'Pretty Link: '.$type_string.' on '.$link_slug. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp),
       "style" => "font-size: 16px; font-weight: bold; color: #3030d0; text-align: center; padding-bottom: 5px;"
     ),
     "bg_colour" => "-1",
