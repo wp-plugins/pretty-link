@@ -1,16 +1,16 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://blairwilliams.com/pretty-link
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, redirect, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.2.1
+Stable tag: 1.2.2
 
-Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
+Create clean, simple, trackable links on your website that forward to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
 
 == Description ==
 
-Create clean, simple, trackable links on your website that redirect to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
+Create clean, simple, trackable links on your website that forward to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
 
 = Features =
 
@@ -19,8 +19,8 @@ Create clean, simple, trackable links on your website that redirect to other URL
 * Tracks the Number of Clicks per link
 * Tracks the Number of Unique Clicks per link
 * Provides a reporting interface where you can see a configurable chart of clicks per day. This report can be filtered by the specific link clicked, date range, and/or unique clicks.
-* Track impressions by loading images through pretty link
-* Pass custom parameters to your scripts through pretty link and still have full tracking ability
+* Track impressions by loading images through pretty link (experimental)
+* Pass custom parameters to your scripts through pretty link and still have full tracking ability (experimental)
 
 == Installation ==
 
@@ -39,7 +39,7 @@ Create clean, simple, trackable links on your website that redirect to other URL
 = SYSTEM REQUIREMENTS: =
 
 1. WordPress 2.7.1
-2. PHP 5.2+
+2. PHP
 3. Mysql 5.0+
 4. Apache (hasn't been tested on IIS)
 5. Mod Rewrite must be installed and functioning
