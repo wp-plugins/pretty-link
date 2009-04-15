@@ -8,9 +8,9 @@
 <table class="widefat post fixed" cellspacing="0">
     <thead>
     <tr>
-      <th class="manage-column" width="25%">Slug</th>
-      <th class="manage-column" width="10%">Clicks</th>
-      <th class="manage-column" width="40%">URL</th>
+      <th class="manage-column" width="30%">Slug</th>
+      <th class="manage-column" width="8%">Clicks</th>
+      <th class="manage-column" width="37%">URL</th>
       <th class="manage-column" width="25%">Pretty Link</th>
     </tr>
     </thead>
@@ -35,7 +35,7 @@
           <a href="<? print $pretty_link_url; ?>" target="_blank" title="Visit <?php echo $pretty_link_url; ?> in New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" name="Visit" alt="Visit"/></a>&nbsp;&nbsp;<a class="slug_name" href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->slug; ?>"><?php print $link->slug; ?></a>
           <br/>
           <div class="link_actions" style="display:none;">
-            <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|&nbsp;<a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php print $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php print $link->slug; ?> Pretty Link?');" title="Delete <?php echo $link->slug; ?>">Destroy</a>&nbsp;|&nbsp;<a href="http://twitter.com/home?status=<?php echo $pretty_link_url; ?>" target="_blank" title="Post <?php echo $pretty_link_url; ?> to Twitter">Twitter</a>&nbsp;|&nbsp;<a href="mailto:?subject=Pretty Link&body=<?php echo $pretty_link_url; ?>" target="_blank" title="Send <?php echo $pretty_link_url; ?> in an Email">Email</a>
+            <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|&nbsp;<a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php print $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php print $link->slug; ?> Pretty Link?');" title="Delete <?php echo $link->slug; ?>">Delete</a>&nbsp;|&nbsp;<a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php print $link->slug; ?>">Clicks</a>&nbsp;|&nbsp;<a href="http://twitter.com/home?status=<?php echo $pretty_link_url; ?>" target="_blank" title="Post <?php echo $pretty_link_url; ?> to Twitter">Twitter</a>&nbsp;|&nbsp;<a href="mailto:?subject=Pretty Link&body=<?php echo $pretty_link_url; ?>" target="_blank" title="Send <?php echo $pretty_link_url; ?> in an Email">Email</a>
           </div>
         </td>
         <td><?php print $link->clicks; ?></td>

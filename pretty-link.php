@@ -31,7 +31,8 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 function prli_menu()
 {
   add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Reports', 'Reports', 8, PRLI_PATH.'/prli-reports.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Clicks', 'Clicks', 8, PRLI_PATH.'/prli-clicks.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Stats', 'Stats', 8, PRLI_PATH.'/prli-reports.php');
 
   add_action('admin_head-pretty-link/prli-reports.php', 'prli_reports_admin_header');
   add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');
