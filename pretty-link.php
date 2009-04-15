@@ -272,7 +272,7 @@ function prli_link_rewrite($wp_rewrite) {
 add_filter('generate_rewrite_rules', 'prli_link_rewrite');
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.0.9";
+$prli_db_version = "0.1.5";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
@@ -285,26 +285,35 @@ function prli_install() {
 
   if( empty($prli_current_db_version) or ($prli_current_db_version != $prli_new_db_version))
   {
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    
     /* Create/Upgrade Clicks Table */
     $sql = "CREATE TABLE " . $clicks_table . " (
               id int(11) NOT NULL auto_increment,
               ip varchar(255) default NULL,
               browser varchar(255) default NULL,
+              btype varchar(255) default NULL,
+              bversion varchar(255) default NULL,
+              os varchar(255) default NULL,
+              referer varchar(255) default NULL,
+              host varchar(255) default NULL,
               first_click tinyint default 0,
               created_at datetime NOT NULL,
               link_id int(11) default NULL,
               PRIMARY KEY  (id),
-              KEY link_id (link_id),
-              CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (link_id)
-            );";
-    
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+              KEY link_id (link_id)".
+              // We won't worry about this constraint for now -- when we delete links we want the clicks
+              // to stick around anyway -- we won't worry about them being orphans, k?
+              //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)
+            ");";
     
     dbDelta($sql);
     
     /* Create/Upgrade Pretty Links Table */
     $sql = "CREATE TABLE " . $pretty_links_table . " (
               id int(11) NOT NULL auto_increment,
+              name varchar(255) default NULL,
+              description text default NULL,
               url varchar(255) default NULL,
               slug varchar(255) default NULL,
               track_as_img tinyint(1) default 0,
@@ -314,10 +323,46 @@ function prli_install() {
               KEY slug (slug)
             );";
     
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    
     dbDelta($sql);
   }
+
+  $browsecap_updated = get_option('prli_browsecap_updated');
+
+  // This migration should only run once
+  if(empty($browsecap_updated) or !$browsecap_updated)
+  {
+    require_once(dirname(__FILE__) . "/classes/models/PrliUtils.php");
+    $prli_utils = new PrliUtils();
+
+    /********** UPDATE BROWSER CAPABILITIES **************/
+    // Update all click data to include btype (browser type), bversion (browser version), & os)
+    $click_query = "SELECT * FROM " . $wpdb->prefix . "prli_clicks WHERE browser IS NOT NULL AND os IS NULL AND btype IS NULL AND bversion IS NULL";
+    $results = $wpdb->get_results($click_query);
+    foreach($results as $click)
+    {
+      $click_browser = $prli_utils->php_get_browser($click->browser);
+      $update = "UPDATE " . $wpdb->prefix . "prli_clicks SET btype='".$click_browser['browser']."',bversion='".$click_browser['version']."',os='".$click_browser['platform']."' WHERE id=".$click->id;
+      $wpdb->query( $update );
+    }
+    
+    /********** UPDATE HOST INFO **************/
+    $click_query = "SELECT * FROM " . $wpdb->prefix . "prli_clicks WHERE host IS NULL";
+    $results = $wpdb->get_results($click_query);
+    
+    foreach($results as $click)
+    {
+      $click_host = gethostbyaddr($click->ip);
+      $update = "UPDATE " . $wpdb->prefix . "prli_clicks SET host='$click_host' WHERE id=".$click->id;
+      $wpdb->query( $update );
+    }
+
+    add_option('prli_browsecap_updated',true);
+  }
+
+  if(empty($prli_current_db_version) or !$prli_current_db_version)
+    add_option($prli_db_version,$prli_new_db_version);
+  else
+    update_option($prli_db_version,$prli_new_db_version);
 }
 
 // Ensure this gets called on first install

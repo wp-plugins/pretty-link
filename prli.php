@@ -2,6 +2,8 @@
 /* This file tracks clicks */
 
 require_once(dirname(__FILE__) . '/../../../wp-config.php');
+require_once(dirname(__FILE__) . '/prli-config.php');
+require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
 // reverse compatibility -- get rid of this within the next couple of releases
 if( !isset($_GET['sprli']) and isset($_GET['s']) )
@@ -19,8 +21,17 @@ if( $_GET['sprli'] != null and $_GET['sprli'] != '' )
 
     $first_click = false;
 
+    // Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.7) Gecko/20040803 Firefox/0.9.3
+    // Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.0.8) Gecko/2009032608 Firefox/3.0.8
+    // Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.9.0.7) Gecko/2009021910 Firefox/3.0.7
+    // Mozilla/4.0 (compatible; MSIE 7.0; Windows NT 5.1)
+    // Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10_5_6; en-us) AppleWebKit/528.5+ (KHTML, like Gecko) Version/3.2.1 Safari/525.27.1
     $click_ip = $_SERVER['REMOTE_ADDR'];
-    $click_browser = $_SERVER['HTTP_USER_AGENT'];
+    $click_referer = $_SERVER['HTTP_REFERER'];
+    $click_host = gethostbyaddr($click_ip);
+
+    $click_user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $click_browser = $prli_utils->php_get_browser();
 
     //Set Cookie if it doesn't exist
     $cookie_name = 'prli_click_' . $pretty_link->id;
@@ -33,7 +44,7 @@ if( $_GET['sprli'] != null and $_GET['sprli'] != '' )
     }
 
     //Record Click in DB
-    $insert = "INSERT INTO $click_table (link_id,ip,browser,first_click,created_at) VALUES ($pretty_link->id,'$click_ip','$click_browser','$first_click',NOW())";
+    $insert = "INSERT INTO $click_table (link_id,ip,browser,btype,bversion,os,referer,host,first_click,created_at) VALUES ($pretty_link->id,'$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_host','$first_click',NOW())";
 
     $results = $wpdb->query( $insert );
 
