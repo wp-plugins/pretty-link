@@ -4,7 +4,7 @@ Donate link: http://blairwilliams.com/pretty-link
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.2.3
+Stable tag: 1.2.4
 
 Create clean, simple, trackable links on your website that forward to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
 
@@ -32,6 +32,9 @@ Create clean, simple, trackable links on your website that forward to other URLs
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
+
+= Note =
+If you are upgrading from a previous version to 1.2.4 or above, the activation process may take a minute or two.
 
 == Frequently Asked Questions ==
 
