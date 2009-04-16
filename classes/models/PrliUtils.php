@@ -153,5 +153,14 @@ function php_get_browser($agent = NULL)
   return $hu;
 }
 
+function get_browser_image()
+{
+  
+}
+
+function get_os_image()
+{
+}
+
 }
 ?>

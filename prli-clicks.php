@@ -1,6 +1,7 @@
 <?php
 require_once 'prli-config.php';
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
+require_once(PRLI_PATH . '/prli-image-lookups.php');
 
 $controller_file = 'prli-clicks.php';
 
