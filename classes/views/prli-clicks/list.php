@@ -61,6 +61,18 @@
     </tfoot>
 </table>
 <?php
+  if(isset($_GET['l']))
+  {
+?>
+    <a href="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv&l=<?php echo $_GET['l']; ?>">Download CSV (<?php echo $link_name; ?>)</a>
+<?php
+  }
+  else
+  {
+?>
+    <a href="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv">Download CSV (<?php echo $link_name; ?>)</a>
+<?php
+  }
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');
 ?>
 

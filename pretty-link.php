@@ -45,6 +45,9 @@ function prli_reports_admin_header()
 {
     global $prli_report, $prli_utils;
 
+    if(isset($_GET['link']))
+      $_POST['link'] = $_GET['link'];
+
     if(isset($_POST['link']))
       $link_id = $_POST['link'];
     else
