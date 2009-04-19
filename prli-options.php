@@ -53,8 +53,8 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
 <table class="form-table">
   <tr>
     <td colspan="2">
-      <input type="checkbox" name="<?php echo $prli_rewrite_mode; ?>" <?php print (((isset($prli_rewrite_mode_val) and $prli_rewrite_mode_val == 'on') or (isset($_POST[$prli_rewrite_mode]) and $_POST[$prli_rewrite_mode] == 'on'))?'checked="true"':''); ?>/>&nbsp; Rewrite Mode
-      <br/><span class="setting-description">When Pretty Link is set to "Rewrite Mode" it uses apache's mod_rewrite. This method is faster than the standard mode but requires the site to be running on apache with mod_rewrite. This method should be checked if you have mod_rewrite running on your server and your apache user has permission to modify wordpress's .htaccess file.</span>
+      <input type="checkbox" name="<?php echo $prli_rewrite_mode; ?>" <?php print (((isset($prli_rewrite_mode_val) and $prli_rewrite_mode_val == 'on') or (isset($_POST[$prli_rewrite_mode]) and $_POST[$prli_rewrite_mode] == 'on'))?'checked="true"':''); ?>/>&nbsp; Apache Rewrite Mode
+      <br/><span class="setting-description">When Pretty Link is set to "Apache Rewrite Mode" it uses apache's mod_rewrite instead of WordPress's built in pretty permalink mechanism. This method is slightly faster than the standard mode but should only be checked if you have mod_rewrite running on your server and your apache user has permission to modify wordpress's .htaccess file.</span>
     </td>
   </tr>
 </table>
