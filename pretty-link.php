@@ -395,7 +395,11 @@ function prli_install() {
   }
 
   if( get_option( 'prli_rewrite_mode' ) == null )
+  {
+    global $wp_rewrite;
     add_option( 'prli_rewrite_mode', 'off' );
+    $wp_rewrite->flush_rules();
+  }
 
   if(empty($prli_current_db_version) or !$prli_current_db_version)
     add_option($prli_db_version,$prli_new_db_version);
