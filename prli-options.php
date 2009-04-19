@@ -44,6 +44,7 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
 
 ?>
 <div class="wrap">
+        <div id="icon-options-general" class="icon32"><br /></div>
 <h2 id="prli_title">Pretty Link: Options</h2>
 
 <form name="form1" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
