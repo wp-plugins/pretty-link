@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, rewrite, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.2.9
+Stable tag: 1.3.0
 
 Create clean, simple, trackable links on your website that forward to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
 
@@ -27,11 +27,6 @@ Create clean, simple, trackable links on your website that forward to other URLs
 * Pass custom parameters to your scripts through pretty link and still have full tracking ability (experimental)
 * Intuitive Javascript / AJAX Admin User Interface
 
-= Release Notes =
-
-1.2.9 - Added a Title & Description to the Links. Added sorting to the list of links. Added the Creation date of the link to the list of links.
-1.2.8 - In this release I altered the way the url rewriting worked. Instead of using Apache's mod_rewrite, I now use WordPress's internal mechanism. If you still want to use Apache mod_rewrite, just go ahead and select it in the Options page (under Settings).
-
 == Installation ==
 
 1. Upload 'pretty-link.zip' to the '/wp-content/plugins/' directory
@@ -39,6 +34,13 @@ Create clean, simple, trackable links on your website that forward to other URLs
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
+
+= Release Notes =
+
+1.3.0 - Added a search bar on the links list.
+1.2.9 - Added a Title & Description to the Links. Added sorting to the list of links. Added the Creation date of the link to the list of links.
+1.2.8 - In this release I altered the way the url rewriting worked. Instead of using Apache's mod_rewrite, I now use WordPress's internal mechanism. If you still want to use Apache mod_rewrite, just go ahead and select it in the Options page (under Settings).
+
 
 = Note =
 If you are upgrading from a previous version to 1.2.4 or above, the activation process may take a minute or two.
