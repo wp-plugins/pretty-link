@@ -53,6 +53,15 @@ class PrliLink
       return $wpdb->query($destroy);
     }
 
+    function reset( $id )
+    {
+      require_once(PRLI_MODELS_PATH.'/models.inc.php');
+      global $wpdb, $wp_rewrite, $prli_click;
+
+      $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
+      return $wpdb->query($reset);
+    }
+
     function getOne( $id )
     {
         global $wpdb;
