@@ -24,9 +24,44 @@ if($_GET['action'] == null and $_POST['action'] == null)
     $current_page = 1;
   }
 
-  $record_count = $prli_link->getRecordCount();
-  $page_count = $prli_link->getPageCount($page_size);
-  $links = $prli_link->getPage($current_page,$page_size);
+  $where_clause = '';
+
+  $sort_str = (isset($_GET['sort'])?$_GET['sort']:$_POST['sort']);
+  $sdir_str = (isset($_GET['sdir'])?$_GET['sdir']:$_POST['sdir']);
+  $search_str = (isset($_GET['search'])?$_GET['search']:$_POST['search']);
+
+  if(!empty($search_str))
+  {
+    $where_clause .= " WHERE name = '%$search_str%' OR slug = '%$search_str%' or url = '%$search_str%' or created_at = '%$search_str%'";
+  }
+
+  switch($sort_str)
+  {
+    case "name":
+      $where_clause .= " ORDER BY name";
+      break;
+    case "clicks":
+      $where_clause .= " ORDER BY clicks";
+      break;
+    case "pretty_link":
+      $where_clause .= " ORDER BY slug";
+      break;
+    default:
+      $where_clause .= " ORDER BY created_at";
+      $sort_str = 'created_at';
+  }
+
+  if((empty($sort_str) and empty($sdir_str)) or $sdir_str == 'desc')
+  {
+    $where_clause .= ' DESC';
+    $sdir_str = 'desc';
+  }
+  else
+    $sdir_str = 'asc';
+
+  $record_count = $prli_link->getRecordCount($where_clause);
+  $page_count = $prli_link->getPageCount($page_size,$where_clause);
+  $links = $prli_link->getPage($current_page,$page_size,$where_clause);
   $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
   $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
   $page_params = "";

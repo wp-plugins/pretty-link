@@ -10,10 +10,14 @@ class PrliLink
     function create( $values )
     {
       global $wpdb, $wp_rewrite;
+
+      $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,forward_params,track_as_img,created_at) VALUES (\'' .
+               ' (url,slug,name,description,forward_params,track_as_img,created_at) VALUES (\'' .
                      $values['url'] . '\',\'' . 
-                     $values['slug'] . '\',' . 
+                     $values['slug'] . '\',\'' . 
+                     $values['name'] . '\',\'' . 
+                     stripslashes($values['description']) . '\',' . 
                      (int)isset($values['forward_params']) . ',' . 
                      (int)isset($values['track_as_img']) . ',' . 
                      'NOW())';
@@ -25,9 +29,13 @@ class PrliLink
     function update( $id, $values )
     {
       global $wpdb, $wp_rewrite;
+
+      $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'UPDATE ' . $this->table_name() . 
                   ' SET url=\'' . $values['url'] . '\', ' .
                       ' slug=\'' . $values['slug'] . '\', ' .
+                      ' name=\'' . $values['name'] . '\', ' .
+                      ' description=\'' . $values['description'] . '\', ' .
                       ' forward_params=' . (int)isset($values['forward_params']) . ', ' .
                       ' track_as_img=' . (int)isset($values['track_as_img']) .
                   ' WHERE id='.$id;

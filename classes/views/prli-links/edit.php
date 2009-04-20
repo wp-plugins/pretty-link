@@ -21,6 +21,16 @@
     <td><strong><?php print get_option('siteurl'); ?></strong>/<input type="text" name="slug" value="<?php print (($_POST['slug'] != null and $record == null)?$_POST['slug']:$record->slug); ?>" size="25">
     <br/><span class="setting-description">Enter the slug (word trailing your main URL) that will form your pretty link and redirect to the URL above.</span></td>
   </tr>
+  <tr class="form-field">
+    <td width="75px" valign="top">Title: </td>
+    <td><input type="text" name="name" value="<?php print (($_POST['name'] != null and $record == null)?$_POST['name']:$record->name); ?>" size="75">
+      <br/><span class="setting-description">This will act as the title of your Pretty Link. If a name is not entered here then the slug name will be used.</span></td>
+  </tr>
+  <tr class="form-field">
+    <td valign="top">Description: </td>
+    <td><textarea style="height: 100px;" name="description"><?php print (($_POST['description'] != null and $record == null)?$_POST['description']:$record->description); ?></textarea>
+    <br/><span class="setting-description">A Description of this link.</span></td>
+  </tr>
 </table>
 <a href="#" class="advanced_toggle">Advanced Options</a>
 <div class="advanced_pane" style="display:none;">

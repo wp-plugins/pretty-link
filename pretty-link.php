@@ -391,7 +391,23 @@ function prli_install() {
     }
 
     add_option('prli_browsecap_updated',true);
+  }
 
+  // UPDATE LINK NAMES
+  $link_names_updated = get_option('prli_link_names_updated');
+  if(empty($link_names_updated) or !$link_names_updated)
+  {
+    // Update all links -- copy the slug into the name field
+    $link_query = "SELECT * FROM " . $wpdb->prefix . "prli_links";
+    $results = $wpdb->get_results($link_query);
+    foreach($results as $link)
+    {
+      $link_name = (empty($link->name)?$link->slug:$link->name);
+      $update = "UPDATE " . $wpdb->prefix . "prli_links SET name='".$link_name."' WHERE id=".$link->id;
+      $wpdb->query( $update );
+    }
+
+    add_option('prli_link_names_updated',true);
   }
 
   if( get_option( 'prli_rewrite_mode' ) == null )
