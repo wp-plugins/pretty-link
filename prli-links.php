@@ -32,7 +32,22 @@ if($_GET['action'] == null and $_POST['action'] == null)
   // Insert search string
   if(!empty($search_str))
   {
-    $where_clause = " WHERE name like '%$search_str%' OR slug like '%$search_str%' or url like '%$search_str%' or created_at like '%$search_str%'";
+    $search_params = explode(" ", $search_str);
+
+    $where_clause = " WHERE";
+
+    $first_param = true;
+    foreach($search_params as $search_param)
+    {
+      if(!$first_param)
+      {
+        $where_clause .= " AND";
+      }
+
+      $where_clause .= " (name like '%$search_param%' OR slug like '%$search_param%' or url like '%$search_param%' or created_at like '%$search_param%')";
+      $first_param = false;
+    }
+
     $count_where_clause = $where_clause;
     $page_params .="&search=$search_str";
   }

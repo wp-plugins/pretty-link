@@ -48,11 +48,11 @@
     </thead>
   <?php
 
-  if(count($links) <= 0)
+  if($record_count <= 0)
   {
       ?>
     <tr>
-      <td colspan="4"><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=new"><img src="<?php echo PRLI_URL.'/images/pretty-link-add.png'; ?>"/> Add your First Pretty Link</a></td>
+      <td colspan="4">No Pretty Links were found</td>
     </tr>
     <?php
   }
