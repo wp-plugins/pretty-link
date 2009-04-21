@@ -40,10 +40,10 @@
 <table class="widefat post fixed" cellspacing="0">
     <thead>
     <tr>
-      <th class="manage-column" width="35%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="10%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=clicks<?php echo (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Clicks<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="15%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Created<?php echo (($sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="40%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=slug<?php echo (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="45%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="7%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=clicks<?php echo (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Hits<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="13%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Created<?php echo (($sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="35%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=slug<?php echo (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
     </tr>
     </thead>
   <?php
@@ -60,26 +60,67 @@
   {
     foreach($links as $link)
     {
-      $pretty_link_url = get_option('siteurl') . '/' . $link->slug;
+      $pretty_link_url = $prli_link->get_pretty_link_url($link->slug);//get_option('siteurl') . '/' . $link->slug;
       ?>
       <tr>
         <td class="edit_link">
-          <a href="<? print $link->url; ?>" target="_blank" title="Visit Target URL: <?php echo $link->url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" name="Visit" alt="Visit"/></a>&nbsp;<a href="<? print $pretty_link_url; ?>" target="_blank" title="Visit Pretty Link: <?php echo $pretty_link_url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" name="Visit" alt="Visit"/></a>&nbsp;&nbsp;<a class="slug_name" href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->name; ?>"><?php echo "$link->name"; ?></a>
+        <?php if( !$link->track_as_img )
+        {
+        ?>
+          <a href="<? print $link->url; ?>" target="_blank" title="Visit Target URL: <?php echo $link->url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" name="Visit" alt="Visit"/></a>&nbsp;
+          <a href="<? print $pretty_link_url; ?>" target="_blank" title="Visit Pretty Link: <?php echo $pretty_link_url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" name="Visit" alt="Visit"/></a>&nbsp;
+        <?php
+        }
+        else
+        {
+        ?>
+          <img src="<?php echo PRLI_URL.'/images/pixel_track.png'; ?>" name="Pixel Tracking Enabled" alt="Pixel Tracking Enabled" title="Pixel Tracking Enabled"/>&nbsp;
+        <?php
+        }
+
+        if($link->param_forwarding == 'on')
+        {
+        ?>
+          <img src="<?php echo PRLI_URL.'/images/forward_params.png'; ?>" name="Standard Parameter Forwarding Enabled" alt="Standard Parameter Forwarding Enabled" title="Standard Parameter Forwarding Enabled"/>&nbsp;
+        <?php
+        }
+        else if($link->param_forwarding == 'custom')
+        {
+        ?>
+          <img src="<?php echo PRLI_URL.'/images/forward_params.png'; ?>" name="Custom Parameter Forwarding Enabled" alt="Custom Parameter Forwarding Enabled" title="Custom Parameter Forwarding Enabled"/>&nbsp;
+        <?php
+        }
+        ?>
+
+        <a class="slug_name" href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->name; ?>"><?php echo "$link->name"; ?></a>
           <br/>
           <div class="link_actions" style="display:none;">
             <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|
             <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php print $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php print $link->name; ?> Pretty Link?');" title="Delete <?php echo $link->slug; ?>">Delete</a>&nbsp;|
             <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php print $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php print $link->name; ?> Pretty Link? This will delete all of the click data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>&nbsp;|
-            <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php print $link->slug; ?>">Clicks</a>&nbsp;|
-            <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-reports.php&link=<?php echo $link->id; ?>" title="View stats for <?php print $link->slug; ?>">Stats</a>&nbsp;|
-            <a href="http://twitter.com/home?status=<?php echo $pretty_link_url; ?>" target="_blank" title="Post <?php echo $pretty_link_url; ?> to Twitter">Tweet</a>&nbsp;|
+            <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php print $link->slug; ?>">Hits</a>&nbsp;|
+            <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-reports.php&link=<?php echo $link->id; ?>" title="View stats for <?php print $link->slug; ?>">Stats</a>
+            <?php if( !$link->track_as_img )
+            {
+            ?>
+            |&nbsp;<a href="http://twitter.com/home?status=<?php echo $pretty_link_url; ?>" target="_blank" title="Post <?php echo $pretty_link_url; ?> to Twitter">Tweet</a>&nbsp;|
             <a href="mailto:?subject=Pretty Link&body=<?php echo $pretty_link_url; ?>" target="_blank" title="Send <?php echo $pretty_link_url; ?> in an Email">Email</a>
+            <?php
+            }
+            ?>
           </div>
         </td>
         <td><?php print $link->clicks; ?></td>
         <td><?php print $link->created_at; ?></td>
         </td>
-        <td><input type='text' style="font-size: 10px; width: 100%;" readonly="true" onclick='this.select();' onfocus='this.select();' value='<?php echo $pretty_link_url; ?>' /><br/><span style="font-size: 8px;"><strong>Target URL:</strong> <? print $link->url; ?></span></td>
+        <td><input type='text' style="font-size: 10px; width: 100%;" readonly="true" onclick='this.select();' onfocus='this.select();' value='<?php echo $pretty_link_url; ?>' /><br/>
+        <?php if( !$link->track_as_img )
+        {
+        ?>
+        <span style="font-size: 8px;"><strong>Target URL:</strong> <? print $link->url; ?></span></td>
+        <?php
+        }
+        ?>
       </tr>
       <?php
     }
@@ -88,7 +129,7 @@
     <tfoot>
     <tr>
       <th class="manage-column">Name</th>
-      <th class="manage-column">Clicks</th>
+      <th class="manage-column">Hits</th>
       <th class="manage-column">Created</th>
       <th class="manage-column">Links</th>
     </tr>

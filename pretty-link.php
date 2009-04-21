@@ -31,7 +31,7 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 function prli_menu()
 {
   add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Clicks', 'Clicks', 8, PRLI_PATH.'/prli-clicks.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 8, PRLI_PATH.'/prli-clicks.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Stats', 'Stats', 8, PRLI_PATH.'/prli-reports.php');
 
   add_options_page('Pretty Link Settings', 'Pretty Link', 8, PRLI_PATH.'/prli-options.php');
@@ -267,8 +267,15 @@ function prli_link_rewrite($wp_rewrite) {
     {
       if( $pl->slug != null and $pl->slug != '' and $prli_utils->slugIsAvailable($pl->slug) )
       {
-        if(isset($pl->forward_params) and $pl->forward_params)
+        if(isset($pl->param_forwarding) and $pl->param_forwarding == 'on')
           add_rewrite_rule('(' . $pl->slug . ')/?\??(.*?)$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1&$2');
+        else if(isset($pl->param_forwarding) and $pl->param_forwarding == 'custom')
+        {
+          $match_rules = get_custom_forwarding_rule($pl->param_struct);
+          $match_params = get_custom_forwarding_params($pl->param_struct, 2);
+
+          add_rewrite_rule('(' . $pl->slug . ')[\?\/](' . $match_rule . ')?$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1'.$match_params);
+        }
         else
           add_rewrite_rule('(' . $pl->slug . ')/?$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1');
       }
@@ -291,12 +298,18 @@ function prli_redirect()
    
     if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
     {
-      $query_str = "SELECT slug FROM " . $wpdb->prefix . "prli_links WHERE slug='" . $match_val[1] . "'";
-      $slug = $wpdb->get_var($query_str);
+      $link = $prli_link->getOneFromSlug($match_val[1]);
       
-      if(isset($slug) and !empty($slug))
+      if(isset($link->slug) and !empty($link->slug))
       {
-        $prli_utils->track_link($slug); 
+        $custom_get = $_GET;
+
+        if(isset($link->param_forwarding) and $link->param_forwarding == 'custom')
+        {
+          $custom_get = $prli_utils->decode_custom_param_str($link->param_struct, $match_val[2]);
+        }
+
+        $prli_utils->track_link($link->slug,$custom_get); 
         exit;
       }
     }
@@ -306,7 +319,7 @@ function prli_redirect()
 add_action('init', 'prli_redirect'); //Redirect
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.1.5";
+$prli_db_version = "0.1.6";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
@@ -321,7 +334,7 @@ function prli_install() {
   {
     require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
     
-    /* Create/Upgrade Clicks Table */
+    /* Create/Upgrade Clicks (Hits) Table */
     $sql = "CREATE TABLE " . $clicks_table . " (
               id int(11) NOT NULL auto_increment,
               ip varchar(255) default NULL,
@@ -351,7 +364,8 @@ function prli_install() {
               url varchar(255) default NULL,
               slug varchar(255) default NULL,
               track_as_img tinyint(1) default 0,
-              forward_params tinyint(1) default 0,
+              param_forwarding varchar(255) default NULL,
+              param_struct varchar(255) default NULL,
               created_at datetime NOT NULL,
               PRIMARY KEY  (id),
               KEY slug (slug)
@@ -408,6 +422,26 @@ function prli_install() {
     }
 
     add_option('prli_link_names_updated',true);
+  }
+
+  // MIGRATE PARAMETER FORWARDING introduced in 1.3.1
+  $param_forwarding_updated = get_option('prli_param_forwarding_updated');
+  if(empty($param_forwarding_updated) or !$param_forwarding_updated)
+  {
+    // Update all links -- copy the slug into the name field
+    $link_query = "SELECT * FROM " . $wpdb->prefix . "prli_links";
+    $results = $wpdb->get_results($link_query);
+    foreach($results as $link)
+    {
+      if(!empty($link->forward_params) and $link->forward_params == 1)
+        $update = "UPDATE " . $wpdb->prefix . "prli_links SET param_forwarding='on' WHERE id=".$link->id;
+      else
+        $update = "UPDATE " . $wpdb->prefix . "prli_links SET param_forwarding='off' WHERE id=".$link->id;
+
+      $wpdb->query( $update );
+    }
+
+    add_option('prli_param_forwarding_updated',true);
   }
 
   if( get_option( 'prli_rewrite_mode' ) == null )

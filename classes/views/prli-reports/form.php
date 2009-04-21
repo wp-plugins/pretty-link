@@ -19,8 +19,8 @@
     </select>&nbsp;
     <span>Type:</span>&nbsp;
     <select id="type" name="type" style="display: inline;">
-      <option value="all"<?php print ((!isset($_POST['type']) or $_POST['type'] == "all")?" selected=\"true\"":""); ?>>All Clicks&nbsp;</option>
-      <option value="unique"<?php print (($_POST['type'] == "unique")?" selected=\"true\"":""); ?>>Unique Clicks&nbsp;</option>
+      <option value="all"<?php print ((!isset($_POST['type']) or $_POST['type'] == "all")?" selected=\"true\"":""); ?>>All Hits&nbsp;</option>
+      <option value="unique"<?php print (($_POST['type'] == "unique")?" selected=\"true\"":""); ?>>Unique Hits&nbsp;</option>
     </select>
     <br/>
     <br/>

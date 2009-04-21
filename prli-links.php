@@ -6,7 +6,7 @@ $controller_file = 'prli-links.php';
 
 if($_GET['action'] == null and $_POST['action'] == null)
 {
-  $prli_message = "Get started by <a href=\"?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
+  $prli_message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
 
   if(isset($_GET['regenerate']) and $_GET['regenerate'] == 'true')
   {

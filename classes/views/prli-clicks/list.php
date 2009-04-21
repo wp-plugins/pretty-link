@@ -1,6 +1,6 @@
 <div class="wrap">
   <p style="font-size: 14px; font-weight: bold; float: right; padding-top: 25px;"><a href="http://blairwilliams.com/faq" target="_blank">Get Help</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/blog" target="_blank">Blog</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/don" target="_blank">Donate</a></p>
-  <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Clicks</h2>
+  <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Hits</h2>
   <h3>For <?php echo $link_name; ?></h3>
 
 <?php
@@ -27,7 +27,7 @@
   {
       ?>
     <tr>
-      <td colspan="5">No Clicks have been recorded yet</td>
+      <td colspan="5">No Hits have been recorded yet</td>
     </tr>
     <?php
   }

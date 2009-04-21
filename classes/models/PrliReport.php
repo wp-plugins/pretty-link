@@ -48,9 +48,9 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
     $link_slug = "'".$wpdb->get_var("SELECT slug FROM $links_table WHERE id=$link_id") . "'";
 
   if($type == "all")
-    $type_string = "All clicks";
+    $type_string = "All hits";
   else
-    $type_string = "Unique clicks";
+    $type_string = "Unique hits";
 
   $json_array = array(
     "elements" => array( array( 
@@ -103,7 +103,7 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
   //$default_dot->hollow(false);
   $default_dot->colour('#ffc94e');
   $default_dot->halo_size(1);
-  $default_dot->tooltip( '#val# Clicks' );
+  $default_dot->tooltip( '#val# Hits' );
 
   $line = new line();
   $line->set_default_dot_style($default_dot);

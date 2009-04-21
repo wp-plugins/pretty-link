@@ -13,12 +13,13 @@ class PrliLink
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,name,description,forward_params,track_as_img,created_at) VALUES (\'' .
+               ' (url,slug,name,param_forwarding,param_struct,description,track_as_img,created_at) VALUES (\'' .
                      $values['url'] . '\',\'' . 
                      $values['slug'] . '\',\'' . 
                      $values['name'] . '\',\'' . 
+                     $values['param_forwarding'] . '\',\'' . 
+                     $values['param_struct'] . '\',\'' . 
                      stripslashes($values['description']) . '\',' . 
-                     (int)isset($values['forward_params']) . ',' . 
                      (int)isset($values['track_as_img']) . ',' . 
                      'NOW())';
       $query_results = $wpdb->query($query);
@@ -35,8 +36,9 @@ class PrliLink
                   ' SET url=\'' . $values['url'] . '\', ' .
                       ' slug=\'' . $values['slug'] . '\', ' .
                       ' name=\'' . $values['name'] . '\', ' .
+                      ' param_forwarding=\'' . $values['param_forwarding'] . '\', ' .
+                      ' param_struct=\'' . $values['param_struct'] . '\', ' .
                       ' description=\'' . $values['description'] . '\', ' .
-                      ' forward_params=' . (int)isset($values['forward_params']) . ', ' .
                       ' track_as_img=' . (int)isset($values['track_as_img']) .
                   ' WHERE id='.$id;
       $query_results = $wpdb->query($query);
@@ -60,6 +62,14 @@ class PrliLink
 
       $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
       return $wpdb->query($reset);
+    }
+
+    function getOneFromSlug( $slug )
+    {
+        global $wpdb;
+        $click_table = $wpdb->prefix . "prli_clicks";
+        $query = 'SELECT * FROM ' . $this->table_name() . ' WHERE slug=\'' . $slug . '\'';
+        return $wpdb->get_row($query);
     }
 
     function getOne( $id )
@@ -127,19 +137,36 @@ class PrliLink
 
       return $slug;
     }
+    
+    function get_pretty_link_url($slug)
+    {
+      $link = $this->getOneFromSlug($slug);
+
+      if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
+         (isset($link->track_as_img) and $link->track_as_img == 1))
+        return "&lt;img src=\"".get_option('siteurl') . '/' . $link->slug . $link->param_struct . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
+      else if((!isset($link->param_forwarding) or $link->param_forwarding != 'custom') and
+              (isset($link->track_as_img) and $link->track_as_img == 1))
+        return "&lt;img src=\"".get_option('siteurl') . '/' . $link->slug . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
+      else if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
+              (!isset($link->track_as_img) or $link->track_as_img == 0))
+        return get_option('siteurl') . '/' . $link->slug . $link->param_struct;
+      else
+        return get_option('siteurl') . '/' . $link->slug;
+    }
 
     function validate( $values )
     {
       global $wpdb, $prli_utils;
 
       $errors = array();
-      if( $values['url'] == null or $values['url'] == '' )
-        $errors[] = "Link URL can't be blank";
+      if( ( $values['url'] == null or $values['url'] == '') and $values['track_as_img'] != 'on' )
+        $errors[] = "Target URL can't be blank -- unless this Pretty Link is being used as a tracking pixel (see Advanced Options on this page)";
 
       if( $values['slug'] == null or $values['slug'] == '' )
         $errors[] = "Pretty Link can't be blank";
 
-      if( !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) )
+      if( !empty($values['url']) and !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) )
         $errors[] = "Link URL must be a correctly formatted url";
 
       if( !preg_match('/^[a-zA-Z0-9\.\-_]+$/', $values['slug'] ) )
@@ -155,6 +182,13 @@ class PrliLink
       if( $slug_already_exists or !$prli_utils->slugIsAvailable($values['slug']) )
         $errors[] = "This pretty link slug is already taken, please choose a different one";
 
+      if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and empty($values['param_struct']) )
+        $errors[] = "If Custom Parameter Forwarding has been selected then you must specify a forwarding format.";
+
+      if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and !preg_match('#%.*?%#', $values['param_struct']) )
+        $errors[] = "Your parameter forwarding must have at least one parameter specified in the format ex: <code>/%var1%/%var_two%/%varname3% ...</code>";
+
+      /*
       if(isset($values['track_as_img']) and $values['track_as_img'] == 'on' and $values['url'] != null and $values['url'] != '')
       {
         $size = getimagesize($values['url']);
@@ -163,6 +197,7 @@ class PrliLink
           $errors[] = "If you want to track this pretty link as an image then your target url must be an image (png, jpeg, gif, etc.)";
         }
       }
+      */
 
       return $errors;
     }

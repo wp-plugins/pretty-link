@@ -153,7 +153,7 @@ function php_get_browser($agent = NULL)
   return $hu;
 }
 
-function track_link($slug)
+function track_link($slug,$values)
 {
   global $wpdb;
   $click_table = $wpdb->prefix . "prli_clicks";
@@ -188,10 +188,10 @@ function track_link($slug)
   
   $param_string = '';
   
-  if(isset($pretty_link->forward_params) and $pretty_link->forward_params and isset($_GET) and count($_GET) > 1)
+  if(isset($pretty_link->param_forwarding) and $pretty_link->param_forwarding and isset($values) and count($values) > 1)
   {
     $first_param = true;
-    foreach($_GET as $key => $value)
+    foreach($values as $key => $value)
     {
       // Ignore the 'sprli' parameter
       if($key != 'sprli')
@@ -210,14 +210,52 @@ function track_link($slug)
   }
   
   //Redirect to Product URL
-  if(isset($pretty_link->track_as_img) and $pretty_link->track_as_img)
+  if(!isset($pretty_link->track_as_img) or $pretty_link->track_as_img == 0)
   {
-    $size = getimagesize($pretty_link->url); 
-    header('Content-Type: '.$size['mime']);
-    echo file_get_contents($pretty_link->url.$param_string);
-  }
-  else
     wp_redirect($pretty_link->url.$param_string);
+  }
+}
+
+function get_custom_forwarding_rule($param_struct)
+{
+  $param_struct = preg_replace('#%.*?%#','(.*?)',$param_struct);
+  return preg_replace('#\(\.\*\?\)$#','(.*)',$param_struct); // replace the last one with a greedy operator
+}
+
+function get_custom_forwarding_params($param_struct, $type = 'string', $start_index = 1)
+{
+  preg_match_all('#%(.*?)%#', $param_struct, $matches);
+
+  $param_string = '';
+  $match_index = $start_index;
+  for($i = 1; $i < count($matches[1]); $i++)
+  {
+    if($i == 0 and $start_index == 1)
+      $param_string .= "?";
+    else
+      $param_string .= "&";
+
+    $param_string .= $matches[1][$i] . "=$$match_index";
+    $match_index++;
+  }
+
+  return $param_string;
+}
+
+function decode_custom_param_str($param_struct, $uri_string)
+{
+  // Get the structure matches (param names)
+  preg_match_all('#%(.*?)%#', $param_struct, $struct_matches);
+
+  // Get the uri matches (param values)
+  $match_str = '#'.$this->get_custom_forwarding_rule($param_struct).'#';
+  preg_match($match_str, $uri_string, $uri_matches);
+
+  $param_array = array();
+  for($i = 0; $i < count($struct_matches[1]); $i++)
+    $param_array[$struct_matches[1][$i]] = $uri_matches[$i+1];
+
+  return $param_array;
 }
 
 }
