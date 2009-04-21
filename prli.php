@@ -13,6 +13,6 @@ if( $_GET['sprli'] != null and $_GET['sprli'] != '' )
 {
     $slug = $_GET['sprli'];
 
-    $prli_utils->track_link($slug); 
+    $prli_utils->track_link($slug,$_GET); 
 }
 ?>

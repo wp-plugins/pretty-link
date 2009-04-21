@@ -222,13 +222,13 @@ function get_custom_forwarding_rule($param_struct)
   return preg_replace('#\(\.\*\?\)$#','(.*)',$param_struct); // replace the last one with a greedy operator
 }
 
-function get_custom_forwarding_params($param_struct, $type = 'string', $start_index = 1)
+function get_custom_forwarding_params($param_struct, $start_index = 1)
 {
   preg_match_all('#%(.*?)%#', $param_struct, $matches);
 
   $param_string = '';
   $match_index = $start_index;
-  for($i = 1; $i < count($matches[1]); $i++)
+  for($i = 0; $i < count($matches[1]); $i++)
   {
     if($i == 0 and $start_index == 1)
       $param_string .= "?";

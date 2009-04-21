@@ -271,10 +271,10 @@ function prli_link_rewrite($wp_rewrite) {
           add_rewrite_rule('(' . $pl->slug . ')/?\??(.*?)$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1&$2');
         else if(isset($pl->param_forwarding) and $pl->param_forwarding == 'custom')
         {
-          $match_rules = get_custom_forwarding_rule($pl->param_struct);
-          $match_params = get_custom_forwarding_params($pl->param_struct, 2);
+          $match_rules = $prli_utils->get_custom_forwarding_rule($pl->param_struct);
+          $match_params = $prli_utils->get_custom_forwarding_params($pl->param_struct, 2);
 
-          add_rewrite_rule('(' . $pl->slug . ')[\?\/](' . $match_rule . ')?$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1'.$match_params);
+          add_rewrite_rule('(' . $pl->slug . ')' . $match_rules . '$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1'.$match_params);
         }
         else
           add_rewrite_rule('(' . $pl->slug . ')/?$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1');
