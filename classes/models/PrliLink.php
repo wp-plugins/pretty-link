@@ -49,7 +49,7 @@ class PrliLink
     function destroy( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
-      global $wpdb, $wp_click, $wp_rewrite;
+      global $wpdb, $prli_click, $wp_rewrite;
 
       $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
       $destroy = 'DELETE FROM ' . $this->table_name() .  ' WHERE id=' . $id;
