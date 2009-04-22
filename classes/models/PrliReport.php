@@ -6,7 +6,7 @@ class PrliReport {
 
 function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $type = "all")
 {
-  global $wpdb, $prli_utils;
+  global $wpdb, $prli_utils, $prli_click;
 
   $clicks_table = $wpdb->prefix . "prli_clicks";
   $links_table = $wpdb->prefix . "prli_links";
@@ -24,7 +24,7 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
     $dmon  = date('n',$day_timestamp);
     $ddom  = date('j',$day_timestamp);
 
-    $query = "SELECT count(*) FROM $clicks_table c2 WHERE c2.created_at BETWEEN '$dyear-$dmon-$ddom 00:00:00' AND '$dyear-$dmon-$ddom 23:59:59'";
+    $query = "SELECT count(*) FROM $clicks_table c2 WHERE c2.created_at BETWEEN '$dyear-$dmon-$ddom 00:00:00' AND '$dyear-$dmon-$ddom 23:59:59'" . $prli_click->get_exclude_where_clause( ' AND' );
 
     if($link_id != "all")
     {

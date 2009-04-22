@@ -49,9 +49,14 @@ class PrliLink
     function destroy( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
-      global $wpdb, $wp_rewrite;
+      global $wpdb, $wp_click, $wp_rewrite;
+
+      $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
       $destroy = 'DELETE FROM ' . $this->table_name() .  ' WHERE id=' . $id;
+
       $wp_rewrite->flush_rules();
+
+      $wpdb->query($reset);
       return $wpdb->query($destroy);
     }
 
@@ -74,17 +79,17 @@ class PrliLink
 
     function getOne( $id )
     {
-        global $wpdb;
+        global $wpdb, $prli_click;
         $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id) as clicks FROM ' . $this->table_name() . ' li WHERE id=' . $id . ';';
+        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li WHERE id=' . $id . ';';
         return $wpdb->get_row($query);
     }
 
     function getAll()
     {
-        global $wpdb;
+        global $wpdb, $prli_click;
         $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id) as clicks FROM ' . $this->table_name() . ' li;';
+        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li;';
         return $wpdb->get_results($query);
     }
 
@@ -103,11 +108,11 @@ class PrliLink
 
     function getPage($current_p,$p_size, $where = "")
     {
-        global $wpdb;
+        global $wpdb, $prli_click;
         $click_table = $wpdb->prefix . "prli_clicks";
         $end_index = $current_p * $p_size;
         $start_index = $end_index - $p_size;
-        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id) as clicks FROM ' . $this->table_name() . ' li' . $where . ' LIMIT ' . $start_index . ',' . $p_size . ';';
+        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li' . $where . ' LIMIT ' . $start_index . ',' . $p_size . ';';
         $results = $wpdb->get_results($query);
         return $results;
     }

@@ -22,7 +22,7 @@
   </div>
   <div id="button_bar">
     <p><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=new"><img src="<?php echo PRLI_URL.'/images/pretty-link-add.png'; ?>"/> Add a Pretty Link</a>
-    &nbsp;|&nbsp;<a href="/wp-admin/options-general.php?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-options.php">Options</a>
+    &nbsp;|&nbsp;<a href="options-general.php?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-options.php">Options</a>
     <?php
       if(get_option('prli_rewrite_mode') == 'on')
       {

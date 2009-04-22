@@ -6,21 +6,26 @@ $errors = array();
 
 // variables for the field and option names 
 $prli_rewrite_mode  = 'prli_rewrite_mode';
+$prli_exclude_ips  = 'prli_exclude_ips';
 $hidden_field_name  = 'prli_update_options';
 
 $prli_domain = "pretty-link";
 
 // Read in existing option value from database
 $prli_rewrite_mode_val = get_option( $prli_rewrite_mode );
+$prli_exclude_ips_val = get_option( $prli_exclude_ips );
 
 // See if the user has posted us some information
 // If they did, this hidden field will be set to 'Y'
 if( $_POST[ $hidden_field_name ] == 'Y' ) 
 {
   // Validate This
+  if( !empty($_POST[ $prli_exclude_ips ]) and !preg_match( "#^[ \t]*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})([ \t]*,[ \t]*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})*$#", $_POST[ $prli_exclude_ips ] ) )
+    $errors[] = "Must be a comma separated list of IP addresses.";
 
   // Read their posted value
   $prli_rewrite_mode_val = stripslashes($_POST[ $prli_rewrite_mode ]);
+  $prli_exclude_ips_val = stripslashes($_POST[ $prli_exclude_ips ]);
 
 
   if( count($errors) > 0 )
@@ -31,6 +36,7 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   {
     // Save the posted value in the database
     update_option( $prli_rewrite_mode, $prli_rewrite_mode_val );
+    update_option( $prli_exclude_ips, $prli_exclude_ips_val );
 
     $wp_rewrite->flush_rules();
 
@@ -52,6 +58,13 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
 <?php wp_nonce_field('update-options'); ?>
 
 <table class="form-table">
+  <tr class="form-field">
+    <td valign="top">Excluded IP Addresses: </td>
+    <td>
+      <input type="text" name="<?php echo $prli_exclude_ips; ?>" value="<?php echo $prli_exclude_ips_val; ?>"> 
+      <br/><span class="setting-description">Enter IP Addresses you want to exclude from your Hit data and Stats. Each IP Address should be separated by commas. Example: <code>192.168.0.1, 192.168.2.1, 192.168.3.4</code></span>
+    </td>
+  </tr>
   <tr>
     <td colspan="2">
       <input type="checkbox" name="<?php echo $prli_rewrite_mode; ?>" <?php print (((isset($prli_rewrite_mode_val) and $prli_rewrite_mode_val == 'on') or (isset($_POST[$prli_rewrite_mode]) and $_POST[$prli_rewrite_mode] == 'on'))?'checked="true"':''); ?>/>&nbsp; Apache Rewrite Mode

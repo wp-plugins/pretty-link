@@ -47,11 +47,33 @@ class PrliClick
     }
     */
 
+    function get_ip_exclude_list()
+    {
+      $exclude_list = get_option('prli_exclude_ips');
+      $exclude_list = preg_replace('#[ \t]#','',$exclude_list);
+
+      if($exclude_list)
+        return "'" . implode("','", explode(',',$exclude_list)) . "'";
+      else
+        return '';
+    }
+
+    function get_exclude_where_clause( $starts_with = " WHERE")
+    {
+      $exclude_list = $this->get_ip_exclude_list();
+      
+      if( $exclude_list != '')
+        return $starts_with . ' ip NOT IN (' . $exclude_list . ')';
+      else
+        return '';
+    }
+
     function getOne( $id )
     {
         global $wpdb;
         $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT * FROM ' . $this->table_name() . ' li WHERE id=' . $id;
+        $query = 'SELECT * FROM ' . $this->table_name() . ' li WHERE id=' . $id . $this->get_exclude_where_clause( ' AND' );
+    
         return $wpdb->get_row($query);
     }
 
@@ -59,6 +81,7 @@ class PrliClick
     {
         global $wpdb;
         $click_table = $wpdb->prefix . "prli_clicks";
+        $where .= $this->get_exclude_where_clause( (($where != '')?' AND':' WHERE') );
         $query = 'SELECT * FROM ' . $this->table_name() . $where . " ORDER BY created_at DESC";
         return $wpdb->get_results($query);
     }
@@ -67,6 +90,7 @@ class PrliClick
     function getRecordCount($where="")
     {
         global $wpdb;
+        $where .= $this->get_exclude_where_clause( (($where != '')?' AND':' WHERE') );
         $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . $where;
         return $wpdb->get_var($query);
     }
@@ -82,6 +106,7 @@ class PrliClick
         $click_table = $wpdb->prefix . "prli_clicks";
         $end_index = $current_p * $p_size;
         $start_index = $end_index - $p_size;
+        $where .= $this->get_exclude_where_clause( (($where != '')?' AND':' WHERE') );
         $query = 'SELECT * FROM ' . $this->table_name() . $where . ' ORDER BY created_at DESC LIMIT ' . $start_index . ',' . $p_size . ';';
         $results = $wpdb->get_results($query);
         return $results;
