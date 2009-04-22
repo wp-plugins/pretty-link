@@ -290,12 +290,14 @@ add_filter('generate_rewrite_rules', 'prli_link_rewrite');
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/
 function prli_redirect()
 {
+  global $prli_blogurl;
+
   if( get_option( 'prli_rewrite_mode' ) != 'on' )
   {
     global $wpdb, $prli_link, $prli_utils;
    
     // Resolve WP installs in sub-directories
-    preg_match('#^http://.*?(/.*)$#', get_option('siteurl'), $subdir);
+    preg_match('#^http://.*?(/.*)$#', $prli_blogurl, $subdir);
 
     $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
    

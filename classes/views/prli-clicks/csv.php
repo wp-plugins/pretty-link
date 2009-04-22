@@ -1,4 +1,6 @@
 <?php
+  require_once('prli-config.php');
+
   if(is_user_logged_in() and $current_user->user_level >= 8)
   {
     $filename = date("ymdHis",time()) . '_' . $link_name . '_pretty_link_clicks.csv';
@@ -18,5 +20,5 @@
     }
   }
   else
-    header("Location: " . get_option("siteurl"));
+    header("Location: " . $prli_blogurl);
 ?>

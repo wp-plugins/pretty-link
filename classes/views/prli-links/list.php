@@ -60,7 +60,7 @@
   {
     foreach($links as $link)
     {
-      $pretty_link_url = $prli_link->get_pretty_link_url($link->slug);//get_option('siteurl') . '/' . $link->slug;
+      $pretty_link_url = $prli_link->get_pretty_link_url($link->slug);//$prli_blogurl . '/' . $link->slug;
       ?>
       <tr>
         <td class="edit_link">

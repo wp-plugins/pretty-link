@@ -145,19 +145,21 @@ class PrliLink
     
     function get_pretty_link_url($slug)
     {
+      global $prli_blogurl;
+
       $link = $this->getOneFromSlug($slug);
 
       if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
          (isset($link->track_as_img) and $link->track_as_img == 1))
-        return "&lt;img src=\"".get_option('siteurl') . '/' . $link->slug . $link->param_struct . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
+        return "&lt;img src=\"".$prli_blogurl . '/' . $link->slug . $link->param_struct . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
       else if((!isset($link->param_forwarding) or $link->param_forwarding != 'custom') and
               (isset($link->track_as_img) and $link->track_as_img == 1))
-        return "&lt;img src=\"".get_option('siteurl') . '/' . $link->slug . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
+        return "&lt;img src=\"".$prli_blogurl . '/' . $link->slug . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
       else if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
               (!isset($link->track_as_img) or $link->track_as_img == 0))
-        return get_option('siteurl') . '/' . $link->slug . $link->param_struct;
+        return $prli_blogurl . '/' . $link->slug . $link->param_struct;
       else
-        return get_option('siteurl') . '/' . $link->slug;
+        return $prli_blogurl . '/' . $link->slug;
     }
 
     function validate( $values )

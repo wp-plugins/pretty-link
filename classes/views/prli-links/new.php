@@ -18,7 +18,7 @@
   </tr>
   <tr>
     <td valign="top">Pretty Link*: </td>
-    <td><strong><?php print get_option('siteurl'); ?></strong>/<input type="text" name="slug" value="<?php print (($_POST['slug'] != null)?$_POST['slug']:$prli_link->generateValidSlug()); ?>" size="25">
+    <td><strong><?php print $prli_blogurl; ?></strong>/<input type="text" name="slug" value="<?php print (($_POST['slug'] != null)?$_POST['slug']:$prli_link->generateValidSlug()); ?>" size="25">
     <br/><span class="setting-description">Use the auto-generated short slug (2-3 characters) here or enter any word (must only contain letters, numbers or the following special characters: ".","-" or "_") that will form your pretty link and redirect to the URL above. Just refresh this page to auto-generate another slug.</span></td>
   </tr>
   <tr class="form-field">
@@ -56,7 +56,7 @@
   <tr>
     <td colspan="2">
       <input type="checkbox" name="track_as_img" <?php print ((isset($_POST['track_as_img']) and $_POST['track_as_img'] == 'on')?'checked="true"':''); ?>/>&nbsp; Track as a Pixel
-      <br/><span class="setting-description">Select this option if you want this link to behave as a tracking pixel instead of as a link. This option is useful if you want to track the number of times a page or email is opened. If you place your Pretty Link inside an img tag on the page (Example: <code>&lt;img src="<?php echo get_option('siteurl') . "/yourslug"; ?>" /&gt;</code>) then the page load will be tracked as a click and then displayed. Note: If this option is selected your Target URL will simply be ignored if there's a value in it.</span>
+      <br/><span class="setting-description">Select this option if you want this link to behave as a tracking pixel instead of as a link. This option is useful if you want to track the number of times a page or email is opened. If you place your Pretty Link inside an img tag on the page (Example: <code>&lt;img src="<?php echo $prli_blogurl . "/yourslug"; ?>" /&gt;</code>) then the page load will be tracked as a click and then displayed. Note: If this option is selected your Target URL will simply be ignored if there's a value in it.</span>
     </td>
   </tr>
 </table>
