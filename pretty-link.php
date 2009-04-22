@@ -294,7 +294,10 @@ function prli_redirect()
   {
     global $wpdb, $prli_link, $prli_utils;
    
-    $match_str = '#^/(.*?)([\?/].*?)?$#';
+    // Resolve WP installs in sub-directories
+    preg_match('#^http://.*?(/.*)$#', get_option('siteurl'), $subdir);
+
+    $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
    
     if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
     {

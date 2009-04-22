@@ -12,6 +12,8 @@ Create clean, simple, trackable links on your website that forward to other URLs
 
 Create clean, simple, trackable links on your website that forward to other URLs and then analyze the number of clicks and unique clicks they get per day using Pretty Link. For instance you could create this URL: http://www.yourdomain.com/cnn that could redirect to http://www.cnn.com. This type of trackable redirection is EXTREMELY useful for masking Affiliate Links. Pretty Link is a superior alternative to using TinyURL, BudURL or other link shrinking service because the URLs are coming from your website's domain name. When these links are used, pretty link not only redirects but also keeps track of their clicks, unique clicks and other data about them which can be analyzed immediately.
 
+[Pretty Link Homepage](http://blairwilliams.com/pretty-link "Pretty Link Homepage")
+
 = Features =
 
 * Gives you the ability to create clean, simple URLs on your website that redirect to any other URL
@@ -45,33 +47,11 @@ Create clean, simple, trackable links on your website that forward to other URLs
 1.2.9 - Added a Title & Description to the Links. Added sorting to the list of links. Added the Creation date of the link to the list of links.
 1.2.8 - In this release I altered the way the url rewriting worked. Instead of using Apache's mod_rewrite, I now use WordPress's internal mechanism. If you still want to use Apache mod_rewrite, just go ahead and select it in the Options page (under Settings).
 
-
 = Note =
 If you are upgrading from a previous version to 1.2.4 or above, the activation process may take a minute or two.
 
 == Frequently Asked Questions ==
-
-* This plugin is extremely simple. All you have to do is to find the pretty link admin menu (bottom left of your admin page) and start by clicking "Add a Pretty Link."
-
-* If you have selected "Apache Rewrite Mode" then make sure you haven't blocked access to the /wp-content/plugins/pretty-link/prli.php file in your WordPress install. While running in "Apache Rewrite Mode" Pretty Link needs this file to be publicly accessible in order to work. If access to this file is blocked when its running in rewrite mode then you'll recieve 404 errors for all your pretty links.
-
-= SYSTEM REQUIREMENTS: =
-
-1. WordPress 2.7.1
-2. PHP
-3. Mysql 5.0+
-4. Apache (hasn't been tested on IIS)
-5. Mod Rewrite must be installed and functioning
-6. Your WordPress install must have write privileges for your .htaccess file
-7. Unix based web host (hasn't been tested on Windows)
-
-= NOTE: =
-
-You must have pretty permalinks and rewrite working in your Wordpress/PHP/Apache install before pretty links will work (this is already done in most cases but if you can't get anything but Default permalinks working then you may need to contact your system administrator). Pretty links utlilzes Wordpress's URL rewriting capabilities (via Apache's mod_rewrite) which are only turned on when you change the settings in "Settings -> Permalinks" from "Default" to something else. If you want your blog to have any kind of decent SEO then you really should do this anyway.
+[Pretty Link FAQ](http://blairwilliams.com/pretty-link/pretty-link-faq "Pretty link FAQ")
 
 == Screenshots ==
-
-1. Analyze Click Data
-2. Link Management Screen
-3. Add a Link Screen
-4. Edit a Link Screen
+[Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
