@@ -9,4 +9,5 @@ define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
 $page_size = 15;
 
 $prli_blogurl = ((get_option('home'))?get_option('home'):get_option('siteurl'));
+$prli_siteurl = get_option('siteurl');
 ?>

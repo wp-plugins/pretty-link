@@ -39,7 +39,7 @@
      
       ?>
       <tr>
-        <td><img src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/images/browser/<?php echo prli_browser_image($click->btype); ?>" alt="<?php echo $click->btype . " v" . $click->bversion; ?>" title="<?php echo $click->btype . " v" . $click->bversion; ?>"/>&nbsp;<img src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/images/os/<?php echo prli_os_image($click->os); ?>" alt="<?php echo $click->os; ?>" title="<?php echo $click->os; ?>"/></td>
+        <td><img src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/images/browser/<?php echo prli_browser_image($click->btype); ?>" alt="<?php echo $click->btype . " v" . $click->bversion; ?>" title="<?php echo $click->btype . " v" . $click->bversion; ?>"/>&nbsp;<img src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/images/os/<?php echo prli_os_image($click->os); ?>" alt="<?php echo $click->os; ?>" title="<?php echo $click->os; ?>"/></td>
         <td><?php echo $click->ip; ?></td>
         <td><?php echo $click->created_at; ?></td>
         <td><?php echo $click->referer; ?></td>
@@ -65,13 +65,13 @@
   if(isset($_GET['l']))
   {
 ?>
-    <a href="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv&l=<?php echo $_GET['l']; ?>">Download CSV (<?php echo $link_name; ?>)</a>
+    <a href="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv&l=<?php echo $_GET['l']; ?>">Download CSV (<?php echo $link_name; ?>)</a>
 <?php
   }
   else
   {
 ?>
-    <a href="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv">Download CSV (<?php echo $link_name; ?>)</a>
+    <a href="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv">Download CSV (<?php echo $link_name; ?>)</a>
 <?php
   }
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');

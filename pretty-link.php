@@ -45,7 +45,7 @@ add_action('admin_menu', 'prli_menu');
 /* Add header to prli-reports page */
 function prli_reports_admin_header()
 {
-    global $prli_report, $prli_utils;
+    global $prli_siteurl, $prli_report, $prli_utils;
 
     if(isset($_GET['link']))
       $_POST['link'] = $_GET['link'];
@@ -100,9 +100,9 @@ function prli_reports_admin_header()
 ?>
 
 <!-- JQuery UI Includes -->
-<link type="text/css" href="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/css/ui-lightness/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
-<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-ui-1.7.1.custom.min.js"></script>
+<link type="text/css" href="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/css/ui-lightness/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-ui-1.7.1.custom.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -139,10 +139,10 @@ $(document).ready(function(){
 </style>
 
 <!-- Open Flash Chart Includes -->
-<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/json/json2.js"></script>
-<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/swfobject.js"></script>
+<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/json/json2.js"></script>
+<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/swfobject.js"></script>
 <script type="text/javascript">
-swfobject.embedSWF("/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "400", "9.0.0");
+swfobject.embedSWF("<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "400", "9.0.0");
 </script>
 
 <script type="text/javascript">
@@ -209,8 +209,9 @@ var data = <?php echo $prli_report->setupClickReport($start_timestamp,$end_times
 
 function prli_links_admin_header()
 {
+  global $prli_siteurl;
   ?>
-<script type="text/javascript" src="/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
   $(".edit_link").hover(
