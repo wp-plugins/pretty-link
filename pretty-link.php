@@ -113,6 +113,7 @@ function prli_reports_admin_header()
 
 <script type="text/javascript">
 $(document).ready(function(){
+  $(".filter_pane").hide();
   $(".filter_toggle").click( function () {
       $(".filter_pane").slideToggle("slow");
   });
@@ -214,6 +215,7 @@ function prli_links_admin_header()
 <script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){
+  $(".link_actions").hide();
   $(".edit_link").hover(
     function () {
       $(this).find(".link_actions").fadeIn(500);
@@ -227,6 +229,7 @@ $(document).ready(function(){
 
 <script type="text/javascript">
 $(document).ready(function(){
+  $(".advanced_pane").hide();
   $(".advanced_toggle").click( function () {
       $(".advanced_pane").slideToggle("slow");
   });

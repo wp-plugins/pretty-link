@@ -94,7 +94,7 @@
 
         <a class="slug_name" href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->name; ?>"><?php echo "$link->name"; ?></a>
           <br/>
-          <div class="link_actions" style="display:none;">
+          <div class="link_actions">
             <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php print $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|
             <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php print $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php print $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>">Delete</a>&nbsp;|
             <a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php print $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php print $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>&nbsp;|

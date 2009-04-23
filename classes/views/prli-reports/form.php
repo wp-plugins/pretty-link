@@ -2,7 +2,7 @@
   <p style="font-size: 14px; font-weight: bold; float: right; padding-top: 25px;"><a href="http://blairwilliams.com/faq" target="_blank">Get Help</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/blog" target="_blank">Blog</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/don" target="_blank">Donate</a></p>
   <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Reports</h2>
   <a href="#" class="filter_toggle">Customize Report</a>
-<div class="filter_pane" style="display:none;">
+<div class="filter_pane">
   <form class="form-fields" name="form2" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
     <?php wp_nonce_field('prli-reports'); ?>
     <span>Link:</span>&nbsp;

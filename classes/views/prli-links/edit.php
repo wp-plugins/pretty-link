@@ -33,7 +33,7 @@
   </tr>
 </table>
 <a href="#" class="advanced_toggle">Advanced Options</a>
-<div class="advanced_pane" style="display:none;">
+<div class="advanced_pane">
 <table class="form-table">
   <tr>
     <td colspan="2">
