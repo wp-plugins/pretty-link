@@ -168,6 +168,7 @@ function track_link($slug,$values)
   $click_referer = $_SERVER['HTTP_REFERER'];
   $click_host = gethostbyaddr($click_ip);
   
+  $click_uri = $_SERVER['REQUEST_URI'];
   $click_user_agent = $_SERVER['HTTP_USER_AGENT'];
   $click_browser = $this->php_get_browser();
   
@@ -182,7 +183,7 @@ function track_link($slug,$values)
   }
   
   //Record Click in DB
-  $insert = "INSERT INTO $click_table (link_id,ip,browser,btype,bversion,os,referer,host,first_click,created_at) VALUES ($pretty_link->id,'$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_host','$first_click',NOW())";
+  $insert = "INSERT INTO $click_table (link_id,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
   
   $results = $wpdb->query( $insert );
   
