@@ -1,10 +1,10 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, rewrite, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.3.7
+Stable tag: 1.3.8
 
 Shrink, track and share any URL on the Internet from your WordPress website. Unlike other link shrinking services like tinyurl, budurl, and bit.ly, this plugin allows you to create shortlinks coming from your own domain! Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, increase the reach of their website by spreading these links via Twitter, forums or comments on other blogs.
 
@@ -42,6 +42,7 @@ http://blairwilliams.com/w7a
 * Exclude IP Addresses from Stats
 * Enables you to post your Pretty Links to Twitter directly from your WordPress admin
 * Enables you to send your Pretty Links via Email directly from your WordPress admin
+* Select Temporary (307) or Permanent (301) redirection for your Pretty Links
 
 == Installation ==
 
@@ -52,6 +53,8 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
 
 = Release Notes =
+
+1.3.7 - Added the ability to select Temporary (307) or Permanent (301) redirection for your Pretty Links
 
 1.3.6 - Added Request URI to the data stream and the ability to search / sort hits
 
