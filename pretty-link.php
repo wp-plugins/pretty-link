@@ -292,7 +292,7 @@ function prli_redirect()
 add_action('init', 'prli_redirect'); //Redirect
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.1.8";
+$prli_db_version = "0.1.10";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
@@ -321,8 +321,10 @@ function prli_install() {
               first_click tinyint default 0,
               created_at datetime NOT NULL,
               link_id int(11) default NULL,
+              vuid varchar(25) default NULL,
               PRIMARY KEY  (id),
-              KEY link_id (link_id)".
+              KEY link_id (link_id),
+              KEY vuid (vuid)".
               // We won't worry about this constraint for now -- when we delete links we want the clicks
               // to stick around anyway -- we won't worry about them being orphans, k?
               //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)

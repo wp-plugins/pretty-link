@@ -153,13 +153,12 @@ function php_get_browser($agent = NULL)
   return $hu;
 }
 
+// This is where the magic happens!
 function track_link($slug,$values)
 {
-  global $wpdb;
-  $click_table = $wpdb->prefix . "prli_clicks";
-  $pretty_links_table = $wpdb->prefix . "prli_links";
-  
-  $query = "SELECT * FROM $pretty_links_table WHERE slug='$slug' LIMIT 1";
+  global $wpdb, $prli_click, $prli_link;
+
+  $query = "SELECT * FROM ".$prli_link->table_name()." WHERE slug='$slug' LIMIT 1";
   $pretty_link = $wpdb->get_row($query);
   
   $first_click = false;
@@ -174,19 +173,35 @@ function track_link($slug,$values)
   
   //Set Cookie if it doesn't exist
   $cookie_name = 'prli_click_' . $pretty_link->id;
+  //Used for unique click tracking
   $cookie_expire_time = time()+60*60*24*30; // Expire in 30 days
+
+  $visitor_cookie = 'prli_visitor';
+  //Used for visitor activity
+  $visitor_cookie_expire_time = time()+60*60*24*365; // Expire in 1 year
+  
   
   if($_COOKIE[$cookie_name] == null)
   {
-      setcookie($cookie_name,$slug,$cookie_expire_time);
-      $first_click = true;
+    setcookie($cookie_name,$slug,$cookie_expire_time);
+    $first_click = true;
   }
-  
+
+  // Retrieve / Generate visitor id
+  if($_COOKIE[$visitor_cookie] == null)
+  {
+    $visitor_uid = $prli_click->generateUniqueVisitorId();
+    setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time);
+  }
+  else
+    $visitor_uid = $_COOKIE[$visitor_cookie];
+
   //Record Click in DB
-  $insert = "INSERT INTO $click_table (link_id,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
+  $insert = "INSERT INTO ".$prli_click->table_name()." (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$visitor_uid','$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
   
   $results = $wpdb->query( $insert );
   
+  // Reformat Parameters
   $param_string = '';
   
   if(isset($pretty_link->param_forwarding) and $pretty_link->param_forwarding and isset($values) and count($values) > 1)

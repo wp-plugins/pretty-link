@@ -94,6 +94,7 @@ function prli_get_click_sort_vars($where_clause = '')
     {
       $where_clause .= ' AND';
       $where_clause .= " (cl.ip LIKE '%$search_param%' OR ".
+                         "cl.vuid LIKE '%$search_param%' OR ".
                          "cl.btype LIKE '%$search_param%' OR ".
                          "cl.bversion LIKE '%$search_param%' OR ".
                          "cl.host LIKE '%$search_param%' OR ".
@@ -121,6 +122,7 @@ function prli_get_click_sort_vars($where_clause = '')
   switch($sort_str)
   {
     case "ip":
+    case "vuid":
     case "btype":
     case "bversion":
     case "host":
