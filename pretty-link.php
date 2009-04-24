@@ -423,6 +423,7 @@ function prli_install() {
   {
     global $wp_rewrite;
     $wp_rewrite->flush_rules();
+    update_option('prli_rewrite_mode','off');
   }
 
   if(empty($prli_current_db_version) or !$prli_current_db_version)
