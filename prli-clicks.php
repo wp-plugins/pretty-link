@@ -23,12 +23,24 @@ if($_GET['action'] == null and $_POST['action'] == null)
 
   if(isset($_GET['l']))
   {
-    $where_clause = " AND link_id=".$_GET['l'];
+    $where_clause = " AND cl.link_id=".$_GET['l'];
     $link_name = $wpdb->get_var("SELECT name FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
     $link_slug = $wpdb->get_var("SELECT slug FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
 
     $link_name = ((empty($link_name))?$link_slug:$link_name);
     $page_params = "&l=".$_GET['l'];
+  }
+  else if(isset($_GET['ip']))
+  {
+    $link_name = "IP Address: " . $_GET['ip'];
+    $where_clause = " AND cl.ip='".$_GET['ip']."'";
+    $page_params = "&ip=".$_GET['ip'];
+  }
+  else if(isset($_GET['vuid']))
+  {
+    $link_name = "Visitor: " . $_GET['vuid'];
+    $where_clause = " AND cl.vuid='".$_GET['vuid']."'";
+    $page_params = "&vuid=".$_GET['vuid'];
   }
   else
   {

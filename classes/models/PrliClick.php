@@ -7,46 +7,6 @@ class PrliClick
       return $wpdb->prefix . 'prli_clicks';
     }
 
-    /*
-    function create( $values )
-    {
-      global $wpdb, $wp_rewrite;
-      $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,forward_params,track_as_img,created_at) VALUES (\'' .
-                     $values['url'] . '\',\'' . 
-                     $values['slug'] . '\',' . 
-                     (int)isset($values['forward_params']) . ',' . 
-                     (int)isset($values['track_as_img']) . ',' . 
-                     'NOW())';
-      $query_results = $wpdb->query($query);
-      $wp_rewrite->flush_rules();
-      return $query_results;
-    }
-
-    function update( $id, $values )
-    {
-      global $wpdb, $wp_rewrite;
-      $query = 'UPDATE ' . $this->table_name() . 
-                  ' SET url=\'' . $values['url'] . '\', ' .
-                      ' slug=\'' . $values['slug'] . '\', ' .
-                      ' forward_params=' . (int)isset($values['forward_params']) . ', ' .
-                      ' track_as_img=' . (int)isset($values['track_as_img']) .
-                  ' WHERE id='.$id;
-      $query_results = $wpdb->query($query);
-      $wp_rewrite->flush_rules();
-      return $query_results;
-    }
-
-    function destroy( $id )
-    {
-      require_once(PRLI_MODELS_PATH.'/models.inc.php');
-      global $wpdb, $wp_rewrite;
-      $destroy = 'DELETE FROM ' . $this->table_name() .  ' WHERE id=' . $id;
-      $wp_rewrite->flush_rules();
-      return $wpdb->query($destroy);
-    }
-    */
-
     function get_ip_exclude_list()
     {
       $exclude_list = get_option('prli_exclude_ips');
