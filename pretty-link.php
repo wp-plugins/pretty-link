@@ -3,7 +3,7 @@
 Plugin Name: Pretty Link
 Plugin URI: http://blairwilliams.com/pretty-link
 Description: Shrink, track and share any URL on the Internet from your WordPress website. Unlike other link shrinking services like tinyurl, budurl, and bit.ly, this plugin allows you to create shortlinks coming from your own domain! Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, increase the reach of their website by spreading these links via Twitter, forums or comments on other blogs.
-Version: 1.3.10
+Version: 1.3.11
 Author: Blair Williams
 Author URI: http://blairwilliams.com
 Copyright: 2009, Blair Williams
