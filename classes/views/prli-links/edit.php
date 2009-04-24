@@ -37,6 +37,7 @@
 <table class="form-table">
   <tr>
     <td colspan="2">
+      <h3>Parameter Forwarding</h3>
       <ul style="list-style-type: none">
       <li>
         <input type="radio" name="param_forwarding" value="off" <?php print ((!isset($_POST['param_forwarding']) or $record->param_forwarding == 'off')?'checked="true"':''); ?>/>&nbsp; Forward Parameters Off
@@ -55,6 +56,22 @@
   </tr>
   <tr>
     <td colspan="2">
+      <h3>Redirect Type</h3>
+      <ul style="list-style-type: none">
+      <li>
+        <input type="radio" name="redirect_type" value="307" <?php print ((!isset($_POST['redirect_type']) or $_POST['redirect_type'] == '307' or $record->redirect_type == '307')?'checked="true"':''); ?>/>&nbsp;Temporary Redirect (307)
+        <br/><span class="setting-description">This is the best option if you're planning on changing your Target URL and want accurate reporting for this link.</span>
+      </li>
+      <li>
+        <input type="radio" name="redirect_type" value="301" <?php print (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == '301') or (isset($record->redirect_type) and $record->redirect_type == '301'))?'checked="true"':''); ?> />&nbsp;Permanent Redirect (301)
+        <br/><span class="setting-description">This is the best option if you're <strong>NOT</strong> planning on changing your Target URL. Traditionally this option is considered to be the best approach to use for your SEO/SEM efforts but since Pretty Link uses your domain name either way this notion isn't necessarily true for Pretty Links. Also, this option may not give you accurate reporting since proxy and caching servers may go directly to your Target URL once it's cached.</span>
+      </li>
+      </ul>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <h3>Pixel Tracking</h3>
       <input type="checkbox" name="track_as_img" <?php print ((($_POST['track_as_img'] or $record->track_as_img) and ($_POST['track_as_img'] == 'on' or $record->track_as_img == 1))?'checked="true"':''); ?>/>&nbsp; Track as a Pixel
       <br/><span class="setting-description">Select this option if you want this link to behave as a tracking pixel instead of as a link. This option is useful if you want to track the number of times a page or email is opened. If you place your Pretty Link inside an img tag on the page (Example: <code>&lt;img src="<?php echo $prli_blogurl . "/yourslug"; ?>" /&gt;</code>) then the page load will be tracked as a click and then displayed. Note: If this option is selected your Target URL will simply be ignored if there's a value in it.</span>
     </td>

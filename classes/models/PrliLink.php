@@ -13,12 +13,13 @@ class PrliLink
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,name,param_forwarding,param_struct,description,track_as_img,created_at) VALUES (\'' .
+               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,track_as_img,created_at) VALUES (\'' .
                      $values['url'] . '\',\'' . 
                      $values['slug'] . '\',\'' . 
                      $values['name'] . '\',\'' . 
                      $values['param_forwarding'] . '\',\'' . 
                      $values['param_struct'] . '\',\'' . 
+                     $values['redirect_type'] . '\',\'' . 
                      stripslashes($values['description']) . '\',' . 
                      (int)isset($values['track_as_img']) . ',' . 
                      'NOW())';
@@ -38,7 +39,8 @@ class PrliLink
                       ' name=\'' . $values['name'] . '\', ' .
                       ' param_forwarding=\'' . $values['param_forwarding'] . '\', ' .
                       ' param_struct=\'' . $values['param_struct'] . '\', ' .
-                      ' description=\'' . $values['description'] . '\', ' .
+                      ' redirect_type=\'' . $values['redirect_type'] . '\', ' .
+                      ' description=\'' . stripslashes($values['description']) . '\', ' .
                       ' track_as_img=' . (int)isset($values['track_as_img']) .
                   ' WHERE id='.$id;
       $query_results = $wpdb->query($query);

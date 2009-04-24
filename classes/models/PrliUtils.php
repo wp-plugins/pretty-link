@@ -213,7 +213,7 @@ function track_link($slug,$values)
   //Redirect to Product URL
   if(!isset($pretty_link->track_as_img) or $pretty_link->track_as_img == 0)
   {
-    wp_redirect($pretty_link->url.$param_string);
+    wp_redirect($pretty_link->url.$param_string, (int)$pretty_link->redirect_type);
   }
 }
 
