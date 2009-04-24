@@ -24,7 +24,7 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
     $dmon  = date('n',$day_timestamp);
     $ddom  = date('j',$day_timestamp);
 
-    $query = "SELECT count(*) FROM $clicks_table c2 WHERE c2.created_at BETWEEN '$dyear-$dmon-$ddom 00:00:00' AND '$dyear-$dmon-$ddom 23:59:59'" . $prli_click->get_exclude_where_clause( ' AND' );
+    $query = "SELECT count(*) FROM $clicks_table cl WHERE cl.created_at BETWEEN '$dyear-$dmon-$ddom 00:00:00' AND '$dyear-$dmon-$ddom 23:59:59'" . $prli_click->get_exclude_where_clause( ' AND' );
 
     if($link_id != "all")
     {
@@ -45,7 +45,7 @@ function setupClickReport($start_timestamp,$end_timestamp, $link_id = "all", $ty
   if($link_id == "all")
     $link_slug = "all links";
   else
-    $link_slug = "'".$wpdb->get_var("SELECT slug FROM $links_table WHERE id=$link_id") . "'";
+    $link_slug = "'/".$wpdb->get_var("SELECT slug FROM $links_table WHERE id=$link_id") . "'";
 
   if($type == "all")
     $type_string = "All hits";

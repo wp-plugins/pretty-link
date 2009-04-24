@@ -259,68 +259,32 @@ $(document).ready(function(){
   <?php
 }
 
-/********* ADD REDIRECTS FOR REWRITE MODE ***********/
-function prli_link_rewrite($wp_rewrite) {
-  if( get_option( 'prli_rewrite_mode' ) == 'on' )
-  {
-    global $prli_link, $prli_utils;
-    
-    $pretty_links = $prli_link->getAll();
-    
-    foreach($pretty_links as $pl)
-    {
-      if( $pl->slug != null and $pl->slug != '' and $prli_utils->slugIsAvailable($pl->slug) )
-      {
-        if(isset($pl->param_forwarding) and $pl->param_forwarding == 'on')
-          add_rewrite_rule('(' . $pl->slug . ')/?\??(.*?)$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1&$2');
-        else if(isset($pl->param_forwarding) and $pl->param_forwarding == 'custom')
-        {
-          $match_rules = $prli_utils->get_custom_forwarding_rule($pl->param_struct);
-          $match_params = $prli_utils->get_custom_forwarding_params($pl->param_struct, 2);
-
-          add_rewrite_rule('(' . $pl->slug . ')' . $match_rules . '$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1'.$match_params);
-        }
-        else
-          add_rewrite_rule('(' . $pl->slug . ')/?$', 'wp-content/plugins/' . PRLI_PLUGIN_NAME . '/prli.php?sprli=$1');
-      }
-        
-    }
-  }
-}
-
-// Add rules after the rest of the rules are run
-add_filter('generate_rewrite_rules', 'prli_link_rewrite');
-
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/
 function prli_redirect()
 {
   global $prli_blogurl;
+  global $wpdb, $prli_link, $prli_utils;
+ 
+  // Resolve WP installs in sub-directories
+  preg_match('#^http://.*?(/.*)$#', $prli_blogurl, $subdir);
 
-  if( get_option( 'prli_rewrite_mode' ) != 'on' )
+  $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
+ 
+  if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
   {
-    global $wpdb, $prli_link, $prli_utils;
-   
-    // Resolve WP installs in sub-directories
-    preg_match('#^http://.*?(/.*)$#', $prli_blogurl, $subdir);
-
-    $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
-   
-    if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
+    $link = $prli_link->getOneFromSlug($match_val[1]);
+    
+    if(isset($link->slug) and !empty($link->slug))
     {
-      $link = $prli_link->getOneFromSlug($match_val[1]);
-      
-      if(isset($link->slug) and !empty($link->slug))
+      $custom_get = $_GET;
+
+      if(isset($link->param_forwarding) and $link->param_forwarding == 'custom')
       {
-        $custom_get = $_GET;
-
-        if(isset($link->param_forwarding) and $link->param_forwarding == 'custom')
-        {
-          $custom_get = $prli_utils->decode_custom_param_str($link->param_struct, $match_val[2]);
-        }
-
-        $prli_utils->track_link($link->slug,$custom_get); 
-        exit;
+        $custom_get = $prli_utils->decode_custom_param_str($link->param_struct, $match_val[2]);
       }
+
+      $prli_utils->track_link($link->slug,$custom_get); 
+      exit;
     }
   }
 }
@@ -454,10 +418,10 @@ function prli_install() {
     add_option('prli_param_forwarding_updated',true);
   }
 
-  if( get_option( 'prli_rewrite_mode' ) == null )
+  // Flush the apache rules if rewrite is on
+  if( get_option( 'prli_rewrite_mode' ) == 'on' )
   {
     global $wp_rewrite;
-    add_option( 'prli_rewrite_mode', 'off' );
     $wp_rewrite->flush_rules();
   }
 

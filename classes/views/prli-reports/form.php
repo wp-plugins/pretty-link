@@ -12,7 +12,7 @@
         foreach($prli_link->getAll() as $link)
         {
             ?>
-          <option value="<?php print $link->id; ?>"<?php print (($_POST['link'] == $link->id)?" selected=\"true\"":""); ?>><?php print $link->slug; ?>&nbsp;</option>
+          <option value="<?php print $link->id; ?>"<?php print (($_POST['link'] == $link->id)?" selected=\"true\"":""); ?>><?php print $link->name; ?>&nbsp;</option>
           <?php
         }
       ?>
