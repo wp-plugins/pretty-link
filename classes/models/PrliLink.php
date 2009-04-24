@@ -20,7 +20,7 @@ class PrliLink
                      $values['param_forwarding'] . '\',\'' . 
                      $values['param_struct'] . '\',\'' . 
                      $values['redirect_type'] . '\',\'' . 
-                     stripslashes($values['description']) . '\',' . 
+                     $values['description'] . '\',' . 
                      (int)isset($values['track_as_img']) . ',' . 
                      'NOW())';
       $query_results = $wpdb->query($query);
@@ -40,7 +40,7 @@ class PrliLink
                       ' param_forwarding=\'' . $values['param_forwarding'] . '\', ' .
                       ' param_struct=\'' . $values['param_struct'] . '\', ' .
                       ' redirect_type=\'' . $values['redirect_type'] . '\', ' .
-                      ' description=\'' . stripslashes($values['description']) . '\', ' .
+                      ' description=\'' . $values['description'] . '\', ' .
                       ' track_as_img=' . (int)isset($values['track_as_img']) .
                   ' WHERE id='.$id;
       $query_results = $wpdb->query($query);
