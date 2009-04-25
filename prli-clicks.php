@@ -76,6 +76,16 @@ else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
 
     $link_name = ((empty($link_name))?$link_slug:$link_name);
   }
+  else if(isset($_GET['ip']))
+  {
+    $link_name = "ip_addr_" . $_GET['ip'];
+    $where_clause = " AND cl.ip='".$_GET['ip']."'";
+  }
+  else if(isset($_GET['vuid']))
+  {
+    $link_name = "visitor_" . $_GET['vuid'];
+    $where_clause = " AND cl.vuid='".$_GET['vuid']."'";
+  }
   else
   {
     $link_name = "all_links";

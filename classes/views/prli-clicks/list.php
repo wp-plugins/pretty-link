@@ -87,19 +87,10 @@
     </tr>
     </tfoot>
 </table>
+
+<a href="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv<?php echo $page_params; ?>">Download CSV (<?php echo $link_name; ?>)</a>
+
 <?php
-  if(isset($_GET['l']))
-  {
-?>
-    <a href="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv&l=<?php echo $_GET['l']; ?>">Download CSV (<?php echo $link_name; ?>)</a>
-<?php
-  }
-  else
-  {
-?>
-    <a href="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php?action=csv">Download CSV (<?php echo $link_name; ?>)</a>
-<?php
-  }
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');
 ?>
 
