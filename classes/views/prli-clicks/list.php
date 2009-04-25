@@ -62,8 +62,8 @@
       ?>
       <tr>
         <td><img src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/images/browser/<?php echo prli_browser_image($click->btype); ?>" alt="<?php echo $click->btype . " v" . $click->bversion; ?>" title="<?php echo $click->btype . " v" . $click->bversion; ?>"/>&nbsp;<img src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/images/os/<?php echo prli_os_image($click->os); ?>" alt="<?php echo $click->os; ?>" title="<?php echo $click->os; ?>"/></td>
-        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&ip=<?php echo $click->ip; ?>" title="View All Activity for IP Address: <?php echo $click->ip; ?>"><?php echo $click->ip; ?></a></td>
-        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&vuid=<?php echo $click->vuid; ?>" title="View All Activity for Visitor: <?php echo $click->vuid; ?>"><?php echo $click->vuid; ?></a></td>
+        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&ip=<?php echo $click->ip; ?>" title="View All Activity for IP Address: <?php echo $click->ip; ?>"><?php echo $click->ip; ?> (<?php echo $click->ip_count; ?>)</a></td>
+        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&vuid=<?php echo $click->vuid; ?>" title="View All Activity for Visitor: <?php echo $click->vuid; ?>"><?php echo $click->vuid; ?><?php echo (($click->vuid != null)?" ($click->vuid_count)":''); ?></a></td>
         <td><?php echo $click->created_at; ?></td>
         <td><?php echo $click->host; ?></td>
         <td><?php echo $click->uri; ?></td>
