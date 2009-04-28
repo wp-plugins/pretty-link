@@ -106,5 +106,125 @@ class PrliClick
       return $vuid;
     }
 
+    function get_counts_by_days($start_timestamp, $end_timestamp, $link_id = "all", $type = "all")
+    {
+      global $wpdb;
+
+      $query = "SELECT DATE(cl.created_at) as cldate,COUNT(*) as clcount FROM ".$this->table_name()." cl WHERE DATE(cl.created_at) BETWEEN '".date("Y-n-j",$start_timestamp)."' AND '".date("Y-n-j",$end_timestamp)."'".$search_where.$this->get_exclude_where_clause( ' AND' );
+
+      if($link_id != "all")
+        $query .= " AND link_id=$link_id";
+
+      if($type == "unique")
+        $query .= " AND first_click=1";
+
+      $query .= ' GROUP BY DATE(cl.created_at)';
+
+      $clicks_array = $wpdb->get_results($query);
+
+      $temp_array = array();
+      $counts_array = array();
+      $dates_array = array();
+
+      // Refactor Array for use later on
+      foreach($clicks_array as $c)
+        $temp_array[$c->cldate] = $c->clcount;
+
+      // Get the dates array
+      for($c = $start_timestamp; $c <= $end_timestamp; $c += 60*60*24)
+        $dates_array[] = date("Y-m-d",$c);
+
+      // Make sure counts array is in order and includes zero click days
+      foreach($dates_array as $date_str)
+      {
+        if(isset($temp_array[$date_str]))
+          $counts_array[$date_str] = $temp_array[$date_str];
+        else
+          $counts_array[$date_str] = 0;
+      }
+
+      return $counts_array;
+    }
+
+
+    function setupClickLineGraph($start_timestamp,$end_timestamp, $link_id = "all", $type = "all")
+    {
+      global $wpdb, $prli_utils, $prli_link;
+
+      $dates_array = $this->get_counts_by_days($start_timestamp,$end_timestamp,$link_id,$type);
+
+      $top_click_count = $prli_utils->getTopValue(array_values($dates_array));
+
+      if($link_id == "all")
+        $link_slug = "all links";
+      else
+        $link_slug = "'/".$wpdb->get_var("SELECT slug FROM ".$prli_link->table_name()." WHERE id=$link_id") . "'";
+
+      if($type == "all")
+        $type_string = "All hits";
+      else
+        $type_string = "Unique hits";
+
+      $json_array = array(
+        "elements" => array( array( 
+          "type" => "line", 
+          "values" => array_values($dates_array),
+          "dot-style" => array( 
+            "type" => "dot",
+            "dot-size" => 4,
+            "colour" => "#ffc94e",
+            "halo-size" => 1,
+            "tip" => "#val# hits"
+          ),
+          "width" => 2
+        ) ),
+        "title" => array(
+          "text" => 'Pretty Link: '.$type_string.' on '.$link_slug. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp),
+          "style" => "font-size: 16px; font-weight: bold; color: #3030d0; text-align: center; padding-bottom: 5px;"
+        ),
+        "bg_colour" => "-1",
+        "y_axis" => array(
+          "min" => 0,
+          "max" => $top_click_count,
+          "steps" => (int)(($top_click_count>=10)?$top_click_count/10:1),
+          "colour" => "#A2ACBA"
+        ),
+        "x_axis" => array(
+          "colour" => "#A2ACBA",
+          "grid-colour" => "#ffefa7",
+          "offset" => false,
+          "steps" => 4,
+          "labels" => array(
+            "steps" => 2,
+            "rotate" => 45,
+            "colour" => "#000000",
+            "labels" => array_keys($dates_array) 
+          )
+        )
+      );
+
+      return $prli_utils->prli_json_encode($json_array);
+    }
+
+
+    // Set defaults and grab get or post of each possible param
+    function get_params_array()
+    {
+      $values = array(
+         'paged'  => (isset($_GET['paged'])?$_GET['paged']:(isset($_POST['paged'])?$_POST['paged']:1)),
+         'l'      => (isset($_GET['l'])?$_GET['l']:(isset($_POST['l'])?$_POST['l']:'all')),
+         'ip'     => (isset($_GET['ip'])?$_GET['ip']:(isset($_POST['ip'])?$_POST['ip']:'')),
+         'vuid'   => (isset($_GET['vuid'])?$_GET['vuid']:(isset($_POST['vuid'])?$_POST['vuid']:'')),
+         'sdate'  => (isset($_GET['sdate'])?$_GET['sdate']:(isset($_POST['sdate'])?$_POST['sdate']:'')),
+         'edate'  => (isset($_GET['edate'])?$_GET['edate']:(isset($_POST['edate'])?$_POST['edate']:'')),
+         'type'   => (isset($_GET['type'])?$_GET['type']:(isset($_POST['type'])?$_POST['type']:'all')),
+         'search' => (isset($_GET['search'])?$_GET['search']:(isset($_POST['search'])?$_POST['search']:'')),
+         'sort'   => (isset($_GET['sort'])?$_GET['sort']:(isset($_POST['sort'])?$_POST['sort']:'')),
+         'sdir'   => (isset($_GET['sdir'])?$_GET['sdir']:(isset($_POST['sdir'])?$_POST['sdir']:''))
+      );
+
+      return $values;
+    }
+
 }
 ?>

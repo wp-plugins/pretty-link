@@ -11,45 +11,69 @@ $controller_file = 'prli-clicks.php';
 
 if($_GET['action'] == null and $_POST['action'] == null)
 {
-  // Required for Pagination to work
-  if($_GET['paged'] != null)
-  {
-    $current_page = $_GET['paged'];
-  }
-  else
-  {
-    $current_page = 1;
-  }
+  $page_params = '';
 
-  if(isset($_GET['l']))
-  {
-    $where_clause = " cl.link_id=".$_GET['l'];
-    $link_name = $wpdb->get_var("SELECT name FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
-    $link_slug = $wpdb->get_var("SELECT slug FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
+  $params = $prli_click->get_params_array();
 
-    $link_name = ((empty($link_name))?$link_slug:$link_name);
-    $page_params = "&l=".$_GET['l'];
-  }
-  else if(isset($_GET['ip']))
+  $current_page = $params['paged'];
+
+  $start_timestamp = $prli_utils->get_start_date($params);
+  $end_timestamp = $prli_utils->get_end_date($params);
+
+  $start_timestamp = mktime(0, 0, 0, date('n', $start_timestamp), date('j', $start_timestamp), date('Y', $start_timestamp));
+  $end_timestamp   = mktime(0, 0, 0, date('n', $end_timestamp),   date('j', $end_timestamp),   date('Y', $end_timestamp)  );
+
+  $sdyear = date('Y',$start_timestamp);
+  $sdmon  = date('n',$start_timestamp);
+  $sddom  = date('j',$start_timestamp);
+
+  $edyear = date('Y',$end_timestamp);
+  $edmon  = date('n',$end_timestamp);
+  $eddom  = date('j',$end_timestamp);
+
+  $where_clause = " DATE(cl.created_at) BETWEEN '$sdyear-$sdmon-$sddom' AND '$edyear-$edmon-$eddom'";
+
+  if(!empty($params['sdate']))
+    $page_params .= "&sdate=".$params['sdate'];
+
+  if(!empty($params['edate']))
+    $page_params .= "&edate=".$params['edate'];
+
+  if(!empty($params['l']) and $params['l'] != 'all')
   {
-    $link_name = "IP Address: " . $_GET['ip'];
-    $where_clause = " cl.ip='".$_GET['ip']."'";
-    $page_params = "&ip=".$_GET['ip'];
+    $where_clause .= (($params['l'] != 'all')?" AND cl.link_id=".$params['l']:'');
+    $link_name = $wpdb->get_var("SELECT name FROM ".$wpdb->prefix."prli_links WHERE id=".$params['l']);
+    $link_slug = $wpdb->get_var("SELECT slug FROM ".$wpdb->prefix."prli_links WHERE id=".$params['l']);
+
+    $page_params .= "&l=".$params['l'];
   }
-  else if(isset($_GET['vuid']))
+  else if(!empty($params['ip']))
   {
-    $link_name = "Visitor: " . $_GET['vuid'];
-    $where_clause = " cl.vuid='".$_GET['vuid']."'";
-    $page_params = "&vuid=".$_GET['vuid'];
+    $link_name = "IP Address: " . $params['ip'];
+    $where_clause .= " AND cl.ip='".$params['ip']."'";
+    $page_params .= "&ip=".$params['ip'];
+  }
+  else if(!empty($params['vuid']))
+  {
+    $link_name = "Visitor: " . $params['vuid'];
+    $where_clause .= " AND cl.vuid='".$params['vuid']."'";
+    $page_params .= "&vuid=".$params['vuid'];
   }
   else
   {
     $link_name = "All Links";
-    $where_clause = "";
-    $page_params = "";
+    $where_clause .= "";
+    $page_params .= "";
   }
 
-  $click_vars = prli_get_click_sort_vars($where_clause);
+  if($params['type'] == "unique")
+  {
+    $where_clause .= " AND first_click=1";
+    $page_params .= "&type=unique";
+  }
+
+  $click_vars = prli_get_click_sort_vars($params,$where_clause);
+  $sort_params = $page_params . $click_vars['sort_params'];
   $page_params .= $click_vars['page_params'];
   $sort_str = $click_vars['sort_str'];
   $sdir_str = $click_vars['sdir_str'];
@@ -74,8 +98,6 @@ else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
     $where_clause = " link_id=".$_GET['l'];
     $link_name = $wpdb->get_var("SELECT name FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
     $link_slug = $wpdb->get_var("SELECT slug FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
-
-    $link_name = ((empty($link_name))?$link_slug:$link_name);
   }
   else if(isset($_GET['ip']))
   {
@@ -98,15 +120,15 @@ else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
 }
 
 // Helpers
-function prli_get_click_sort_vars($where_clause = '')
+function prli_get_click_sort_vars($params,$where_clause = '')
 {
   $count_where_clause = '';
   $page_params = '';
 
   // These will have to work with both get and post
-  $sort_str = (isset($_GET['sort'])?$_GET['sort']:$_POST['sort']);
-  $sdir_str = (isset($_GET['sdir'])?$_GET['sdir']:$_POST['sdir']);
-  $search_str = (isset($_GET['search'])?$_GET['search']:$_POST['search']);
+  $sort_str   = $params['sort'];
+  $sdir_str   = $params['sdir'];
+  $search_str = $params['search'];
 
   // Insert search string
   if(!empty($search_str))
@@ -140,6 +162,9 @@ function prli_get_click_sort_vars($where_clause = '')
 
     $page_params .="&search=$search_str";
   }
+
+  // Have to create a separate var so sorting doesn't get screwed up
+  $sort_params = $page_params;
 
   // make sure page params stay correct
   if(!empty($sort_str))
@@ -185,6 +210,9 @@ function prli_get_click_sort_vars($where_clause = '')
                'search_str' => $search_str, 
                'where_clause' => $where_clause, 
                'order_by' => $order_by,
+               'sort_params' => $sort_params,
                'page_params' => $page_params);
 }
+
+
 ?>

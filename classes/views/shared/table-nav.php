@@ -3,7 +3,7 @@
   if($page_count > 1)
   {
       ?>
-    <div class="tablenav">
+    <div class="tablenav"<?php echo (isset($navstyle)?" style=\"$navstyle\"":''); ?>>
       <div class='tablenav-pages'><span class="displaying-num">Displaying <?php print "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
         
         <?php
