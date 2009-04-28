@@ -388,5 +388,10 @@ function decode_custom_param_str($param_struct, $uri_string)
       return $end_timestamp;
     }
 
+    function prepend_and_or_where( $starts_with = ' WHERE', $where = '' )
+    {
+      return (( $where == '' )?'':$starts_with . $where);
+    }
+
 }
 ?>

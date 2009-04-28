@@ -108,13 +108,13 @@ class PrliLink
         return ceil((int)$this->getRecordCount($where) / (int)$p_size);
     }
 
-    function getPage($current_p,$p_size, $where = "")
+    function getPage($current_p,$p_size, $where = "", $order_by = '')
     {
-        global $wpdb, $prli_click;
+        global $wpdb, $prli_click, $prli_utils;
         $click_table = $wpdb->prefix . "prli_clicks";
         $end_index = $current_p * $p_size;
         $start_index = $end_index - $p_size;
-        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li' . $where . ' LIMIT ' . $start_index . ',' . $p_size . ';';
+        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li' . $prli_utils->prepend_and_or_where(' AND', $where) . $order_by .' LIMIT ' . $start_index . ',' . $p_size . ';';
         $results = $wpdb->get_results($query);
         return $results;
     }
@@ -162,6 +162,23 @@ class PrliLink
         return $prli_blogurl . '/' . $link->slug . $link->param_struct;
       else
         return $prli_blogurl . '/' . $link->slug;
+    }
+
+    // Set defaults and grab get or post of each possible param
+    function get_params_array()
+    {
+      $values = array(
+         'action'     => (isset($_GET['action'])?$_GET['action']:(isset($_POST['action'])?$_POST['action']:'list')),
+         'regenerate' => (isset($_GET['regenerate'])?$_GET['regenerate']:(isset($_POST['regenerate'])?$_POST['regenerate']:'false')),
+         'id'         => (isset($_GET['id'])?$_GET['id']:(isset($_POST['id'])?$_POST['id']:'')),
+         'paged'      => (isset($_GET['paged'])?$_GET['paged']:(isset($_POST['paged'])?$_POST['paged']:1)),
+         'group'      => (isset($_GET['group'])?$_GET['group']:(isset($_POST['group'])?$_POST['group']:'')),
+         'search'     => (isset($_GET['search'])?$_GET['search']:(isset($_POST['search'])?$_POST['search']:'')),
+         'sort'       => (isset($_GET['sort'])?$_GET['sort']:(isset($_POST['sort'])?$_POST['sort']:'')),
+         'sdir'       => (isset($_GET['sdir'])?$_GET['sdir']:(isset($_POST['sdir'])?$_POST['sdir']:''))
+      );
+
+      return $values;
     }
 
     function validate( $values )

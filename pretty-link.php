@@ -33,12 +33,14 @@ function prli_menu()
   add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Add New Link', 'Add New Link', 8, PRLI_PATH.'/prli-add-link.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 8, PRLI_PATH.'/prli-clicks.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 8, PRLI_PATH.'/prli-groups.php');
 
   add_options_page('Pretty Link Settings', 'Pretty Link', 8, PRLI_PATH.'/prli-options.php');
 
   add_action('admin_head-pretty-link/prli-clicks.php', 'prli_reports_admin_header');
   add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');
   add_action('admin_head-pretty-link/prli-add-link.php', 'prli_links_admin_header');
+  add_action('admin_head-pretty-link/prli-groups.php', 'prli_links_admin_header');
 }
 
 add_action('admin_menu', 'prli_menu');
@@ -120,11 +122,12 @@ function prli_redirect()
 add_action('init', 'prli_redirect'); //Redirect
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.1.10";
+$prli_db_version = "0.1.12";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
 
+  $groups_table = $wpdb->prefix . "prli_groups";
   $clicks_table = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
 
@@ -153,8 +156,7 @@ function prli_install() {
               PRIMARY KEY  (id),
               KEY link_id (link_id),
               KEY vuid (vuid)".
-              // We won't worry about this constraint for now -- when we delete links we want the clicks
-              // to stick around anyway -- we won't worry about them being orphans, k?
+              // We won't worry about this constraint for now.
               //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)
             ");";
     
@@ -172,8 +174,21 @@ function prli_install() {
               param_struct varchar(255) default NULL,
               redirect_type varchar(255) default '307',
               created_at datetime NOT NULL,
+              group_id int(11) default NULL,
               PRIMARY KEY  (id),
+              KEY group_id (group_id),
               KEY slug (slug)
+            );";
+    
+    dbDelta($sql);
+
+    /* Create/Upgrade Groups Table */
+    $sql = "CREATE TABLE " . $groups_table . " (
+              id int(11) NOT NULL auto_increment,
+              name varchar(255) default NULL,
+              description text default NULL,
+              created_at datetime NOT NULL,
+              PRIMARY KEY  (id)
             );";
     
     dbDelta($sql);

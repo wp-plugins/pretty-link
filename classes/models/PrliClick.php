@@ -33,16 +33,11 @@ class PrliClick
         return '';
     }
 
-    function prepend_and_or_where( $starts_with = ' WHERE', $where = '' )
-    {
-      return (( $where == '' )?'':$starts_with . $where);
-    }
-
     function getOne( $id )
     {
-        global $wpdb, $prli_link;
+        global $wpdb, $prli_link, $prli_utils;
         $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name() .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name() .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name() . ' cl, ' . $prli_link->table_name() . ' li WHERE li.id = cl.link_id AND id=' . $id . $this->prepend_and_or_where(' AND',$this->get_exclude_where_clause());
+        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name() .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name() .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name() . ' cl, ' . $prli_link->table_name() . ' li WHERE li.id = cl.link_id AND id=' . $id . $prli_utils->prepend_and_or_where(' AND',$this->get_exclude_where_clause());
     
         return $wpdb->get_row($query);
     }
@@ -50,10 +45,10 @@ class PrliClick
     // SELECT cl.*,li.name as link_name FROM wp_prli_clicks cl, wp_prli_links li WHERE li.id = cl.link_id ORDER BY created_at DESC
     function getAll($where = '', $order = '')
     {
-        global $wpdb, $prli_link;
+        global $wpdb, $prli_link, $prli_utils;
         $click_table = $wpdb->prefix . "prli_clicks";
         $where .= $this->get_exclude_where_clause( $where );
-        $where = $this->prepend_and_or_where(' AND', $where);
+        $where = $prli_utils->prepend_and_or_where(' AND', $where);
         $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name() .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name() .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name() . ' cl, ' . $prli_link->table_name() . ' li WHERE li.id = cl.link_id' . $where . $order;
         return $wpdb->get_results($query);
     }
@@ -61,9 +56,9 @@ class PrliClick
     // Pagination Methods
     function getRecordCount($where='')
     {
-        global $wpdb, $prli_link;
+        global $wpdb, $prli_link, $prli_utils;
         $where .= $this->get_exclude_where_clause( $where );
-        $where = $this->prepend_and_or_where(' WHERE', $where);
+        $where = $prli_utils->prepend_and_or_where(' WHERE', $where);
         $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . ' cl'. $where;
         return $wpdb->get_var($query);
     }
@@ -75,12 +70,12 @@ class PrliClick
 
     function getPage($current_p,$p_size, $where = '', $order = '')
     {
-        global $wpdb, $prli_link;
+        global $wpdb, $prli_link, $prli_utils;
         $click_table = $wpdb->prefix . "prli_clicks";
         $end_index = $current_p * $p_size;
         $start_index = $end_index - $p_size;
         $where .= $this->get_exclude_where_clause( $where );
-        $where = $this->prepend_and_or_where(' AND', $where);
+        $where = $prli_utils->prepend_and_or_where(' AND', $where);
         $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name() .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name() .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name() . ' cl, ' . $prli_link->table_name() . ' li WHERE li.id = cl.link_id' . $where . $order . ' LIMIT ' . $start_index . ',' . $p_size . ';';
         $results = $wpdb->get_results($query);
         return $results;

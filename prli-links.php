@@ -4,40 +4,24 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
 $controller_file = 'prli-links.php';
 
-if($_GET['action'] == null and $_POST['action'] == null)
-{
-  $prli_message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
+$params = $prli_link->get_params_array();
 
-  if(isset($_GET['regenerate']) and $_GET['regenerate'] == 'true')
+if($params['action'] == 'list')
+{
+  if($params['regenerate'] == 'true')
   {
     $wp_rewrite->flush_rules();
     $prli_message = "Your Pretty Links were Successfully Regenerated";
   }
 
-  // Required for Pagination to work
-  if($_GET['paged'] != null)
-    $current_page = $_GET['paged'];
-  else
-    $current_page = 1;
-
-  $link_vars = prli_get_link_sort_vars();
-  $page_params = $link_vars['page_params'];
-  $sort_str = $link_vars['sort_str'];
-  $sdir_str = $link_vars['sdir_str'];
-  $search_str = $link_vars['search_str'];
-
-  $record_count = $prli_link->getRecordCount($link_vars['count_where_clause']);
-  $page_count = $prli_link->getPageCount($page_size,$link_vars['count_where_clause']);
-  $links = $prli_link->getPage($current_page,$page_size,$link_vars['where_clause']);
-  $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
-  $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
-  require_once 'classes/views/prli-links/list.php';
+  $prli_message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
+  prli_display_links_list($params, $prli_message);
 }
-else if($_GET['action'] == 'new' or $_POST['action'] == 'new')
+else if($params['action'] == 'new')
 {
   require_once 'classes/views/prli-links/new.php';
 }
-else if($_GET['action'] == 'create' or $_POST['action'] == 'create')
+else if($params['action'] == 'create')
 {
   $errors = $prli_link->validate($_POST);
   if( count($errors) > 0 )
@@ -47,34 +31,17 @@ else if($_GET['action'] == 'create' or $_POST['action'] == 'create')
   else
   {
     $record = $prli_link->create( $_POST );
-
-    // Required for Pagination to work
-    $current_page = 1;
-
-    $link_vars = prli_get_link_sort_vars();
-    $page_params = $link_vars['page_params'];
-    $sort_str = $link_vars['sort_str'];
-    $sdir_str = $link_vars['sdir_str'];
-    $search_str = $link_vars['search_str'];
-
-    $record_count = $prli_link->getRecordCount($link_vars['count_where_clause']);
-    $page_count = $prli_link->getPageCount($page_size,$link_vars['count_where_clause']);
-    $links = $prli_link->getPage($current_page,$page_size,$link_vars['where_clause']);
-    $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
-    $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
-    $page_params = "";
     $prli_message = "Your Pretty Link was Successfully Created";
-
-    require_once 'classes/views/prli-links/list.php';
+    prli_display_links_list($params, $prli_message, '', 1);
   }
 }
-else if($_GET['action'] == 'edit' or $_POST['action'] == 'edit')
+else if($params['action'] == 'edit')
 {
-  $record = $prli_link->getOne( $_GET['id'] );
-  $id = $_GET['id'];
+  $record = $prli_link->getOne( $params['id'] );
+  $id = $params['id'];
   require_once 'classes/views/prli-links/edit.php';
 }
-else if($_GET['action'] == 'update' or $_POST['action'] == 'update')
+else if($params['action'] == 'update')
 {
   $errors = $prli_link->validate($_POST);
   $id = $_POST['id'];
@@ -85,104 +52,76 @@ else if($_GET['action'] == 'update' or $_POST['action'] == 'update')
   else
   {
     $record = $prli_link->update( $_POST['id'], $_POST );
-
-    // Required for Pagination to work
-    $current_page = 1;
-
-    $link_vars = prli_get_link_sort_vars();
-    $page_params = $link_vars['page_params'];
-    $sort_str = $link_vars['sort_str'];
-    $sdir_str = $link_vars['sdir_str'];
-    $search_str = $link_vars['search_str'];
-
-    $record_count = $prli_link->getRecordCount($link_vars['count_where_clause']);
-    $page_count = $prli_link->getPageCount($page_size,$link_vars['count_where_clause']);
-    $links = $prli_link->getPage($current_page,$page_size,$link_vars['where_clause']);
-    $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
-    $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
-    $page_params = "";
     $prli_message = "Your Pretty Link was Successfully Updated";
-
-    require_once 'classes/views/prli-links/list.php';
+    prli_display_links_list($params, $prli_message, '', 1);
   }
 }
-else if($_GET['action'] == 'reset')
+else if($params['action'] == 'reset')
 {
-  $prli_link->reset( $_GET['id'] );
-
-  // Required for Pagination to work
-  $current_page = 1;
-
-  $link_vars = prli_get_link_sort_vars();
-  $page_params = $link_vars['page_params'];
-  $sort_str = $link_vars['sort_str'];
-  $sdir_str = $link_vars['sdir_str'];
-  $search_str = $link_vars['search_str'];
-
-  $record_count = $prli_link->getRecordCount($link_vars['count_where_clause']);
-  $page_count = $prli_link->getPageCount($page_size,$link_vars['count_where_clause']);
-  $links = $prli_link->getPage($current_page,$page_size,$link_vars['where_clause']);
-  $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
-  $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
-  $page_params = "";
+  $prli_link->reset( $params['id'] );
   $prli_message = "Your Pretty Link was Successfully Reset";
-  require_once 'classes/views/prli-links/list.php';
+  prli_display_links_list($params, $prli_message, '', 1);
 }
-else if($_GET['action'] == 'destroy')
+else if($params['action'] == 'destroy')
 {
-  $prli_link->destroy( $_GET['id'] );
-
-  // Required for Pagination to work
-  $current_page = 1;
-
-  $link_vars = prli_get_link_sort_vars();
-  $page_params = $link_vars['page_params'];
-  $sort_str = $link_vars['sort_str'];
-  $sdir_str = $link_vars['sdir_str'];
-  $search_str = $link_vars['search_str'];
-
-  $record_count = $prli_link->getRecordCount($link_vars['count_where_clause']);
-  $page_count = $prli_link->getPageCount($page_size,$link_vars['count_where_clause']);
-  $links = $prli_link->getPage($current_page,$page_size,$link_vars['where_clause']);
-  $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
-  $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
-  $page_params = "";
+  $prli_link->destroy( $params['id'] );
   $prli_message = "Your Pretty Link was Successfully Destroyed";
-  require_once 'classes/views/prli-links/list.php';
+  prli_display_links_list($params, $prli_message, '', 1);
 }
 
 // Helpers
-function prli_get_link_sort_vars()
+function prli_display_links_list($params, $prli_message, $page_params_ov = false, $current_page_ov = false)
 {
-  $where_clause = '';
-  $count_where_clause = ''; // we need this var because we can't do a count of the meta-field "clicks"
+  global $wpdb, $prli_utils, $prli_click, $prli_link, $page_size;
+
+  $link_vars = prli_get_link_sort_vars($params);
+
+  if($current_page_ov)
+    $current_page = $current_page_ov;
+  else
+    $current_page = $params['paged'];
+
+  if($page_params_ov)
+    $page_params = $page_params_ov;
+  else
+    $page_params = $link_vars['page_params'];
+
+  $sort_str = $link_vars['sort_str'];
+  $sdir_str = $link_vars['sdir_str'];
+  $search_str = $link_vars['search_str'];
+
+  $record_count = $prli_link->getRecordCount($link_vars['count_where_clause']);
+  $page_count = $prli_link->getPageCount($page_size,$link_vars['count_where_clause']);
+  $links = $prli_link->getPage($current_page,$page_size,$link_vars['where_clause'],$link_vars['order_by']);
+  $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
+  $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
+
+  require_once 'classes/views/prli-links/list.php';
+}
+
+function prli_get_link_sort_vars($params,$where_clause = '')
+{
+  $order_by = '';
   $page_params = '';
 
   // These will have to work with both get and post
-  $sort_str = (isset($_GET['sort'])?$_GET['sort']:$_POST['sort']);
-  $sdir_str = (isset($_GET['sdir'])?$_GET['sdir']:$_POST['sdir']);
-  $search_str = (isset($_GET['search'])?$_GET['search']:$_POST['search']);
+  $sort_str = $params['sort'];
+  $sdir_str = $params['sdir'];
+  $search_str = $params['search'];
 
   // Insert search string
   if(!empty($search_str))
   {
     $search_params = explode(" ", $search_str);
 
-    $where_clause = " WHERE";
-
-    $first_param = true;
     foreach($search_params as $search_param)
     {
-      if(!$first_param)
-      {
+      if(!empty($where_clause))
         $where_clause .= " AND";
-      }
 
       $where_clause .= " (name like '%$search_param%' OR slug like '%$search_param%' or url like '%$search_param%' or created_at like '%$search_param%')";
-      $first_param = false;
     }
 
-    $count_where_clause = $where_clause;
     $page_params .="&search=$search_str";
   }
 
@@ -197,32 +136,24 @@ function prli_get_link_sort_vars()
   switch($sort_str)
   {
     case "name":
-      $where_clause .= " ORDER BY name";
-      $count_where_clause = $where_clause;
-      break;
     case "clicks":
-      $where_clause .= " ORDER BY clicks";
-      $count_where_clause = "";
-      break;
     case "slug":
-      $where_clause .= " ORDER BY slug";
-      $count_where_clause = $where_clause;
+      $order_by .= " ORDER BY $sort_str";
       break;
     default:
-      $where_clause .= " ORDER BY created_at";
-      $count_where_clause = $where_clause;
+      $order_by .= " ORDER BY created_at";
   }
 
   // Toggle ascending / descending
   if((empty($sort_str) and empty($sdir_str)) or $sdir_str == 'desc')
   {
-    $where_clause .= ' DESC';
+    $order_by .= ' DESC';
     $sdir_str = 'desc';
   }
   else
     $sdir_str = 'asc';
 
-  return array('count_where_clause' => $count_where_clause,
+  return array('order_by' => $order_by,
                'sort_str' => $sort_str, 
                'sdir_str' => $sdir_str, 
                'search_str' => $search_str, 
