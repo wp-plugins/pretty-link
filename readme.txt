@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.3.13
+Stable tag: 1.3.14
 
 Shrink, track and share any URL on the Internet from your WordPress website. Unlike other link shrinking services like tinyurl, budurl, and bit.ly, this plugin allows you to create shortlinks coming from your own domain! Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, increase the reach of their website by spreading these links via Twitter, forums or comments on other blogs.
 
@@ -54,6 +54,8 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
 
 = Release Notes =
+
+1.3.14 - Big changes to Pretty Link reporting and Bug Fixes.
 
 1.3.13 - Bug Fixes
 
