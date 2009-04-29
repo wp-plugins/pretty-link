@@ -150,11 +150,9 @@ function prli_get_link_sort_vars($params,$where_clause = '')
   {
     case "name":
     case "clicks":
+    case "group_name":
     case "slug":
       $order_by .= " ORDER BY $sort_str";
-      break;
-    case "group":
-      $order_by .= " ORDER BY group";
       break;
     default:
       $order_by .= " ORDER BY created_at";

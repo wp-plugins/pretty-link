@@ -21,7 +21,7 @@
     </form>
   </div>
   <div id="button_bar">
-    <p><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=new">Add a Pretty Link Group</a></p>
+    <p><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=new">Add a Pretty Link Group</a></p>
   </div>
 
 <?php
