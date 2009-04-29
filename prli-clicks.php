@@ -7,7 +7,7 @@ require_once 'prli-config.php';
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
 require_once(PRLI_PATH . '/prli-image-lookups.php');
 
-$controller_file = 'prli-clicks.php';
+$controller_file = basename(__FILE__);
 
 if($_GET['action'] == null and $_POST['action'] == null)
 {
@@ -59,6 +59,13 @@ if($_GET['action'] == null and $_POST['action'] == null)
     $where_clause .= " AND cl.vuid='".$params['vuid']."'";
     $page_params .= "&vuid=".$params['vuid'];
   }
+  else if(!empty($params['group']))
+  {
+    $group = $prli_group->getOne($params['group']);
+    $link_name = "Group: " . $group->name;
+    $where_clause .= " AND cl.link_id IN (SELECT id FROM " . $prli_link->table_name() . " WHERE group_id=".$params['group'].")";
+    $page_params .= "&group=".$params['group'];
+  }
   else
   {
     $link_name = "All Links";
@@ -108,6 +115,12 @@ else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
   {
     $link_name = "visitor_" . $_GET['vuid'];
     $where_clause = " cl.vuid='".$_GET['vuid']."'";
+  }
+  else if(isset($_GET['group']))
+  {
+    $group = $prli_group->getOne($_GET['group']);
+    $link_name = "group_" . $group->name;
+    $where_clause .= " cl.link_id IN (SELECT id FROM " . $prli_link->table_name() . " WHERE group_id=".$_GET['group'].")";
   }
   else
   {

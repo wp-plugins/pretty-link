@@ -100,6 +100,6 @@ function moo() {
     //alert(99);
 };
     
-var data = <?php echo $prli_click->setupClickLineGraph($start_timestamp,$end_timestamp,$link_id,$type); ?>;
+var data = <?php echo $prli_click->setupClickLineGraph($start_timestamp,$end_timestamp,$link_id,$type,$group); ?>;
 
 </script>

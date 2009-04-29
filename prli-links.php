@@ -2,23 +2,26 @@
 require_once 'prli-config.php';
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
-$controller_file = 'prli-links.php';
-
 $params = $prli_link->get_params_array();
 
 if($params['action'] == 'list')
 {
+  if(empty($params['group']))
+    $prli_message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
+  else
+    $prli_message = "Links in Group: " . $wpdb->get_var("SELECT name FROM " . $prli_group->table_name() . " WHERE id=".$params['group']);
   if($params['regenerate'] == 'true')
   {
     $wp_rewrite->flush_rules();
     $prli_message = "Your Pretty Links were Successfully Regenerated";
   }
 
-  $prli_message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
   prli_display_links_list($params, $prli_message);
 }
 else if($params['action'] == 'new')
 {
+  $groups = $prli_group->getAll('',' ORDER BY name');
+
   require_once 'classes/views/prli-links/new.php';
 }
 else if($params['action'] == 'create')
@@ -37,6 +40,8 @@ else if($params['action'] == 'create')
 }
 else if($params['action'] == 'edit')
 {
+  $groups = $prli_group->getAll('',' ORDER BY name');
+
   $record = $prli_link->getOne( $params['id'] );
   $id = $params['id'];
   require_once 'classes/views/prli-links/edit.php';
@@ -72,9 +77,17 @@ else if($params['action'] == 'destroy')
 // Helpers
 function prli_display_links_list($params, $prli_message, $page_params_ov = false, $current_page_ov = false)
 {
-  global $wpdb, $prli_utils, $prli_click, $prli_link, $page_size;
+  global $wpdb, $prli_utils, $prli_click, $prli_group, $prli_link, $page_size;
 
-  $link_vars = prli_get_link_sort_vars($params);
+  $controller_file = basename(__FILE__);
+
+  if(!empty($params['group']))
+  {
+    $where_clause = " group_id=" . $params['group'];
+    $page_params = "&group=" . $params['group'];
+  }
+
+  $link_vars = prli_get_link_sort_vars($params, $where_clause);
 
   if($current_page_ov)
     $current_page = $current_page_ov;
@@ -82,16 +95,16 @@ function prli_display_links_list($params, $prli_message, $page_params_ov = false
     $current_page = $params['paged'];
 
   if($page_params_ov)
-    $page_params = $page_params_ov;
+    $page_params .= $page_params_ov;
   else
-    $page_params = $link_vars['page_params'];
+    $page_params .= $link_vars['page_params'];
 
   $sort_str = $link_vars['sort_str'];
   $sdir_str = $link_vars['sdir_str'];
   $search_str = $link_vars['search_str'];
 
-  $record_count = $prli_link->getRecordCount($link_vars['count_where_clause']);
-  $page_count = $prli_link->getPageCount($page_size,$link_vars['count_where_clause']);
+  $record_count = $prli_link->getRecordCount($link_vars['where_clause']);
+  $page_count = $prli_link->getPageCount($page_size,$link_vars['where_clause']);
   $links = $prli_link->getPage($current_page,$page_size,$link_vars['where_clause'],$link_vars['order_by']);
   $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
   $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
@@ -139,6 +152,9 @@ function prli_get_link_sort_vars($params,$where_clause = '')
     case "clicks":
     case "slug":
       $order_by .= " ORDER BY $sort_str";
+      break;
+    case "group":
+      $order_by .= " ORDER BY group";
       break;
     default:
       $order_by .= " ORDER BY created_at";

@@ -31,6 +31,22 @@
     <td><textarea style="height: 100px;" name="description"><?php print (($_POST['description'] != null and $record == null)?$_POST['description']:$record->description); ?></textarea>
     <br/><span class="setting-description">A Description of this link.</span></td>
   </tr>
+  <tr class="form-field">
+    <td valign="top">Group:</td>
+    <td>
+    <select name="group_id">
+      <option>None</option>
+    <?php
+      foreach($groups as $group)
+      {
+    ?>
+        <option value="<?php echo $group->id; ?>"<?php echo ((($_POST['group_id'] == $group->id) or ($record->group_id == $group->id))?' selected="true"':''); ?>><?php echo $group->name; ?></option>
+    <?php
+      }
+    ?>
+    </select>
+    <br/><span class="setting-description">Select a group for this link. <strong>(optional)</strong></span></td>
+  </tr>
 </table>
 <a href="#" class="advanced_toggle">Advanced Options</a>
 <div class="advanced_pane">

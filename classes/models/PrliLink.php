@@ -13,7 +13,7 @@ class PrliLink
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,track_as_img,created_at) VALUES (\'' .
+               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,track_as_img,group_id,created_at) VALUES (\'' .
                      $values['url'] . '\',\'' . 
                      $values['slug'] . '\',\'' . 
                      $values['name'] . '\',\'' . 
@@ -22,9 +22,9 @@ class PrliLink
                      $values['redirect_type'] . '\',\'' . 
                      $values['description'] . '\',' . 
                      (int)isset($values['track_as_img']) . ',' . 
+                     (isset($values['group_id'])?(int)$values['group_id']:'NULL') . ',' . 
                      'NOW())';
       $query_results = $wpdb->query($query);
-      $wp_rewrite->flush_rules();
       return $query_results;
     }
 
@@ -41,10 +41,10 @@ class PrliLink
                       ' param_struct=\'' . $values['param_struct'] . '\', ' .
                       ' redirect_type=\'' . $values['redirect_type'] . '\', ' .
                       ' description=\'' . $values['description'] . '\', ' .
-                      ' track_as_img=' . (int)isset($values['track_as_img']) .
+                      ' track_as_img=' . (int)isset($values['track_as_img']) . ',' .
+                      ' group_id=' . (isset($values['group_id'])?(int)$values['group_id']:'NULL') . 
                   ' WHERE id='.$id;
       $query_results = $wpdb->query($query);
-      $wp_rewrite->flush_rules();
       return $query_results;
     }
 
@@ -55,8 +55,6 @@ class PrliLink
 
       $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
       $destroy = 'DELETE FROM ' . $this->table_name() .  ' WHERE id=' . $id;
-
-      $wp_rewrite->flush_rules();
 
       $wpdb->query($reset);
       return $wpdb->query($destroy);
@@ -73,50 +71,46 @@ class PrliLink
 
     function getOneFromSlug( $slug )
     {
-        global $wpdb;
-        $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT * FROM ' . $this->table_name() . ' WHERE slug=\'' . $slug . '\'';
-        return $wpdb->get_row($query);
+      global $wpdb;
+      $query = 'SELECT * FROM ' . $this->table_name() . ' WHERE slug=\'' . $slug . '\'';
+      return $wpdb->get_row($query);
     }
 
     function getOne( $id )
     {
-        global $wpdb, $prli_click;
-        $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li WHERE id=' . $id . ';';
-        return $wpdb->get_row($query);
+      global $wpdb, $prli_click;
+      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li WHERE id=' . $id;
+      return $wpdb->get_row($query);
     }
 
-    function getAll()
+    function getAll($where = '')
     {
-        global $wpdb, $prli_click;
-        $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li;';
-        return $wpdb->get_results($query);
+      global $wpdb, $prli_click, $prli_group;
+      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, gr.name as group_name FROM '. $this->table_name() . ' li LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . $prli_utils->prepend_and_or_where(' WHERE', $where);
+      return $wpdb->get_results($query);
     }
 
     // Pagination Methods
     function getRecordCount($where="")
     {
-        global $wpdb;
-        $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . $where;
-        return $wpdb->get_var($query);
+      global $wpdb, $prli_utils;
+      $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . $prli_utils->prepend_and_or_where(' WHERE', $where);
+      return $wpdb->get_var($query);
     }
 
     function getPageCount($p_size, $where="")
     {
-        return ceil((int)$this->getRecordCount($where) / (int)$p_size);
+      return ceil((int)$this->getRecordCount($where) / (int)$p_size);
     }
 
     function getPage($current_p,$p_size, $where = "", $order_by = '')
     {
-        global $wpdb, $prli_click, $prli_utils;
-        $click_table = $wpdb->prefix . "prli_clicks";
-        $end_index = $current_p * $p_size;
-        $start_index = $end_index - $p_size;
-        $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $click_table . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li' . $prli_utils->prepend_and_or_where(' AND', $where) . $order_by .' LIMIT ' . $start_index . ',' . $p_size . ';';
-        $results = $wpdb->get_results($query);
-        return $results;
+      global $wpdb, $prli_click, $prli_utils, $prli_group;
+      $end_index = $current_p * $p_size;
+      $start_index = $end_index - $p_size;
+      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, gr.name as group_name FROM ' . $this->table_name() . ' li LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by .' LIMIT ' . $start_index . ',' . $p_size . ';';
+      $results = $wpdb->get_results($query);
+      return $results;
     }
 
     /** I'm generating a slug that is by default 2-3 characters long.
@@ -171,6 +165,7 @@ class PrliLink
          'action'     => (isset($_GET['action'])?$_GET['action']:(isset($_POST['action'])?$_POST['action']:'list')),
          'regenerate' => (isset($_GET['regenerate'])?$_GET['regenerate']:(isset($_POST['regenerate'])?$_POST['regenerate']:'false')),
          'id'         => (isset($_GET['id'])?$_GET['id']:(isset($_POST['id'])?$_POST['id']:'')),
+         'group_name' => (isset($_GET['group_name'])?$_GET['group_name']:(isset($_POST['group_name'])?$_POST['group_name']:'')),
          'paged'      => (isset($_GET['paged'])?$_GET['paged']:(isset($_POST['paged'])?$_POST['paged']:1)),
          'group'      => (isset($_GET['group'])?$_GET['group']:(isset($_POST['group'])?$_POST['group']:'')),
          'search'     => (isset($_GET['search'])?$_GET['search']:(isset($_POST['search'])?$_POST['search']:'')),
@@ -213,17 +208,6 @@ class PrliLink
 
       if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and !preg_match('#%.*?%#', $values['param_struct']) )
         $errors[] = "Your parameter forwarding must have at least one parameter specified in the format ex: <code>/%var1%/%var_two%/%varname3% ...</code>";
-
-      /*
-      if(isset($values['track_as_img']) and $values['track_as_img'] == 'on' and $values['url'] != null and $values['url'] != '')
-      {
-        $size = getimagesize($values['url']);
-        if(!preg_match('#image#',$size['mime']))
-        {
-          $errors[] = "If you want to track this pretty link as an image then your target url must be an image (png, jpeg, gif, etc.)";
-        }
-      }
-      */
 
       return $errors;
     }

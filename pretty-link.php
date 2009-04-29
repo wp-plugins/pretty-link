@@ -32,6 +32,7 @@ function prli_menu()
 {
   add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Add New Link', 'Add New Link', 8, PRLI_PATH.'/prli-add-link.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 8, PRLI_PATH.'/prli-groups.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 8, PRLI_PATH.'/prli-clicks.php');
 
   add_options_page('Pretty Link Settings', 'Pretty Link', 8, PRLI_PATH.'/prli-options.php');
@@ -39,6 +40,7 @@ function prli_menu()
   add_action('admin_head-pretty-link/prli-clicks.php', 'prli_reports_admin_header');
   add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');
   add_action('admin_head-pretty-link/prli-add-link.php', 'prli_links_admin_header');
+  add_action('admin_head-pretty-link/prli-groups.php', 'prli_groups_admin_header');
 }
 
 add_action('admin_menu', 'prli_menu');
@@ -75,6 +77,7 @@ function prli_reports_admin_header()
 
     $link_id = $params['l'];
     $type = $params['type'];
+    $group = $params['group'];
 
     require_once 'classes/views/prli-clicks/head.php';
   }
@@ -85,6 +88,13 @@ function prli_links_admin_header()
 {
   global $prli_siteurl;
   require_once 'classes/views/prli-links/head.php';
+}
+
+/* Add header to the prli-links page */
+function prli_groups_admin_header()
+{
+  global $prli_siteurl;
+  require_once 'classes/views/prli-groups/head.php';
 }
 
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/

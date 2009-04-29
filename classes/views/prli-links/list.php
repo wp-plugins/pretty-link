@@ -1,6 +1,10 @@
 <div class="wrap">
   <p style="font-size: 14px; font-weight: bold; float: right; padding-top: 25px;"><a href="http://blairwilliams.com/faq" target="_blank">Get Help</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/blog" target="_blank">Blog</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/don" target="_blank">Donate</a></p>
   <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Links</h2>
+  <?php
+  if(empty($params['group']))
+  {
+  ?>
   <div id="message" class="updated fade" style="padding:5px;"><?php echo $prli_message; ?></div> 
   <div id="search_pane" style="float: right;">
     <form class="form-fields" name="link_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
@@ -25,6 +29,17 @@
     &nbsp;|&nbsp;<a href="options-general.php?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-options.php">Options</a>
     </p>
   </div>
+  <?php
+  }
+  else
+  {
+  ?>
+  <h3><?php echo $prli_message; ?></h3> 
+  <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php">&laquo Back to Groups</a>
+  <br/><br/>
+  <?php
+  }
+  ?>
 
 <?php
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');
@@ -33,9 +48,10 @@
     <thead>
     <tr>
       <th class="manage-column" width="45%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="7%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=clicks<?php echo (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Hits<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="5%">Redirect</a></th>
-      <th class="manage-column" width="13%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Created<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=clicks<?php echo (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Hits<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=group_name<?php echo (($sort_str == 'group_name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Group<?php echo (($sort_str == 'group_name')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="3%"><span title="Redirect">Re</span></th>
+      <th class="manage-column" width="12%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Created<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="30%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=slug<?php echo (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
     </tr>
     </thead>
@@ -102,15 +118,16 @@
             ?>
           </div>
         </td>
-        <td><?php print $link->clicks; ?></td>
-        <td><span title="<?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"Temporary Redirection (307)":"Permanent Redirection (301)")); ?>"><?php print ($link->track_as_img?'':(($link->redirect_type == '307')?"Temp":"Perm")); ?></span></td>
-        <td><?php print $link->created_at; ?></td>
+        <td><?php echo $link->clicks; ?></td>
+        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $link->group_id; ?>"><?php echo $link->group_name; ?></a></td>
+        <td><span title="<?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"Temporary Redirection (307)":"Permanent Redirection (301)")); ?>"><?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"T":"P")); ?></span></td>
+        <td><?php echo $link->created_at; ?></td>
         </td>
         <td><input type='text' style="font-size: 10px; width: 100%;" readonly="true" onclick='this.select();' onfocus='this.select();' value='<?php echo $pretty_link_url; ?>' /><br/>
         <?php if( !$link->track_as_img )
         {
         ?>
-        <span style="font-size: 8px;"><strong>Target URL:</strong> <? print $link->url; ?></span></td>
+        <span style="font-size: 8px;"><strong>Target URL:</strong> <? echo $link->url; ?></span></td>
         <?php
         }
         ?>
@@ -123,6 +140,7 @@
     <tr>
       <th class="manage-column">Name</th>
       <th class="manage-column">Hits</th>
+      <th class="manage-column">Group</th>
       <th class="manage-column">Redirect</th>
       <th class="manage-column">Created</th>
       <th class="manage-column">Links</th>

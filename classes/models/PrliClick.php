@@ -101,14 +101,17 @@ class PrliClick
       return $vuid;
     }
 
-    function get_counts_by_days($start_timestamp, $end_timestamp, $link_id = "all", $type = "all")
+    function get_counts_by_days($start_timestamp, $end_timestamp, $link_id = "all", $type = "all", $group = '')
     {
-      global $wpdb;
+      global $wpdb, $prli_link;
 
       $query = "SELECT DATE(cl.created_at) as cldate,COUNT(*) as clcount FROM ".$this->table_name()." cl WHERE DATE(cl.created_at) BETWEEN '".date("Y-n-j",$start_timestamp)."' AND '".date("Y-n-j",$end_timestamp)."'".$search_where.$this->get_exclude_where_clause( ' AND' );
 
       if($link_id != "all")
         $query .= " AND link_id=$link_id";
+
+      if(!empty($group))
+        $query .= " AND link_id IN (SELECT id FROM " . $prli_link->table_name() . " WHERE group_id=$group)";
 
       if($type == "unique")
         $query .= " AND first_click=1";
@@ -142,15 +145,17 @@ class PrliClick
     }
 
 
-    function setupClickLineGraph($start_timestamp,$end_timestamp, $link_id = "all", $type = "all")
+    function setupClickLineGraph($start_timestamp,$end_timestamp, $link_id = "all", $type = "all", $group = '')
     {
-      global $wpdb, $prli_utils, $prli_link;
+      global $wpdb, $prli_utils, $prli_link, $prli_group;
 
-      $dates_array = $this->get_counts_by_days($start_timestamp,$end_timestamp,$link_id,$type);
+      $dates_array = $this->get_counts_by_days($start_timestamp,$end_timestamp,$link_id,$type,$group);
 
       $top_click_count = $prli_utils->getTopValue(array_values($dates_array));
 
-      if($link_id == "all")
+      if(!empty($group))
+        $link_slug = "group: '" . $wpdb->get_var("SELECT name FROM ".$prli_group->table_name()." WHERE id=$group") . "'";
+      else if($link_id == "all")
         $link_slug = "all links";
       else
         $link_slug = "'/".$wpdb->get_var("SELECT slug FROM ".$prli_link->table_name()." WHERE id=$link_id") . "'";
@@ -208,6 +213,7 @@ class PrliClick
       $values = array(
          'paged'  => (isset($_GET['paged'])?$_GET['paged']:(isset($_POST['paged'])?$_POST['paged']:1)),
          'l'      => (isset($_GET['l'])?$_GET['l']:(isset($_POST['l'])?$_POST['l']:'all')),
+         'group'  => (isset($_GET['group'])?$_GET['group']:(isset($_POST['group'])?$_POST['group']:'')),
          'ip'     => (isset($_GET['ip'])?$_GET['ip']:(isset($_POST['ip'])?$_POST['ip']:'')),
          'vuid'   => (isset($_GET['vuid'])?$_GET['vuid']:(isset($_POST['vuid'])?$_POST['vuid']:'')),
          'sdate'  => (isset($_GET['sdate'])?$_GET['sdate']:(isset($_POST['sdate'])?$_POST['sdate']:'')),
