@@ -13,7 +13,7 @@ class PrliLink
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,track_as_img,group_id,created_at) VALUES (\'' .
+               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,gorder,track_as_img,group_id,created_at) VALUES (\'' .
                      $values['url'] . '\',\'' . 
                      $values['slug'] . '\',\'' . 
                      $values['name'] . '\',\'' . 
@@ -21,6 +21,7 @@ class PrliLink
                      $values['param_struct'] . '\',\'' . 
                      $values['redirect_type'] . '\',\'' . 
                      $values['description'] . '\',' . 
+                     $values['gorder'] . ',' .
                      (int)isset($values['track_as_img']) . ',' . 
                      (isset($values['group_id'])?(int)$values['group_id']:'NULL') . ',' . 
                      'NOW())';
@@ -41,6 +42,7 @@ class PrliLink
                       ' param_struct=\'' . $values['param_struct'] . '\', ' .
                       ' redirect_type=\'' . $values['redirect_type'] . '\', ' .
                       ' description=\'' . $values['description'] . '\', ' .
+                      ' gorder=' . $values['gorder'] . ', ' .
                       ' track_as_img=' . (int)isset($values['track_as_img']) . ',' .
                       ' group_id=' . (isset($values['group_id'])?(int)$values['group_id']:'NULL') . 
                   ' WHERE id='.$id;

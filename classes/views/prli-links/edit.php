@@ -52,6 +52,12 @@
 <div class="advanced_pane">
 <table class="form-table">
   <tr>
+    <td valign="top" colspan="2">
+    <h3>Group Options</h3>
+    <span>Group Listing Order:&nbsp;</span><input type="text" name="gorder" value="<?php echo (($_POST['gorder'] != null and $record == null)?$_POST['gorder']:$record->gorder); ?>" size="10">
+    <br/><span class="setting-description"><strong>(OPTIONAL)</strong> You can use this to determine the order that your link show up in the group it's in. The group will default to alphabetic order -- but this will override that default behavior. I also realize this isn't the easiest way for you to re-order links but we'll get a better way in the future.</span></td>
+  </tr>
+  <tr>
     <td colspan="2">
       <h3>Parameter Forwarding</h3>
       <ul style="list-style-type: none">

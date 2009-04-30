@@ -154,6 +154,9 @@ function prli_get_link_sort_vars($params,$where_clause = '')
     case "slug":
       $order_by .= " ORDER BY $sort_str";
       break;
+    case "gorder":
+      $order_by .= " ORDER BY gorder,group_name";
+      break;
     default:
       $order_by .= " ORDER BY created_at";
   }
