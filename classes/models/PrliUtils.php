@@ -161,49 +161,52 @@ function track_link($slug,$values)
   $query = "SELECT * FROM ".$prli_link->table_name()." WHERE slug='$slug' LIMIT 1";
   $pretty_link = $wpdb->get_row($query);
   
-  $first_click = false;
-  
-  $click_ip = $_SERVER['REMOTE_ADDR'];
-  $click_referer = $_SERVER['HTTP_REFERER'];
-  $click_host = gethostbyaddr($click_ip);
-  
-  $click_uri = $_SERVER['REQUEST_URI'];
-  $click_user_agent = $_SERVER['HTTP_USER_AGENT'];
-  $click_browser = $this->php_get_browser();
-  
-  //Set Cookie if it doesn't exist
-  $cookie_name = 'prli_click_' . $pretty_link->id;
-  //Used for unique click tracking
-  $cookie_expire_time = time()+60*60*24*30; // Expire in 30 days
-
-  $visitor_cookie = 'prli_visitor';
-  //Used for visitor activity
-  $visitor_cookie_expire_time = time()+60*60*24*365; // Expire in 1 year
-  
-  
-  if($_COOKIE[$cookie_name] == null)
+  if(isset($pretty_link->track_me) and $pretty_link->track_me)
   {
-    setcookie($cookie_name,$slug,$cookie_expire_time);
-    $first_click = true;
+    $first_click = false;
+    
+    $click_ip = $_SERVER['REMOTE_ADDR'];
+    $click_referer = $_SERVER['HTTP_REFERER'];
+    $click_host = gethostbyaddr($click_ip);
+    
+    $click_uri = $_SERVER['REQUEST_URI'];
+    $click_user_agent = $_SERVER['HTTP_USER_AGENT'];
+    $click_browser = $this->php_get_browser();
+    
+    //Set Cookie if it doesn't exist
+    $cookie_name = 'prli_click_' . $pretty_link->id;
+    //Used for unique click tracking
+    $cookie_expire_time = time()+60*60*24*30; // Expire in 30 days
+   
+    $visitor_cookie = 'prli_visitor';
+    //Used for visitor activity
+    $visitor_cookie_expire_time = time()+60*60*24*365; // Expire in 1 year
+    
+    
+    if($_COOKIE[$cookie_name] == null)
+    {
+      setcookie($cookie_name,$slug,$cookie_expire_time);
+      $first_click = true;
+    }
+   
+    // Retrieve / Generate visitor id
+    if($_COOKIE[$visitor_cookie] == null)
+    {
+      $visitor_uid = $prli_click->generateUniqueVisitorId();
+      setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time);
+    }
+    else
+      $visitor_uid = $_COOKIE[$visitor_cookie];
+   
+    //Record Click in DB
+    $insert = "INSERT INTO ".$prli_click->table_name()." (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$visitor_uid','$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
+    
+    $results = $wpdb->query( $insert );
+    
+    // Reformat Parameters
+    $param_string = '';
   }
-
-  // Retrieve / Generate visitor id
-  if($_COOKIE[$visitor_cookie] == null)
-  {
-    $visitor_uid = $prli_click->generateUniqueVisitorId();
-    setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time);
-  }
-  else
-    $visitor_uid = $_COOKIE[$visitor_cookie];
-
-  //Record Click in DB
-  $insert = "INSERT INTO ".$prli_click->table_name()." (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$visitor_uid','$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
-  
-  $results = $wpdb->query( $insert );
-  
-  // Reformat Parameters
-  $param_string = '';
-  
+    
   if(isset($pretty_link->param_forwarding) and $pretty_link->param_forwarding and isset($values) and count($values) > 1)
   {
     $first_param = true;
@@ -228,6 +231,9 @@ function track_link($slug,$values)
   //Redirect to Product URL
   if(!isset($pretty_link->track_as_img) or $pretty_link->track_as_img == 0)
   {
+    if(isset($pretty_link->nofollow) and $pretty_link->nofollow)
+      header('X-Robots-Tag: noindex, nofollow');
+
     wp_redirect($pretty_link->url.$param_string, (int)$pretty_link->redirect_type);
   }
 }

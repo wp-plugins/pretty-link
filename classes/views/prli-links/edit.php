@@ -31,31 +31,50 @@
     <td><textarea style="height: 100px;" name="description"><?php echo (($_POST['description'] != null and $record == null)?$_POST['description']:$record->description); ?></textarea>
     <br/><span class="setting-description">A Description of this link.</span></td>
   </tr>
-  <tr class="form-field">
-    <td valign="top">Group:</td>
-    <td>
-    <select name="group_id">
-      <option>None</option>
-    <?php
-      foreach($groups as $group)
-      {
-    ?>
-        <option value="<?php echo $group->id; ?>"<?php echo ((($_POST['group_id'] == $group->id) or ($record->group_id == $group->id))?' selected="true"':''); ?>><?php echo $group->name; ?></option>
-    <?php
-      }
-    ?>
-    </select>
-    <br/><span class="setting-description">Select a group for this link. <strong>(optional)</strong></span></td>
-  </tr>
 </table>
 <a href="#" class="advanced_toggle">Advanced Options</a>
 <div class="advanced_pane">
 <table class="form-table">
   <tr>
+    <td colspan="2">
+      <input type="checkbox" name="track_me" <?php echo ((($_POST['track_me'] or $record->track_me) and ($_POST['track_me'] == 'on' or $record->track_me == 1))?'checked="true"':''); ?>/>&nbsp; Track this Link
+      <br/><span class="setting-description">De-select this option if you don't want this link tracked. If de-selected, this link will still redirect to the target URL but hits on it won't be recorded in the database.</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="checkbox" name="nofollow" <?php echo ((($_POST['nofollow'] or $record->nofollow) and ($_POST['nofollow'] == 'on' or $record->nofollow == 1))?'checked="true"':''); ?>/>&nbsp; 'Nofollow' this Link
+      <br/><span class="setting-description">Select this if you want to add a nofollow code to this link. A nofollow will prevent reputable spiders and robots from following or indexing this link.</span>
+    </td>
+  </tr>
+  <tr>
     <td valign="top" colspan="2">
     <h3>Group Options</h3>
+    <div>
+      <span>Group:&nbsp;</span>
+      <select name="group_id">
+        <option>None</option>
+      <?php
+        foreach($groups as $group)
+        {
+      ?>
+          <option value="<?php echo $group->id; ?>"<?php echo ((($_POST['group_id'] == $group->id) or ($record->group_id == $group->id))?' selected="true"':''); ?>><?php echo $group->name; ?></option>
+      <?php
+        }
+      ?>
+      </select>
+      <br/><span class="setting-description">Select a group for this link.</span>
+    </div>
+    <br/>
+    <div>
     <span>Group Listing Order:&nbsp;</span><input type="text" name="gorder" value="<?php echo (($_POST['gorder'] != null and $record == null)?$_POST['gorder']:$record->gorder); ?>" size="10">
-    <br/><span class="setting-description"><strong>(OPTIONAL)</strong> You can use this to determine the order that your link show up in the group it's in. The group will default to alphabetic order -- but this will override that default behavior. I also realize this isn't the easiest way for you to re-order links but we'll get a better way in the future.</span></td>
+    <br/><span class="setting-description">You can use this to determine the order that your link show up in the group it's in. The group will default to alphabetic order -- but this will override that default behavior. I also realize this isn't the easiest way for you to re-order links but we'll get a better way in the future.</span>
+    </div>
+    </td>
+  </tr>
+  <tr class="form-field">
+    <td valign="top">Group:</td>
+    <td>
   </tr>
   <tr>
     <td colspan="2">

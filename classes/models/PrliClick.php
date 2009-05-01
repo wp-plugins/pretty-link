@@ -53,6 +53,14 @@ class PrliClick
         return $wpdb->get_results($query);
     }
 
+    // Delete all of the clicks from the database.
+    function clearAllClicks()
+    {
+      global $wpdb;
+      $query = "TRUNCATE TABLE " . $this->table_name();
+      return $wpdb->query($query);
+    }
+
     // Pagination Methods
     function getRecordCount($where='')
     {

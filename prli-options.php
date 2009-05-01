@@ -43,6 +43,15 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
 <?php
   }
 }
+else if($_GET['action'] == 'clear_all_clicks4134' or $_POST['action'] == 'clear_all_clicks4134')
+{
+  $prli_click->clearAllClicks();
+?>
+
+<div class="updated"><p><strong><?php _e('Hit Database Was Cleared.', $prli_domain ); ?></strong></p></div>
+<?php
+}
+
 
 ?>
 <div class="wrap">
@@ -68,6 +77,9 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
 <p class="submit">
 <input type="submit" name="Submit" value="<?php _e('Update Options', $prli_domain ) ?>" />
 </p>
+
+<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_all_clicks4134" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data in your Database. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete all your data because there is no going back!');">Delete All Hits</a>
+      <br/><span class="setting-description">Seriously, only click this link if you want to delete all the Hit data in your database.</span></p>
 
 </form>
 </div>
