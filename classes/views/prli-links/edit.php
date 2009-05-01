@@ -23,12 +23,12 @@
   </tr>
   <tr class="form-field">
     <td width="75px" valign="top">Title: </td>
-    <td><input type="text" name="name" value="<?php echo (($_POST['name'] != null and $record == null)?$_POST['name']:$record->name); ?>" size="75">
+    <td><input type="text" name="name" size="75" value="<?php echo htmlspecialchars(stripslashes((($_POST['name'] != null and $record == null)?$_POST['name']:$record->name))); ?>" />
       <br/><span class="setting-description">This will act as the title of your Pretty Link. If a name is not entered here then the slug name will be used.</span></td>
   </tr>
   <tr class="form-field">
     <td valign="top">Description: </td>
-    <td><textarea style="height: 100px;" name="description"><?php echo (($_POST['description'] != null and $record == null)?$_POST['description']:$record->description); ?></textarea>
+    <td><textarea style="height: 100px;" name="description"><?php echo htmlspecialchars(stripslashes((($_POST['description'] != null and $record == null)?$_POST['description']:$record->description))); ?></textarea>
     <br/><span class="setting-description">A Description of this link.</span></td>
   </tr>
 </table>
