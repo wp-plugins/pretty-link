@@ -141,7 +141,7 @@
       <th class="manage-column">Name</th>
       <th class="manage-column">Hits</th>
       <th class="manage-column">Group</th>
-      <th class="manage-column">Redirect</th>
+      <th class="manage-column" title="Redirect">Re</th>
       <th class="manage-column">Created</th>
       <th class="manage-column">Links</th>
     </tr>
