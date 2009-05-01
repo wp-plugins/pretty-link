@@ -1,12 +1,12 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.3.17
+Stable tag: 1.3.18
 
-Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
+Shrink, track and share any URL on the Internet from your WordPress website. You can now create short links suitable for Twitter using your own domain name!
 
 == Description ==
 
@@ -45,6 +45,8 @@ http://blairwilliams.com/w7a
 * Select Temporary (307) or Permanent (301) redirection for your Pretty Links
 * Cookie based system for tracking visitor activity across hits
 * Organize Links into Groups
+* Create nofollow/noindex links
+* Turn tracking on / off on each link
 
 == Installation ==
 
