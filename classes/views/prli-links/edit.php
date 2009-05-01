@@ -72,10 +72,6 @@
     </div>
     </td>
   </tr>
-  <tr class="form-field">
-    <td valign="top">Group:</td>
-    <td>
-  </tr>
   <tr>
     <td colspan="2">
       <h3>Parameter Forwarding</h3>

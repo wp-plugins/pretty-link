@@ -17,7 +17,7 @@ class PrliGroup
                    $values['description'] . '\',' . 
                    'NOW())';
     $query_results = $wpdb->query($query);
-    return $query_results;
+    return $wpdb->insert_id;
   }
 
   function update( $id, $values )

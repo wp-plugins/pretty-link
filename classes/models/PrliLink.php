@@ -9,7 +9,7 @@ class PrliLink
 
     function create( $values )
     {
-      global $wpdb, $wp_rewrite;
+      global $wpdb;
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'INSERT INTO ' . $this->table_name() . 
@@ -33,7 +33,7 @@ class PrliLink
 
     function update( $id, $values )
     {
-      global $wpdb, $wp_rewrite;
+      global $wpdb;
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'UPDATE ' . $this->table_name() . 
@@ -54,10 +54,20 @@ class PrliLink
       return $query_results;
     }
 
+    function update_group( $id, $value, $group_id )
+    {
+      global $wpdb;
+      $query = 'UPDATE ' . $this->table_name() . 
+                  ' SET group_id=' . (isset($value)?$group_id:'NULL') . 
+                  ' WHERE id='.$id;
+      $query_results = $wpdb->query($query);
+      return $query_results;
+    }
+
     function destroy( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
-      global $wpdb, $prli_click, $wp_rewrite;
+      global $wpdb, $prli_click;
 
       $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
       $destroy = 'DELETE FROM ' . $this->table_name() .  ' WHERE id=' . $id;
@@ -69,7 +79,7 @@ class PrliLink
     function reset( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
-      global $wpdb, $wp_rewrite, $prli_click;
+      global $wpdb, $prli_click;
 
       $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
       return $wpdb->query($reset);
@@ -89,10 +99,10 @@ class PrliLink
       return $wpdb->get_row($query);
     }
 
-    function getAll($where = '')
+    function getAll($where = '', $order_by = '')
     {
-      global $wpdb, $prli_click, $prli_group;
-      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, gr.name as group_name FROM '. $this->table_name() . ' li LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . $prli_utils->prepend_and_or_where(' WHERE', $where);
+      global $wpdb, $prli_click, $prli_group, $prli_utils;
+      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, gr.name as group_name FROM '. $this->table_name() . ' li LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
       return $wpdb->get_results($query);
     }
 
