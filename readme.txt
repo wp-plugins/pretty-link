@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.3.19
+Stable tag: 1.3.20
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -47,6 +47,7 @@ http://blairwilliams.com/w7a
 * Organize Links into Groups
 * Create nofollow/noindex links
 * Turn tracking on / off on each link
+* Keep users on your site even when being redirected by using the PrettyBar which stays at the top of the page
 
 == Installation ==
 
