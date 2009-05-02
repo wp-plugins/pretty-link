@@ -130,7 +130,7 @@ function prli_redirect()
 add_action('init', 'prli_redirect'); //Redirect
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.2.3";
+$prli_db_version = "0.2.4";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
@@ -180,6 +180,7 @@ function prli_install() {
               track_as_img tinyint(1) default 0,
               nofollow tinyint(1) default 0,
               track_me tinyint(1) default 1,
+              use_prettybar tinyint(1) default 0,
               param_forwarding varchar(255) default NULL,
               param_struct varchar(255) default NULL,
               redirect_type varchar(255) default '307',

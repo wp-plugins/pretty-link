@@ -10,4 +10,6 @@ $page_size = 15;
 
 $prli_blogurl = ((get_option('home'))?get_option('home'):get_option('siteurl'));
 $prli_siteurl = get_option('siteurl');
+$prli_blogname = get_option('blogname');
+$prli_blogdescription = get_option('blogdescription');
 ?>

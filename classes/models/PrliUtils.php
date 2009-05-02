@@ -234,7 +234,14 @@ function track_link($slug,$values)
     if(isset($pretty_link->nofollow) and $pretty_link->nofollow)
       header('X-Robots-Tag: noindex, nofollow');
 
-    wp_redirect($pretty_link->url.$param_string, (int)$pretty_link->redirect_type);
+    // If we're using the pretty bar then don't redirect -- load the pretty bar view
+    if(!isset($pretty_link->use_prettybar) or !$pretty_link->use_prettybar)
+      wp_redirect($pretty_link->url.$param_string, (int)$pretty_link->redirect_type);
+    else
+    {
+      global $prli_blogurl;
+      require_once PRLI_VIEWS_PATH . '/prli-links/bar.php';
+    }
   }
 }
 

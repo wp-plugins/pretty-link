@@ -13,7 +13,7 @@ class PrliLink
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,gorder,track_me,nofollow,track_as_img,group_id,created_at) VALUES (\'' .
+               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,gorder,track_me,nofollow,use_prettybar,track_as_img,group_id,created_at) VALUES (\'' .
                      $values['url'] . '\',\'' . 
                      $values['slug'] . '\',\'' . 
                      $values['name'] . '\',\'' . 
@@ -24,6 +24,7 @@ class PrliLink
                      $values['gorder'] . ',' .
                      (int)isset($values['track_me']) . ',' . 
                      (int)isset($values['nofollow']) . ',' . 
+                     (int)isset($values['use_prettybar']) . ',' . 
                      (int)isset($values['track_as_img']) . ',' . 
                      (isset($values['group_id'])?(int)$values['group_id']:'NULL') . ',' . 
                      'NOW())';
@@ -47,6 +48,7 @@ class PrliLink
                       ' gorder=' . $values['gorder'] . ', ' .
                       ' track_me=' . (int)isset($values['track_me']) . ',' .
                       ' nofollow=' . (int)isset($values['nofollow']) . ',' .
+                      ' use_prettybar=' . (int)isset($values['use_prettybar']) . ',' .
                       ' track_as_img=' . (int)isset($values['track_as_img']) . ',' .
                       ' group_id=' . (isset($values['group_id'])?(int)$values['group_id']:'NULL') . 
                   ' WHERE id='.$id;

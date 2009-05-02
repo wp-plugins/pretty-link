@@ -31,6 +31,12 @@
     <td><textarea style="height: 100px;" name="description"><?php echo htmlspecialchars((($_POST['description'] != null)?stripslashes($_POST['description']):'')); ?></textarea>
     <br/><span class="setting-description">A Description of this link.</span></td>
   </tr>
+  <tr>
+    <td colspan="2">
+      <input type="checkbox" name="use_prettybar" <?php echo ((isset($_POST['use_prettybar']) and $_POST['use_prettybar'] == 'on')?'checked="true"':''); ?>/>&nbsp; Show Pretty Bar
+      <br/><span class="setting-description">Select this option if you want to show the Pretty Bar at the top of the page when redirecting to the Target URL.</span>
+    </td>
+  </tr>
 </table>
 <a href="#" class="advanced_toggle">Advanced Options</a>
 <div class="advanced_pane">
