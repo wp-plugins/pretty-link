@@ -7,7 +7,12 @@ $errors = array();
 // variables for the field and option names 
 $prli_exclude_ips  = 'prli_exclude_ips';
 $prettybar_image_url  = 'prli_prettybar_image_url';
+$prettybar_background_image_url  = 'prli_prettybar_background_image_url';
 $prettybar_color  = 'prli_prettybar_color';
+$prettybar_text_color  = 'prli_prettybar_text_color';
+$prettybar_link_color  = 'prli_prettybar_link_color';
+$prettybar_hover_color  = 'prli_prettybar_hover_color';
+$prettybar_visited_color  = 'prli_prettybar_visited_color';
 $hidden_field_name  = 'prli_update_options';
 
 $prli_domain = "pretty-link";
@@ -15,7 +20,12 @@ $prli_domain = "pretty-link";
 // Read in existing option value from database
 $prli_exclude_ips_val = get_option( $prli_exclude_ips );
 $prettybar_image_url_val = get_option( $prettybar_image_url );
+$prettybar_background_image_url_val = get_option( $prettybar_background_image_url );
 $prettybar_color_val = get_option( $prettybar_color );
+$prettybar_text_color_val = get_option( $prettybar_text_color );
+$prettybar_link_color_val = get_option( $prettybar_link_color );
+$prettybar_hover_color_val = get_option( $prettybar_hover_color );
+$prettybar_visited_color_val = get_option( $prettybar_visited_color );
 
 // See if the user has posted us some information
 // If they did, this hidden field will be set to 'Y'
@@ -26,12 +36,29 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     $errors[] = "Must be a comma separated list of IP addresses.";
 
   if( !empty($_POST[ $prettybar_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_color ] ) )
-    $errors[] = "Must be an actual RGB Value";
+    $errors[] = "PrettyBar Background Color must be an actual RGB Value";
+
+  if( !empty($_POST[ $prettybar_text_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_text_color ] ) )
+    $errors[] = "PrettyBar Text Color must be an actual RGB Value";
+
+  if( !empty($_POST[ $prettybar_link_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_link_color ] ) )
+    $errors[] = "PrettyBar Link Color must be an actual RGB Value";
+
+  if( !empty($_POST[ $prettybar_hover_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_hover_color ] ) )
+    $errors[] = "PrettyBar Hover Color must be an actual RGB Value";
+
+  if( !empty($_POST[ $prettybar_visited_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_visited_color ] ) )
+    $errors[] = "PrettyBar Hover Color must be an actual RGB Value";
 
   // Read their posted value
   $prli_exclude_ips_val = stripslashes($_POST[ $prli_exclude_ips ]);
   $prettybar_image_url_val = stripslashes($_POST[ $prettybar_image_url ]);
+  $prettybar_background_image_url_val = stripslashes($_POST[ $prettybar_background_image_url ]);
   $prettybar_color_val = stripslashes($_POST[ $prettybar_color ]);
+  $prettybar_text_color_val = stripslashes($_POST[ $prettybar_text_color ]);
+  $prettybar_link_color_val = stripslashes($_POST[ $prettybar_link_color ]);
+  $prettybar_hover_color_val = stripslashes($_POST[ $prettybar_hover_color ]);
+  $prettybar_visited_color_val = stripslashes($_POST[ $prettybar_visited_color ]);
 
 
   if( count($errors) > 0 )
@@ -43,7 +70,12 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     // Save the posted value in the database
     update_option( $prli_exclude_ips, $prli_exclude_ips_val );
     update_option( $prettybar_image_url, $prettybar_image_url_val );
+    update_option( $prettybar_background_image_url, $prettybar_background_image_url_val );
     update_option( $prettybar_color, $prettybar_color_val );
+    update_option( $prettybar_text_color, $prettybar_text_color_val );
+    update_option( $prettybar_link_color, $prettybar_link_color_val );
+    update_option( $prettybar_hover_color, $prettybar_hover_color_val );
+    update_option( $prettybar_visited_color, $prettybar_visited_color_val );
 
     // Put an options updated message on the screen
 ?>
@@ -80,22 +112,58 @@ else if($_GET['action'] == 'clear_all_clicks4134' or $_POST['action'] == 'clear_
     </td>
   </tr>
   <tr class="form-field">
-    <td valign="top" width="15%"><?php _e("PrettyBar Image URL:", $prettybar_image_url ); ?> </td>
+    <td valign="top" width="15%"><?php _e("Image URL:", $prettybar_image_url ); ?> </td>
     <td width="85%">
       <input type="text" name="<?php echo $prettybar_image_url; ?>" value="<?php echo $prettybar_image_url_val; ?>"/>
-      <br/><span class="setting-description">If set, this will replace the logo on the PrettyBar. The image that this URL references should be 48x48 Pixels to fit.</span>
+      <br/><span class="setting-description">If set, this will replace the logo image on the PrettyBar. The image that this URL references should be 48x48 Pixels to fit.</span>
+    </td>
+  </tr>
+  <tr class="form-field">
+    <td valign="top" width="15%"><?php _e("Background Image URL:", $prettybar_background_image_url ); ?> </td>
+    <td width="85%">
+      <input type="text" name="<?php echo $prettybar_background_image_url; ?>" value="<?php echo $prettybar_background_image_url_val; ?>"/>
+      <br/><span class="setting-description">If set, this will replace the background image on PrettyBar. The image that this URL references should be 65px tall -- this image will be repeated horizontally across the bar.</span>
     </td>
   </tr>
   <tr>
-    <td valign="top" width="15%"><?php _e("PrettyBar Color:", $prettybar_color ); ?> </td>
+    <td valign="top" width="15%"><?php _e("Background Color:", $prettybar_color ); ?> </td>
     <td width="85%">
       #<input type="text" name="<?php echo $prettybar_color; ?>" value="<?php echo $prettybar_color_val; ?>" size="6"/>
       <br/><span class="setting-description">If not set, this defaults to RGB value <code>#f5f6eb</code> but you can change it to whatever color you like.</span>
     </td>
   </tr>
   <tr>
+    <td valign="top" width="15%"><?php _e("Text Color:", $prettybar_text_color ); ?> </td>
+    <td width="85%">
+      #<input type="text" name="<?php echo $prettybar_text_color; ?>" value="<?php echo $prettybar_text_color_val; ?>" size="6"/>
+      <br/><span class="setting-description">If not set, this defaults to black (RGB value <code>#000000</code>) but you can change it to whatever color you like.</span>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="15%"><?php _e("Link Color:", $prettybar_link_color ); ?> </td>
+    <td width="85%">
+      #<input type="text" name="<?php echo $prettybar_link_color; ?>" value="<?php echo $prettybar_link_color_val; ?>" size="6"/>
+      <br/><span class="setting-description">If not set, this defaults to blue (RGB value <code>#0000ee</code>) but you can change it to whatever color you like.</span>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="15%"><?php _e("Link Hover Color:", $prettybar_hover_color ); ?> </td>
+    <td width="85%">
+      #<input type="text" name="<?php echo $prettybar_hover_color; ?>" value="<?php echo $prettybar_hover_color_val; ?>" size="6"/>
+      <br/><span class="setting-description">If not set, this defaults to RGB value <code>#ababab</code> but you can change it to whatever color you like.</span>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="15%"><?php _e("Visited Link Color:", $prettybar_visited_color ); ?> </td>
+    <td width="85%">
+      #<input type="text" name="<?php echo $prettybar_visited_color; ?>" value="<?php echo $prettybar_visited_color_val; ?>" size="6"/>
+      <br/><span class="setting-description">If not set, this defaults to RGB value <code>#551a8b</code> but you can change it to whatever color you like.</span>
+    </td>
+  </tr>
+  <tr>
     <td colspan="2">
-      <h3 style="color: red;">Your Current IP Address is <?php echo $_SERVER['REMOTE_ADDR']; ?></h3>
+      <h3>Reporting Options</h3>
+      <h4 style="color: red;">Your Current IP Address is <?php echo $_SERVER['REMOTE_ADDR']; ?></h4>
     </td>
   </tr>
   <tr class="form-field">

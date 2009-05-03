@@ -5,13 +5,30 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
 $link = $prli_link->getOneFromSlug($_GET['slug']);
 $bar_image = get_option('prli_prettybar_image_url');
+$bar_background_image = get_option('prli_prettybar_background_image_url');
 $bar_color = get_option('prli_prettybar_color');
+$bar_text_color = get_option('prli_prettybar_text_color');
+$bar_link_color = get_option('prli_prettybar_link_color');
+$bar_visited_color = get_option('prli_prettybar_visited_color');
+$bar_hover_color = get_option('prli_prettybar_hover_color');
 
 if(empty($bar_image) or !$bar_image)
   $bar_image = 'images/pretty-link-48x48.png';
 
-if(empty($bar_color) or !$bar_color)
-  $bar_color = 'f5f6eb';
+if((empty($bar_background_image) and empty($bar_color)) or (!$bar_background_image and !$bar_color))
+  $bar_background_image = 'images/bar_background.png';
+
+if(empty($bar_text_color) or !$bar_text_color)
+  $bar_text_color = '000000';
+
+if(empty($bar_link_color) or !$bar_link_color)
+  $bar_link_color = '0000ee';
+
+if(empty($bar_visited_color) or !$bar_visited_color)
+  $bar_visited_color = '551a8b';
+
+if(empty($bar_hover_color) or !$bar_hover_color)
+  $bar_hover_color = 'ababab';
 ?>
 <html>
 <head>
@@ -20,7 +37,22 @@ if(empty($bar_color) or !$bar_color)
 html, body {
   margin: 0px;
   padding: 0px;
+<?php
+  if(!empty($bar_background_image) and $bar_background_image)
+  {
+?>
+  background-image: url(<?php echo $bar_background_image; ?>);
+  background-repeat: repeat-x;
+<?php
+  }
+  else
+  {
+?>
   background-color: #<?php echo $bar_color; ?>;
+<?php
+  }
+?>
+  color: #<?php echo $bar_text_color; ?>;
 }
 
 #prettybar {
@@ -50,11 +82,16 @@ h1,h2,h3,h4,p {
 }
 
 a {
+  color: #<?php echo $bar_link_color; ?>;
   text-decoration: none;
 }
 
+a:visited {
+  color: #<?php echo $bar_visited_color; ?>;
+}
+
 a:hover {
-  color: #ababab;
+  color: #<?php echo $bar_hover_color; ?>;
 }
 
 .map {
