@@ -6,12 +6,16 @@ $errors = array();
 
 // variables for the field and option names 
 $prli_exclude_ips  = 'prli_exclude_ips';
+$prettybar_image_url  = 'prli_prettybar_image_url';
+$prettybar_color  = 'prli_prettybar_color';
 $hidden_field_name  = 'prli_update_options';
 
 $prli_domain = "pretty-link";
 
 // Read in existing option value from database
 $prli_exclude_ips_val = get_option( $prli_exclude_ips );
+$prettybar_image_url_val = get_option( $prettybar_image_url );
+$prettybar_color_val = get_option( $prettybar_color );
 
 // See if the user has posted us some information
 // If they did, this hidden field will be set to 'Y'
@@ -21,8 +25,13 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   if( !empty($_POST[ $prli_exclude_ips ]) and !preg_match( "#^[ \t]*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})([ \t]*,[ \t]*\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})*$#", $_POST[ $prli_exclude_ips ] ) )
     $errors[] = "Must be a comma separated list of IP addresses.";
 
+  if( !empty($_POST[ $prettybar_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_color ] ) )
+    $errors[] = "Must be an actual RGB Value";
+
   // Read their posted value
   $prli_exclude_ips_val = stripslashes($_POST[ $prli_exclude_ips ]);
+  $prettybar_image_url_val = stripslashes($_POST[ $prettybar_image_url ]);
+  $prettybar_color_val = stripslashes($_POST[ $prettybar_color ]);
 
 
   if( count($errors) > 0 )
@@ -33,10 +42,10 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   {
     // Save the posted value in the database
     update_option( $prli_exclude_ips, $prli_exclude_ips_val );
+    update_option( $prettybar_image_url, $prettybar_image_url_val );
+    update_option( $prettybar_color, $prettybar_color_val );
 
-    $wp_rewrite->flush_rules();
-
-  // Put an options updated message on the screen
+    // Put an options updated message on the screen
 ?>
 
 <div class="updated"><p><strong><?php _e('Options saved.', $prli_domain ); ?></strong></p></div>
@@ -65,6 +74,30 @@ else if($_GET['action'] == 'clear_all_clicks4134' or $_POST['action'] == 'clear_
 <?php wp_nonce_field('update-options'); ?>
 
 <table class="form-table">
+  <tr>
+    <td colspan="2">
+      <h3>PrettyBar Options</h3>
+    </td>
+  </tr>
+  <tr class="form-field">
+    <td valign="top" width="15%"><?php _e("PrettyBar Image URL:", $prettybar_image_url ); ?> </td>
+    <td width="85%">
+      <input type="text" name="<?php echo $prettybar_image_url; ?>" value="<?php echo $prettybar_image_url_val; ?>"/>
+      <br/><span class="setting-description">If set, this will replace the logo on the PrettyBar. The image that this URL references should be 48x48 Pixels to fit.</span>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="15%"><?php _e("PrettyBar Color:", $prettybar_color ); ?> </td>
+    <td width="85%">
+      #<input type="text" name="<?php echo $prettybar_color; ?>" value="<?php echo $prettybar_color_val; ?>" size="6"/>
+      <br/><span class="setting-description">If not set, this defaults to RGB value <code>#f5f6eb</code> but you can change it to whatever color you like.</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <h3 style="color: red;">Your Current IP Address is <?php echo $_SERVER['REMOTE_ADDR']; ?></h3>
+    </td>
+  </tr>
   <tr class="form-field">
     <td valign="top">Excluded IP Addresses: </td>
     <td>

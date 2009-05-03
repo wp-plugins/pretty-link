@@ -203,28 +203,25 @@ function track_link($slug,$values)
     
     $results = $wpdb->query( $insert );
     
-    // Reformat Parameters
-    $param_string = '';
   }
+
+  // Reformat Parameters
+  $param_string = '';
     
   if(isset($pretty_link->param_forwarding) and $pretty_link->param_forwarding and isset($values) and count($values) > 1)
   {
     $first_param = true;
     foreach($values as $key => $value)
     {
-      // Ignore the 'sprli' parameter
-      if($key != 'sprli')
+      if($first_param)
       {
-        if($first_param)
-        {
-          $param_string = (preg_match("#\?#", $pretty_link->url)?"&":"?");
-          $first_param = false;
-        }
-        else
-          $param_string .= "&";
-  
-        $param_string .= "$key=$value";
+        $param_string = (preg_match("#\?#", $pretty_link->url)?"&":"?");
+        $first_param = false;
       }
+      else
+        $param_string .= "&";
+  
+      $param_string .= "$key=$value";
     }
   }
   
