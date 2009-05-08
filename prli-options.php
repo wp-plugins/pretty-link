@@ -13,6 +13,10 @@ $prettybar_text_color  = 'prli_prettybar_text_color';
 $prettybar_link_color  = 'prli_prettybar_link_color';
 $prettybar_hover_color  = 'prli_prettybar_hover_color';
 $prettybar_visited_color  = 'prli_prettybar_visited_color';
+$prettybar_show_title  = 'prli_prettybar_show_title';
+$prettybar_show_description  = 'prli_prettybar_show_description';
+$prettybar_show_share_links  = 'prli_prettybar_show_share_links';
+$prettybar_show_target_url_link  = 'prli_prettybar_show_target_url_link';
 $hidden_field_name  = 'prli_update_options';
 
 $prli_domain = "pretty-link";
@@ -26,6 +30,10 @@ $prettybar_text_color_val = get_option( $prettybar_text_color );
 $prettybar_link_color_val = get_option( $prettybar_link_color );
 $prettybar_hover_color_val = get_option( $prettybar_hover_color );
 $prettybar_visited_color_val = get_option( $prettybar_visited_color );
+$prettybar_show_title_val = get_option( $prettybar_show_title );
+$prettybar_show_description_val = get_option( $prettybar_show_description );
+$prettybar_show_share_links_val = get_option( $prettybar_show_share_links );
+$prettybar_show_target_url_link_val = get_option( $prettybar_show_target_url_link );
 
 // See if the user has posted us some information
 // If they did, this hidden field will be set to 'Y'
@@ -65,6 +73,10 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   $prettybar_link_color_val = stripslashes($_POST[ $prettybar_link_color ]);
   $prettybar_hover_color_val = stripslashes($_POST[ $prettybar_hover_color ]);
   $prettybar_visited_color_val = stripslashes($_POST[ $prettybar_visited_color ]);
+  $prettybar_show_title_val = (int)isset($_POST[ $prettybar_show_title ]);
+  $prettybar_show_description_val = (int)isset($_POST[ $prettybar_show_description ]);
+  $prettybar_show_share_links_val = (int)isset($_POST[ $prettybar_show_share_links ]);
+  $prettybar_show_target_url_link_val = (int)isset($_POST[ $prettybar_show_target_url_link ]);
 
 
   if( count($errors) > 0 )
@@ -82,6 +94,10 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     update_option( $prettybar_link_color, $prettybar_link_color_val );
     update_option( $prettybar_hover_color, $prettybar_hover_color_val );
     update_option( $prettybar_visited_color, $prettybar_visited_color_val );
+    update_option( $prettybar_show_title, $prettybar_show_title_val );
+    update_option( $prettybar_show_description, $prettybar_show_description_val );
+    update_option( $prettybar_show_share_links, $prettybar_show_share_links_val );
+    update_option( $prettybar_show_target_url_link, $prettybar_show_target_url_link_val );
 
     // Put an options updated message on the screen
 ?>
@@ -164,6 +180,30 @@ else if($_GET['action'] == 'clear_all_clicks4134' or $_POST['action'] == 'clear_
     <td width="85%">
       #<input type="text" name="<?php echo $prettybar_visited_color; ?>" value="<?php echo $prettybar_visited_color_val; ?>" size="6"/>
       <br/><span class="setting-description">If not set, this defaults to RGB value <code>#551a8b</code> but you can change it to whatever color you like.</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="checkbox" name="<?php echo $prettybar_show_title; ?>" <?php echo (($prettybar_show_title_val != 0)?'checked="true"':''); ?>/>&nbsp; Show Pretty Bar Title
+      <br/><span class="setting-description">Make sure this is checked if you want the title of your blog (and link) to show up on the PrettyBar.</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="checkbox" name="<?php echo $prettybar_show_description; ?>" <?php echo (($prettybar_show_description_val != 0)?'checked="true"':''); ?>/>&nbsp; Show Pretty Bar Description
+      <br/><span class="setting-description">Make sure this is checked if you want your site description to show up on the PrettyBar.</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="checkbox" name="<?php echo $prettybar_show_share_links; ?>" <?php echo (($prettybar_show_share_links_val != 0)?'checked="true"':''); ?>/>&nbsp; Show Pretty Bar Share Links
+      <br/><span class="setting-description">Make sure this is checked if you want "share links" to show up on the PrettyBar.</span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="checkbox" name="<?php echo $prettybar_show_target_url_link; ?>" <?php echo (($prettybar_show_target_url_link_val != 0)?'checked="true"':''); ?>/>&nbsp; Show Pretty Bar Target URL
+      <br/><span class="setting-description">Make sure this is checked if you want a link displaying the Target URL to show up on the PrettyBar.</span>
     </td>
   </tr>
   <tr>

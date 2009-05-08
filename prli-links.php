@@ -18,17 +18,13 @@ if($params['action'] == 'list')
 
   prli_display_links_list($params, $prli_message);
 }
-else if($params['action'] == 'new')
-{
-  $groups = $prli_group->getAll('',' ORDER BY name');
-
-  require_once 'classes/views/prli-links/new.php';
-}
 else if($params['action'] == 'create')
 {
   $errors = $prli_link->validate($_POST);
   if( count($errors) > 0 )
   {
+    $groups = $prli_group->getAll('',' ORDER BY name');
+    $values = setup_new_vars($groups);
     require_once 'classes/views/prli-links/new.php';
   }
   else
@@ -43,6 +39,7 @@ else if($params['action'] == 'edit')
   $groups = $prli_group->getAll('',' ORDER BY name');
 
   $record = $prli_link->getOne( $params['id'] );
+  $values = setup_edit_vars($groups,$record);
   $id = $params['id'];
   require_once 'classes/views/prli-links/edit.php';
 }
@@ -52,6 +49,9 @@ else if($params['action'] == 'update')
   $id = $_POST['id'];
   if( count($errors) > 0 )
   {
+    $groups = $prli_group->getAll('',' ORDER BY name');
+    $record = $prli_link->getOne( $params['id'] );
+    $values = setup_edit_vars($groups,$record);
     require_once 'classes/views/prli-links/edit.php';
   }
   else
@@ -177,5 +177,6 @@ function prli_get_link_sort_vars($params,$where_clause = '')
                'where_clause' => $where_clause, 
                'page_params' => $page_params);
 }
+
 
 ?>

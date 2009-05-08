@@ -11,6 +11,10 @@ $bar_text_color = get_option('prli_prettybar_text_color');
 $bar_link_color = get_option('prli_prettybar_link_color');
 $bar_visited_color = get_option('prli_prettybar_visited_color');
 $bar_hover_color = get_option('prli_prettybar_hover_color');
+$bar_show_title = get_option('prli_prettybar_show_title');
+$bar_show_description = get_option('prli_prettybar_show_description');
+$bar_show_share_links = get_option('prli_prettybar_show_share_links');
+$bar_show_target_url_link = get_option('prli_prettybar_show_target_url_link');
 
 if(empty($bar_image) or !$bar_image)
   $bar_image = 'images/pretty-link-48x48.png';
@@ -29,6 +33,17 @@ if(empty($bar_visited_color) or !$bar_visited_color)
 
 if(empty($bar_hover_color) or !$bar_hover_color)
   $bar_hover_color = 'ababab';
+
+$str_size = 40;
+
+$shortened_link = substr($_GET['url'],0,$str_size);
+$shortened_desc = substr($prli_blogdescription,0,$str_size);
+
+if(strlen($_GET['url']) > $str_size)
+  $shortened_link .= "...";
+
+if(strlen($prli_blogdescription) > $str_size)
+  $shortened_desc .= "...";
 ?>
 <html>
 <head>
@@ -157,18 +172,33 @@ ul#baritems li {
     </div>
     <ul id="baritems">
       <li>
-        <div id="blog_image"><a href="<?php echo $prli_blogurl; ?>" target="_top"><img src="<?php echo $bar_image; ?>" width="48px" height="48px" border="0"/></a></div>
+        <div id="blog_image">
+        <a href="<?php echo $prli_blogurl; ?>" target="_top"><img src="<?php echo $bar_image; ?>" width="48px" height="48px" border="0"/></a></div>
       </li>
       <li>
         <div id="blog_title">
-          <h2><a href="<?php echo $prli_blogurl; ?>" target="_top"><?php echo $prli_blogname; ?></a></h2> 
-          <p><?php echo $prli_blogdescription; ?></p> 
+          <h2>
+          <?php if( $bar_show_title ) { ?>
+          <a href="<?php echo $prli_blogurl; ?>" title="<?php echo $prli_blogname; ?>" target="_top"><?php echo $prli_blogname; ?></a>
+          <?php } else echo "&nbsp;"; ?>
+          </h2> 
+          <?php if( $bar_show_description ) { ?>
+          <p title="<?php echo $prli_blogdescription; ?>"><?php echo $shortened_desc; ?></p> 
+          <?php } else echo "&nbsp;"; ?>
         </div>
       </li>
       <li>
         <div id="retweet">
-          <h4><a href="<?php echo $_GET['url']; ?>" target="_top">You're Viewing: <?php echo $_GET['url']; ?></a></h4>
-          <h4><a href="http://twitter.com/home?status=<?php echo $prli_blogurl . "/" . $_GET['slug']; ?>" target="_top">Share on Twitter</a></h4> 
+          <h4>
+          <?php if( $bar_show_target_url_link ) { ?>
+            <a href="<?php echo $_GET['url']; ?>" title="You're viewing: <?php echo $_GET['url']; ?>" target="_top">Viewing: <?php echo $shortened_link; ?></a>
+          <?php } else echo "&nbsp;"; ?>
+          </h4>
+          <h4>
+          <?php if( $bar_show_share_links ) { ?>
+            <a href="http://twitter.com/home?status=<?php echo $prli_blogurl . "/" . $_GET['slug']; ?>" target="_top">Share on Twitter</a>
+          <?php } else echo "&nbsp;"; ?>
+          </h4> 
         </div>
       </li>
     </ul>

@@ -130,7 +130,7 @@ function prli_redirect()
 add_action('init', 'prli_redirect'); //Redirect
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.2.4";
+$prli_db_version = "0.2.6";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
@@ -181,6 +181,7 @@ function prli_install() {
               nofollow tinyint(1) default 0,
               track_me tinyint(1) default 1,
               use_prettybar tinyint(1) default 0,
+              use_ultra_cloak tinyint(1) default 0,
               param_forwarding varchar(255) default NULL,
               param_struct varchar(255) default NULL,
               redirect_type varchar(255) default '307',
@@ -283,6 +284,16 @@ function prli_install() {
     $wp_rewrite->flush_rules();
     update_option('prli_rewrite_mode','off');
   }
+
+  // Set PrettyBar Defaults
+  if(!get_option($prettybar_show_title))
+    add_option('prli_prettybar_show_title',1);
+  if(!get_option($prettybar_show_description))
+    add_option('prli_prettybar_show_description',1);
+  if(!get_option($prettybar_show_share_links))
+    add_option('prli_prettybar_show_share_links',1);
+  if(!get_option($prettybar_show_target_url_link))
+    add_option('prli_prettybar_show_target_url_link',1);
 
   if(empty($prli_current_db_version) or !$prli_current_db_version)
     add_option($prli_db_version,$prli_new_db_version);

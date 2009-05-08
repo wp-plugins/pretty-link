@@ -232,13 +232,15 @@ function track_link($slug,$values)
       header('X-Robots-Tag: noindex, nofollow');
 
     // If we're using the pretty bar then don't redirect -- load the pretty bar view
-    if(!isset($pretty_link->use_prettybar) or !$pretty_link->use_prettybar)
-      wp_redirect($pretty_link->url.$param_string, (int)$pretty_link->redirect_type);
-    else
+    if( isset($pretty_link->use_prettybar) and $pretty_link->use_prettybar )
     {
       global $prli_blogurl;
       require_once PRLI_VIEWS_PATH . '/prli-links/bar.php';
     }
+    else if( isset($pretty_link->use_ultra_cloak) and $pretty_link->use_ultra_cloak )
+      require_once PRLI_VIEWS_PATH . '/prli-links/ultra-cloak.php';
+    else
+      wp_redirect($pretty_link->url.$param_string, (int)$pretty_link->redirect_type);
   }
 }
 
