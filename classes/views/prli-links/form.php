@@ -42,7 +42,7 @@
     </td>
   </tr>
 </table>
-<h3><a class="options-table-toggle">Advanced Options <span class="expand-options" style="display: none;">[+]</span><span class="collapse-options">[-]</span></a> <span class="expand-collapse" style="display: none"><a class="expand-all" title="Show all option instructions.">[?]</a><a class="collapse-all" title="Hide all option instructions." style="display: none;">[?]</a></span></h3>
+<h3><a class="options-table-toggle">Link Options <span class="expand-options" style="display: none;">[+]</span><span class="collapse-options">[-]</span></a> <span class="expand-collapse" style="display: none"><a class="expand-all" title="Show all option instructions.">[?]</a><a class="collapse-all" title="Hide all option instructions." style="display: none;">[?]</a></span></h3>
 <table class="options-table">
   <tr>
     <td valign="top" width="50%">

@@ -17,16 +17,34 @@ function setup_new_vars($groups)
 {
   global $prli_link;
 
+  $link_show_prettybar = 'prli_link_show_prettybar';
+  $link_ultra_cloak = 'prli_link_ultra_cloak';
+  $link_track_me = 'prli_link_track_me';
+  $link_track_as_pixel = 'prli_link_track_as_pixel';
+  $link_nofollow = 'prli_link_nofollow';
+  $link_redirect_type = 'prli_link_redirect_type';
+
+  $link_show_prettybar_val = get_option( $link_show_prettybar );
+  $link_ultra_cloak_val = get_option( $link_ultra_cloak );
+  $link_track_me_val = get_option( $link_track_me );
+  $link_track_as_pixel_val = get_option( $link_track_as_pixel );
+  $link_nofollow_val = get_option( $link_nofollow );
+  $link_redirect_type_val = get_option( $link_redirect_type );
+
   $values = array();
   $values['url'] =  (($_POST['url'] != null)?$_POST['url']:'');
   $values['slug'] = (($_POST['slug'] != null)?$_POST['slug']:$prli_link->generateValidSlug());
   $values['name'] = htmlspecialchars((($_POST['name'] != null)?stripslashes($_POST['name']):''));
   $values['description'] = htmlspecialchars((($_POST['description'] != null)?stripslashes($_POST['description']):''));
 
-  $values['use_prettybar'] = ((isset($_POST['use_prettybar']) and $_POST['use_prettybar'] == 'on')?'checked="true"':'');
-  $values['use_ultra_cloak'] = ((isset($_POST['use_ultra_cloak']) and $_POST['use_ultra_cloak'] == 'on')?'checked="true"':'');
-  $values['track_me'] = (((!isset($_POST['track_me']) or empty($_POST['track_me'])) or (isset($_POST['track_me']) and $_POST['track_me'] == 'on'))?'checked="true"':'');
-  $values['nofollow'] = ((isset($_POST['nofollow']) and $_POST['nofollow'] == 'on')?'checked="true"':'');
+  $values['use_prettybar'] = (((isset($_POST['use_prettybar']) and $_POST['use_prettybar'] == 'on') or (!isset($_POST['track_as_img']) and $link_show_prettybar_val == '1'))?'checked="true"':'');
+  $values['use_ultra_cloak'] = (((isset($_POST['use_ultra_cloak']) and $_POST['use_ultra_cloak'] == 'on') or (!isset($_POST['track_as_img']) and $link_ultra_cloak_val == '1'))?'checked="true"':'');
+  $values['track_me'] = (((isset($_POST['track_me']) and $_POST['track_me'] == 'on') or (!isset($_POST['track_as_img']) and $link_track_me_val == '1'))?'checked="true"':'');
+  $values['nofollow'] = (((isset($_POST['nofollow']) and $_POST['nofollow'] == 'on') or (!isset($_POST['track_as_img']) and $link_nofollow_val == '1'))?'checked="true"':'');
+  $values['redirect_type'] = array();
+  $values['redirect_type']['307'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == '307') or (!isset($_POST['track_as_img']) and $link_redirect_type_val == '307'))?'checked="true"':'');
+  $values['redirect_type']['301'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == '301') or (!isset($_POST['track_as_img']) and $link_redirect_type_val == '301'))?'checked="true"':'');
+  $values['track_as_img'] = (((isset($_POST['track_as_img']) and $_POST['track_as_img'] == 'on') or (!isset($_POST['track_as_img']) and $link_track_as_pixel_val == '1'))?'checked="true"':'');
 
   $values['groups'] = array();
   foreach($groups as $group)
@@ -35,18 +53,13 @@ function setup_new_vars($groups)
                                  'value' => (($_POST['group_id'] == $group->id)?' selected="true"':''),
                                  'name' => $group->name );
   }
+
   $values['gorder'] = (isset($_POST['gorder'])?$_POST['gorder']:'0');
 
   $values['param_forwarding'] = array();
   $values['param_forwarding']['off'] = (((isset($_POST['param_forwarding']) and $_POST['param_forwarding'] == 'off') or !isset($_POST['param_forwarding']))?'checked="true"':'');
   $values['param_forwarding']['on'] = ((isset($_POST['param_forwarding']) and $_POST['param_forwarding'] == 'on')?'checked="true"':'');
   $values['param_forwarding']['custom'] = ((isset($_POST['param_forwarding']) and $_POST['param_forwarding'] == 'custom')?'checked="true"':'');
-
-  $values['redirect_type'] = array();
-  $values['redirect_type']['307'] = ((!isset($_POST['redirect_type']) or (isset($_POST['redirect_type']) and $_POST['redirect_type'] == '307'))?'checked="true"':'');
-  $values['redirect_type']['301'] = ((isset($_POST['redirect_type']) and $_POST['redirect_type'] == '301')?'checked="true"':'');
-
-  $values['track_as_img'] = ((isset($_POST['track_as_img']) and $_POST['track_as_img'] == 'on')?'checked="true"':'');
 
   return $values;
 }

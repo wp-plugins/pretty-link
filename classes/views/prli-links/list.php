@@ -72,6 +72,12 @@
       ?>
       <tr>
         <td class="edit_link">
+        <?php if( $link->nofollow ) { ?>
+            <img src="<?php echo PRLI_URL.'/images/nofollow.png'; ?>" title="nofollow" width="13px" height="13px" />
+        <?php } ?>
+        <?php if( !$link->track_as_img ) { ?>
+        <span title="<?php echo (($link->redirect_type == '307')?"Temporary Redirection (307)":"Permanent Redirection (301)"); ?>" style="font-size: 14px; cursor: help; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong><?php echo (($link->redirect_type == '307')?"T":"P"); ?></strong></span>&nbsp;
+        <?php } ?>
         <?php if( !$link->track_as_img )
         {
         ?>
@@ -100,7 +106,6 @@
         }
 
         ?>
-        <span title="<?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"Temporary Redirection (307)":"Permanent Redirection (301)")); ?>" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong><?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"T":"P")); ?></strong></span>&nbsp;
         <a class="slug_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo $link->name; ?>"><?php echo "$link->name"; ?></a>
           <br/>
           <div class="link_actions">
