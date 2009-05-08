@@ -31,7 +31,7 @@ if($_GET['action'] == null and $_POST['action'] == null)
   $edmon  = date('n',$end_timestamp);
   $eddom  = date('j',$end_timestamp);
 
-  $where_clause = " DATE(cl.created_at) BETWEEN '$sdyear-$sdmon-$sddom' AND '$edyear-$edmon-$eddom'";
+  $where_clause = " cl.created_at BETWEEN '$sdyear-$sdmon-$sddom 00:00:00' AND '$edyear-$edmon-$eddom 23:59:59'";
 
   if(!empty($params['sdate']))
     $page_params .= "&sdate=".$params['sdate'];

@@ -4,10 +4,10 @@ $(document).ready(function(){
   $(".link_actions").hide();
   $(".edit_link").hover(
     function () {
-      $(this).find(".link_actions").fadeIn(500);
+      $(this).find(".link_actions").show();
     }, 
     function () {
-      $(this).find(".link_actions").fadeOut(300);
+      $(this).find(".link_actions").hide();
     }
   );
 });
@@ -15,37 +15,29 @@ $(document).ready(function(){
 
 <script type="text/javascript">
 $(document).ready(function(){
-  $(".options_toggle").click( function () {
-      $(".cloaking_pane").slideDown("fast");
-      $(".tracking_pane").slideDown("fast");
-      $(".seo_pane").slideDown("fast");
-      $(".group_pane").slideDown("fast");
-      $(".param_forwarding_pane").slideDown("fast");
+  $(".options-table").hide();
+  $(".options-table-toggle > .expand-options").show();
+  $(".options-table-toggle > .collapse-options").hide();
+  $(".options-table-toggle").click( function () {
+      $(this).find(".expand-options").toggle();
+      $(this).find(".collapse-options").toggle();
+      $(".expand-collapse").toggle();
+      $(".options-table").toggle();
   });
 
-  $(".cloaking_pane").hide();
-  $(".cloaking_toggle").click( function () {
-      $(".cloaking_pane").slideToggle("fast");
+  $(".toggle_pane").hide();
+  $(".toggle").click( function () {
+      $(this).next(".toggle_pane").toggle();
   });
-
-  $(".tracking_pane").hide();
-  $(".tracking_toggle").click( function () {
-      $(".tracking_pane").slideToggle("fast");
+  $(".expand-all").click( function () {
+      $(".toggle_pane").show();
+      $(".expand-all").hide();
+      $(".collapse-all").show();
   });
-
-  $(".seo_pane").hide();
-  $(".seo_toggle").click( function () {
-      $(".seo_pane").slideToggle("fast");
-  });
-
-  $(".group_pane").hide();
-  $(".group_toggle").click( function () {
-      $(".group_pane").slideToggle("fast");
-  });
-
-  $(".param_forwarding_pane").hide();
-  $(".param_forwarding_toggle").click( function () {
-      $(".param_forwarding_pane").slideToggle("fast");
+  $(".collapse-all").click( function () {
+      $(".toggle_pane").hide();
+      $(".expand-all").show();
+      $(".collapse-all").hide();
   });
 });
 </script>
@@ -54,11 +46,11 @@ $(document).ready(function(){
 
 .options-table {
   width: 67%;
+  margin-top: 10px;
 }
 
 .options-table td {
-  margin-left: 5px;
-  margin-right: 5px;
+  padding: 10px;
   background-color: #f4f0db;
 }
 
@@ -68,21 +60,32 @@ $(document).ready(function(){
   padding-left: 10px;
 }
 
+.expand-all, .collapse-all, .options-table-toggle {
+  cursor: pointer;
+}
+
 .toggle {
   line-height: 34px;
   font-size: 12px;
   font-weight: bold;
   padding-bottom: 10px;
+  cursor: pointer;
 }
 
 .pane {
   background-color: #f4f0db;
-  padding: 10px;
+  padding-left: 10px;
+}
+
+ul.pane li {
+  padding: 0px;
+  margin: 0px;
 }
 
 .edit_link {
   height: 50px;
 }
+
 .slug_name {
   font-size: 12px;
   font-weight: bold;

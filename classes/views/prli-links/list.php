@@ -50,7 +50,6 @@
       <th class="manage-column" width="45%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=clicks<?php echo (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Hits<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=group_name<?php echo (($sort_str == 'group_name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Group<?php echo (($sort_str == 'group_name')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="3%"><span title="Redirect">Re</span></th>
       <th class="manage-column" width="12%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Created<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="30%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=slug<?php echo (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="'.$prli_siteurl.'/wp-content/plugins/'.PRLI_PLUGIN_NAME.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
     </tr>
@@ -99,15 +98,18 @@
           <img src="<?php echo PRLI_URL.'/images/forward_params.png'; ?>" width="13px" height="13px" name="Custom Parameter Forwarding Enabled" alt="Custom Parameter Forwarding Enabled" title="Custom Parameter Forwarding Enabled"/>&nbsp;
         <?php
         }
-        ?>
 
+        ?>
+        <span title="<?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"Temporary Redirection (307)":"Permanent Redirection (301)")); ?>" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong><?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"T":"P")); ?></strong></span>&nbsp;
         <a class="slug_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo $link->name; ?>"><?php echo "$link->name"; ?></a>
           <br/>
           <div class="link_actions">
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>">Delete</a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>&nbsp;|
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>">Delete</a>
+            <?php if( $link->track_me ) { ?>
+            |&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>&nbsp;|
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php echo $link->slug; ?>">Hits</a>
+            <?php } ?>
             <?php if( !$link->track_as_img )
             {
             ?>
@@ -118,9 +120,8 @@
             ?>
           </div>
         </td>
-        <td><?php echo $link->clicks; ?></td>
+        <td><?php echo (($link->track_me)?$link->clicks:"<img src=\"".PRLI_URL."/images/not_tracking.png\" title=\"This link isn't being tracked\"/>"); ?></td>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $link->group_id; ?>"><?php echo $link->group_name; ?></a></td>
-        <td><span title="<?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"Temporary Redirection (307)":"Permanent Redirection (301)")); ?>"><?php echo ($link->track_as_img?'':(($link->redirect_type == '307')?"T":"P")); ?></span></td>
         <td><?php echo $link->created_at; ?></td>
         </td>
         <td><input type='text' style="font-size: 10px; width: 100%;" readonly="true" onclick='this.select();' onfocus='this.select();' value='<?php echo $pretty_link_url; ?>' /><br/>
@@ -141,7 +142,6 @@
       <th class="manage-column">Name</th>
       <th class="manage-column">Hits</th>
       <th class="manage-column">Group</th>
-      <th class="manage-column" title="Redirect">Re</th>
       <th class="manage-column">Created</th>
       <th class="manage-column">Links</th>
     </tr>

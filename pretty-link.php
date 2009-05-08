@@ -41,9 +41,16 @@ function prli_menu()
   add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');
   add_action('admin_head-pretty-link/prli-add-link.php', 'prli_links_admin_header');
   add_action('admin_head-pretty-link/prli-groups.php', 'prli_groups_admin_header');
+  add_action('admin_head-pretty-link/prli-options.php', 'prli_options_admin_header');
 }
 
 add_action('admin_menu', 'prli_menu');
+
+/* Add header to prli-options page */
+function prli_options_admin_header()
+{
+  require_once 'classes/views/prli-options/head.php';
+}
 
 /* Add header to prli-clicks page */
 function prli_reports_admin_header()
@@ -130,7 +137,7 @@ function prli_redirect()
 add_action('init', 'prli_redirect'); //Redirect
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.2.6";
+$prli_db_version = "0.2.8";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
@@ -286,6 +293,11 @@ function prli_install() {
   }
 
   // Set PrettyBar Defaults
+  $prettybar_show_title  = 'prli_prettybar_show_title';
+  $prettybar_show_description  = 'prli_prettybar_show_description';
+  $prettybar_show_share_links  = 'prli_prettybar_show_share_links';
+  $prettybar_show_target_url_link  = 'prli_prettybar_show_target_url_link';
+
   if(!get_option($prettybar_show_title))
     add_option('prli_prettybar_show_title',1);
   if(!get_option($prettybar_show_description))
@@ -294,6 +306,27 @@ function prli_install() {
     add_option('prli_prettybar_show_share_links',1);
   if(!get_option($prettybar_show_target_url_link))
     add_option('prli_prettybar_show_target_url_link',1);
+
+  // Set Link Defaults
+  $link_show_prettybar = 'prli_link_show_prettybar';
+  $link_ultra_cloak = 'prli_link_ultra_cloak';
+  $link_track_me = 'prli_link_track_me';
+  $link_track_as_pixel = 'prli_link_track_as_pixel';
+  $link_nofollow = 'prli_link_nofollow';
+  $link_redirect_type = 'prli_link_redirect_type';
+
+  if(!get_option($link_show_prettybar))
+    add_option('prli_link_show_prettybar',0);
+  if(!get_option($link_ultra_cloak))
+    add_option('prli_link_ultra_cloak',0);
+  if(!get_option($link_track_me))
+    add_option('prli_link_track_me',1);
+  if(!get_option($link_track_as_pixel))
+    add_option('prli_link_track_as_pixel',0);
+  if(!get_option($link_nofollow))
+    add_option('prli_link_nofollow',0);
+  if(!get_option($link_redirect_type))
+    update_option('prli_link_redirect_type','307');
 
   if(empty($prli_current_db_version) or !$prli_current_db_version)
     add_option($prli_db_version,$prli_new_db_version);
