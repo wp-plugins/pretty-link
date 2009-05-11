@@ -91,22 +91,45 @@ class PrliLink
 
     function getOneFromSlug( $slug )
     {
-      global $wpdb;
-      $query = 'SELECT * FROM ' . $this->table_name() . ' WHERE slug=\'' . $slug . '\'';
+      global $wpdb, $prli_click;
+      $query = 'SELECT li.*, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id ' .
+                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
+               'FROM ' . $this->table_name() . ' li ' .
+               'WHERE slug=\'' . $slug . '\'';
       return $wpdb->get_row($query);
     }
 
     function getOne( $id )
     {
       global $wpdb, $prli_click;
-      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks FROM ' . $this->table_name() . ' li WHERE id=' . $id;
+      $query = 'SELECT li.*, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id ' .
+                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
+               'FROM ' . $this->table_name() . ' li ' .
+               'WHERE id=' . $id;
       return $wpdb->get_row($query);
     }
 
     function getAll($where = '', $order_by = '')
     {
       global $wpdb, $prli_click, $prli_group, $prli_utils;
-      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, gr.name as group_name FROM '. $this->table_name() . ' li LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+      $query = 'SELECT li.*, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id ' .
+                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
+                  'gr.name as group_name ' .
+               'FROM '. $this->table_name() . ' li ' .
+               'LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . 
+               $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
       return $wpdb->get_results($query);
     }
 
@@ -128,7 +151,17 @@ class PrliLink
       global $wpdb, $prli_click, $prli_utils, $prli_group;
       $end_index = $current_p * $p_size;
       $start_index = $end_index - $p_size;
-      $query = 'SELECT li.*, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, gr.name as group_name FROM ' . $this->table_name() . ' li LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by .' LIMIT ' . $start_index . ',' . $p_size . ';';
+      $query = 'SELECT li.*, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                      'WHERE cl.link_id = li.id ' .
+                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
+                  'gr.name as group_name ' .
+               'FROM ' . $this->table_name() . ' li ' .
+               'LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . 
+               $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by . ' ' . 
+               'LIMIT ' . $start_index . ',' . $p_size . ';';
       $results = $wpdb->get_results($query);
       return $results;
     }
