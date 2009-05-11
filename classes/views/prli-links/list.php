@@ -72,6 +72,12 @@
       ?>
       <tr>
         <td class="edit_link">
+        <?php if( $link->use_prettybar and !$link->track_as_img ) { ?>
+            <img src="<?php echo PRLI_URL.'/images/pretty-link-small.png'; ?>" title="Using PrettyBar" width="13px" height="13px" />
+        <?php } ?>
+        <?php if( $link->use_ultra_cloak and !$link->track_as_img ) { ?>
+            <img src="<?php echo PRLI_URL.'/images/ultra-cloak.png'; ?>" title="Using Ultra Cloak" width="13px" height="13px" />
+        <?php } ?>
         <?php if( $link->nofollow ) { ?>
             <img src="<?php echo PRLI_URL.'/images/nofollow.png'; ?>" title="nofollow" width="13px" height="13px" />
         <?php } ?>
@@ -125,7 +131,7 @@
             ?>
           </div>
         </td>
-        <td><?php echo (($link->track_me)?$link->clicks."/".$link->uniques:"<img src=\"".PRLI_URL."/images/not_tracking.png\" title=\"This link isn't being tracked\"/>"); ?></td>
+        <td><?php echo (($link->track_me)?"<a href=\"?page=".PRLI_PLUGIN_NAME."/prli-clicks.php&l=$link->id\" title=\"View clicks for $link->slug\">$link->clicks/$link->uniques</a>":"<img src=\"".PRLI_URL."/images/not_tracking.png\" title=\"This link isn't being tracked\"/>"); ?></td>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $link->group_id; ?>"><?php echo $link->group_name; ?></a></td>
         <td><?php echo $link->created_at; ?></td>
         </td>
