@@ -47,7 +47,8 @@ if(strlen($prli_blogdescription) > $str_size)
 ?>
 <html>
 <head>
-<title><?php echo $link->name; ?></title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <title><?php echo $link->name; ?></title>
 <style type="text/css">
 html, body {
   margin: 0px;

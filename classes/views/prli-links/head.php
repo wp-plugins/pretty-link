@@ -1,43 +1,38 @@
-<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-  $(".link_actions").hide();
-  $(".edit_link").hover(
-    function () {
-      $(this).find(".link_actions").show();
-    }, 
-    function () {
-      $(this).find(".link_actions").hide();
+jQuery(document).ready(function() {
+  jQuery('.link_actions').hide();
+  jQuery('.edit_link').hover(
+    function() {
+      jQuery(this).children(".link_actions").show();
+    },
+    function() {
+      jQuery(this).children(".link_actions").hide();
     }
   );
-});
-</script>
 
-<script type="text/javascript">
-$(document).ready(function(){
-  $(".options-table").hide();
-  $(".options-table-toggle > .expand-options").show();
-  $(".options-table-toggle > .collapse-options").hide();
-  $(".options-table-toggle").click( function () {
-      $(this).find(".expand-options").toggle();
-      $(this).find(".collapse-options").toggle();
-      $(".expand-collapse").toggle();
-      $(".options-table").toggle();
+  jQuery(".options-table").hide();
+  jQuery(".options-table-toggle > .expand-options").show();
+  jQuery(".options-table-toggle > .collapse-options").hide();
+  jQuery(".options-table-toggle").click( function () {
+      jQuery(this).children(".expand-options").toggle();
+      jQuery(this).children(".collapse-options").toggle();
+      jQuery(".expand-collapse").toggle();
+      jQuery(".options-table").toggle();
   });
 
-  $(".toggle_pane").hide();
-  $(".toggle").click( function () {
-      $(this).next(".toggle_pane").toggle();
+  jQuery(".toggle_pane").hide();
+  jQuery(".toggle").click( function () {
+      jQuery(this).next(".toggle_pane").toggle();
   });
-  $(".expand-all").click( function () {
-      $(".toggle_pane").show();
-      $(".expand-all").hide();
-      $(".collapse-all").show();
+  jQuery(".expand-all").click( function () {
+      jQuery(".toggle_pane").show();
+      jQuery(".expand-all").hide();
+      jQuery(".collapse-all").show();
   });
-  $(".collapse-all").click( function () {
-      $(".toggle_pane").hide();
-      $(".expand-all").show();
-      $(".collapse-all").hide();
+  jQuery(".collapse-all").click( function () {
+      jQuery(".toggle_pane").hide();
+      jQuery(".expand-all").show();
+      jQuery(".collapse-all").hide();
   });
 });
 </script>
