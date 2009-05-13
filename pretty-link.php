@@ -26,6 +26,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require_once('prli-config.php');
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
+require_once('prli-api.php');
 
 
 function prli_menu()

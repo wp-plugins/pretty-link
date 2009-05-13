@@ -89,7 +89,7 @@ class PrliLink
       return $wpdb->query($reset);
     }
 
-    function getOneFromSlug( $slug )
+    function getOneFromSlug( $slug, $return_type = OBJECT )
     {
       global $wpdb, $prli_click;
       $query = 'SELECT li.*, ' .
@@ -100,7 +100,7 @@ class PrliLink
                       'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
                'FROM ' . $this->table_name() . ' li ' .
                'WHERE slug=\'' . $slug . '\'';
-      return $wpdb->get_row($query);
+      return $wpdb->get_row($query, $return_type);
     }
 
     function getOne( $id )
@@ -117,7 +117,7 @@ class PrliLink
       return $wpdb->get_row($query);
     }
 
-    function getAll($where = '', $order_by = '')
+    function getAll($where = '', $order_by = '', $return_type = OBJECT)
     {
       global $wpdb, $prli_click, $prli_group, $prli_utils;
       $query = 'SELECT li.*, ' .
@@ -130,7 +130,7 @@ class PrliLink
                'FROM '. $this->table_name() . ' li ' .
                'LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . 
                $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
-      return $wpdb->get_results($query);
+      return $wpdb->get_results($query, $return_type);
     }
 
     // Pagination Methods
@@ -146,7 +146,7 @@ class PrliLink
       return ceil((int)$this->getRecordCount($where) / (int)$p_size);
     }
 
-    function getPage($current_p,$p_size, $where = "", $order_by = '')
+    function getPage($current_p,$p_size, $where = "", $order_by = '', $return_type = OBJECT)
     {
       global $wpdb, $prli_click, $prli_utils, $prli_group;
       $end_index = $current_p * $p_size;
@@ -162,7 +162,7 @@ class PrliLink
                'LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . 
                $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by . ' ' . 
                'LIMIT ' . $start_index . ',' . $p_size . ';';
-      $results = $wpdb->get_results($query);
+      $results = $wpdb->get_results($query, $return_type);
       return $results;
     }
 

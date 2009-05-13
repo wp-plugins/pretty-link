@@ -54,11 +54,11 @@ class PrliGroup
       return $wpdb->get_row($query);
   }
 
-  function getAll( $where = '', $order_by = '' )
+  function getAll( $where = '', $order_by = '', $return_type = OBJECT )
   {
       global $wpdb, $prli_utils, $prli_link, $prli_click;
       $query = 'SELECT gr.*, (SELECT COUNT(*) FROM ' . $prli_link->table_name() . ' li WHERE li.group_id = gr.id) as link_count, (SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl WHERE link_id IN (SELECT li2.id FROM ' . $prli_link->table_name() . ' li2 WHERE li2.group_id=gr.id)) as click_count FROM ' . $this->table_name() . ' gr' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
-      return $wpdb->get_results($query);
+      return $wpdb->get_results($query, $return_type);
   }
 
   // Pagination Methods
