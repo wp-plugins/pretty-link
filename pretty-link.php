@@ -327,6 +327,12 @@ function prli_install() {
     add_option('prli_link_nofollow',0);
   if(!get_option($link_redirect_type))
     update_option('prli_link_redirect_type','307');
+  if(!get_option('prli_prettybar_title_limit'))
+    update_option('prli_prettybar_title_limit', '30');
+  if(!get_option('prli_prettybar_desc_limit'))
+    update_option('prli_prettybar_desc_limit', '40');
+  if(!get_option('prli_prettybar_link_limit'))
+    update_option('prli_prettybar_link_limit', '40');
 
   if(empty($prli_current_db_version) or !$prli_current_db_version)
     add_option($prli_db_version,$prli_new_db_version);

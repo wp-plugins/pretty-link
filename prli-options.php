@@ -17,6 +17,9 @@ $prettybar_show_title  = 'prli_prettybar_show_title';
 $prettybar_show_description  = 'prli_prettybar_show_description';
 $prettybar_show_share_links  = 'prli_prettybar_show_share_links';
 $prettybar_show_target_url_link  = 'prli_prettybar_show_target_url_link';
+$prettybar_title_limit = 'prli_prettybar_title_limit';
+$prettybar_desc_limit = 'prli_prettybar_desc_limit';
+$prettybar_link_limit = 'prli_prettybar_link_limit';
 $link_show_prettybar = 'prli_link_show_prettybar';
 $link_ultra_cloak = 'prli_link_ultra_cloak';
 $link_track_me = 'prli_link_track_me';
@@ -40,6 +43,9 @@ $prettybar_show_title_val = get_option( $prettybar_show_title );
 $prettybar_show_description_val = get_option( $prettybar_show_description );
 $prettybar_show_share_links_val = get_option( $prettybar_show_share_links );
 $prettybar_show_target_url_link_val = get_option( $prettybar_show_target_url_link );
+$prettybar_title_limit_val = get_option( $prettybar_title_limit );
+$prettybar_desc_limit_val = get_option( $prettybar_desc_limit );
+$prettybar_link_limit_val = get_option( $prettybar_link_limit );
 $link_show_prettybar_val = get_option( $link_show_prettybar );
 $link_ultra_cloak_val = get_option( $link_ultra_cloak );
 $link_track_me_val = get_option( $link_track_me );
@@ -76,6 +82,24 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   if( !empty($_POST[ $prettybar_visited_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_visited_color ] ) )
     $errors[] = "PrettyBar Hover Color must be an actual RGB Value";
 
+  if( empty($_POST[ $prettybar_title_limit ]) )
+    $errors[] = "PrettyBar Title Character Limit must not be blank";
+
+  if( empty($_POST[ $prettybar_desc_limit ]) )
+    $errors[] = "PrettyBar Description Character Limit must not be blank";
+
+  if( empty($_POST[ $prettybar_link_limit ]) )
+    $errors[] = "PrettyBar Link Character Limit must not be blank";
+
+  if( !empty($_POST[ $prettybar_title_limit ]) and !preg_match( "#^[0-9]*$#", $_POST[ $prettybar_title_limit ] ) )
+    $errors[] = "PrettyBar Title Character Limit must be a number";
+
+  if( !empty($_POST[ $prettybar_desc_limit ]) and !preg_match( "#^[0-9]*$#", $_POST[ $prettybar_desc_limit ] ) )
+    $errors[] = "PrettyBar Description Character Limit must be a number";
+
+  if( !empty($_POST[ $prettybar_link_limit ]) and !preg_match( "#^[0-9]*$#", $_POST[ $prettybar_link_limit ] ) )
+    $errors[] = "PrettyBar Link Character Limit must be a number";
+
   // Read their posted value
   $prli_exclude_ips_val = stripslashes($_POST[ $prli_exclude_ips ]);
   $prettybar_image_url_val = stripslashes($_POST[ $prettybar_image_url ]);
@@ -89,13 +113,15 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   $prettybar_show_description_val = (int)isset($_POST[ $prettybar_show_description ]);
   $prettybar_show_share_links_val = (int)isset($_POST[ $prettybar_show_share_links ]);
   $prettybar_show_target_url_link_val = (int)isset($_POST[ $prettybar_show_target_url_link ]);
+  $prettybar_title_limit_val = stripslashes($_POST[ $prettybar_title_limit ]);
+  $prettybar_desc_limit_val = stripslashes($_POST[ $prettybar_desc_limit ]);
+  $prettybar_link_limit_val = stripslashes($_POST[ $prettybar_link_limit ]);
   $link_show_prettybar_val = (int)isset($_POST[ $link_show_prettybar ]);
   $link_ultra_cloak_val = (int)isset($_POST[ $link_ultra_cloak ]);
   $link_track_me_val = (int)isset($_POST[ $link_track_me ]);
   $link_track_as_pixel_val = (int)isset($_POST[ $link_track_as_pixel ]);
   $link_nofollow_val = (int)isset($_POST[ $link_nofollow ]);
   $link_redirect_type_val = $_POST[ $link_redirect_type ];
-
 
   if( count($errors) > 0 )
   {
@@ -116,6 +142,9 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     update_option( $prettybar_show_description, $prettybar_show_description_val );
     update_option( $prettybar_show_share_links, $prettybar_show_share_links_val );
     update_option( $prettybar_show_target_url_link, $prettybar_show_target_url_link_val );
+    update_option( $prettybar_title_limit, $prettybar_title_limit_val );
+    update_option( $prettybar_desc_limit, $prettybar_desc_limit_val );
+    update_option( $prettybar_link_limit, $prettybar_link_limit_val );
     update_option( $link_show_prettybar, $link_show_prettybar_val );
     update_option( $link_ultra_cloak, $link_ultra_cloak_val );
     update_option( $link_track_me, $link_track_me_val );

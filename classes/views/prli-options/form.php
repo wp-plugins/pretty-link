@@ -96,6 +96,27 @@
     </td>
   </tr>
   <tr>
+    <td valign="top" width="15%"><?php _e("Title Char Limit*:", $prettybar_title_limit ); ?> </td>
+    <td width="85%">
+      <input type="text" name="<?php echo $prettybar_title_limit; ?>" value="<?php echo $prettybar_title_limit_val; ?>" size="4"/>
+      <br/><span class="setting-description">If your Website has a long title then you may need to adjust this value so that it will all fit on the PrettyBar. It is recommended that you keep this value to <code>30</code> characters or less so the PrettyBar's format looks good across different browsers and screen resolutions.</span>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="15%"><?php _e("Description Char Limit*:", $prettybar_desc_limit ); ?> </td>
+    <td width="85%">
+      <input type="text" name="<?php echo $prettybar_desc_limit; ?>" value="<?php echo $prettybar_desc_limit_val; ?>" size="4"/>
+      <br/><span class="setting-description">If your Website has a long Description (tagline) then you may need to adjust this value so that it will all fit on the PrettyBar. It is recommended that you keep this value to <code>40</code> characters or less so the PrettyBar's format looks good across different browsers and screen resolutions.</span>
+    </td>
+  </tr>
+  <tr>
+    <td valign="top" width="15%"><?php _e("Target URL Char Limit*:", $prettybar_link_limit ); ?> </td>
+    <td width="85%">
+      <input type="text" name="<?php echo $prettybar_link_limit; ?>" value="<?php echo $prettybar_link_limit_val; ?>" size="4"/>
+      <br/><span class="setting-description">If you link to a lot of large Target URLs you may want to adjust this value. It is recommended that you keep this value to <code>40</code> or below so the PrettyBar's format looks good across different browsers and URL sizes</span>
+    </td>
+  </tr>
+  <tr>
     <td colspan="2">
       <input type="checkbox" name="<?php echo $prettybar_show_title; ?>" <?php echo (($prettybar_show_title_val != 0)?'checked="true"':''); ?>/>&nbsp; Show Pretty Bar Title
       <br/><span class="setting-description">Make sure this is checked if you want the title of your blog (and link) to show up on the PrettyBar.</span>
@@ -119,6 +140,7 @@
       <br/><span class="setting-description">Make sure this is checked if you want a link displaying the Target URL to show up on the PrettyBar.</span>
     </td>
   </tr>
+
 </table>
 <h3><a class="toggle reporting-toggle-button">Reporting Options <span class="reporting-expand" style="display: none;">[+]</span><span class="reporting-collapse">[-]</span></a></h3>
 <table class="reporting-toggle-pane form-table">

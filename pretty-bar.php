@@ -15,6 +15,9 @@ $bar_show_title = get_option('prli_prettybar_show_title');
 $bar_show_description = get_option('prli_prettybar_show_description');
 $bar_show_share_links = get_option('prli_prettybar_show_share_links');
 $bar_show_target_url_link = get_option('prli_prettybar_show_target_url_link');
+$bar_title_limit = (int)get_option('prli_prettybar_title_limit');
+$bar_desc_limit = (int)get_option('prli_prettybar_desc_limit');
+$bar_link_limit = (int)get_option('prli_prettybar_link_limit');
 
 if(empty($bar_image) or !$bar_image)
   $bar_image = 'images/pretty-link-48x48.png';
@@ -34,16 +37,19 @@ if(empty($bar_visited_color) or !$bar_visited_color)
 if(empty($bar_hover_color) or !$bar_hover_color)
   $bar_hover_color = 'ababab';
 
-$str_size = 40;
+$shortened_title = substr($prli_blogname,0,$bar_title_limit);
+$shortened_desc  = substr($prli_blogdescription,0,$bar_desc_limit);
+$shortened_link  = substr($_GET['url'],0,$bar_link_limit);
 
-$shortened_link = substr($_GET['url'],0,$str_size);
-$shortened_desc = substr($prli_blogdescription,0,$str_size);
+if(strlen($prli_blogname) > $bar_title_limit)
+  $shortened_title .= "...";
 
-if(strlen($_GET['url']) > $str_size)
+if(strlen($prli_blogdescription) > $bar_desc_limit)
+  $shortened_desc .= "...";
+
+if(strlen($_GET['url']) > $bar_link_limit)
   $shortened_link .= "...";
 
-if(strlen($prli_blogdescription) > $str_size)
-  $shortened_desc .= "...";
 ?>
 <html>
 <head>
@@ -89,6 +95,7 @@ html, body {
 #blog_title {
   padding-top: 5px;
   margin: 0px;
+  width: 200px;
 }
 
 h1,h2,h3,h4,p {
@@ -126,10 +133,16 @@ a:hover {
   float: right;
 }
 
+.pb-cell {
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 #right_container {
   float: right;
   margin-top: 8px;
   margin-right: 8px;
+  text-align: right;
 }
 
 #closebutton:hover {
@@ -142,18 +155,22 @@ a:hover {
 
 ul#baritems li {
   display: inline;
-  float: left;
-  padding-left: 15px;
+  /*float: left;*/
+  /*padding-left: 15px;*/
 }
 
 #retweet {
   padding-top: 5px;
-  padding-left: 50px;
+  /*padding-left: 50px;*/
   line-height: 26px;
+  width: 200px;
 }
 
 #blog_image {
   padding-top: 7px;
+  padding-left: 5px;
+  padding-right: 5px;
+  width: 50px;
 }
 
 #small_text {
@@ -161,35 +178,39 @@ ul#baritems li {
 }
 
 .powered_by {
-  padding-top: 40px;
+  padding-top: 15px;
+  text-align: right;
 }
+
+/*
+td {
+  border: 1px solid black;
+}
+*/
 </style>
 </head>
 <body>
   <div id="prettybar">
-    <div id="right_container">
-      <p id="closebutton" class="map"><a href="<?php echo $_GET['url']; ?>" target="_top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
-      <p id="small_text" class="powered_by">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="images/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
-    </div>
-    <ul id="baritems">
-      <li>
-        <div id="blog_image">
+    <table width="100%" height="65px">
+      <tr>
+      <td id="blog_image" valign="top">
+        <div class="pb-cell">
         <a href="<?php echo $prli_blogurl; ?>" target="_top"><img src="<?php echo $bar_image; ?>" width="48px" height="48px" border="0"/></a></div>
-      </li>
-      <li>
-        <div id="blog_title">
+      </td>
+      <td id="blog_title" valign="top">
+        <div class="pb-cell">
           <h2>
           <?php if( $bar_show_title ) { ?>
-          <a href="<?php echo $prli_blogurl; ?>" title="<?php echo $prli_blogname; ?>" target="_top"><?php echo $prli_blogname; ?></a>
+          <a href="<?php echo $prli_blogurl; ?>" title="<?php echo $shortened_title; ?>" target="_top"><?php echo $shortened_title; ?></a>
           <?php } else echo "&nbsp;"; ?>
           </h2> 
           <?php if( $bar_show_description ) { ?>
           <p title="<?php echo $prli_blogdescription; ?>"><?php echo $shortened_desc; ?></p> 
           <?php } else echo "&nbsp;"; ?>
         </div>
-      </li>
-      <li>
-        <div id="retweet">
+      </td>
+      <td id="retweet" valign="top">
+        <div class="pb-cell">
           <h4>
           <?php if( $bar_show_target_url_link ) { ?>
             <a href="<?php echo $_GET['url']; ?>" title="You're viewing: <?php echo $_GET['url']; ?>" target="_top">Viewing: <?php echo $shortened_link; ?></a>
@@ -201,8 +222,24 @@ ul#baritems li {
           <?php } else echo "&nbsp;"; ?>
           </h4> 
         </div>
-      </li>
-    </ul>
+      </td>
+      <td valign="top">
+        <div id="right_container" class="pb-cell">
+          <table width="100%" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px;">
+            <tr>
+              <td>
+                <p id="closebutton" class="map"><a href="<?php echo $_GET['url']; ?>" target="_top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
+              </td>
+            <tr>
+              <td>
+                <p id="small_text" class="powered_by">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="images/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </td>
+      </tr>
+    </table>
   </div>
 </div>
 </body>
