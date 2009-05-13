@@ -161,7 +161,7 @@ ul#baritems li {
 
 #retweet {
   padding-top: 5px;
-  /*padding-left: 50px;*/
+  padding-left: 15px;
   line-height: 26px;
   width: 200px;
 }
