@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
 Requires at least: 2.7.1
 Tested up to: 2.7.1
-Stable tag: 1.3.27
+Stable tag: 1.3.28
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -68,6 +68,18 @@ http://blairwilliams.com/x0z
 
 == Frequently Asked Questions ==
 [Pretty Link FAQ](http://blairwilliams.com/pretty-link/pretty-link-faq "Pretty link FAQ")
+
+= Developers =
+Pretty Link has an API with 2 different access methods:
+
+1. A Local WordPress API (usable by other plugins)
+
+2. A Remote XML-RPC API (usable by any Internet enabled application)
+
+If you're interested in offering your users the possibility of creating shortlinks on their own domain name from within your WordPress plugin or Internet enabled application check this out:
+
+[Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
+
 
 == Screenshots ==
 [Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
