@@ -26,7 +26,8 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 require_once('prli-config.php');
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
-require_once('prli-api.php');
+require_once('prli-api.php'); // load api methods
+require_once('prli-xmlrpc.php'); // load xml-rpc api methods
 
 
 function prli_menu()
@@ -136,6 +137,20 @@ function prli_redirect()
 }
 
 add_action('init', 'prli_redirect'); //Redirect
+
+/********* EXPORT PRETTY LINK API VIA XML-RPC ***********/
+function prli_export_api($api_methods)
+{
+  $api_methods['prli.create_pretty_link'] = 'prli_xmlrpc_create_pretty_link';
+  $api_methods['prli.get_all_groups']     = 'prli_xmlrpc_get_all_groups';
+  $api_methods['prli.get_all_links']      = 'prli_xmlrpc_get_all_links';
+  $api_methods['prli.get_link']           = 'prli_xmlrpc_get_link';
+  $api_methods['prli.api_version']        = 'prli_xmlrpc_api_version';
+
+  return $api_methods;
+}
+
+add_filter('xmlrpc_methods', 'prli_export_api');
 
 /********* INSTALL PLUGIN ***********/
 $prli_db_version = "0.2.8";

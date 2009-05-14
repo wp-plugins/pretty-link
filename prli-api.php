@@ -4,7 +4,15 @@
  */
 
 /**
- * Get a Pretty Link for a long, ugly URL.
+ * Returns the API Version as a string.
+ */
+function prli_api_version()
+{
+  return '1.0';
+}
+
+/**
+ * Create a Pretty Link for a long, ugly URL.
  *
  * @param string $target_url Required, it is the value of the Target URL you
  *                           want the Pretty Link to redirect to
@@ -43,23 +51,23 @@
  *                                   if not set the default value (from the pretty
  *                                   link option page) will be used
  *
- * @return boolean true for Success and false for Failure, This function will set
- *                 a global variable named $prli_pretty_link which gives the full
- *                 URL of the link and $prli_pretty_slug which gives the slug of
- *                 the link created if the link is successfully created -- it will
- *                 set a variable named $prli_error_messages if the link was not
- *                 successfully created.
+ * @return boolean / string The Full Pretty Link if Successful and false for Failure.
+ *                          This function will also set a global variable named 
+ *                          $prli_pretty_slug which gives the slug of the link 
+ *                          created if the link is successfully created -- it will
+ *                          set a variable named $prli_error_messages if the link 
+ *                          was not successfully created.
  */
-function prli_get_pretty_link( $target_url,
-                               $slug = '',
-                               $name = '',
-                               $description = '',
-                               $group_id = '',
-                               $show_prettybar = '',
-                               $ultra_cloak = '',
-                               $track_me = '',
-                               $nofollow = '',
-                               $redirect_type = '' )
+function prli_create_pretty_link( $target_url,
+                                  $slug = '',
+                                  $name = '',
+                                  $description = '',
+                                  $group_id = '',
+                                  $show_prettybar = '',
+                                  $ultra_cloak = '',
+                                  $track_me = '',
+                                  $nofollow = '',
+                                  $redirect_type = '' )
 {
   global $wpdb, $prli_link, $prli_blogurl;
   global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug;
@@ -98,9 +106,8 @@ function prli_get_pretty_link( $target_url,
   {
     if( $prli_link->create( $values ) )
     {
-      $prli_pretty_link = $prli_blogurl . '/' . $values['slug'];
       $prli_pretty_slug = $values['slug'];
-      return true;
+      return $prli_blogurl . '/' . $values['slug'];
     }
     else
     {
