@@ -137,7 +137,7 @@ class PrliLink
     function getRecordCount($where="")
     {
       global $wpdb, $prli_utils;
-      $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . $prli_utils->prepend_and_or_where(' WHERE', $where);
+      $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . ' li' . $prli_utils->prepend_and_or_where(' WHERE', $where);
       return $wpdb->get_var($query);
     }
 

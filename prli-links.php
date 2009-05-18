@@ -132,7 +132,7 @@ function prli_get_link_sort_vars($params,$where_clause = '')
       if(!empty($where_clause))
         $where_clause .= " AND";
 
-      $where_clause .= " (name like '%$search_param%' OR slug like '%$search_param%' or url like '%$search_param%' or created_at like '%$search_param%')";
+      $where_clause .= " (li.name like '%$search_param%' OR li.slug like '%$search_param%' OR li.url like '%$search_param%' OR li.created_at like '%$search_param%')";
     }
 
     $page_params .="&search=$search_str";
