@@ -1,7 +1,7 @@
 <!-- JQuery UI Includes -->
-<link type="text/css" href="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/css/ui-lightness/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
-<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
-<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/jquery/js/jquery-ui-1.7.1.custom.min.js"></script>
+<link type="text/css" href="<?php echo PRLI_URL; ?>/includes/jquery/css/ui-lightness/jquery-ui-1.7.1.custom.css" rel="stylesheet" />
+<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/jquery/js/jquery-1.3.2.min.js"></script>
+<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/jquery/js/jquery-ui-1.7.1.custom.min.js"></script>
 
 <script type="text/javascript">
   $(document).ready(function(){
@@ -39,10 +39,10 @@ $(document).ready(function(){
 </style>
 
 <!-- Open Flash Chart Includes -->
-<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/json/json2.js"></script>
-<script type="text/javascript" src="<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/js/swfobject.js"></script>
+<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/version-2-ichor/js/json/json2.js"></script>
+<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/version-2-ichor/js/swfobject.js"></script>
 <script type="text/javascript">
-swfobject.embedSWF("<?php echo $prli_siteurl; ?>/wp-content/plugins/<?php echo PRLI_PLUGIN_NAME; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "250", "9.0.0");
+swfobject.embedSWF("<?php echo PRLI_URL; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "250", "9.0.0");
 </script>
 
 <script type="text/javascript">
