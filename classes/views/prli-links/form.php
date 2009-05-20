@@ -32,7 +32,7 @@
           foreach($values['groups'] as $group)
           {
         ?>
-            <option value="<?php echo $group['id']; ?>"<?php echo $group['val']; ?>><?php echo $group['name']; ?></option>
+            <option value="<?php echo $group['id']; ?>"<?php echo $group['value']; ?>><?php echo $group['name']; ?>&nbsp;</option>
         <?php
           }
         ?>

@@ -231,7 +231,7 @@ class PrliLink
 
     function validate( $values )
     {
-      global $wpdb, $prli_utils;
+      global $wpdb, $prli_utils, $prli_blogurl;
 
       $errors = array();
       if( ( $values['url'] == null or $values['url'] == '') and $values['track_as_img'] != 'on' )
@@ -239,6 +239,9 @@ class PrliLink
 
       if( $values['slug'] == null or $values['slug'] == '' )
         $errors[] = "Pretty Link can't be blank";
+
+      if( $values['url'] == "$prli_blogurl/".$values['slug'] )
+        $errors[] = "Target URL must be different than the Pretty Link";
 
       if( !empty($values['url']) and !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) )
         $errors[] = "Link URL must be a correctly formatted url";

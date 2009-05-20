@@ -1,5 +1,7 @@
 <div class="wrap">
-  <p style="font-size: 14px; font-weight: bold; float: right; padding-top: 25px;"><a href="http://blairwilliams.com/faq" target="_blank">Get Help</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/blog" target="_blank">Blog</a>&nbsp;|&nbsp;<a href="http://blairwilliams.com/don" target="_blank">Donate</a></p>
+<?php
+  require(PRLI_VIEWS_PATH.'/shared/nav.php');
+?>
   <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Groups</h2>
   <div id="message" class="updated fade" style="padding:5px;"><?php echo $prli_message; ?></div> 
   <div id="search_pane" style="float: right;">

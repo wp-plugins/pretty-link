@@ -7,7 +7,7 @@ $params = $prli_link->get_params_array();
 if($params['action'] == 'list')
 {
   if(empty($params['group']))
-    $prli_message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
+    $prli_message = prli_get_main_message();
   else
     $prli_message = "Links in Group: " . $wpdb->get_var("SELECT name FROM " . $prli_group->table_name() . " WHERE id=".$params['group']);
   if($params['regenerate'] == 'true')
@@ -176,6 +176,20 @@ function prli_get_link_sort_vars($params,$where_clause = '')
                'search_str' => $search_str, 
                'where_clause' => $where_clause, 
                'page_params' => $page_params);
+}
+
+function prli_get_main_message()
+{
+include_once(ABSPATH."/wp-includes/class-IXR.php");
+
+$client = new IXR_Client('http://blairwilliams.com/xmlrpc.php');
+
+$message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
+
+if ($client->query('prli.get_main_message'))
+  $message = $client->getResponse();
+
+return $message;
 }
 
 
