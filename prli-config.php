@@ -90,6 +90,7 @@ function setup_edit_vars($groups,$record)
   $values['param_forwarding']['off'] = ((!isset($_POST['param_forwarding']) or $record->param_forwarding == 'off')?'checked="true"':'');
   $values['param_forwarding']['on'] = (((isset($_POST['param_forwarding']) and $_POST['param_forwarding'] == 'on') or (isset($record->param_forwarding) and $record->param_forwarding == 'on'))?'checked="true"':'');
   $values['param_forwarding']['custom'] = (((isset($_POST['param_forwarding']) and $_POST['param_forwarding'] == 'custom') or (isset($record->param_forwarding) and $record->param_forwarding == 'custom'))?'checked="true"':'');
+  $values['param_struct'] = (($_POST['param_struct'] != null and $record == null)?$_POST['param_struct']:$record->param_struct);
 
   $values['redirect_type'] = array();
   $values['redirect_type']['307'] = ((!isset($_POST['redirect_type']) or $_POST['redirect_type'] == '307' or $record->redirect_type == '307')?'checked="true"':'');

@@ -97,17 +97,49 @@ function getFirstRecordNum($r_count,$current_p,$p_size)
     }
 }
 
-function slugIsAvailable($slug)
+function slugIsAvailable( $full_slug, $id = '' )
 {
-  global $wpdb;
+  global $wpdb, $prli_blogurl, $prli_link;
 
+  // We don't care about anything after the slash for now because we don't want
+  // to have to worry about comparing against every imaginable combination in WordPress
+  $slug_components = explode('/',$full_slug);
+  $slug = $slug_components[0];
+
+  // Check slug uniqueness against posts, pages and categories
   $posts_table = $wpdb->prefix . "posts";
   $terms_table = $wpdb->prefix . "terms";
 
   $post_slug = $wpdb->get_var("SELECT post_name FROM $posts_table WHERE post_name='$slug'");
   $term_slug = $wpdb->get_col("SELECT slug FROM $terms_table WHERE slug='$slug'");
 
-  return ( $post_slug != $slug and $term_slug != $slug );
+  if( $post_slug == $slug or $term_slug == $slug )
+    return false;
+
+  // Check slug against files on the root wordpress install
+  $root_dir = opendir(ABSPATH); 
+
+  while (($file = readdir($root_dir)) !== false) {
+    $haystack = strtolower($file);
+    if($haystack == $slug)
+      return false;
+  }
+
+  // Check slug against other slugs in the prli links database.
+  // We'll use the full_slug here because its easier to guarantee uniqueness.
+  if($id != null and $id != '')
+    $query = "SELECT slug FROM " . $prli_link->table_name() . " WHERE slug='" . $full_slug . "' AND id <> " . $id;
+  else
+    $query = "SELECT slug FROM " . $prli_link->table_name() . " WHERE slug='" . $full_slug . "'";
+
+  $link_slug = $wpdb->get_var($query);
+
+  if( $link_slug == $full_slug )
+    return false;
+
+  // TODO: Check permalink structure to avoid the ability of creating a year or something as a slug
+
+  return true;
 }
 
 /* Needed because we don't know if the target uesr will have a browsercap file installed

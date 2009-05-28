@@ -101,7 +101,7 @@
           <div class="toggle_pane setting-description">Select this option if you want to forward parameters through your pretty link to your Target URL. This will allow you to pass parameters in the standard syntax for example the pretty link <code>http://yoururl.com/coollink?product_id=4&sku=5441</code> will forward to the target URL and append the same parameters like so: <code>http://anotherurl.com?product_id=4&sku=5441</code>.</div>
         </li>
         <li>
-          <input type="radio" name="param_forwarding" value="custom" <?php echo $values['param_forwarding']['custom']; ?> />&nbsp;Custom Parameter Forwarding&nbsp;&nbsp;<input type="text" name="param_struct" value="<?php echo $values['param_struct']; ?>" size="25"/> <a class="toggle">[?]</a>
+          <input type="radio" name="param_forwarding" value="custom" <?php echo $values['param_forwarding']['custom']; ?> />&nbsp;Custom Parameter Forwarding&nbsp;&nbsp;<input type="text" name="param_struct" value="<?php echo $values['param_struct'] ?>" size="25"/> <a class="toggle">[?]</a>
           <div class="toggle_pane setting-description">Select this option if you want to forward parameters through your Pretty Link to your Target URL and write the parameters in a custom format. For example, say I wanted to to have my links look like this: <code>http://yourdomain.com/products/14/4</code> and I wanted this to forward to <code>http://anotherurl.com?product_id=14&dock=4</code> you'd just select this option and enter the following string into the text field <code>/products/%product_id%/%dock%</code>. This will tell Pretty Link where each variable will be located in the URL and what each variable name is.</div>
         </li>
       </ul>

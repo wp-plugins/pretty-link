@@ -117,6 +117,7 @@ function prli_redirect()
 
   $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
  
+  // match short slugs (most common)
   if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
   {
     $link = $prli_link->getOneFromSlug($match_val[1]);
@@ -132,6 +133,30 @@ function prli_redirect()
 
       $prli_utils->track_link($link->slug,$custom_get); 
       exit;
+    }
+  }
+
+  // Match nested slugs (pretty link sub-directory nesting)
+  $possible_links = $wpdb->get_col("SELECT slug FROM " . $prli_link->table_name() . " WHERE slug like '".$match_val[1]."/%'",0);
+  foreach($possible_links as $possible_link)
+  {
+    // Try to match the full link against the URI
+    if( preg_match('#^'.$subdir[1].'/('.$possible_link.')([\?/].*?)?$#', $_SERVER['REQUEST_URI'], $match_val) )
+    {
+      $link = $prli_link->getOneFromSlug($possible_link);
+      
+      if(isset($link->slug) and !empty($link->slug))
+      {
+        $custom_get = $_GET;
+
+        if(isset($link->param_forwarding) and $link->param_forwarding == 'custom')
+        {
+          $custom_get = $prli_utils->decode_custom_param_str($link->param_struct, $match_val[2]);
+        }
+
+        $prli_utils->track_link($link->slug,$custom_get); 
+        exit;
+      }
     }
   }
 }

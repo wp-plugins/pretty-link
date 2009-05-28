@@ -246,17 +246,10 @@ class PrliLink
       if( !empty($values['url']) and !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) )
         $errors[] = "Link URL must be a correctly formatted url";
 
-      if( !preg_match('/^[a-zA-Z0-9\.\-_]+$/', $values['slug'] ) )
+      if( !preg_match('/^[a-zA-Z0-9\.\-_\/]+$/', $values['slug'] ) )
         $errors[] = "Pretty Link must not contain spaces or special characters";
 
-      if($values['id'] != null and $values['id'] != '')
-        $query = "SELECT slug FROM " . $this->table_name() . " WHERE slug='" . $values['slug'] . "' AND id <> " . $values['id'];
-      else
-        $query = "SELECT slug FROM " . $this->table_name() . " WHERE slug='" . $values['slug'] . "'";
-
-      $slug_already_exists = $wpdb->get_var($query);
-
-      if( $slug_already_exists or !$prli_utils->slugIsAvailable($values['slug']) )
+      if( !$prli_utils->slugIsAvailable($values['slug'],$values['id']) )
         $errors[] = "This pretty link slug is already taken, please choose a different one";
 
       if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and empty($values['param_struct']) )
