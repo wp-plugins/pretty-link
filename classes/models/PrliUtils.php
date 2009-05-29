@@ -240,7 +240,7 @@ function track_link($slug,$values)
   // Reformat Parameters
   $param_string = '';
     
-  if(isset($pretty_link->param_forwarding) and $pretty_link->param_forwarding and isset($values) and count($values) > 1)
+  if(isset($pretty_link->param_forwarding) and $pretty_link->param_forwarding and isset($values) and count($values) >= 1)
   {
     $first_param = true;
     foreach($values as $key => $value)
