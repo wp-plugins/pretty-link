@@ -30,7 +30,11 @@ class PrliLink
                      (isset($values['group_id'])?(int)$values['group_id']:'NULL') . ',' . 
                      'NOW())';
       $query_results = $wpdb->query($query);
-      return $query_results;
+
+     if($query_results)
+        return $wpdb->insert_id;
+      else
+        return false;
     }
 
     function update( $id, $values )

@@ -437,5 +437,10 @@ function decode_custom_param_str($param_struct, $uri_string)
       return (( $where == '' )?'':$starts_with . $where);
     }
 
+    // Determines whether or not Pretty Link Pro is installed
+    function pro_is_installed()
+    {
+      return file_exists(PRLI_PATH . "/pro/pretty-link-pro.php");
+    }
 }
 ?>

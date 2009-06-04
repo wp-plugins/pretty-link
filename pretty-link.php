@@ -29,6 +29,11 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 require_once('prli-api.php'); // load api methods
 require_once('prli-xmlrpc.php'); // load xml-rpc api methods
 
+if($prli_utils->pro_is_installed())
+{
+  // Provide Back End Hooks to the Pro version of Pretty Link
+  require_once(PRLI_PATH.'/pro/pretty-link-pro.php');
+}
 
 function prli_menu()
 {
@@ -369,6 +374,16 @@ function prli_install() {
     add_option($prli_db_version,$prli_new_db_version);
   else
     update_option($prli_db_version,$prli_new_db_version);
+
+  // Pro Options
+  if(!get_option('prli_posts_auto'))
+    add_option('prli_posts_auto', '0');
+  if(!get_option('prli_pages_auto'))
+    add_option('prli_pages_auto', '0');
+  if(!get_option('prli_posts_group'))
+    add_option('prli_posts_group', '');
+  if(!get_option('prli_pages_group'))
+    add_option('prli_pages_group', '');
 }
 
 // Ensure this gets called on first install

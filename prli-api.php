@@ -104,10 +104,9 @@ function prli_create_pretty_link( $target_url,
     
   if( count($prli_error_messages) == 0 )
   {
-    if( $prli_link->create( $values ) )
+    if( $id = $prli_link->create( $values ) )
     {
-      $prli_pretty_slug = $values['slug'];
-      return $prli_blogurl . '/' . $values['slug'];
+      return $id;
     }
     else
     {
@@ -116,7 +115,77 @@ function prli_create_pretty_link( $target_url,
     }
   }
   else
+  {
     return false;
+  }
+}
+
+function prli_update_pretty_link( $id,
+                                  $target_url = '',
+                                  $slug = '',
+                                  $name = '',
+                                  $description = '',
+                                  $group_id = '',
+                                  $show_prettybar = '',
+                                  $ultra_cloak = '',
+                                  $track_me = '',
+                                  $nofollow = '',
+                                  $redirect_type = '' )
+{
+  global $wpdb, $prli_link, $prli_blogurl;
+  global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug;
+
+  $record = $prli_link->getOne($id);
+
+  $prli_error_messages = array();
+
+  $values = array();
+  $values['id']               = $id;
+  $values['url']              = ((empty($target_url)?$record->url:$target_url));
+  $values['slug']             = ((empty($slug))?$record->slug:$slug);
+  $values['name']             = ((empty($name))?$record->name:$name);
+  $values['description']      = ((empty($description))?$record->description:$description);
+  $values['group_id']         = ((empty($group_id))?$record->group_id:$group_id);
+  $values['redirect_type']    = ((empty($redirect_type))?$record->redirect_type:$redirect_type);
+  $values['nofollow']         = ((empty($nofollow))?$record->nofollow:$nofollow);
+  $values['use_prettybar']    = ((empty($show_prettybar))?(int)$record->use_prettybar:$show_prettybar);
+  $values['use_ultra_cloak']  = ((empty($ultra_cloak))?(int)$record->use_ultra_cloak:$use_ultra_cloak);
+  $values['track_me']         = ((empty($track_me))?(int)$record->track_me:$track_me);
+  $values['track_as_img']     = (int)$record->track_as_img;
+  $values['param_forwarding'] = $record->param_forwarding; // not supported by this function
+  $values['param_struct']     = $record->param_struct;    // not supported by this function
+  $values['gorder']           = $record->gorder;     // not supported by this function
+
+  // make array look like $_POST
+  if(empty($values['nofollow']) or !$values['nofollow'])
+    unset($values['nofollow']);
+  if(empty($values['use_prettybar']) or !$values['use_prettybar'])
+    unset($values['use_prettybar']);
+  if(empty($values['use_ultra_cloak']) or !$values['use_ultra_cloak'])
+    unset($values['use_ultra_cloak']);
+  if(empty($values['track_me']) or !$values['track_me'])
+    unset($values['track_me']);
+  if(empty($values['track_as_img']) or !$values['track_as_img'])
+    unset($values['track_as_img']);
+
+  $prli_error_messages = $prli_link->validate( $values );
+    
+  if( count($prli_error_messages) == 0 )
+  {
+    if( $prli_link->update( $id, $values ) )
+    {
+      return true;
+    }
+    else
+    {
+      $prli_error_messages[] = "An error prevented your Pretty Link from being created";
+      return false;
+    }
+  }
+  else
+  {
+    return false;
+  }
 }
 
 /**
@@ -153,10 +222,23 @@ function prli_get_all_links()
  * @return bool (false if failure) | array An associative array with all the
  *                                         data about the given pretty link.
  */
-function prli_get_link($slug)
+function prli_get_link_from_slug($slug)
 {
   global $prli_link;
   $link = $prli_link->getOneFromSlug($slug, ARRAY_A);
+  return $link;
+}
+
+/**
+ * Gets a specific link from id and returns info about it in an array
+ *
+ * @return bool (false if failure) | array An associative array with all the
+ *                                         data about the given pretty link.
+ */
+function prli_get_link($id)
+{
+  global $prli_link;
+  $link = $prli_link->getOne($id, ARRAY_A);
   return $link;
 }
                              
