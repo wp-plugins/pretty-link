@@ -241,5 +241,20 @@ function prli_get_link($id)
   $link = $prli_link->getOne($id, ARRAY_A);
   return $link;
 }
+
+/**
+ * Gets the full pretty link url from an id
+ *
+ * @return bool (false if failure) | string the pretty link url
+ */
+function prli_get_pretty_link_url($id)
+{
+  global $prli_blogurl;
+
+  if($pretty_link = prli_get_link($id))
+    return "{$prli_blogurl}/{$pretty_link->slug}";
+
+  return false;
+}
                              
 ?>

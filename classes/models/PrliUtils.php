@@ -400,6 +400,176 @@ function decode_custom_param_str($param_struct, $uri_string)
       return $json_str;
     }
 
+    // This eliminates the need to use php's built in json_encoder
+    // which only works with PHP 5.2 and above.
+    function prli_json_decode(&$json_str,$type='array',$index = 0)
+    {
+      $json_array = array();
+      $index_str = '';
+      $value_str = '';
+      $in_string = false;
+      $in_index = ($type=='hash'); //first char in hash is an index
+      $in_value = ($type=='array'); //first char in array is a value
+
+      $json_special_chars_array = array('{','[','}',']','"',',',':');
+
+      // On the first pass we need to do some special stuff
+      if($index == 0)
+      {
+        if($json_str[$index] == '{')
+        {
+          $type = 'hash';
+          $in_index = true;
+          $in_value = false;
+        }
+        else if($json_str[$index]=='[')
+        {
+          $type = 'array';
+          $in_index = false;
+          $in_value = true;
+        }
+        else
+          return false; // not valid json
+
+        // skip to next index
+        $index++;
+      }
+
+      for($i = $index; $i < strlen($json_str); $i++)
+      {
+        if($in_string and in_array($json_str[$i],$json_special_chars_array))
+        {
+          if($json_str[$i] == '"')
+            $in_string = false;
+          else
+          {
+            if($in_value)
+              $value_str .= $json_str[$i];
+            else if($in_index)
+              $index_str .= $json_str[$i];
+          }
+        }
+        else
+        {
+          switch($json_str[$i])
+          {
+            case '{':
+              $array_vals = $this->prli_json_decode($json_str,'hash',$i + 1);
+
+              if($type=='hash')
+                $json_array[$index_str] = $array_vals[1]; // We'll never get an array as an index
+              else if($type=='array')
+                $json_array[] = $array_vals[1];
+
+              $i = $array_vals[0]; // Skip ahead to the new index
+              break;
+
+            case '[':
+              $array_vals = $this->prli_json_decode($json_str,'array',$i + 1);
+
+              if($type=='hash')
+                $json_array[$index_str] = $array_vals[1];
+              else if($type=='array')
+                $json_array[] = $array_vals[1];
+
+              $i = $array_vals[0]; // Skip ahead to the new index
+              break;
+
+            case '}':
+              if(!empty($index_str) and !empty($value_str))
+              {
+                $json_array[$index_str] = htmlspecialchars_decode(stripslashes($value_str));
+                $index_str = '';
+                $value_str = '';
+              }
+              return array($i,$json_array);
+
+            case ']':
+              if(!empty($value_str))
+              {
+                $json_array[] = htmlspecialchars_decode(stripslashes($value_str));
+                $value_str = '';
+              }
+              return array($i,$json_array);
+
+            // skip the null character
+            case '\0':
+                break;
+
+            // Handle Escapes
+            case '\\':
+              if($in_string)
+              {
+                if(in_array($json_str[$i + 1],$json_special_chars_array))
+                {
+                  if($in_value)
+                    $value_str .= '\\'.$json_str[$i + 1];
+                  else if($in_index)
+                    $index_str .= '\\'.$json_str[$i + 1];
+
+                  $i++; // skip the escaped char now that its been recorded
+                }
+                else
+                {
+                  if($in_value)
+                    $value_str .= $json_str[$i];
+                  else if($in_index)
+                    $index_str .= $json_str[$i];
+                }
+              }
+              break;
+
+            case '"':
+              $in_string = !$in_string; // just tells us if we're in a string
+              break;
+
+            case ':':
+              if($type == 'hash')
+              {
+                $in_value = true;
+                $in_index = false;
+              }
+              break;
+
+            case ',':
+              if($type == 'hash')
+              {
+                if(!empty($index_str) and !empty($value_str))
+                {
+                  $json_array[$index_str] = htmlspecialchars_decode(stripslashes($value_str));
+                  $index_str = '';
+                  $value_str = '';
+                }
+
+                $in_index = true;
+                $in_value = false;
+              }
+              else if($type == 'array')
+              {
+                if(!empty($value_str))
+                {
+                  $json_array[] = htmlspecialchars_decode(stripslashes($value_str));
+                  $value_str = '';
+                }
+
+                $in_value = true;
+                $in_index = false; // always false in an array
+              }
+              break;
+
+            // record index and value
+            default:
+              if($in_value)
+                $value_str .= $json_str[$i];
+              else if($in_index)
+                $index_str .= $json_str[$i];
+          }
+        }
+      }
+
+      return array(-1,$json_array);
+    }
+
     // Get the timestamp of the start date
     function get_start_date($values,$min_date = '')
     {
