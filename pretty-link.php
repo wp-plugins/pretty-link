@@ -182,6 +182,10 @@ function prli_install() {
   $clicks_table = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
 
+  // Pretty Link Pro Tables
+  $tweets_table = $wpdb->prefix . "prli_tweets";
+  $keywords_table = $wpdb->prefix . "prli_keywords";
+
   $prli_db_version = 'prli_db_version';
   $prli_current_db_version = get_option( $prli_db_version );
 
@@ -248,6 +252,43 @@ function prli_install() {
             );";
     
     dbDelta($sql);
+
+    // Pretty Link Pro Tables
+    /* Create/Upgrade Tweets Table */
+    $sql = "CREATE TABLE {$tweets_table} (
+              id int(11) NOT NULL auto_increment,
+              twid varchar(255) NOT NULL, 
+              tw_text varchar(255) default NULL,
+              tw_to_user_id varchar(255) default NULL,
+              tw_from_user varchar(255) default NULL,
+              tw_from_user_id varchar(255) NOT NULL,
+              tw_iso_language_code varchar(255) default NULL,
+              tw_source varchar(255) default NULL,
+              tw_profile_image_url varchar(255) default NULL,
+              tw_created_at varchar(255) NOT NULL,
+              created_at datetime NOT NULL,
+              link_id int(11) default NULL,
+              PRIMARY KEY  (id),
+              KEY link_id (link_id),
+              KEY twid (twid)
+            );";
+    
+    dbDelta($sql);
+
+    /* Create/Upgrade Keywords Table */
+    /*
+    $sql = "CREATE TABLE " . $keywords_table . " (
+              id int(11) NOT NULL auto_increment,
+              text varchar(255) default NULL,
+              match_case tinyint default 0,
+              link_id int(11) default NULL,
+              created_at datetime NOT NULL,
+              PRIMARY KEY  (id),
+              KEY link_id (link_id)
+            );";
+    
+    dbDelta($sql);
+    */
   }
 
   $browsecap_updated = get_option('prli_browsecap_updated');
@@ -384,6 +425,17 @@ function prli_install() {
     add_option('prli_posts_group', '');
   if(!get_option('prli_pages_group'))
     add_option('prli_pages_group', '');
+
+  if(!get_option('prli_twitter_handle'))
+    add_option('prli_twitter_handle', 'prettylink');
+  if(!get_option('prli_twitter_password'))
+    add_option('prli_twitter_password', '');
+  if(!get_option('prli_twitter_auto_post'))
+    add_option('prli_twitter_auto_post', '0');
+  if(!get_option('prli_twitter_posts_button'))
+    add_option('prli_twitter_posts_button', '0');
+  if(!get_option('prli_twitter_pages_button'))
+    add_option('prli_twitter_pages_button', '0');
 }
 
 // Ensure this gets called on first install
