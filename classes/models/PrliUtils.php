@@ -272,7 +272,19 @@ function track_link($slug,$values)
     else if( isset($pretty_link->use_ultra_cloak) and $pretty_link->use_ultra_cloak )
       require_once PRLI_VIEWS_PATH . '/prli-links/ultra-cloak.php';
     else
-      wp_redirect($pretty_link->url.$param_string, (int)$pretty_link->redirect_type);
+    {
+      if ((int)$pretty_link->redirect_type == 301)
+        header("HTTP/1.1 301 Moved Permanently");
+      elseif ((int)$pretty_link->redirect_type == 307)
+      {
+        if($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0')
+          header("HTTP/1.1 302 Found");
+        else
+          header("HTTP/1.1 307 Temporary Redirect");
+      }
+
+      header('Location: '.$pretty_link->url.$param_string);
+    }
   }
 }
 
