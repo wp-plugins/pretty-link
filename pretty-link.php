@@ -417,30 +417,6 @@ function prli_install() {
     add_option($prli_db_version,$prli_new_db_version);
   else
     update_option($prli_db_version,$prli_new_db_version);
-
-  // Pro Options
-  if($prli_utils->pro_is_installed())
-  {
-    if(!get_option('prli_posts_auto'))
-      add_option('prli_posts_auto', '0');
-    if(!get_option('prli_pages_auto'))
-      add_option('prli_pages_auto', '0');
-    if(!get_option('prli_posts_group'))
-      add_option('prli_posts_group', '');
-    if(!get_option('prli_pages_group'))
-      add_option('prli_pages_group', '');
-
-    if(!get_option('prli_twitter_handle'))
-      add_option('prli_twitter_handle', 'prettylink');
-    if(!get_option('prli_twitter_password'))
-      add_option('prli_twitter_password', '');
-    if(!get_option('prli_twitter_auto_post'))
-      add_option('prli_twitter_auto_post', '0');
-    if(!get_option('prli_twitter_posts_button'))
-      add_option('prli_twitter_posts_button', '0');
-    if(!get_option('prli_twitter_pages_button'))
-      add_option('prli_twitter_pages_button', '0');
-  }
 }
 
 // Ensure this gets called on first install
