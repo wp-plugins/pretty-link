@@ -21,6 +21,9 @@ if($params['action'] == 'list')
 else if($params['action'] == 'create')
 {
   $errors = $prli_link->validate($_POST);
+
+  $errors = apply_filters( "prli_validate_link", $errors );
+
   if( count($errors) > 0 )
   {
     $groups = $prli_group->getAll('',' ORDER BY name');
@@ -30,6 +33,9 @@ else if($params['action'] == 'create')
   else
   {
     $record = $prli_link->create( $_POST );
+
+    do_action( "prli_update_link", $record );
+
     $prli_message = "Your Pretty Link was Successfully Created";
     prli_display_links_list($params, $prli_message, '', 1);
   }
@@ -47,6 +53,9 @@ else if($params['action'] == 'update')
 {
   $errors = $prli_link->validate($_POST);
   $id = $_POST['id'];
+
+  $errors = apply_filters( "prli_validate_link", $errors );
+
   if( count($errors) > 0 )
   {
     $groups = $prli_group->getAll('',' ORDER BY name');
@@ -57,6 +66,9 @@ else if($params['action'] == 'update')
   else
   {
     $record = $prli_link->update( $_POST['id'], $_POST );
+
+    do_action( "prli_update_link", $id );
+
     $prli_message = "Your Pretty Link was Successfully Updated";
     prli_display_links_list($params, $prli_message, '', 1);
   }

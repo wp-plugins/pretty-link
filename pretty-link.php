@@ -174,7 +174,7 @@ function prli_export_api($api_methods)
 add_filter('xmlrpc_methods', 'prli_export_api');
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.2.9";
+$prli_db_version = "0.3.0";
 
 function prli_install() {
   global $wpdb, $prli_db_version;
