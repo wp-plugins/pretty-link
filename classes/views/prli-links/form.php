@@ -23,7 +23,12 @@
     <br/>
     <span class="setting-description">A Description of this link.</span></td>
   </tr>
-  <?php do_action('prli_link_fields'); ?>
+  <?php
+
+    // Add stuff to the form here
+    do_action('prli_link_fields',$id);
+
+  ?>
   <tr class="form-field">
     <td colspan="2">
       <span>Group:&nbsp;</span>

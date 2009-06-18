@@ -285,7 +285,6 @@ function prli_install() {
       $sql = "CREATE TABLE {$keywords_table} (
                 id int(11) NOT NULL auto_increment,
                 text varchar(255) default NULL,
-                match_case tinyint default 0,
                 link_id int(11) default NULL,
                 created_at datetime NOT NULL,
                 PRIMARY KEY  (id),
