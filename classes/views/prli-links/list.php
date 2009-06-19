@@ -49,11 +49,12 @@
 <table class="widefat post fixed" cellspacing="0">
     <thead>
     <tr>
-      <th class="manage-column" width="40%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="30%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <?php do_action('prli_link_column_header'); ?>
       <th class="manage-column" width="10%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=clicks<?php echo (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Hits / Uniq<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=group_name<?php echo (($sort_str == 'group_name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Group<?php echo (($sort_str == 'group_name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="12%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Created<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="30%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=slug<?php echo (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="20%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=slug<?php echo (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
     </tr>
     </thead>
   <?php
@@ -133,6 +134,7 @@
             ?>
           </div>
         </td>
+        <?php do_action('prli_link_column_row',$link->id); ?>
         <td><?php echo (($link->track_me)?"<a href=\"?page=".PRLI_PLUGIN_NAME."/prli-clicks.php&l=$link->id\" title=\"View clicks for $link->slug\">$link->clicks/$link->uniques</a>":"<img src=\"".PRLI_URL."/images/not_tracking.png\" title=\"This link isn't being tracked\"/>"); ?></td>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $link->group_id; ?>"><?php echo $link->group_name; ?></a></td>
         <td><?php echo $link->created_at; ?></td>
@@ -153,6 +155,7 @@
     <tfoot>
     <tr>
       <th class="manage-column">Name</th>
+      <?php do_action('prli_link_column_footer'); ?>
       <th class="manage-column">Hits / Uniq</th>
       <th class="manage-column">Group</th>
       <th class="manage-column">Created</th>
