@@ -32,6 +32,8 @@ require_once('prli-xmlrpc.php'); // load xml-rpc api methods
 
 $prli_inc_utils = new PrliUtils();
 
+add_action('admin_menu', 'prli_menu');
+
 // Provide Back End Hooks to the Pro version of Pretty Link
 if($prli_inc_utils->pro_is_installed())
   require_once(PRLI_PATH.'/pro/pretty-link-pro.php');
@@ -51,8 +53,6 @@ function prli_menu()
   add_action('admin_head-pretty-link/prli-groups.php', 'prli_groups_admin_header');
   add_action('admin_head-pretty-link/prli-options.php', 'prli_options_admin_header');
 }
-
-add_action('admin_menu', 'prli_menu');
 
 /* Add header to prli-options page */
 function prli_options_admin_header()

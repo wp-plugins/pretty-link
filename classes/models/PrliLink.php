@@ -12,23 +12,39 @@ class PrliLink
       global $wpdb;
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
-      $query = 'INSERT INTO ' . $this->table_name() . 
-               ' (url,slug,name,param_forwarding,param_struct,redirect_type,description,gorder,track_me,nofollow,use_prettybar,use_ultra_cloak,track_as_img,group_id,created_at) VALUES (\'' .
-                     $values['url'] . '\',\'' . 
-                     $values['slug'] . '\',\'' . 
-                     $values['name'] . '\',\'' . 
-                     $values['param_forwarding'] . '\',\'' . 
-                     $values['param_struct'] . '\',\'' . 
-                     $values['redirect_type'] . '\',\'' . 
-                     $values['description'] . '\',' . 
-                     $values['gorder'] . ',' .
-                     (int)isset($values['track_me']) . ',' . 
-                     (int)isset($values['nofollow']) . ',' . 
-                     (int)isset($values['use_prettybar']) . ',' . 
-                     (int)isset($values['use_ultra_cloak']) . ',' . 
-                     (int)isset($values['track_as_img']) . ',' . 
-                     (isset($values['group_id'])?(int)$values['group_id']:'NULL') . ',' . 
-                     'NOW())';
+      $query_str = "INSERT INTO {$this->table_name()} " . 
+                     '(url,'.
+                      'slug,'.
+                      'name,'.
+                      'param_forwarding,'.
+                      'param_struct,'.
+                      'redirect_type,'.
+                      'description,'.
+                      'gorder,'.
+                      'track_me,'.
+                      'nofollow,'.
+                      'use_prettybar,'.
+                      'use_ultra_cloak,'.
+                      'track_as_img,'.
+                      'group_id,'.
+                      'created_at) ' .
+                      'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,NOW())';
+
+      $query = $wpdb->prepare( $query_str,
+                               $values['url'],
+                               $values['slug'],
+                               $values['name'],
+                               $values['param_forwarding'],
+                               $values['param_struct'],
+                               $values['redirect_type'],
+                               $values['description'],
+                               $values['gorder'],
+                               (int)isset($values['track_me']),
+                               (int)isset($values['nofollow']),
+                               (int)isset($values['use_prettybar']),
+                               (int)isset($values['use_ultra_cloak']),
+                               (int)isset($values['track_as_img']),
+                               (isset($values['group_id'])?(int)$values['group_id']:'NULL') );
       $query_results = $wpdb->query($query);
 
      if($query_results)
@@ -42,22 +58,40 @@ class PrliLink
       global $wpdb;
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
-      $query = 'UPDATE ' . $this->table_name() . 
-                  ' SET url=\'' . $values['url'] . '\', ' .
-                      ' slug=\'' . $values['slug'] . '\', ' .
-                      ' name=\'' . $values['name'] . '\', ' .
-                      ' param_forwarding=\'' . $values['param_forwarding'] . '\', ' .
-                      ' param_struct=\'' . $values['param_struct'] . '\', ' .
-                      ' redirect_type=\'' . $values['redirect_type'] . '\', ' .
-                      ' description=\'' . $values['description'] . '\', ' .
-                      ' gorder=' . $values['gorder'] . ', ' .
-                      ' track_me=' . (int)isset($values['track_me']) . ',' .
-                      ' nofollow=' . (int)isset($values['nofollow']) . ',' .
-                      ' use_prettybar=' . (int)isset($values['use_prettybar']) . ',' .
-                      ' use_ultra_cloak=' . (int)isset($values['use_ultra_cloak']) . ',' .
-                      ' track_as_img=' . (int)isset($values['track_as_img']) . ',' .
-                      ' group_id=' . (isset($values['group_id'])?(int)$values['group_id']:'NULL') . 
-                  ' WHERE id='.$id;
+      $query_str = "UPDATE {$this->table_name()} " . 
+                      'SET url=%s, ' .
+                          'slug=%s, ' .
+                          'name=%s, ' .
+                          'param_forwarding=%s, ' .
+                          'param_struct=%s, ' .
+                          'redirect_type=%s, ' .
+                          'description=%s, ' .
+                          'gorder=%s, ' .
+                          'track_me=%d, ' .
+                          'nofollow=%d, ' .
+                          'use_prettybar=%d, ' .
+                          'use_ultra_cloak=%d, ' .
+                          'track_as_img=%d, ' .
+                          'group_id=%d ' .
+                     ' WHERE id=%d';
+
+      $query = $wpdb->prepare( $query_str,
+                               $values['url'],
+                               $values['slug'],
+                               $values['name'],
+                               $values['param_forwarding'],
+                               $values['param_struct'],
+                               $values['redirect_type'],
+                               $values['description'],
+                               $values['gorder'],
+                               (int)isset($values['track_me']),
+                               (int)isset($values['nofollow']),
+                               (int)isset($values['use_prettybar']),
+                               (int)isset($values['use_ultra_cloak']),
+                               (int)isset($values['track_as_img']),
+                               (isset($values['group_id'])?(int)$values['group_id']:'NULL'),
+                               $id );
+
       $query_results = $wpdb->query($query);
       return $query_results;
     }
