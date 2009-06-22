@@ -62,14 +62,14 @@ function prli_create_pretty_link( $target_url,
                                   $slug = '',
                                   $name = '',
                                   $description = '',
-                                  $group_id = '',
+                                  $group_id = 0,
                                   $show_prettybar = '',
                                   $ultra_cloak = '',
                                   $track_me = '',
                                   $nofollow = '',
                                   $redirect_type = '',
                                   $track_as_img = '',
-                                  $param_forwarding = 'off',
+                                  $param_forwarding = '',
                                   $param_struct = '' )
 {
   global $wpdb, $prli_link, $prli_blogurl;
@@ -89,9 +89,11 @@ function prli_create_pretty_link( $target_url,
   $values['use_ultra_cloak']  = (($ultra_cloak == '')?(int)get_option( 'prli_link_ultra_cloak' ):$ultra_cloak);
   $values['track_me']         = (($track_me == '')?get_option( 'prli_link_track_me' ):$track_me);
   $values['track_as_img']     = (($track_as_img == '')?0:$track_as_img);
-  $values['param_forwarding'] = $param_forwarding;
+  $values['param_forwarding'] = (($param_forwarding == '')?'off':$param_forwarding);
   $values['param_struct']     = $param_struct;
   $values['gorder']           = '0';     // not supported by this function
+
+  print_r($values); echo "<br/>";
 
   // make array look like $_POST
   if(empty($values['nofollow']) or !$values['nofollow'])
@@ -124,8 +126,8 @@ function prli_create_pretty_link( $target_url,
 function prli_update_pretty_link( $id,
                                   $target_url = '',
                                   $slug = '',
-                                  $name = '',
-                                  $description = '',
+                                  $name = -1,
+                                  $description = -1,
                                   $group_id = '',
                                   $show_prettybar = '',
                                   $ultra_cloak = '',
@@ -134,7 +136,7 @@ function prli_update_pretty_link( $id,
                                   $redirect_type = '',
                                   $track_as_img = '',
                                   $param_forwarding = '',
-                                  $param_struct = '' )
+                                  $param_struct = -1 )
 {
   global $wpdb, $prli_link, $prli_blogurl;
   global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug;
@@ -153,8 +155,8 @@ function prli_update_pretty_link( $id,
   $values['id']               = $id;
   $values['url']              = (($target_url == '')?$record->url:$target_url);
   $values['slug']             = (($slug == '')?$record->slug:$slug);
-  $values['name']             = (($name == '')?$record->name:$name);
-  $values['description']      = (($description == '')?$record->description:$description);
+  $values['name']             = (($name == -1)?$record->name:$name);
+  $values['description']      = (($description == -1)?$record->description:$description);
   $values['group_id']         = (($group_id == '')?$record->group_id:$group_id);
   $values['redirect_type']    = (($redirect_type == '')?$record->redirect_type:$redirect_type);
   $values['nofollow']         = (($nofollow == '')?$record->nofollow:$nofollow);
@@ -163,7 +165,7 @@ function prli_update_pretty_link( $id,
   $values['track_me']         = (($track_me == '')?(int)$record->track_me:$track_me);
   $values['track_as_img']     = (($track_as_img == '')?(int)$record->track_as_img:$track_as_img);
   $values['param_forwarding'] = (($param_forwarding == '')?$record->param_forwarding:$param_forwarding);
-  $values['param_struct']     = (($param_struct == '')?$record->param_struct:$param_struct);
+  $values['param_struct']     = (($param_struct == -1)?$record->param_struct:$param_struct);
   $values['gorder']           = $record->gorder;     // not supported by this function
 
   // make array look like $_POST

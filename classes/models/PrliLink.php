@@ -155,6 +155,28 @@ class PrliLink
       return $wpdb->get_row($query);
     }
 
+    function get_link_min( $id, $return_type = OBJECT )
+    {
+      global $wpdb;
+      $query_str = 'SELECT id,'.
+                          'url,'.
+                          'slug,'.
+                          'name,'.
+                          'description,'.
+                          'group_id,'.
+                          'redirect_type,'.
+                          'track_me,'.
+                          'use_prettybar,'.
+                          'use_ultra_cloak,'.
+                          'param_forwarding,'.
+                          'param_struct,'.
+                          'track_as_img '.
+                     "FROM {$this->table_name()} ".
+                     'WHERE id=%d';
+      $query = $wpdb->prepare($query_str, $id);
+      return $wpdb->get_row($query, $return_type);
+    }
+
     function getAll($where = '', $order_by = '', $return_type = OBJECT)
     {
       global $wpdb, $prli_click, $prli_group, $prli_utils;
