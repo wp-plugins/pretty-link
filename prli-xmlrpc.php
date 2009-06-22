@@ -104,15 +104,18 @@ function prli_xmlrpc_create_pretty_link( $args )
 
   $target_url = $args[2];
 
-  $slug           = (isset($args[3])?$args[3]:'');
-  $name           = (isset($args[4])?$args[4]:'');
-  $description    = (isset($args[5])?$args[5]:'');
-  $group_id       = (isset($args[6])?$args[6]:'');
-  $show_prettybar = (isset($args[7])?$args[7]:'');
-  $ultra_cloak    = (isset($args[8])?$args[8]:'');
-  $track_me       = (isset($args[9])?$args[9]:'');
-  $nofollow       = (isset($args[10])?$args[10]:'');
-  $redirect_type  = (isset($args[11])?$args[11]:'' );
+  $slug             = (isset($args[3])?$args[3]:'');
+  $name             = (isset($args[4])?$args[4]:'');
+  $description      = (isset($args[5])?$args[5]:'');
+  $group_id         = (isset($args[6])?$args[6]:'');
+  $show_prettybar   = (isset($args[7])?$args[7]:'');
+  $ultra_cloak      = (isset($args[8])?$args[8]:'');
+  $track_me         = (isset($args[9])?$args[9]:'');
+  $nofollow         = (isset($args[10])?$args[10]:'');
+  $redirect_type    = (isset($args[11])?$args[11]:'');
+  $track_as_img     = (isset($args[12])?$args[12]:'');
+  $param_forwarding = (isset($args[13])?$args[13]:'off');
+  $param_struct     = (isset($args[14])?$args[14]:'');
   
   if( $link = prli_create_pretty_link( $target_url, 
                                        $slug, 
@@ -123,7 +126,65 @@ function prli_xmlrpc_create_pretty_link( $args )
                                        $ultra_cloak, 
                                        $track_me, 
                                        $nofollow, 
-                                       $redirect_type ) )
+                                       $redirect_type,
+                                       $track_as_img,
+                                       $param_forwarding,
+                                       $param_struct ) )
+    return $link;
+  else
+    return new IXR_Error( 401, __( 'There was an error creating your Pretty Link' ) );
+}
+
+function prli_xmlrpc_update_pretty_link( $args )
+{
+  $username = $args[0];
+  $password = $args[1];
+
+  if ( !get_option( 'enable_xmlrpc' ) )
+    return new IXR_Error( 401, __( 'Sorry, XML-RPC Not enabled for this website' ) );
+
+  if (!user_pass_ok($username, $password)) 
+    return new IXR_Error( 401, __( 'Sorry, Login failed' ) );
+
+  // make sure user is an admin
+  $userdata = get_userdatabylogin( $username );
+  if( !isset($userdata->user_level) or 
+      (int)$userdata->user_level < 8 )
+    return new IXR_Error( 401, __( 'Sorry, you must be an administrator to access this resource' ) );
+
+  // Target URL Required
+  if(!isset($args[2]))
+    return new IXR_Error( 401, __( 'You must provide the id of the link you want to update' ) );
+
+  $id               = $args[2];
+  $target_url       = (isset($args[3])?$args[3]:'');
+  $slug             = (isset($args[4])?$args[4]:'');
+  $name             = (isset($args[5])?$args[5]:'');
+  $description      = (isset($args[6])?$args[6]:'');
+  $group_id         = (isset($args[7])?$args[7]:'');
+  $show_prettybar   = (isset($args[8])?$args[8]:'');
+  $ultra_cloak      = (isset($args[9])?$args[9]:'');
+  $track_me         = (isset($args[10])?$args[10]:'');
+  $nofollow         = (isset($args[11])?$args[11]:'');
+  $redirect_type    = (isset($args[12])?$args[12]:'');
+  $track_as_img     = (isset($args[13])?$args[13]:'');
+  $param_forwarding = (isset($args[14])?$args[14]:'');
+  $param_struct     = (isset($args[15])?$args[15]:'');
+  
+  if( $link = prli_update_pretty_link( $id, 
+                                       $target_url, 
+                                       $slug, 
+                                       $name, 
+                                       $description, 
+                                       $group_id, 
+                                       $show_prettybar, 
+                                       $ultra_cloak, 
+                                       $track_me, 
+                                       $nofollow, 
+                                       $redirect_type,
+                                       $track_as_img,
+                                       $param_forwarding,
+                                       $param_struct ) )
     return $link;
   else
     return new IXR_Error( 401, __( 'There was an error creating your Pretty Link' ) );
@@ -195,7 +256,7 @@ function prli_xmlrpc_get_all_links($args)
  * @return bool (false if failure) | array An associative array with all the
  *                                         data about the given pretty link.
  */
-function prli_xmlrpc_get_link($args)
+function prli_xmlrpc_get_link_from_slug($args)
 {
   $username = $args[0];
   $password = $args[1];
@@ -217,10 +278,76 @@ function prli_xmlrpc_get_link($args)
 
   $slug = $args[2];
 
-  if( $link = prli_get_link($slug) )
+  if( $link = prli_get_link_from_slug($slug) )
     return $link;
   else
     return new IXR_Error( 401, __( 'There was an error fetching your Pretty Link' ) );
 }
                              
+/**
+ * Gets a specific link from an id and returns info about it in an array
+ *
+ * @return bool (false if failure) | array An associative array with all the
+ *                                         data about the given pretty link.
+ */
+function prli_xmlrpc_get_link($args)
+{
+  $username = $args[0];
+  $password = $args[1];
+
+  if ( !get_option( 'enable_xmlrpc' ) )
+    return new IXR_Error( 401, __( 'Sorry, XML-RPC Not enabled for this website' ) );
+
+  if (!user_pass_ok($username, $password)) 
+    return new IXR_Error( 401, __( 'Sorry, Login failed' ) );
+
+  // make sure user is an admin
+  $userdata = get_userdatabylogin( $username );
+  if( !isset($userdata->user_level) or 
+      (int)$userdata->user_level < 8 )
+    return new IXR_Error( 401, __( 'Sorry, you must be an administrator to access this resource' ) );
+
+  if(!isset($args[2]))
+    return new IXR_Error( 401, __( 'Sorry, you must provide an id to lookup' ) );
+
+  $id = $args[2];
+
+  if( $link = prli_get_link($id) )
+    return $link;
+  else
+    return new IXR_Error( 401, __( 'There was an error fetching your Pretty Link' ) );
+}                             
+
+/**
+ * Gets the full Pretty Link URL from a link id
+ *
+ * @return bool (false if failure) | string containing the pretty link url
+ */
+function prli_xmlrpc_get_pretty_link_url($args)
+{
+  $username = $args[0];
+  $password = $args[1];
+
+  if ( !get_option( 'enable_xmlrpc' ) )
+    return new IXR_Error( 401, __( 'Sorry, XML-RPC Not enabled for this website' ) );
+
+  if (!user_pass_ok($username, $password)) 
+    return new IXR_Error( 401, __( 'Sorry, Login failed' ) );
+
+  // make sure user is an admin
+  $userdata = get_userdatabylogin( $username );
+  if( !isset($userdata->user_level) or 
+      (int)$userdata->user_level < 8 )
+    return new IXR_Error( 401, __( 'Sorry, you must be an administrator to access this resource' ) );
+
+  if(!isset($args[2]))
+    return new IXR_Error( 401, __( 'Sorry, you must provide an id to lookup' ) );
+
+  $id = $args[2];
+
+  if( $url = prli_get_pretty_link_url($id) )
+    return $url;
+  else
+    return new IXR_Error( 401, __( 'There was an error fetching your Pretty Link URL' ) );
+}
 ?>

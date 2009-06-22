@@ -162,11 +162,13 @@ add_action('init', 'prli_redirect'); //Redirect
 /********* EXPORT PRETTY LINK API VIA XML-RPC ***********/
 function prli_export_api($api_methods)
 {
-  $api_methods['prli.create_pretty_link'] = 'prli_xmlrpc_create_pretty_link';
-  $api_methods['prli.get_all_groups']     = 'prli_xmlrpc_get_all_groups';
-  $api_methods['prli.get_all_links']      = 'prli_xmlrpc_get_all_links';
-  $api_methods['prli.get_link']           = 'prli_xmlrpc_get_link';
-  $api_methods['prli.api_version']        = 'prli_xmlrpc_api_version';
+  $api_methods['prli.create_pretty_link']  = 'prli_xmlrpc_create_pretty_link';
+  $api_methods['prli.get_all_groups']      = 'prli_xmlrpc_get_all_groups';
+  $api_methods['prli.get_all_links']       = 'prli_xmlrpc_get_all_links';
+  $api_methods['prli.get_link']            = 'prli_xmlrpc_get_link';
+  $api_methods['prli.get_link_from_slug']  = 'prli_xmlrpc_get_link_from_slug';
+  $api_methods['prli.get_pretty_link_url'] = 'prli_xmlrpc_get_pretty_link_url';
+  $api_methods['prli.api_version']         = 'prli_xmlrpc_api_version';
 
   return $api_methods;
 }

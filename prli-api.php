@@ -8,7 +8,7 @@
  */
 function prli_api_version()
 {
-  return '1.0';
+  return '1.1';
 }
 
 /**
@@ -67,7 +67,10 @@ function prli_create_pretty_link( $target_url,
                                   $ultra_cloak = '',
                                   $track_me = '',
                                   $nofollow = '',
-                                  $redirect_type = '' )
+                                  $redirect_type = '',
+                                  $track_as_img = '',
+                                  $param_forwarding = 'off',
+                                  $param_struct = '' )
 {
   global $wpdb, $prli_link, $prli_blogurl;
   global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug;
@@ -76,85 +79,19 @@ function prli_create_pretty_link( $target_url,
 
   $values = array();
   $values['url']              = $target_url;
-  $values['slug']             = ((empty($slug))?$prli_link->generateValidSlug():$slug);
+  $values['slug']             = (($slug == '')?$prli_link->generateValidSlug():$slug);
   $values['name']             = $name;
   $values['description']      = $description;
   $values['group_id']         = $group_id;
-  $values['redirect_type']    = ((empty($redirect_type))?get_option( 'prli_link_redirect_type' ):$redirect_type);
-  $values['nofollow']         = ((empty($nofollow))?get_option( 'prli_link_nofollow' ):$nofollow);
-  $values['use_prettybar']    = ((empty($show_prettybar))?(int)get_option( 'prli_link_show_prettybar' ):$show_prettybar);
-  $values['use_ultra_cloak']  = ((empty($ultra_cloak))?(int)get_option( 'prli_link_ultra_cloak' ):$use_ultra_cloak);
-  $values['track_me']         = ((empty($track_me))?get_option( 'prli_link_track_me' ):$track_me);
-  $values['param_forwarding'] = 'off'; // not supported by this function
-  $values['param_struct']     = '';    // not supported by this function
+  $values['redirect_type']    = (($redirect_type == '')?get_option( 'prli_link_redirect_type' ):$redirect_type);
+  $values['nofollow']         = (($nofollow == '')?get_option( 'prli_link_nofollow' ):$nofollow);
+  $values['use_prettybar']    = (($show_prettybar == '')?(int)get_option( 'prli_link_show_prettybar' ):$show_prettybar);
+  $values['use_ultra_cloak']  = (($ultra_cloak == '')?(int)get_option( 'prli_link_ultra_cloak' ):$ultra_cloak);
+  $values['track_me']         = (($track_me == '')?get_option( 'prli_link_track_me' ):$track_me);
+  $values['track_as_img']     = (($track_as_img == '')?0:$track_as_img);
+  $values['param_forwarding'] = $param_forwarding;
+  $values['param_struct']     = $param_struct;
   $values['gorder']           = '0';     // not supported by this function
-
-  // make array look like $_POST
-  if(empty($values['nofollow']) or !$values['nofollow'])
-    unset($values['nofollow']);
-  if(empty($values['use_prettybar']) or !$values['use_prettybar'])
-    unset($values['use_prettybar']);
-  if(empty($values['use_ultra_cloak']) or !$values['use_ultra_cloak'])
-    unset($values['use_ultra_cloak']);
-  if(empty($values['track_me']) or !$values['track_me'])
-    unset($values['track_me']);
-  unset($values['track_as_img']);     // not supported by this function
-
-  $prli_error_messages = $prli_link->validate( $values );
-    
-  if( count($prli_error_messages) == 0 )
-  {
-    if( $id = $prli_link->create( $values ) )
-    {
-      return $id;
-    }
-    else
-    {
-      $prli_error_messages[] = "An error prevented your Pretty Link from being created";
-      return false;
-    }
-  }
-  else
-  {
-    return false;
-  }
-}
-
-function prli_update_pretty_link( $id,
-                                  $target_url = '',
-                                  $slug = '',
-                                  $name = '',
-                                  $description = '',
-                                  $group_id = '',
-                                  $show_prettybar = '',
-                                  $ultra_cloak = '',
-                                  $track_me = '',
-                                  $nofollow = '',
-                                  $redirect_type = '' )
-{
-  global $wpdb, $prli_link, $prli_blogurl;
-  global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug;
-
-  $record = $prli_link->getOne($id);
-
-  $prli_error_messages = array();
-
-  $values = array();
-  $values['id']               = $id;
-  $values['url']              = ((empty($target_url)?$record->url:$target_url));
-  $values['slug']             = ((empty($slug))?$record->slug:$slug);
-  $values['name']             = ((empty($name))?$record->name:$name);
-  $values['description']      = ((empty($description))?$record->description:$description);
-  $values['group_id']         = ((empty($group_id))?$record->group_id:$group_id);
-  $values['redirect_type']    = ((empty($redirect_type))?$record->redirect_type:$redirect_type);
-  $values['nofollow']         = ((empty($nofollow))?$record->nofollow:$nofollow);
-  $values['use_prettybar']    = ((empty($show_prettybar))?(int)$record->use_prettybar:$show_prettybar);
-  $values['use_ultra_cloak']  = ((empty($ultra_cloak))?(int)$record->use_ultra_cloak:$use_ultra_cloak);
-  $values['track_me']         = ((empty($track_me))?(int)$record->track_me:$track_me);
-  $values['track_as_img']     = (int)$record->track_as_img;
-  $values['param_forwarding'] = $record->param_forwarding; // not supported by this function
-  $values['param_struct']     = $record->param_struct;    // not supported by this function
-  $values['gorder']           = $record->gorder;     // not supported by this function
 
   // make array look like $_POST
   if(empty($values['nofollow']) or !$values['nofollow'])
@@ -172,10 +109,8 @@ function prli_update_pretty_link( $id,
     
   if( count($prli_error_messages) == 0 )
   {
-    if( $prli_link->update( $id, $values ) )
-    {
-      return true;
-    }
+    if( $id = $prli_link->create( $values ) )
+      return $id;
     else
     {
       $prli_error_messages[] = "An error prevented your Pretty Link from being created";
@@ -183,9 +118,86 @@ function prli_update_pretty_link( $id,
     }
   }
   else
+    return false;
+}
+
+function prli_update_pretty_link( $id,
+                                  $target_url = '',
+                                  $slug = '',
+                                  $name = '',
+                                  $description = '',
+                                  $group_id = '',
+                                  $show_prettybar = '',
+                                  $ultra_cloak = '',
+                                  $track_me = '',
+                                  $nofollow = '',
+                                  $redirect_type = '',
+                                  $track_as_img = '',
+                                  $param_forwarding = '',
+                                  $param_struct = '' )
+{
+  global $wpdb, $prli_link, $prli_blogurl;
+  global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug;
+
+  if(empty($id))
   {
+    $prli_error_messages[] = "Pretty Link ID must be set for successful update.";
     return false;
   }
+
+  $record = $prli_link->getOne($id);
+
+  $prli_error_messages = array();
+
+  $values = array();
+  $values['id']               = $id;
+  $values['url']              = (($target_url == '')?$record->url:$target_url);
+  $values['slug']             = (($slug == '')?$record->slug:$slug);
+  $values['name']             = (($name == '')?$record->name:$name);
+  $values['description']      = (($description == '')?$record->description:$description);
+  $values['group_id']         = (($group_id == '')?$record->group_id:$group_id);
+  $values['redirect_type']    = (($redirect_type == '')?$record->redirect_type:$redirect_type);
+  $values['nofollow']         = (($nofollow == '')?$record->nofollow:$nofollow);
+  $values['use_prettybar']    = (($show_prettybar == '')?(int)$record->use_prettybar:$show_prettybar);
+  $values['use_ultra_cloak']  = (($ultra_cloak == '')?(int)$record->use_ultra_cloak:$ultra_cloak);
+  $values['track_me']         = (($track_me == '')?(int)$record->track_me:$track_me);
+  $values['track_as_img']     = (($track_as_img == '')?(int)$record->track_as_img:$track_as_img);
+  $values['param_forwarding'] = (($param_forwarding == '')?$record->param_forwarding:$param_forwarding);
+  $values['param_struct']     = (($param_struct == '')?$record->param_struct:$param_struct);
+  $values['gorder']           = $record->gorder;     // not supported by this function
+
+  // make array look like $_POST
+  if(empty($values['nofollow']) or !$values['nofollow'])
+    unset($values['nofollow']);
+  if(empty($values['use_prettybar']) or !$values['use_prettybar'])
+    unset($values['use_prettybar']);
+  if(empty($values['use_ultra_cloak']) or !$values['use_ultra_cloak'])
+    unset($values['use_ultra_cloak']);
+  if(empty($values['track_me']) or !$values['track_me'])
+    unset($values['track_me']);
+  if(empty($values['track_as_img']) or !$values['track_as_img'])
+    unset($values['track_as_img']);
+
+
+  echo "SHOW PRETTYBAR: $show_prettybar";
+  echo "<br/><br/>";
+  print_r($values);
+  echo "<br/><br/>";
+
+  $prli_error_messages = $prli_link->validate( $values );
+    
+  if( count($prli_error_messages) == 0 )
+  {
+    if( $prli_link->update( $id, $values ) )
+      return true;
+    else
+    {
+      $prli_error_messages[] = "An error prevented your Pretty Link from being created";
+      return false;
+    }
+  }
+  else
+    return false;
 }
 
 /**
