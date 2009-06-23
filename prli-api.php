@@ -180,12 +180,6 @@ function prli_update_pretty_link( $id,
   if(empty($values['track_as_img']) or !$values['track_as_img'])
     unset($values['track_as_img']);
 
-
-  echo "SHOW PRETTYBAR: $show_prettybar";
-  echo "<br/><br/>";
-  print_r($values);
-  echo "<br/><br/>";
-
   $prli_error_messages = $prli_link->validate( $values );
     
   if( count($prli_error_messages) == 0 )
