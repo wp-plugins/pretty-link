@@ -39,10 +39,10 @@ $(document).ready(function(){
 </style>
 
 <!-- Open Flash Chart Includes -->
-<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/version-2-ichor/js/json/json2.js"></script>
-<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/version-2-ichor/js/swfobject.js"></script>
+<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/version-2-kvasir/js/json/json2.js"></script>
+<script type="text/javascript" src="<?php echo PRLI_URL; ?>/includes/version-2-kvasir/js/swfobject.js"></script>
 <script type="text/javascript">
-swfobject.embedSWF("<?php echo PRLI_URL; ?>/includes/version-2-ichor/open-flash-chart.swf", "my_chart", "100%", "250", "9.0.0");
+swfobject.embedSWF("<?php echo PRLI_URL; ?>/includes/version-2-kvasir/open-flash-chart.swf", "my_chart", "100%", "250", "9.0.0");
 </script>
 
 <script type="text/javascript">

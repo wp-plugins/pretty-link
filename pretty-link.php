@@ -261,6 +261,8 @@ function prli_install() {
       // Pretty Link Pro Tables
       $tweets_table = $wpdb->prefix . "prli_tweets";
       $keywords_table = $wpdb->prefix . "prli_keywords";
+      $reports_table = $wpdb->prefix . "prli_reports";
+      $report_links_table = $wpdb->prefix . "prli_report_links";
 
       /* Create/Upgrade Tweets Table */
       $sql = "CREATE TABLE {$tweets_table} (
@@ -286,10 +288,35 @@ function prli_install() {
       /* Create/Upgrade Keywords Table */
       $sql = "CREATE TABLE {$keywords_table} (
                 id int(11) NOT NULL auto_increment,
-                text varchar(255) default NULL,
-                link_id int(11) default NULL,
+                text varchar(255) NOT NULL,
+                link_id int(11) NOT NULL,
                 created_at datetime NOT NULL,
                 PRIMARY KEY  (id),
+                KEY link_id (link_id)
+              );";
+    
+      dbDelta($sql);
+
+      /* Create/Upgrade Reports Table */
+      $sql = "CREATE TABLE {$reports_table} (
+                id int(11) NOT NULL auto_increment,
+                name varchar(255) NOT NULL,
+                goal_link_id int(11) default NULL,
+                created_at datetime NOT NULL,
+                PRIMARY KEY  (id),
+                KEY goal_link_id (goal_link_id)
+              );";
+    
+      dbDelta($sql);
+
+      /* Create/Upgrade Reports Table */
+      $sql = "CREATE TABLE {$report_links_table} (
+                id int(11) NOT NULL auto_increment,
+                report_id int(11) NOT NULL,
+                link_id int(11) NOT NULL,
+                created_at datetime NOT NULL,
+                PRIMARY KEY  (id),
+                KEY report_id (report_id),
                 KEY link_id (link_id)
               );";
     
