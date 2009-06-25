@@ -18,7 +18,7 @@ class PrliClick
         return '';
     }
 
-    function get_exclude_where_clause( $where = '')
+    function get_exclude_where_clause( $where = '', $abbr = 'cl')
     {
       $exclude_list = $this->get_ip_exclude_list();
 
@@ -28,7 +28,7 @@ class PrliClick
         $starts_with = ' AND';
       
       if( $exclude_list != '')
-        return $starts_with . ' cl.ip NOT IN (' . $exclude_list . ')';
+        return $starts_with . " $abbr.ip NOT IN (" . $exclude_list . ')';
       else
         return '';
     }
@@ -182,7 +182,7 @@ class PrliClick
             "dot-size" => 4,
             "colour" => "#ffc94e",
             "halo-size" => 1,
-            "tip" => "#val# hits"
+            "tip" => "#val# Hits<br>#x_label#"
           ),
           "width" => 2
         ) ),
@@ -204,7 +204,7 @@ class PrliClick
           "steps" => 4,
           "labels" => array(
             "steps" => 2,
-            "rotate" => 45,
+            "rotate" => 25,
             "colour" => "#000000",
             "labels" => array_keys($dates_array) 
           )
