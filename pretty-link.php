@@ -29,7 +29,6 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 require_once('prli-api.php'); // load api methods
 require_once('prli-xmlrpc.php'); // load xml-rpc api methods
 
-
 $prli_inc_utils = new PrliUtils();
 
 add_action('admin_menu', 'prli_menu');
@@ -176,233 +175,93 @@ function prli_export_api($api_methods)
 add_filter('xmlrpc_methods', 'prli_export_api');
 
 /********* INSTALL PLUGIN ***********/
-$prli_db_version = "0.3.0";
+function prli_install()
+{
+  global $wpdb, $prli_utils;
 
-function prli_install() {
-  global $wpdb, $prli_db_version;
+  //require_once(dirname(__FILE__) . "/classes/models/PrliUtils.php");
+  //$prli_utils = new PrliUtils();
 
-  require_once(dirname(__FILE__) . "/classes/models/PrliUtils.php");
-  $prli_utils = new PrliUtils();
-
-  $groups_table = $wpdb->prefix . "prli_groups";
-  $clicks_table = $wpdb->prefix . "prli_clicks";
+  $groups_table       = $wpdb->prefix . "prli_groups";
+  $clicks_table       = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
 
-  $prli_db_version = 'prli_db_version';
-  $prli_current_db_version = get_option( $prli_db_version );
+  require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+  
+  /* Create/Upgrade Clicks (Hits) Table */
+  $sql = "CREATE TABLE " . $clicks_table . " (
+            id int(11) NOT NULL auto_increment,
+            ip varchar(255) default NULL,
+            browser varchar(255) default NULL,
+            btype varchar(255) default NULL,
+            bversion varchar(255) default NULL,
+            os varchar(255) default NULL,
+            referer varchar(255) default NULL,
+            host varchar(255) default NULL,
+            uri varchar(255) default NULL,
+            first_click tinyint default 0,
+            created_at datetime NOT NULL,
+            link_id int(11) default NULL,
+            vuid varchar(25) default NULL,
+            PRIMARY KEY  (id),
+            KEY link_id (link_id),
+            KEY vuid (vuid)".
+            // We won't worry about this constraint for now.
+            //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)
+          ");";
+  
+  dbDelta($sql);
+  
+  /* Create/Upgrade Pretty Links Table */
+  $sql = "CREATE TABLE " . $pretty_links_table . " (
+            id int(11) NOT NULL auto_increment,
+            name varchar(255) default NULL,
+            description text default NULL,
+            url varchar(255) default NULL,
+            slug varchar(255) default NULL,
+            track_as_img tinyint(1) default 0,
+            nofollow tinyint(1) default 0,
+            track_me tinyint(1) default 1,
+            use_prettybar tinyint(1) default 0,
+            use_ultra_cloak tinyint(1) default 0,
+            param_forwarding varchar(255) default NULL,
+            param_struct varchar(255) default NULL,
+            redirect_type varchar(255) default '307',
+            gorder int(11) default 0,
+            created_at datetime NOT NULL,
+            group_id int(11) default NULL,
+            PRIMARY KEY  (id),
+            KEY group_id (group_id),
+            KEY slug (slug)
+          );";
+  
+  dbDelta($sql);
 
-  if( empty($prli_current_db_version) or ($prli_current_db_version != $prli_new_db_version))
-  {
-    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-    
-    /* Create/Upgrade Clicks (Hits) Table */
-    $sql = "CREATE TABLE " . $clicks_table . " (
-              id int(11) NOT NULL auto_increment,
-              ip varchar(255) default NULL,
-              browser varchar(255) default NULL,
-              btype varchar(255) default NULL,
-              bversion varchar(255) default NULL,
-              os varchar(255) default NULL,
-              referer varchar(255) default NULL,
-              host varchar(255) default NULL,
-              uri varchar(255) default NULL,
-              first_click tinyint default 0,
-              created_at datetime NOT NULL,
-              link_id int(11) default NULL,
-              vuid varchar(25) default NULL,
-              PRIMARY KEY  (id),
-              KEY link_id (link_id),
-              KEY vuid (vuid)".
-              // We won't worry about this constraint for now.
-              //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)
-            ");";
-    
-    dbDelta($sql);
-    
-    /* Create/Upgrade Pretty Links Table */
-    $sql = "CREATE TABLE " . $pretty_links_table . " (
-              id int(11) NOT NULL auto_increment,
-              name varchar(255) default NULL,
-              description text default NULL,
-              url varchar(255) default NULL,
-              slug varchar(255) default NULL,
-              track_as_img tinyint(1) default 0,
-              nofollow tinyint(1) default 0,
-              track_me tinyint(1) default 1,
-              use_prettybar tinyint(1) default 0,
-              use_ultra_cloak tinyint(1) default 0,
-              param_forwarding varchar(255) default NULL,
-              param_struct varchar(255) default NULL,
-              redirect_type varchar(255) default '307',
-              gorder int(11) default 0,
-              created_at datetime NOT NULL,
-              group_id int(11) default NULL,
-              PRIMARY KEY  (id),
-              KEY group_id (group_id),
-              KEY slug (slug)
-            );";
-    
-    dbDelta($sql);
+  /* Create/Upgrade Groups Table */
+  $sql = "CREATE TABLE " . $groups_table . " (
+            id int(11) NOT NULL auto_increment,
+            name varchar(255) default NULL,
+            description text default NULL,
+            cmon_g varchar(255) default NULL,
+            created_at datetime NOT NULL,
+            PRIMARY KEY  (id)
+          );";
+  
+  dbDelta($sql);
 
-    /* Create/Upgrade Groups Table */
-    $sql = "CREATE TABLE " . $groups_table . " (
-              id int(11) NOT NULL auto_increment,
-              name varchar(255) default NULL,
-              description text default NULL,
-              created_at datetime NOT NULL,
-              PRIMARY KEY  (id)
-            );";
-    
-    dbDelta($sql);
+  // Install / Upgrade Pretty Link Pro
+  $prlipro_username = get_option( 'prlipro_username' );
+  $prlipro_password = get_option( 'prlipro_password' );
 
-    // Pretty Link Pro Tables
-    if($prli_utils->pro_is_installed())
-    {
-      // Pretty Link Pro Tables
-      $tweets_table = $wpdb->prefix . "prli_tweets";
-      $keywords_table = $wpdb->prefix . "prli_keywords";
-      $reports_table = $wpdb->prefix . "prli_reports";
-      $report_links_table = $wpdb->prefix . "prli_report_links";
+  if( !empty($prlipro_username) and !empty($prlipro_password) and
+      $prli_utils->get_pro_user_type($prlipro_username,$prlipro_password) != false )
+    $prlipro_response = $prli_utils->download_and_install_pro( $prlipro_username, $prlipro_password, true );
 
-      /* Create/Upgrade Tweets Table */
-      $sql = "CREATE TABLE {$tweets_table} (
-                id int(11) NOT NULL auto_increment,
-                twid varchar(255) NOT NULL, 
-                tw_text varchar(255) default NULL,
-                tw_to_user_id varchar(255) default NULL,
-                tw_from_user varchar(255) default NULL,
-                tw_from_user_id varchar(255) NOT NULL,
-                tw_iso_language_code varchar(255) default NULL,
-                tw_source varchar(255) default NULL,
-                tw_profile_image_url varchar(255) default NULL,
-                tw_created_at varchar(255) NOT NULL,
-                created_at datetime NOT NULL,
-                link_id int(11) default NULL,
-                PRIMARY KEY  (id),
-                KEY link_id (link_id),
-                KEY twid (twid)
-              );";
-    
-      dbDelta($sql);
-
-      /* Create/Upgrade Keywords Table */
-      $sql = "CREATE TABLE {$keywords_table} (
-                id int(11) NOT NULL auto_increment,
-                text varchar(255) NOT NULL,
-                link_id int(11) NOT NULL,
-                created_at datetime NOT NULL,
-                PRIMARY KEY  (id),
-                KEY link_id (link_id)
-              );";
-    
-      dbDelta($sql);
-
-      /* Create/Upgrade Reports Table */
-      $sql = "CREATE TABLE {$reports_table} (
-                id int(11) NOT NULL auto_increment,
-                name varchar(255) NOT NULL,
-                goal_link_id int(11) default NULL,
-                created_at datetime NOT NULL,
-                PRIMARY KEY  (id),
-                KEY goal_link_id (goal_link_id)
-              );";
-    
-      dbDelta($sql);
-
-      /* Create/Upgrade Reports Table */
-      $sql = "CREATE TABLE {$report_links_table} (
-                id int(11) NOT NULL auto_increment,
-                report_id int(11) NOT NULL,
-                link_id int(11) NOT NULL,
-                created_at datetime NOT NULL,
-                PRIMARY KEY  (id),
-                KEY report_id (report_id),
-                KEY link_id (link_id)
-              );";
-    
-      dbDelta($sql);
-    }
-  }
-
-  $browsecap_updated = get_option('prli_browsecap_updated');
-
-  // This migration should only run once
-  if(empty($browsecap_updated) or !$browsecap_updated)
-  {
-    /********** UPDATE BROWSER CAPABILITIES **************/
-    // Update all click data to include btype (browser type), bversion (browser version), & os)
-    $click_query = "SELECT * FROM " . $wpdb->prefix . "prli_clicks WHERE browser IS NOT NULL AND os IS NULL AND btype IS NULL AND bversion IS NULL";
-    $results = $wpdb->get_results($click_query);
-    foreach($results as $click)
-    {
-      $click_browser = $prli_utils->php_get_browser($click->browser);
-      $update = "UPDATE " . $wpdb->prefix . "prli_clicks SET btype='".$click_browser['browser']."',bversion='".$click_browser['version']."',os='".$click_browser['platform']."' WHERE id=".$click->id;
-      $wpdb->query( $update );
-    }
-    
-    /********** UPDATE HOST INFO **************/
-    $click_query = "SELECT * FROM " . $wpdb->prefix . "prli_clicks WHERE host IS NULL";
-    $results = $wpdb->get_results($click_query);
-    
-    foreach($results as $click)
-    {
-      $click_host = gethostbyaddr($click->ip);
-      $update = "UPDATE " . $wpdb->prefix . "prli_clicks SET host='$click_host' WHERE id=".$click->id;
-      $wpdb->query( $update );
-    }
-
-    add_option('prli_browsecap_updated',true);
-  }
-
-  // UPDATE LINK NAMES
-  $link_names_updated = get_option('prli_link_names_updated');
-  if(empty($link_names_updated) or !$link_names_updated)
-  {
-    // Update all links -- copy the slug into the name field
-    $link_query = "SELECT * FROM " . $wpdb->prefix . "prli_links";
-    $results = $wpdb->get_results($link_query);
-    foreach($results as $link)
-    {
-      $link_name = (empty($link->name)?$link->slug:$link->name);
-      $update = "UPDATE " . $wpdb->prefix . "prli_links SET name='".$link_name."' WHERE id=".$link->id;
-      $wpdb->query( $update );
-    }
-
-    add_option('prli_link_names_updated',true);
-  }
-
-  // MIGRATE PARAMETER FORWARDING introduced in 1.3.1
-  $param_forwarding_updated = get_option('prli_param_forwarding_updated');
-  if(empty($param_forwarding_updated) or !$param_forwarding_updated)
-  {
-    // Update all links -- copy the slug into the name field
-    $link_query = "SELECT * FROM " . $wpdb->prefix . "prli_links";
-    $results = $wpdb->get_results($link_query);
-    foreach($results as $link)
-    {
-      if(!empty($link->forward_params) and $link->forward_params == 1)
-        $update = "UPDATE " . $wpdb->prefix . "prli_links SET param_forwarding='on' WHERE id=".$link->id;
-      else
-        $update = "UPDATE " . $wpdb->prefix . "prli_links SET param_forwarding='off' WHERE id=".$link->id;
-
-      $wpdb->query( $update );
-    }
-
-    add_option('prli_param_forwarding_updated',true);
-  }
-
-  // Flush the apache rules if rewrite is on
-  if( get_option( 'prli_rewrite_mode' ) == 'on' )
-  {
-    global $wp_rewrite;
-    $wp_rewrite->flush_rules();
-    update_option('prli_rewrite_mode','off');
-  }
-
+  // TODO: Move all these options into a central options class
   // Set PrettyBar Defaults
-  $prettybar_show_title  = 'prli_prettybar_show_title';
-  $prettybar_show_description  = 'prli_prettybar_show_description';
-  $prettybar_show_share_links  = 'prli_prettybar_show_share_links';
+  $prettybar_show_title            = 'prli_prettybar_show_title';
+  $prettybar_show_description      = 'prli_prettybar_show_description';
+  $prettybar_show_share_links      = 'prli_prettybar_show_share_links';
   $prettybar_show_target_url_link  = 'prli_prettybar_show_target_url_link';
 
   if(!get_option($prettybar_show_title))
@@ -417,10 +276,10 @@ function prli_install() {
   // Set Link Defaults
   $link_show_prettybar = 'prli_link_show_prettybar';
   $link_ultra_cloak = 'prli_link_ultra_cloak';
-  $link_track_me = 'prli_link_track_me';
+  $link_track_me       = 'prli_link_track_me';
   $link_track_as_pixel = 'prli_link_track_as_pixel';
-  $link_nofollow = 'prli_link_nofollow';
-  $link_redirect_type = 'prli_link_redirect_type';
+  $link_nofollow       = 'prli_link_nofollow';
+  $link_redirect_type  = 'prli_link_redirect_type';
 
   if(!get_option($link_show_prettybar))
     add_option('prli_link_show_prettybar',0);
@@ -440,11 +299,6 @@ function prli_install() {
     update_option('prli_prettybar_desc_limit', '40');
   if(!get_option('prli_prettybar_link_limit'))
     update_option('prli_prettybar_link_limit', '40');
-
-  if(empty($prli_current_db_version) or !$prli_current_db_version)
-    add_option($prli_db_version,$prli_new_db_version);
-  else
-    update_option($prli_db_version,$prli_new_db_version);
 }
 
 // Ensure this gets called on first install

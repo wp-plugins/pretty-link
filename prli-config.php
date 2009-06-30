@@ -5,8 +5,17 @@ define(PRLI_MODELS_PATH,PRLI_PATH.'/classes/models');
 define(PRLI_VIEWS_PATH,PRLI_PATH.'/classes/views');
 define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
 
+global $prli_version;
+$prli_version = '1.3.36';
+  
 // The number of items per page on a table
+global $page_size;
 $page_size = 15;
+
+global $prli_blogurl;
+global $prli_siteurl;
+global $prli_blogname;
+global $prli_blogdescription;
 
 $prli_blogurl = ((get_option('home'))?get_option('home'):get_option('siteurl'));
 $prli_siteurl = get_option('siteurl');
