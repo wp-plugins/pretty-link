@@ -93,8 +93,6 @@ function prli_create_pretty_link( $target_url,
   $values['param_struct']     = $param_struct;
   $values['gorder']           = '0';     // not supported by this function
 
-  print_r($values); echo "<br/>";
-
   // make array look like $_POST
   if(empty($values['nofollow']) or !$values['nofollow'])
     unset($values['nofollow']);

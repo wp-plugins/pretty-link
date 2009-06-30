@@ -9,7 +9,7 @@ if($params['action'] == 'list')
   if(empty($params['group']))
     $prli_message = prli_get_main_message();
   else
-    $prli_message = "Links in Group: " . $wpdb->get_var("SELECT name FROM " . $prli_group->table_name() . " WHERE id=".$params['group']);
+    $prli_message = "Links in Group: " . $wpdb->get_var("SELECT name FROM " . $prli_group->table_name . " WHERE id=".$params['group']);
   if($params['regenerate'] == 'true')
   {
     $wp_rewrite->flush_rules();

@@ -123,9 +123,9 @@ class PrliUtils
     // Check slug against other slugs in the prli links database.
     // We'll use the full_slug here because its easier to guarantee uniqueness.
     if($id != null and $id != '')
-      $query = "SELECT slug FROM " . $prli_link->table_name() . " WHERE slug='" . $full_slug . "' AND id <> " . $id;
+      $query = "SELECT slug FROM " . $prli_link->table_name . " WHERE slug='" . $full_slug . "' AND id <> " . $id;
     else
-      $query = "SELECT slug FROM " . $prli_link->table_name() . " WHERE slug='" . $full_slug . "'";
+      $query = "SELECT slug FROM " . $prli_link->table_name . " WHERE slug='" . $full_slug . "'";
   
     $link_slug = $wpdb->get_var($query);
   
@@ -185,7 +185,7 @@ class PrliUtils
   {
     global $wpdb, $prli_click, $prli_link;
   
-    $query = "SELECT * FROM ".$prli_link->table_name()." WHERE slug='$slug' LIMIT 1";
+    $query = "SELECT * FROM ".$prli_link->table_name." WHERE slug='$slug' LIMIT 1";
     $pretty_link = $wpdb->get_row($query);
     
     if(isset($pretty_link->track_me) and $pretty_link->track_me)
@@ -226,7 +226,7 @@ class PrliUtils
         $visitor_uid = $_COOKIE[$visitor_cookie];
      
       //Record Click in DB
-      $insert = "INSERT INTO ".$prli_click->table_name()." (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$visitor_uid','$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
+      $insert = "INSERT INTO ".$prli_click->table_name." (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$visitor_uid','$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
       
       $results = $wpdb->query( $insert );
       

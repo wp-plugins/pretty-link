@@ -1,10 +1,12 @@
 <?php
 class PrliClick
 {
-    function table_name()
+    var $table_name;
+
+    function PrliClick()
     {
       global $wpdb;
-      return $wpdb->prefix . 'prli_clicks';
+      $this->table_name = "{$wpdb->prefix}prli_clicks";
     }
 
     function get_ip_exclude_list()
@@ -37,7 +39,7 @@ class PrliClick
     {
         global $wpdb, $prli_link, $prli_utils;
         $click_table = $wpdb->prefix . "prli_clicks";
-        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name() .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name() .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name() . ' cl, ' . $prli_link->table_name() . ' li WHERE li.id = cl.link_id AND id=' . $id . $prli_utils->prepend_and_or_where(' AND',$this->get_exclude_where_clause());
+        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id AND id=' . $id . $prli_utils->prepend_and_or_where(' AND',$this->get_exclude_where_clause());
     
         return $wpdb->get_row($query);
     }
@@ -49,7 +51,7 @@ class PrliClick
         $click_table = $wpdb->prefix . "prli_clicks";
         $where .= $this->get_exclude_where_clause( $where );
         $where = $prli_utils->prepend_and_or_where(' AND', $where);
-        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name() .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name() .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name() . ' cl, ' . $prli_link->table_name() . ' li WHERE li.id = cl.link_id' . $where . $order;
+        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order;
         return $wpdb->get_results($query);
     }
 
@@ -57,7 +59,7 @@ class PrliClick
     function clearAllClicks()
     {
       global $wpdb;
-      $query = "TRUNCATE TABLE " . $this->table_name();
+      $query = "TRUNCATE TABLE " . $this->table_name;
       return $wpdb->query($query);
     }
 
@@ -67,7 +69,7 @@ class PrliClick
         global $wpdb, $prli_link, $prli_utils;
         $where .= $this->get_exclude_where_clause( $where );
         $where = $prli_utils->prepend_and_or_where(' WHERE', $where);
-        $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . ' cl'. $where;
+        $query = 'SELECT COUNT(*) FROM ' . $this->table_name . ' cl'. $where;
         return $wpdb->get_var($query);
     }
 
@@ -84,7 +86,7 @@ class PrliClick
         $start_index = $end_index - $p_size;
         $where .= $this->get_exclude_where_clause( $where );
         $where = $prli_utils->prepend_and_or_where(' AND', $where);
-        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name() .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name() .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name() . ' cl, ' . $prli_link->table_name() . ' li WHERE li.id = cl.link_id' . $where . $order . ' LIMIT ' . $start_index . ',' . $p_size . ';';
+        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order . ' LIMIT ' . $start_index . ',' . $p_size . ';';
         $results = $wpdb->get_results($query);
         return $results;
     }
@@ -98,7 +100,7 @@ class PrliClick
       $min_vuid_value = 37; 
       $vuid = base_convert( mt_rand($min_vuid_value,$max_vuid_value), 10, 36 );
      
-      $query = "SELECT DISTINCT vuid FROM ".$this->table_name();
+      $query = "SELECT DISTINCT vuid FROM ".$this->table_name;
       $vuids = $wpdb->get_col($query,0);
      
       // It is highly unlikely that we'll ever see 2 identical random vuids
@@ -113,13 +115,13 @@ class PrliClick
     {
       global $wpdb, $prli_link;
 
-      $query = "SELECT DATE(cl.created_at) as cldate,COUNT(*) as clcount FROM ".$this->table_name()." cl WHERE cl.created_at BETWEEN '".date("Y-n-j",$start_timestamp)." 00:00:00' AND '".date("Y-n-j",$end_timestamp)." 23:59:59'".$search_where.$this->get_exclude_where_clause( ' AND' );
+      $query = "SELECT DATE(cl.created_at) as cldate,COUNT(*) as clcount FROM ".$this->table_name." cl WHERE cl.created_at BETWEEN '".date("Y-n-j",$start_timestamp)." 00:00:00' AND '".date("Y-n-j",$end_timestamp)." 23:59:59'".$search_where.$this->get_exclude_where_clause( ' AND' );
 
       if($link_id != "all")
         $query .= " AND link_id=$link_id";
 
       if(!empty($group))
-        $query .= " AND link_id IN (SELECT id FROM " . $prli_link->table_name() . " WHERE group_id=$group)";
+        $query .= " AND link_id IN (SELECT id FROM " . $prli_link->table_name . " WHERE group_id=$group)";
 
       if($type == "unique")
         $query .= " AND first_click=1";
@@ -162,11 +164,11 @@ class PrliClick
       $top_click_count = $prli_utils->getTopValue(array_values($dates_array));
 
       if(!empty($group))
-        $link_slug = "group: '" . $wpdb->get_var("SELECT name FROM ".$prli_group->table_name()." WHERE id=$group") . "'";
+        $link_slug = "group: '" . $wpdb->get_var("SELECT name FROM ".$prli_group->table_name." WHERE id=$group") . "'";
       else if($link_id == "all")
         $link_slug = "all links";
       else
-        $link_slug = "'/".$wpdb->get_var("SELECT slug FROM ".$prli_link->table_name()." WHERE id=$link_id") . "'";
+        $link_slug = "'/".$wpdb->get_var("SELECT slug FROM ".$prli_link->table_name." WHERE id=$link_id") . "'";
 
       if($type == "all")
         $type_string = "All hits";

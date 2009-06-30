@@ -115,7 +115,7 @@
         }
 
         ?>
-        <a class="slug_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo $link->name; ?>"><?php echo "$link->name"; ?></a>
+        <a class="slug_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo stripslashes($link->name); ?>"><?php echo stripslashes($link->name); ?></a>
           <br/>
           <div class="link_actions">
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|

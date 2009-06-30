@@ -63,7 +63,7 @@ if($_GET['action'] == null and $_POST['action'] == null)
   {
     $group = $prli_group->getOne($params['group']);
     $link_name = "Group: " . $group->name;
-    $where_clause .= " AND cl.link_id IN (SELECT id FROM " . $prli_link->table_name() . " WHERE group_id=".$params['group'].")";
+    $where_clause .= " AND cl.link_id IN (SELECT id FROM " . $prli_link->table_name . " WHERE group_id=".$params['group'].")";
     $page_params .= "&group=".$params['group'];
   }
   else
@@ -120,7 +120,7 @@ else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
   {
     $group = $prli_group->getOne($_GET['group']);
     $link_name = "group_" . $group->name;
-    $where_clause .= " cl.link_id IN (SELECT id FROM " . $prli_link->table_name() . " WHERE group_id=".$_GET['group'].")";
+    $where_clause .= " cl.link_id IN (SELECT id FROM " . $prli_link->table_name . " WHERE group_id=".$_GET['group'].")";
   }
   else
   {

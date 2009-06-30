@@ -1,10 +1,12 @@
 <?php
 class PrliLink
 {
-    function table_name()
+    var $table_name;
+
+    function PrliLink()
     {
       global $wpdb;
-      return $wpdb->prefix . 'prli_links';
+      $this->table_name = "{$wpdb->prefix}prli_links";
     }
 
     function create( $values )
@@ -12,7 +14,7 @@ class PrliLink
       global $wpdb;
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
-      $query_str = "INSERT INTO {$this->table_name()} " . 
+      $query_str = "INSERT INTO {$this->table_name} " . 
                      '(url,'.
                       'slug,'.
                       'name,'.
@@ -58,7 +60,7 @@ class PrliLink
       global $wpdb;
 
       $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
-      $query_str = "UPDATE {$this->table_name()} " . 
+      $query_str = "UPDATE {$this->table_name} " . 
                       'SET url=%s, ' .
                           'slug=%s, ' .
                           'name=%s, ' .
@@ -99,7 +101,7 @@ class PrliLink
     function update_group( $id, $value, $group_id )
     {
       global $wpdb;
-      $query = 'UPDATE ' . $this->table_name() . 
+      $query = 'UPDATE ' . $this->table_name . 
                   ' SET group_id=' . (isset($value)?$group_id:'NULL') . 
                   ' WHERE id='.$id;
       $query_results = $wpdb->query($query);
@@ -111,8 +113,8 @@ class PrliLink
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
       global $wpdb, $prli_click;
 
-      $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
-      $destroy = 'DELETE FROM ' . $this->table_name() .  ' WHERE id=' . $id;
+      $reset = 'DELETE FROM ' . $prli_click->table_name .  ' WHERE link_id=' . $id;
+      $destroy = 'DELETE FROM ' . $this->table_name .  ' WHERE id=' . $id;
 
       $wpdb->query($reset);
       return $wpdb->query($destroy);
@@ -123,7 +125,7 @@ class PrliLink
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
       global $wpdb, $prli_click;
 
-      $reset = 'DELETE FROM ' . $prli_click->table_name() .  ' WHERE link_id=' . $id;
+      $reset = 'DELETE FROM ' . $prli_click->table_name .  ' WHERE link_id=' . $id;
       return $wpdb->query($reset);
     }
 
@@ -131,12 +133,12 @@ class PrliLink
     {
       global $wpdb, $prli_click;
       $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id ' .
                       'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
-               'FROM ' . $this->table_name() . ' li ' .
+               'FROM ' . $this->table_name . ' li ' .
                'WHERE slug=\'' . $slug . '\'';
       return $wpdb->get_row($query, $return_type);
     }
@@ -145,12 +147,12 @@ class PrliLink
     {
       global $wpdb, $prli_click;
       $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id ' .
                       'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
-               'FROM ' . $this->table_name() . ' li ' .
+               'FROM ' . $this->table_name . ' li ' .
                'WHERE id=' . $id;
       return $wpdb->get_row($query);
     }
@@ -171,7 +173,7 @@ class PrliLink
                           'param_forwarding,'.
                           'param_struct,'.
                           'track_as_img '.
-                     "FROM {$this->table_name()} ".
+                     "FROM {$this->table_name} ".
                      'WHERE id=%d';
       $query = $wpdb->prepare($query_str, $id);
       return $wpdb->get_row($query, $return_type);
@@ -181,14 +183,14 @@ class PrliLink
     {
       global $wpdb, $prli_click, $prli_group, $prli_utils;
       $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id ' .
                       'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
                   'gr.name as group_name ' .
-               'FROM '. $this->table_name() . ' li ' .
-               'LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . 
+               'FROM '. $this->table_name . ' li ' .
+               'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
                $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
       return $wpdb->get_results($query, $return_type);
     }
@@ -197,7 +199,7 @@ class PrliLink
     function getRecordCount($where="")
     {
       global $wpdb, $prli_utils;
-      $query = 'SELECT COUNT(*) FROM ' . $this->table_name() . ' li' . $prli_utils->prepend_and_or_where(' WHERE', $where);
+      $query = 'SELECT COUNT(*) FROM ' . $this->table_name . ' li' . $prli_utils->prepend_and_or_where(' WHERE', $where);
       return $wpdb->get_var($query);
     }
 
@@ -212,14 +214,14 @@ class PrliLink
       $end_index = $current_p * $p_size;
       $start_index = $end_index - $p_size;
       $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name() . ' cl ' .
+                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id ' .
                       'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
                   'gr.name as group_name ' .
-               'FROM ' . $this->table_name() . ' li ' .
-               'LEFT OUTER JOIN ' . $prli_group->table_name() . ' gr ON li.group_id=gr.id' . 
+               'FROM ' . $this->table_name . ' li ' .
+               'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
                $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by . ' ' . 
                'LIMIT ' . $start_index . ',' . $p_size . ';';
       $results = $wpdb->get_results($query, $return_type);
@@ -241,7 +243,7 @@ class PrliLink
       $min_slug_value = 37; // we want to have at least 2 characters in the slug
       $slug = base_convert( rand($min_slug_value,$max_slug_value), 10, 36 );
 
-      $query = "SELECT slug FROM " . $this->table_name(); // . " WHERE slug='" . $slug . "'";
+      $query = "SELECT slug FROM " . $this->table_name; // . " WHERE slug='" . $slug . "'";
       $slugs = $wpdb->get_col($query,0);
 
       // It is highly unlikely that we'll ever see 2 identical random slugs
