@@ -185,6 +185,7 @@ function prli_install()
   $groups_table       = $wpdb->prefix . "prli_groups";
   $clicks_table       = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
+  $link_metas_table   = $wpdb->prefix . "prli_link_metas";
 
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
   
@@ -245,6 +246,19 @@ function prli_install()
             cmon_g varchar(255) default NULL,
             created_at datetime NOT NULL,
             PRIMARY KEY  (id)
+          );";
+  
+  dbDelta($sql);
+
+  /* Create/Upgrade Groups Table */
+  $sql = "CREATE TABLE {$link_metas_table} (
+            id int(11) NOT NULL auto_increment,
+            meta_key varchar(255) default NULL,
+            meta_value longtext default NULL,
+            link_id int(11) NOT NULL,
+            created_at datetime NOT NULL,
+            PRIMARY KEY  (id),
+            KEY link_id (link_id)
           );";
   
   dbDelta($sql);
