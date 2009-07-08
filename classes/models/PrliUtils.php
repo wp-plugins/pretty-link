@@ -187,6 +187,8 @@ class PrliUtils
   
     $query = "SELECT * FROM ".$prli_link->table_name." WHERE slug='$slug' LIMIT 1";
     $pretty_link = $wpdb->get_row($query);
+    $pretty_link_target = apply_filters('prli_target_url',array('url' => $pretty_link->url, 'link_id' => $pretty_link->id));
+    $pretty_link_url = $pretty_link_target['url'];
     
     if(isset($pretty_link->track_me) and $pretty_link->track_me)
     {
@@ -242,7 +244,7 @@ class PrliUtils
       {
         if($first_param)
         {
-          $param_string = (preg_match("#\?#", $pretty_link->url)?"&":"?");
+          $param_string = (preg_match("#\?#", $pretty_link_url)?"&":"?");
           $first_param = false;
         }
         else
@@ -278,7 +280,7 @@ class PrliUtils
             header("HTTP/1.1 307 Temporary Redirect");
         }
   
-        header('Location: '.$pretty_link->url.$param_string);
+        header('Location: '.$pretty_link_url.$param_string);
       }
     }
   }
@@ -692,10 +694,12 @@ class PrliUtils
     require_once($upgrade_path);
 
     // Pretty Link Pro Tables
-    $tweets_table       = $wpdb->prefix . "prli_tweets";
-    $keywords_table     = $wpdb->prefix . "prli_keywords";
-    $reports_table      = $wpdb->prefix . "prli_reports";
-    $report_links_table = $wpdb->prefix . "prli_report_links";
+    $tweets_table           = "{$wpdb->prefix}prli_tweets";
+    $keywords_table         = "{$wpdb->prefix}prli_keywords";
+    $reports_table          = "{$wpdb->prefix}prli_reports";
+    $report_links_table     = "{$wpdb->prefix}prli_report_links";
+    $link_rotations_table   = "{$wpdb->prefix}prli_link_rotations";
+    $clicks_rotations_table = "{$wpdb->prefix}prli_clicks_rotations";
 
     /* Create/Upgrade Tweets Table */
     $sql = "CREATE TABLE {$tweets_table} (
@@ -751,6 +755,32 @@ class PrliUtils
               PRIMARY KEY  (id),
               KEY report_id (report_id),
               KEY link_id (link_id)
+            );";
+    
+    dbDelta($sql);
+
+    /* Create/Upgrade Link Rotations Table */
+    $sql = "CREATE TABLE {$link_rotations_table} (
+              id int(11) NOT NULL auto_increment,
+              url varchar(255) default NULL,
+              weight int(11) default 0,
+              r_index int(11) default 0,
+              link_id int(11) NOT NULL,
+              created_at datetime NOT NULL,
+              PRIMARY KEY  (id),
+              KEY link_id (link_id)
+            );";
+    
+    dbDelta($sql);
+
+    /* Create/Upgrade Clicks / Rotations Table */
+    $sql = "CREATE TABLE {$clicks_rotations_table} (
+              id int(11) NOT NULL auto_increment,
+              click_id int(11) NOT NULL,
+              link_rotations_id int(11) NOT NULL,
+              PRIMARY KEY  (id),
+              KEY click_id (click_id),
+              KEY link_rotations_id (link_rotations_id)
             );";
     
     dbDelta($sql);
