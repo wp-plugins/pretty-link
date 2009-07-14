@@ -232,6 +232,7 @@ class PrliUtils
       
       $results = $wpdb->query( $insert );
       
+      do_action('prli_record_click',array('link_id' => $pretty_link->id, 'click_id' => $wpdb->insert_id, 'url' => $pretty_link_url));
     }
   
     // Reformat Parameters
@@ -777,10 +778,12 @@ class PrliUtils
     $sql = "CREATE TABLE {$clicks_rotations_table} (
               id int(11) NOT NULL auto_increment,
               click_id int(11) NOT NULL,
-              link_rotations_id int(11) NOT NULL,
+              link_id int(11) NOT NULL,
+              url text NOT NULL,
               PRIMARY KEY  (id),
               KEY click_id (click_id),
-              KEY link_rotations_id (link_rotations_id)
+              KEY link_id (link_id),
+              KEY url (url)
             );";
     
     dbDelta($sql);

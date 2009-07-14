@@ -75,6 +75,8 @@
       ?>
       <tr>
         <td class="edit_link">
+
+        <?php do_action('prli_list_icon',$link->id); ?>
         <?php if( $link->use_prettybar and !$link->track_as_img ) { ?>
             <img src="<?php echo PRLI_URL.'/images/pretty-link-small.png'; ?>" title="Using PrettyBar" width="13px" height="13px" />
         <?php } ?>
@@ -113,7 +115,6 @@
           <img src="<?php echo PRLI_URL.'/images/forward_params.png'; ?>" width="13px" height="13px" name="Custom Parameter Forwarding Enabled" alt="Custom Parameter Forwarding Enabled" title="Custom Parameter Forwarding Enabled"/>&nbsp;
         <?php
         }
-
         ?>
         <a class="slug_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo stripslashes($link->name); ?>"><?php echo stripslashes($link->name); ?></a>
           <br/>
