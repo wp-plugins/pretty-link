@@ -4,6 +4,7 @@
 <?php $this_uri = preg_replace('#&.*?$#', '', str_replace( '%7E', '~', $_SERVER['REQUEST_URI'])); ?>
 <form name="proaccount_form" method="post" action="<?php echo $this_uri; ?>">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
+<input type="hidden" name="action" value="pro-settings">
 <?php wp_nonce_field('update-options'); ?>
 
 <h3>Pretty Link Pro Account Information</h3>

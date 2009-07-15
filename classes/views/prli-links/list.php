@@ -124,6 +124,7 @@
             <?php if( $link->track_me ) { ?>
             |&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>&nbsp;|
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php echo $link->slug; ?>">Hits</a>
+            <?php do_action('prli-link-action',$link->id); ?>
             <?php } ?>
             <?php if( !$link->track_as_img )
             {
