@@ -37,9 +37,9 @@ if(empty($bar_visited_color) or !$bar_visited_color)
 if(empty($bar_hover_color) or !$bar_hover_color)
   $bar_hover_color = 'ababab';
 
-$shortened_title = substr($prli_blogname,0,$bar_title_limit);
-$shortened_desc  = substr($prli_blogdescription,0,$bar_desc_limit);
-$shortened_link  = substr($_GET['url'],0,$bar_link_limit);
+$shortened_title = htmlspecialchars(stripslashes(substr($prli_blogname,0,$bar_title_limit)));
+$shortened_desc  = htmlspecialchars(stripslashes(substr($prli_blogdescription,0,$bar_desc_limit)));
+$shortened_link  = htmlspecialchars(stripslashes(substr($_GET['url'],0,$bar_link_limit)));
 
 if(strlen($prli_blogname) > $bar_title_limit)
   $shortened_title .= "...";
@@ -54,7 +54,7 @@ if(strlen($_GET['url']) > $bar_link_limit)
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title><?php echo $link->name; ?></title>
+  <title>Crap! <?php echo htmlspecialchars(stripslashes($link->name)); ?></title>
 <style type="text/css">
 html, body {
   margin: 0px;

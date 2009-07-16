@@ -73,7 +73,7 @@
     {
       $pretty_link_url = $prli_link->get_pretty_link_url($link->slug);//$prli_blogurl . '/' . $link->slug;
       ?>
-      <tr>
+      <tr style="min-height: 75px; height: 75px;">
         <td class="edit_link">
 
         <?php do_action('prli_list_icon',$link->id); ?>
