@@ -10,7 +10,7 @@ $prli_version = '1.3.37';
   
 // The number of items per page on a table
 global $page_size;
-$page_size = 15;
+$page_size = 10;
 
 global $prli_blogurl;
 global $prli_siteurl;
