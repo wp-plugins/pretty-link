@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title><?php echo htmlspecialchars($stripslashes(pretty_link->name)); ?></title>
+    <title><?php echo htmlspecialchars(stripslashes($pretty_link->name)); ?></title>
   </head>
   <frameset rows="*" framespacing=0 frameborder=0>
     <frame src="<?php echo $pretty_link_url.$param_string; ?>" frameborder=0 marginwidth=0 marginheight=0>
