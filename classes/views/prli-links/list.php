@@ -6,8 +6,16 @@
   <?php
   if(empty($params['group']))
   {
+    $permalink_structure = get_option('permalink_structure');
+    if(!$permalink_structure or empty($permalink_structure))
+    {
+    ?>
+      <div class="error" style="padding-top: 5px; padding-bottom: 5px;"><strong>WordPress Must be Configured:</strong> Pretty Link won't work until you select a Permalink Structure other than "Default" ... <a href="<?php echo $prli_siteurl; ?>/wp-admin/options-permalink.php">Permalink Settings</a></div>
+    <?php
+    }
   ?>
   <div id="message" class="updated fade" style="padding:5px;"><?php echo $prli_message; ?></div> 
+  <?php do_action('prli-link-message'); ?>
   <div id="search_pane" style="float: right;">
     <form class="form-fields" name="link_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
       <?php wp_nonce_field('prli-links'); ?>
@@ -29,6 +37,7 @@
   <div id="button_bar">
     <p><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-add-link.php"><img src="<?php echo PRLI_URL.'/images/pretty-link-add.png'; ?>"/> Add a Pretty Link</a>
     &nbsp;|&nbsp;<a href="options-general.php?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-options.php">Options</a>
+    <?php do_action('prli-link-nav'); ?>
     </p>
   </div>
   <?php

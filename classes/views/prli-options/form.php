@@ -2,6 +2,16 @@
         <div id="icon-options-general" class="icon32"><br /></div>
 <h2 id="prli_title">Pretty Link: Options</h2>
 <br/>
+<?php
+$permalink_structure = get_option('permalink_structure');
+if(!$permalink_structure or empty($permalink_structure))
+{
+?>
+  <div class="error" style="padding-top: 5px; padding-bottom: 5px;"><strong>WordPress Must be Configured:</strong> Pretty Link won't work until you select a Permalink Structure other than "Default" ... <a href="<?php echo $prli_siteurl; ?>/wp-admin/options-permalink.php">Permalink Settings</a></div>
+<?php
+}
+?>
+<?php do_action('prli-options-message'); ?>
 <a href="admin.php?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php">&laquo Pretty Link Admin</a>
 
 <form name="form1" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">

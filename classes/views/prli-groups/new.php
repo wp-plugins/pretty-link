@@ -35,9 +35,9 @@
           {
             $link = $links[$i];
             ?>
-            <tr <?php echo (($i%2)?' style="background-color: #efefef;"':''); ?>>
-              <td style="padding: 5px; margin: 0px; line-height: 5px;" width="50%"><input type="checkbox" name="link[<?php echo $link->id; ?>]" <?php echo ((isset($_POST['link'][$link->id]) and $_POST['link'][$link->id] == 'on')?'checked="true"':''); ?>/>&nbsp;<?php echo $link->name . " <strong>(" . $link->slug . ")</strong>"; ?></td>
-              <td style="padding: 0px; margin: 0px; line-height: 5px;" width="50%"><?php echo $link->group_name; ?></td>
+            <tr style="line-height: 15px; font-size: 12px;<?php echo (($i%2)?' background-color: #efefef;':''); ?>">
+              <td style="min-width: 50%; width: 50%;"><input type="checkbox" style="width: 15px;" name="link[<?php echo $link->id; ?>]" <?php echo ((isset($_POST['link'][$link->id]) and $_POST['link'][$link->id] == 'on')?'checked="true"':''); ?>/>&nbsp;<?php echo htmlspecialchars(stripslashes($link->name)) . " <strong>(" . $link->slug . ")</strong>"; ?></td>
+              <td style="min-width: 50%; width: 50%;"><?php echo htmlspecialchars(stripslashes($link->group_name)); ?></td>
             </tr>
             <?php
             

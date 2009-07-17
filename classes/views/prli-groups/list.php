@@ -55,17 +55,17 @@
       ?>
       <tr>
         <td class="edit_group">
-        <a class="group_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo $group->name; ?>"><?php echo "$group->name"; ?></a>
+        <a class="group_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo htmlspecialchars(stripslashes($group->name)); ?></a>
           <br/>
           <div class="group_actions">
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo $group->name; ?>">Edit</a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=destroy&id=<?php echo $group->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $group->name; ?> Pretty Link Group?');" title="Delete <?php echo $group->name; ?>">Delete</a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $group->id; ?>" title="View links in <?php echo $group->name; ?>">Links</a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo $group->name; ?>">Hits</a>
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Edit</a>&nbsp;|
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=destroy&id=<?php echo $group->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo htmlspecialchars(stripslashes($group->name)); ?> Pretty Link Group?');" title="Delete <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Delete</a>&nbsp;|
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $group->id; ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Links</a>&nbsp;|
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Hits</a>
           </div>
         </td>
-        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo $group->name; ?>"><?php echo $group->click_count; ?></a></td>
-        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $group->id; ?>" title="View links in <?php echo $group->name; ?>"><?php echo $group->link_count; ?></a></td>
+        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo $group->click_count; ?></a></td>
+        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $group->id; ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo $group->link_count; ?></a></td>
         <td><?php echo $group->created_at; ?></td>
       </tr>
       <?php
