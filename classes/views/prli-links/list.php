@@ -36,7 +36,7 @@
   </div>
   <div id="button_bar">
     <p><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-add-link.php"><img src="<?php echo PRLI_URL.'/images/pretty-link-add.png'; ?>"/> Add a Pretty Link</a>
-    &nbsp;|&nbsp;<a href="options-general.php?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-options.php">Options</a>
+    &nbsp;|&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-options.php">Options</a>
     <?php do_action('prli-link-nav'); ?>
     </p>
   </div>
