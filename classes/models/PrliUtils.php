@@ -623,6 +623,19 @@ class PrliUtils
     return file_exists(PRLI_PATH . "/pro/pretty-link-pro.php");
   }
 
+  function get_pro_version()
+  {
+    if($this->pro_is_installed())
+    {
+      require_once(PRLI_PATH . "/pro/prlipro-config.php");
+      global $prlipro_version;
+
+      return $prlipro_version;
+    }
+    else
+      return 0;
+  }
+
   function get_pro_user_type($username, $password)
   {
     include_once(ABSPATH."wp-includes/class-IXR.php");
@@ -639,7 +652,7 @@ class PrliUtils
 
   function download_and_install_pro($username, $password, $force = false)
   {
-    global $prli_version;
+    global $prli_version, $wpdb;
 
     include_once(ABSPATH."wp-includes/class-IXR.php");
 
@@ -679,12 +692,31 @@ class PrliUtils
         unlink($zipfilename);
 
         $this->install_pro_db();
+
+        // Delete all Pro Keyword Caches if they exist
+        $postmeta_table = "{$wpdb->prefix}postmeta";
+        $query = $wpdb->prepare("DELETE FROM {$postmeta_table} WHERE meta_key=%s", 'prli-keyword-cached-content');
+        $wpdb->query($query);
       }
       else
-        return("Your Username and/or Password weren't found");
+        return("Your Username and/or Password are not valid");
     }
 
     return 'SUCCESS';
+  }
+
+  function uninstall_pro()
+  {
+    $prlipro_path = PRLI_PATH . '/pro';
+
+    // unlink pro directory
+    $this->delete_dir($prlipro_path);
+    
+    delete_option( 'prlipro_username' );
+    delete_option( 'prlipro_password' );
+    
+    // Yah- I just leave the pro database tables & data hanging
+    // around in case you want to re-install it at some point
   }
 
   function install_pro_db()

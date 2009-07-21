@@ -29,7 +29,11 @@
 <input type="submit" name="Submit" value="<?php _e('Save', $prli_domain ) ?>" />
 </p>
 
-<a href="http://prettylinkpro.com">Get Pretty Link Pro</a><?php if($prli_utils->pro_is_installed()) { ?>&nbsp;|&nbsp;<a href="<?php echo $this_uri; ?>&action=force-pro-reinstall">Re-Install Pretty Link Pro</a><?php } ?>
+<?php if($prli_utils->pro_is_installed()) { ?>
+  <div><p><strong>The <?php echo $prli_utils->get_pro_version(); ?> Version of Pretty LInk Pro is Installed</strong></p><p><a href="<?php echo $this_uri; ?>&action=force-pro-reinstall" title="Re-Install">Re-Install</a>&nbsp;|&nbsp;<a href="<?php echo $this_uri; ?>&action=pro-uninstall" onclick="return confirm('Are you sure you want to Un-Install Pretty Link Pro? This will delete your pro username & password from your local database, remove all the pro software but will leave all your data intact incase you want to reinstall sometime :) ...');" title="Un-Install" >Un-Install</a></div>
+<?php } else { ?>
+  <a href="http://prettylinkpro.com">Upgrade to Pretty Link Pro</a>
+<?php } ?>
 
 </form>
 </div>

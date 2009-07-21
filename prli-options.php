@@ -4,7 +4,9 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
 $errors = array();
 
-if($_GET['action'] == 'pro-settings' OR $_POST['action'] == 'pro-settings')
+if($_GET['action'] == 'pro-settings' or $_POST['action'] == 'pro-settings' or
+   $_GET['action'] == 'force-pro-reinstall' or $_POST['action'] == 'force-pro-reinstall' or
+   $_GET['action'] == 'pro-uninstall' or $_POST['action'] == 'pro-uninstall')
 {
   // variables for the field and option names 
   $prlipro_username = 'prlipro_username';
@@ -23,6 +25,14 @@ if($_GET['action'] == 'pro-settings' OR $_POST['action'] == 'pro-settings')
     ?>
     
     <div class="updated"><p><strong><?php _e('Pretty Link Pro Successfully Reinstalled.', $prli_domain ); ?></strong></p></div>
+    <?php
+  }
+  if($_GET['action'] == 'pro-uninstall')
+  {
+    $prli_utils->uninstall_pro();
+    ?>
+    
+    <div class="updated"><p><strong><?php _e('Pretty Link Pro Successfully Uninstalled.', $prli_domain ); ?></strong></p></div>
     <?php
   }
   else
@@ -54,7 +64,7 @@ if($_GET['action'] == 'pro-settings' OR $_POST['action'] == 'pro-settings')
         // Put an options updated message on the screen
         $message = $prli_utils->download_and_install_pro($prlipro_username_val, $prlipro_password_val, true);
   
-        $message = (($message == 'SUCCESS')?'Pretty Link Pro has been installed click here to get started: <a href="/wp-admin/options-general.php?page=pretty-link/pro/prlipro-options.php">Pretty Link Pro Options</a>':$message);
+        $message = (($message == 'SUCCESS')?'Pretty Link Pro has been installed click here to get started: <a href="?page=pretty-link/pro/prlipro-options.php">Pretty Link Pro Options</a>':$message);
     ?>
     
     <div class="updated"><p><strong><?php _e($message, $prli_domain ); ?></strong></p></div>
