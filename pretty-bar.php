@@ -19,7 +19,7 @@ $bar_title_limit = (int)get_option('prli_prettybar_title_limit');
 $bar_desc_limit = (int)get_option('prli_prettybar_desc_limit');
 $bar_link_limit = (int)get_option('prli_prettybar_link_limit');
 
-$target_url = base64_decode($_GET['url']);
+$target_url = $_GET['url'];
 
 if(empty($bar_image) or !$bar_image)
   $bar_image = 'images/pretty-link-48x48.png';
