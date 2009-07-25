@@ -19,6 +19,8 @@ $bar_title_limit = (int)get_option('prli_prettybar_title_limit');
 $bar_desc_limit = (int)get_option('prli_prettybar_desc_limit');
 $bar_link_limit = (int)get_option('prli_prettybar_link_limit');
 
+$target_url = base64_decode($_GET['url']);
+
 if(empty($bar_image) or !$bar_image)
   $bar_image = 'images/pretty-link-48x48.png';
 
@@ -39,7 +41,7 @@ if(empty($bar_hover_color) or !$bar_hover_color)
 
 $shortened_title = htmlspecialchars(stripslashes(substr($prli_blogname,0,$bar_title_limit)));
 $shortened_desc  = htmlspecialchars(stripslashes(substr($prli_blogdescription,0,$bar_desc_limit)));
-$shortened_link  = htmlspecialchars(stripslashes(substr($_GET['url'],0,$bar_link_limit)));
+$shortened_link  = htmlspecialchars(stripslashes(substr($target_url,0,$bar_link_limit)));
 
 if(strlen($prli_blogname) > $bar_title_limit)
   $shortened_title .= "...";
@@ -47,7 +49,7 @@ if(strlen($prli_blogname) > $bar_title_limit)
 if(strlen($prli_blogdescription) > $bar_desc_limit)
   $shortened_desc .= "...";
 
-if(strlen($_GET['url']) > $bar_link_limit)
+if(strlen($target_url) > $bar_link_limit)
   $shortened_link .= "...";
 
 ?>
@@ -213,7 +215,7 @@ td {
         <div class="pb-cell">
           <h4>
           <?php if( $bar_show_target_url_link ) { ?>
-            <a href="<?php echo $_GET['url']; ?>" title="You're viewing: <?php echo $_GET['url']; ?>" target="_top">Viewing: <?php echo $shortened_link; ?></a>
+            <a href="<?php echo $target_url; ?>" title="You're viewing: <?php echo $target_url; ?>" target="_top">Viewing: <?php echo $shortened_link; ?></a>
           <?php } else echo "&nbsp;"; ?>
           </h4>
           <h4>
@@ -228,7 +230,7 @@ td {
           <table width="100%" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px;">
             <tr>
               <td>
-                <p id="closebutton" class="map"><a href="<?php echo $_GET['url']; ?>" target="_top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
+                <p id="closebutton" class="map"><a href="<?php echo $target_url; ?>" target="_top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
               </td>
             <tr>
               <td>
