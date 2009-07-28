@@ -44,7 +44,7 @@ function prli_menu()
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 8, PRLI_PATH.'/prli-groups.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 8, PRLI_PATH.'/prli-clicks.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Options', 'Options', 8, PRLI_PATH.'/prli-options.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Pro Settings', 'Pro Settings', 8, PRLI_PATH.'/prli-pro-settings.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Pretty Link Pro', 'Pretty Link Pro', 8, PRLI_PATH.'/prli-pro-settings.php');
 
   add_action('admin_head-pretty-link/prli-clicks.php', 'prli_reports_admin_header');
   add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');

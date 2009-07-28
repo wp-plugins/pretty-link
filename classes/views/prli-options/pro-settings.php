@@ -9,7 +9,7 @@
 
 <h3>Pretty Link Pro Account Information</h3>
 <?php if($prli_utils->pro_is_installed()) { ?>
-  <p><a href="http://prettylinkpro.com/user-manual">User Manual</a>&nbsp;|&nbsp;<a href="http://prettylinkpro.com/forum/">Support Forums</a></p>
+  <p><a href="http://prettylinkpro.com/user-manual">User Manual</a></p>
 <?php } ?>
 <table class="form-table">
   <tr class="form-field">
