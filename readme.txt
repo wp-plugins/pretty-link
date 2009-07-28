@@ -1,7 +1,7 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download, page, post, twitter, pro, professional, pages, posts, shortcode, seo, 
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements
 Requires at least: 2.7.1
 Tested up to: 2.8.2
 Stable tag: 1.3.42
@@ -12,9 +12,9 @@ Shrink, track and share any URL on the Internet from your WordPress website. Cre
 
 Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
 
-= Pretty Link Pro =
+= You can now get Pretty Link Pro-it's in Pre-Launch! =
 
-Just released Pretty Link pro which takes Pretty Link to the next level! It is the most advanced link shortening, cloaking, and automation suite out there -- and it runs on your domain. You can learn more about it here:
+Pretty Link Pro is an upgrade to Pretty Link that re-sets the bar for Link Management, Automation, Sharing and Tracking! You can learn more about it here:
 
 http://prettylinkpro.com
 
