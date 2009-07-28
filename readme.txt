@@ -1,7 +1,7 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download, page, post, twitter, pro, professional, pages, posts, shortcode, seo, 
 Requires at least: 2.7.1
 Tested up to: 2.8.2
 Stable tag: 1.3.42
@@ -11,6 +11,12 @@ Shrink, track and share any URL on the Internet from your WordPress website. Cre
 == Description ==
 
 Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
+
+= Pretty Link Pro =
+
+Just released Pretty Link pro which takes Pretty Link to the next level! It is the most advanced link shortening, cloaking, and automation suite out there -- and it runs on your domain. You can learn more about it here:
+
+http://prettylinkpro.com
 
 = Examples =
 
@@ -54,6 +60,20 @@ http://blairwilliams.com/x0z
 * Keep users on your site even when being redirected by using the PrettyBar which stays at the top of the page
 * Ability to configure and skin the PrettyBar to mirror the look and feel of your site
 * Hide the Target URL by loading it in a full-screen frame
+
+= Pro Features =
+You'll get the following additional features when you purchase Pretty Link Pro:
+* Replace keywords throughout your blog with Pretty Links
+* Replace URLs throughout your blog with Pretty Links
+* Rotate up to 5 URLs from one Pretty Link
+* Split Test these URL rotations for a Pretty Link
+* Setup Conversion Reports
+* Import / Export Pretty Links
+* Automatically create Pretty Links for each Post / Page
+* Automatically Tweet each Post / Page when it is Published
+* Display a Tweet Badge on Pages and / or Posts that contains the number of tweets that this page has received
+* Display a Re-Tweet button on every Page and / or Post that incorporates your twitter handle & Pretty Link into the ReTweet
+* Lifetime Updates
 
 == Installation ==
 
