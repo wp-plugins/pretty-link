@@ -6,7 +6,7 @@ define(PRLI_VIEWS_PATH,PRLI_PATH.'/classes/views');
 define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
 
 global $prli_version;
-$prli_version = '1.3.42';
+$prli_version = '1.4.0';
   
 // The number of items per page on a table
 global $page_size;
