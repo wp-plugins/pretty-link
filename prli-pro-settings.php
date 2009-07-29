@@ -45,7 +45,30 @@ else
     // Read their posted value
     $prlipro_username_val = stripslashes($_POST[ $prlipro_username ]);
     $prlipro_password_val = stripslashes($_POST[ $prlipro_password ]);
-  
+
+    $user_type = $prli_utils->get_pro_user_type($prlipro_username_val, $prlipro_password_val);
+    if(empty($user_type))
+      $errors[] = "Your user account couldn't be validated...";
+    else
+    {
+      // Test to make sure this sheesh is writeable
+      $handle = fopen(PRLI_PATH . '/098j1248iomv.txt', 'w');
+      if(!$handle)
+      {
+        // still update credentials
+        update_option( $prlipro_username, $prlipro_username_val );
+        update_option( $prlipro_password, $prlipro_password_val );
+
+        $errors[] = "Your account was validated but " . PRLI_PATH . " is not writeable<br/>Talk to your webhost about increasing your write permissions or install using the <a href=\"http://prettylinkpro.com/user-manual/pretty-link-pro-manual-installation/\">Manual Install</a> Process";
+      }
+      else
+      {
+        fclose($handle);
+        unlink(PRLI_PATH . '/098j1248iomv.txt');
+      }
+    }
+
+
     if( count($errors) > 0 )
     {
       require(PRLI_VIEWS_PATH.'/shared/errors.php');
@@ -58,7 +81,7 @@ else
       update_option( $prlipro_password, $prlipro_password_val );
   
       // Put an options updated message on the screen
-      $message = $prli_utils->download_and_install_pro($prlipro_username_val, $prlipro_password_val, true);
+      $message = $prli_utils->download_and_install_pro($prlipro_username_val, $prlipro_password_val);
 
       $message = (($message == 'SUCCESS')?'Pretty Link Pro has been installed click here to get started: <a href="?page=pretty-link/pro/prlipro-options.php">Pretty Link Pro Options</a>':$message);
   ?>

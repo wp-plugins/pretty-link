@@ -269,7 +269,7 @@ function prli_install()
 
   if( !empty($prlipro_username) and !empty($prlipro_password) and
       $prli_utils->get_pro_user_type($prlipro_username,$prlipro_password) != false )
-    $prlipro_response = $prli_utils->download_and_install_pro( $prlipro_username, $prlipro_password, true );
+    $prlipro_response = $prli_utils->download_and_install_pro( $prlipro_username, $prlipro_password );
 
   // TODO: Move all these options into a central options class
   // Set PrettyBar Defaults
