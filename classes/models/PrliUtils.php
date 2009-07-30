@@ -814,8 +814,7 @@ class PrliUtils
               url text NOT NULL,
               PRIMARY KEY  (id),
               KEY click_id (click_id),
-              KEY link_id (link_id),
-              KEY url (url)
+              KEY link_id (link_id)
             );";
     
     dbDelta($sql);
