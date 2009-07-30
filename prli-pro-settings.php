@@ -49,24 +49,6 @@ else
     $user_type = $prli_utils->get_pro_user_type($prlipro_username_val, $prlipro_password_val);
     if(empty($user_type))
       $errors[] = "Your user account couldn't be validated...";
-    else
-    {
-      // Test to make sure this sheesh is writeable
-      $handle = fopen(PRLI_PATH . '/098j1248iomv.txt', 'w');
-      if(!$handle)
-      {
-        // still update credentials
-        update_option( $prlipro_username, $prlipro_username_val );
-        update_option( $prlipro_password, $prlipro_password_val );
-
-        $errors[] = "Your account was validated but " . PRLI_PATH . " is not writeable<br/>Talk to your webhost about increasing your write permissions or install using the <a href=\"http://prettylinkpro.com/user-manual/pretty-link-pro-manual-installation/\">Manual Install</a> Process";
-      }
-      else
-      {
-        fclose($handle);
-        unlink(PRLI_PATH . '/098j1248iomv.txt');
-      }
-    }
 
 
     if( count($errors) > 0 )

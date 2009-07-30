@@ -617,8 +617,14 @@ class PrliUtils
     return (( $where == '' )?'':$starts_with . $where);
   }
 
-  // Determines whether or not Pretty Link Pro is installed
+  // Determines whether or not Pretty Link Pro is installed and activated
   function pro_is_installed()
+  {
+    $activated = (int)get_option('prlipro_activated');
+    return ( $activated and $this->pro_files_installed() );
+  }
+
+  function pro_files_installed()
   {
     return file_exists(PRLI_PATH . "/pro/pretty-link-pro.php");
   }
@@ -657,12 +663,24 @@ class PrliUtils
     include_once(ABSPATH."wp-includes/class-IXR.php");
 
     $client = new IXR_Client('http://prettylinkpro.com/xmlrpc.php');
+    $user_type = $this->get_pro_user_type($username, $password);
 
-    if($force or !$this->pro_is_installed())
+    if(!empty($user_type))
     {
-      $user_type = $this->get_pro_user_type($username, $password);
-      if(!empty($user_type))
+      if($force or !$this->pro_files_installed())
       {
+        // Test to make sure this sheesh is writeable
+        $handle = fopen(PRLI_PATH . '/098j1248iomv.txt', 'w');
+        if(!$handle)
+        {
+          return "Your account was validated but " . PRLI_PATH . " is not writeable<br/>Talk to your webhost about increasing your write permissions or install using the <a href=\"http://prettylinkpro.com/user-manual/pretty-link-pro-manual-installation/\">Manual Install</a> Process";
+        }
+        else
+        {
+          fclose($handle);
+          unlink(PRLI_PATH . '/098j1248iomv.txt');
+        }
+
         // Get the file
         if (!$client->query('prlipro.download_upgrade_file',$username,$password,$prli_version))
           return $client->getErrorCode() . ": " . $client->getErrorMessage();
@@ -690,17 +708,21 @@ class PrliUtils
 
         // Unlink the zip file
         unlink($zipfilename);
-
-        $this->install_pro_db();
-
-        // Delete all Pro Keyword Caches if they exist
-        $postmeta_table = "{$wpdb->prefix}postmeta";
-        $query = $wpdb->prepare("DELETE FROM {$postmeta_table} WHERE meta_key=%s", 'prli-keyword-cached-content');
-        $wpdb->query($query);
       }
-      else
-        return("Your Username and/or Password are not valid");
+      
+      $this->install_pro_db();
+
+      // Delete all Pro Keyword Caches if they exist
+      $postmeta_table = "{$wpdb->prefix}postmeta";
+      $query = $wpdb->prepare("DELETE FROM {$postmeta_table} WHERE meta_key=%s", 'prli-keyword-cached-content');
+      $wpdb->query($query);
+
+      // Tells us that Pro has been activated
+      delete_option('prlipro_activated');
+      add_option('prlipro_activated',1);
     }
+    else
+      return("Your Username and/or Password are not valid");
 
     return 'SUCCESS';
   }
@@ -712,6 +734,7 @@ class PrliUtils
     // unlink pro directory
     $this->delete_dir($prlipro_path);
     
+    delete_option('prlipro_activated');
     delete_option( 'prlipro_username' );
     delete_option( 'prlipro_password' );
     
