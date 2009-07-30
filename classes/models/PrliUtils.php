@@ -620,7 +620,29 @@ class PrliUtils
   // Determines whether or not Pretty Link Pro is installed and activated
   function pro_is_installed()
   {
-    $activated = (int)get_option('prlipro_activated');
+    $activated = get_option('prlipro_activated');
+
+    if(!$activated)
+    {
+      $username = get_option( 'prlipro_username' );
+      $password = get_option( 'prlipro_password' );
+
+      if($username and $password)
+      {
+        $user_type = $this->get_pro_user_type($username, $password);
+
+        if(!empty($user_type))
+        {
+          // Tells us that Pro has been activated
+          delete_option('prlipro_activated');
+          add_option('prlipro_activated',1);
+
+          $activated = true;
+        }
+      }
+    }
+
+
     return ( $activated and $this->pro_files_installed() );
   }
 
@@ -734,7 +756,7 @@ class PrliUtils
     // unlink pro directory
     $this->delete_dir($prlipro_path);
     
-    delete_option('prlipro_activated');
+    delete_option( 'prlipro_activated' );
     delete_option( 'prlipro_username' );
     delete_option( 'prlipro_password' );
     
