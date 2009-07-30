@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements
 Requires at least: 2.7.1
 Tested up to: 2.8.2
-Stable tag: 1.4.1
+Stable tag: 1.4.2
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -24,9 +24,9 @@ This is a link setup using Pretty Link that redirects to the Pretty Link Homepag
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com:
+Here's a named Pretty Link (I used the slug 'thesis') that redirects to my affiliate link for diythemes.com -- only the best theme you can get for WordPress -- in my humble opinion :) :
 
-http://blairwilliams.com/aweber
+http://blairwilliams.com/thesis
 
 Here's a link that Pretty Link generated a random slug for (similar to how bit.ly or tinyurl would do):
 
@@ -63,6 +63,7 @@ http://blairwilliams.com/x0z
 
 = Pro Features =
 You'll get the following additional features when you purchase Pretty Link Pro:
+
 * Replace keywords throughout your blog with Pretty Links
 * Replace URLs throughout your blog with Pretty Links
 * Rotate up to 5 URLs from one Pretty Link
@@ -90,17 +91,10 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link FAQ](http://blairwilliams.com/pretty-link/pretty-link-faq "Pretty link FAQ")
 
 = Developers =
-Pretty Link has an API with 2 different access methods:
-
-1. A Local WordPress API (usable by other plugins)
-
-2. A Remote XML-RPC API (usable by any Internet enabled application)
-
-If you're interested in offering your users the possibility of creating shortlinks on their own domain name from within your WordPress plugin or Internet enabled application check this out:
-
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 
 == Screenshots ==
 [Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
+
 [Pretty Link Pro Screenshots](http://prettylinkpro.com "Pretty link Pro Screenshots")
