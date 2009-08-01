@@ -18,6 +18,41 @@ if($params['action'] == 'list')
 
   prli_display_links_list($params, $prli_message);
 }
+else if($params['action'] == 'quick-create')
+{
+  $errors = $prli_link->validate($_POST);
+
+  if( count($errors) > 0 )
+  {
+    $groups = $prli_group->getAll('',' ORDER BY name');
+    $values = setup_new_vars($groups);
+    require_once 'classes/views/prli-links/new.php';
+  }
+  else
+  {
+    $_POST['gorder'] = '0';
+    $_POST['param_forwarding'] = 'off';
+    $_POST['param_struct'] = '';
+    $_POST['name'] = '';
+    $_POST['description'] = '';
+    if( get_option( 'prli_link_show_prettybar' ) )
+      $_POST['use_prettybar'] = 'on';
+    if( get_option( 'prli_link_ultra_cloak' ) )
+      $_POST['use_ultra_cloak'] = 'on';
+    if( get_option( 'prli_link_track_me' ) )
+      $_POST['track_me'] = 'on';
+    if( get_option( 'prli_link_track_as_pixel' ) )
+      $_POST['track_as_img'] = 'on';
+    if( get_option( 'prli_link_nofollow' ) )
+      $_POST['nofollow'] = 'on';
+    $_POST['redirect_type'] = get_option( 'prli_link_redirect_type' );
+
+    $record = $prli_link->create( $_POST );
+
+    $prli_message = "Your Pretty Link was Successfully Created";
+    prli_display_links_list($params, $prli_message, '', 1);
+  }
+}
 else if($params['action'] == 'create')
 {
   $errors = $prli_link->validate($_POST);

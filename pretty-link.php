@@ -158,6 +158,36 @@ function prli_link_redirect_from_slug($slug,$param_str)
 
 add_action('init', 'prli_redirect'); //Redirect
 
+/********* DASHBOARD WIDGET ***********/
+function prli_dashboard_widget_function() {
+  require_once 'prli-dashboard-widget.php';
+} 
+
+// Create the function use in the action hook
+function prli_add_dashboard_widgets() {
+  wp_add_dashboard_widget('prli_dashboard_widget', 'Pretty Link Quick Add', 'prli_dashboard_widget_function');   
+
+  // Globalize the metaboxes array, this holds all the widgets for wp-admin
+  global $wp_meta_boxes;
+
+  // Get the regular dashboard widgets array 
+  $normal_dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
+
+  // Backup and delete our new dashbaord widget from the end of the array
+  $prli_widget_backup = array('prli_dashboard_widget' => $normal_dashboard['prli_dashboard_widget']);
+  unset($normal_dashboard['prli_dashboard_widget']);
+
+  // Merge the two arrays together so our widget is at the beginning
+  $sorted_dashboard = array_merge($prli_widget_backup, $normal_dashboard);
+  //print_r($sorted_dashboard);exit;
+
+  // Save the sorted array back into the original metaboxes 
+  $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
+} 
+
+// Hook into the 'wp_dashboard_setup' action to register our other functions
+add_action('wp_dashboard_setup', 'prli_add_dashboard_widgets' );
+
 /********* EXPORT PRETTY LINK API VIA XML-RPC ***********/
 function prli_export_api($api_methods)
 {
