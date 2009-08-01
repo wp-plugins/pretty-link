@@ -178,8 +178,15 @@ function prli_add_dashboard_widgets() {
   unset($normal_dashboard['prli_dashboard_widget']);
 
   // Merge the two arrays together so our widget is at the beginning
-  $sorted_dashboard = array_merge($prli_widget_backup, $normal_dashboard);
-  //print_r($sorted_dashboard);exit;
+  $i = 0;
+  foreach($normal_dashboard as $key => $value)
+  {
+    if($i == 1 or (count($normal_dashboard) <= 1 and $i == count($normal_dashboard) - 1))
+      $sorted_dashboard['prli_dashboard_widget'] = $prli_widget_backup['prli_dashboard_widget'];
+    
+    $sorted_dashboard[$key] = $normal_dashboard[$key];
+    $i++;
+  }
 
   // Save the sorted array back into the original metaboxes 
   $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
