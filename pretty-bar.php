@@ -56,7 +56,7 @@ if(strlen($target_url) > $bar_link_limit)
 <html>
 <head>
   <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-  <title>Crap! <?php echo htmlspecialchars(stripslashes($link->name)); ?></title>
+  <title><?php echo htmlspecialchars(stripslashes($link->name)); ?></title>
 <style type="text/css">
 html, body {
   margin: 0px;

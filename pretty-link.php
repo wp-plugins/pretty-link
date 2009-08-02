@@ -165,31 +165,36 @@ function prli_dashboard_widget_function() {
 
 // Create the function use in the action hook
 function prli_add_dashboard_widgets() {
-  wp_add_dashboard_widget('prli_dashboard_widget', 'Pretty Link Quick Add', 'prli_dashboard_widget_function');   
-
-  // Globalize the metaboxes array, this holds all the widgets for wp-admin
-  global $wp_meta_boxes;
-
-  // Get the regular dashboard widgets array 
-  $normal_dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
-
-  // Backup and delete our new dashbaord widget from the end of the array
-  $prli_widget_backup = array('prli_dashboard_widget' => $normal_dashboard['prli_dashboard_widget']);
-  unset($normal_dashboard['prli_dashboard_widget']);
-
-  // Merge the two arrays together so our widget is at the beginning
-  $i = 0;
-  foreach($normal_dashboard as $key => $value)
+  global $current_user;
+  get_currentuserinfo();
+  if($current_user->user_level >= 8)
   {
-    if($i == 1 or (count($normal_dashboard) <= 1 and $i == count($normal_dashboard) - 1))
-      $sorted_dashboard['prli_dashboard_widget'] = $prli_widget_backup['prli_dashboard_widget'];
-    
-    $sorted_dashboard[$key] = $normal_dashboard[$key];
-    $i++;
-  }
+    wp_add_dashboard_widget('prli_dashboard_widget', 'Pretty Link Quick Add', 'prli_dashboard_widget_function');   
 
-  // Save the sorted array back into the original metaboxes 
-  $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
+    // Globalize the metaboxes array, this holds all the widgets for wp-admin
+    global $wp_meta_boxes;
+
+    // Get the regular dashboard widgets array 
+    $normal_dashboard = $wp_meta_boxes['dashboard']['normal']['core'];
+
+    // Backup and delete our new dashbaord widget from the end of the array
+    $prli_widget_backup = array('prli_dashboard_widget' => $normal_dashboard['prli_dashboard_widget']);
+    unset($normal_dashboard['prli_dashboard_widget']);
+
+    // Merge the two arrays together so our widget is at the beginning
+    $i = 0;
+    foreach($normal_dashboard as $key => $value)
+    {
+      if($i == 1 or (count($normal_dashboard) <= 1 and $i == count($normal_dashboard) - 1))
+        $sorted_dashboard['prli_dashboard_widget'] = $prli_widget_backup['prli_dashboard_widget'];
+      
+      $sorted_dashboard[$key] = $normal_dashboard[$key];
+      $i++;
+    }
+
+    // Save the sorted array back into the original metaboxes 
+    $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
+  }
 } 
 
 // Hook into the 'wp_dashboard_setup' action to register our other functions
