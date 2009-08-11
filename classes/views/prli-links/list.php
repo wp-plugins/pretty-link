@@ -51,14 +51,13 @@
   <?php
   }
   ?>
-
-<?php
-  require(PRLI_VIEWS_PATH.'/shared/table-nav.php');
-?>
+<form class="form-fields" name="link_list_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+<input type="hidden" name="action" value="list-form"/>
+<?php require(PRLI_VIEWS_PATH.'/shared/table-nav.php'); ?>
 <table class="widefat post fixed" cellspacing="0">
     <thead>
     <tr>
-      <th class="manage-column" width="30%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="30%"><?php do_action('prli-list-header-icon'); ?><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <?php do_action('prli_link_column_header'); ?>
       <th class="manage-column" width="10%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=clicks<?php echo (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Hits / Uniq<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&sort=group_name<?php echo (($sort_str == 'group_name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Group<?php echo (($sort_str == 'group_name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
@@ -154,7 +153,7 @@
         <?php if( !$link->track_as_img )
         {
         ?>
-        <span style="font-size: 8px;"><strong>Target URL:</strong> <? echo $link->url; ?></span></td>
+        <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong>Target URL:</strong> <? echo substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':''); ?></span></td>
         <?php
         }
         ?>
@@ -165,7 +164,7 @@
   ?>
     <tfoot>
     <tr>
-      <th class="manage-column">Name</th>
+      <th class="manage-column"><?php do_action('prli-list-header-icon'); ?>Name</th>
       <?php do_action('prli_link_column_footer'); ?>
       <th class="manage-column">Hits / Uniq</th>
       <th class="manage-column">Group</th>
@@ -177,5 +176,6 @@
 <?php
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');
 ?>
+</form>
 
 </div>

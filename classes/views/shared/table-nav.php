@@ -4,6 +4,7 @@
   {
       ?>
     <div class="tablenav"<?php echo (isset($navstyle)?" style=\"$navstyle\"":''); ?>>
+      <?php do_action('prli-link-list-actions'); ?>
       <div class='tablenav-pages'><span class="displaying-num">Displaying <?php print "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
         
         <?php
@@ -87,6 +88,14 @@
         }
         ?>
       </div>
+    </div>
+    <?php
+  }
+  else
+  {
+    ?>
+    <div class="tablenav"<?php echo (isset($navstyle)?" style=\"$navstyle\"":''); ?>>
+      <?php do_action('prli-link-list-actions'); ?>
     </div>
     <?php
   }

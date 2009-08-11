@@ -18,6 +18,11 @@ if($params['action'] == 'list')
 
   prli_display_links_list($params, $prli_message);
 }
+else if($params['action'] == 'list-form')
+{
+  $prli_message = apply_filters('prli-link-list-process-form', prli_get_main_message());
+  prli_display_links_list($params, $prli_message);
+}
 else if($params['action'] == 'quick-create')
 {
   $errors = $prli_link->validate($_POST);
