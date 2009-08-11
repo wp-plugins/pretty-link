@@ -51,9 +51,9 @@
   <?php
   }
   ?>
-<form class="form-fields" name="link_list_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+<form class="form-fields link-list-form" name="link_list_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
 <input type="hidden" name="action" value="list-form"/>
-<?php require(PRLI_VIEWS_PATH.'/shared/table-nav.php'); ?>
+<?php $footer = false; require(PRLI_VIEWS_PATH.'/shared/link-table-nav.php'); ?>
 <table class="widefat post fixed" cellspacing="0">
     <thead>
     <tr>
@@ -173,9 +173,7 @@
     </tr>
     </tfoot>
 </table>
-<?php
-  require(PRLI_VIEWS_PATH.'/shared/table-nav.php');
-?>
+<?php $footer = true; require(PRLI_VIEWS_PATH.'/shared/link-table-nav.php'); ?>
 </form>
 
 </div>
