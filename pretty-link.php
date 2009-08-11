@@ -260,7 +260,7 @@ function prli_install()
             id int(11) NOT NULL auto_increment,
             name varchar(255) default NULL,
             description text default NULL,
-            url varchar(255) default NULL,
+            url text default NULL,
             slug varchar(255) default NULL,
             track_as_img tinyint(1) default 0,
             nofollow tinyint(1) default 0,
