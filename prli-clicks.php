@@ -1,7 +1,13 @@
 <?php
 
 if(isset($_GET['action']) and $_GET['action'] == 'csv')
-  require_once(dirname(__FILE__) . '/../../../wp-config.php');
+{
+  $root = dirname(dirname(dirname(dirname(__FILE__))));
+  if (file_exists($root.'/wp-load.php')) 
+    require_once($root.'/wp-load.php');
+  else
+    require_once($root.'/wp-config.php');
+}
 
 require_once 'prli-config.php';
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
