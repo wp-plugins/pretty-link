@@ -91,47 +91,11 @@ else if($params['action'] == 'edit')
 }
 else if($params['action'] == 'bulk-update')
 {
-  $ids = explode(',',$_POST['ids']);
-
-  foreach($ids as $id)
+  if(apply_filters('prli-bulk-link-update', true))
   {
-    $values = array();
-    $record = $prli_link->getOne($id);
-
-    $values['url'] = $record->url;
-    $values['slug'] = $record->slug;
-    $values['name'] = $record->name;
-    $values['description'] = $record->description;
-    $values['gorder'] = $record->gorder;
-
-    if(isset($_POST['param_forwarding']))
-    {
-      $values['param_forwarding'] = $_POST['param_forwarding'];
-      $values['param_struct'] = $_POST['param_struct'];
-    }
-    else
-    {
-      $values['param_forwarding'] = $record->param_forwarding;
-      $values['param_struct'] = $record->param_struct;
-    }
-
-    if(isset($_POST['redirect_type']))
-      $values['redirect_type'] = $_POST['redirect_type'];
-    else
-      $values['redirect_type'] = $record->redirect_type;
-
-    $values['track_me'] = $_POST['track_me'];
-    $values['nofollow'] = $_POST['nofollow'];
-    $values['use_prettybar'] = $_POST['use_prettybar'];
-    $values['use_ultra_cloak'] = $_POST['use_ultra_cloak'];
-    $values['track_as_img'] = $_POST['track_as_img'];
-    $values['group_id'] = (isset($_POST['group_id'])?$_POST['group_id']:$record->group_id);
-
-    $record = $prli_link->update( $id, $values );
+    $prli_message = "Your Pretty Links were Successfully Updated";
+    prli_display_links_list($params, $prli_message, '', 1);
   }
-
-  $prli_message = "Your Pretty Links were Successfully Updated";
-  prli_display_links_list($params, $prli_message, '', 1);
 }
 else if($params['action'] == 'update')
 {
