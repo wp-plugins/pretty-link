@@ -297,7 +297,7 @@ class PrliLink
 
       $errors = array();
       if( ( $values['url'] == null or $values['url'] == '') and $values['track_as_img'] != 'on' )
-        $errors[] = "Target URL can't be blank -- unless this Pretty Link is being used as a tracking pixel (see Advanced Options on this page)";
+        $errors[] = "Target URL can't be blank";
 
       if( $values['slug'] == null or $values['slug'] == '' )
         $errors[] = "Pretty Link can't be blank";
