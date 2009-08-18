@@ -85,31 +85,33 @@
         <td class="edit_link">
 
         <?php do_action('prli_list_icon',$link->id); ?>
-        <?php if( $link->use_prettybar and !$link->track_as_img ) { ?>
+        <?php if( $link->redirect_type == 'prettybar' ) { ?>
             <img src="<?php echo PRLI_URL.'/images/pretty-link-small.png'; ?>" title="Using PrettyBar" width="13px" height="13px" />
-        <?php } ?>
-        <?php if( $link->use_ultra_cloak and !$link->track_as_img ) { ?>
+        <?php }
+        else if( $link->redirect_type == 'cloak' ) { ?>
             <img src="<?php echo PRLI_URL.'/images/ultra-cloak.png'; ?>" title="Using Ultra Cloak" width="13px" height="13px" />
+        <?php }
+        else if( $link->redirect_type == 'pixel' ) { ?>
+          <img src="<?php echo PRLI_URL.'/images/pixel_track.png'; ?>" width="13px" height="13px" name="Pixel Tracking Enabled" alt="Pixel Tracking Enabled" title="Pixel Tracking Enabled"/>&nbsp;
+        <?php }
+        else if( $link->redirect_type == '307' ) { ?>
+          <span title="Temporary Redirection (307)" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong>T</strong></span>&nbsp;
+        <?php }
+        else if( $link->redirect_type == '301' ) { ?>
+          <span title="Permanent Redirection (301)" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong>P</strong></span>&nbsp;
         <?php } ?>
-        <?php if( $link->nofollow ) { ?>
-            <img src="<?php echo PRLI_URL.'/images/nofollow.png'; ?>" title="nofollow" width="13px" height="13px" />
-        <?php } ?>
-        <?php if( !$link->track_as_img ) { ?>
-        <span title="<?php echo (($link->redirect_type == '307')?"Temporary Redirection (307)":"Permanent Redirection (301)"); ?>" style="font-size: 14px; cursor: help; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong><?php echo (($link->redirect_type == '307')?"T":"P"); ?></strong></span>&nbsp;
-        <?php } ?>
-        <?php if( !$link->track_as_img )
+
+        <?php if( $link->redirect_type != 'pixel' )
         {
         ?>
           <a href="<? echo $link->url; ?>" target="_blank" title="Visit Target URL: <?php echo $link->url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
           <a href="<? echo $pretty_link_url; ?>" target="_blank" title="Visit Pretty Link: <?php echo $pretty_link_url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
         <?php
         }
-        else
-        {
-        ?>
-          <img src="<?php echo PRLI_URL.'/images/pixel_track.png'; ?>" width="13px" height="13px" name="Pixel Tracking Enabled" alt="Pixel Tracking Enabled" title="Pixel Tracking Enabled"/>&nbsp;
-        <?php
-        }
+
+        if( $link->nofollow ) { ?>
+            <img src="<?php echo PRLI_URL.'/images/nofollow.png'; ?>" title="nofollow" width="13px" height="13px" />
+        <?php }
 
         if($link->param_forwarding == 'on')
         {
@@ -134,7 +136,7 @@
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php echo $link->slug; ?>">Hits</a>
             <?php do_action('prli-link-action',$link->id); ?>
             <?php } ?>
-            <?php if( !$link->track_as_img )
+            <?php if( $link->redirect_type != 'pixel' )
             {
             ?>
             |&nbsp;<a href="http://twitter.com/home?status=<?php echo $pretty_link_url; ?>" target="_blank" title="Post <?php echo $pretty_link_url; ?> to Twitter">Tweet</a>&nbsp;|
@@ -150,7 +152,7 @@
         <td><?php echo $link->created_at; ?></td>
         </td>
         <td><input type='text' style="font-size: 10px; width: 100%;" readonly="true" onclick='this.select();' onfocus='this.select();' value='<?php echo $pretty_link_url; ?>' /><br/>
-        <?php if( !$link->track_as_img )
+        <?php if( $link->redirect_type != 'pixel' )
         {
         ?>
         <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong>Target URL:</strong> <? echo substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':''); ?></span></td>

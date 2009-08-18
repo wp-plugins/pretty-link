@@ -40,7 +40,7 @@ jQuery(document).ready(function() {
 <style type="text/css">
 
 .options-table {
-  width: 67%;
+  width: 80%;
   margin-top: 10px;
 }
 

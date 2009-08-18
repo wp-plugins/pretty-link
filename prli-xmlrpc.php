@@ -53,14 +53,6 @@ function prli_xmlrpc_api_version($args)
  *                          If this value isn't set then the link will not be
  *                          placed in a group.
  *
- * @param boolean $show_prettybar Optional, If true the prettybar will be shown,
- *                                if not set the default value (from the pretty
- *                                link option page) will be used
- *
- * @param boolean $ultra_cloak Optional, If true then the link will be ultra-cloaked,
- *                             if not set the default value (from the pretty link
- *                             option page) will be used
- *
  * @param boolean $link_track_me Optional, If true the link will be tracked,
  *                               if not set the default value (from the pretty
  *                               link option page) will be used
@@ -108,26 +100,20 @@ function prli_xmlrpc_create_pretty_link( $args )
   $name             = (isset($args[4])?$args[4]:'');
   $description      = (isset($args[5])?$args[5]:'');
   $group_id         = (isset($args[6])?$args[6]:'');
-  $show_prettybar   = (isset($args[7])?$args[7]:'');
-  $ultra_cloak      = (isset($args[8])?$args[8]:'');
-  $track_me         = (isset($args[9])?$args[9]:'');
-  $nofollow         = (isset($args[10])?$args[10]:'');
-  $redirect_type    = (isset($args[11])?$args[11]:'');
-  $track_as_img     = (isset($args[12])?$args[12]:'');
-  $param_forwarding = (isset($args[13])?$args[13]:'off');
-  $param_struct     = (isset($args[14])?$args[14]:'');
+  $track_me         = (isset($args[7])?$args[7]:'');
+  $nofollow         = (isset($args[8])?$args[8]:'');
+  $redirect_type    = (isset($args[9])?$args[9]:'');
+  $param_forwarding = (isset($args[10])?$args[10]:'off');
+  $param_struct     = (isset($args[11])?$args[11]:'');
   
   if( $link = prli_create_pretty_link( $target_url, 
                                        $slug, 
                                        $name, 
                                        $description, 
                                        $group_id, 
-                                       $show_prettybar, 
-                                       $ultra_cloak, 
                                        $track_me, 
                                        $nofollow, 
                                        $redirect_type,
-                                       $track_as_img,
                                        $param_forwarding,
                                        $param_struct ) )
     return $link;
@@ -162,14 +148,11 @@ function prli_xmlrpc_update_pretty_link( $args )
   $name             = (isset($args[5])?$args[5]:'');
   $description      = (isset($args[6])?$args[6]:'');
   $group_id         = (isset($args[7])?$args[7]:'');
-  $show_prettybar   = (isset($args[8])?$args[8]:'');
-  $ultra_cloak      = (isset($args[9])?$args[9]:'');
-  $track_me         = (isset($args[10])?$args[10]:'');
-  $nofollow         = (isset($args[11])?$args[11]:'');
-  $redirect_type    = (isset($args[12])?$args[12]:'');
-  $track_as_img     = (isset($args[13])?$args[13]:'');
-  $param_forwarding = (isset($args[14])?$args[14]:'');
-  $param_struct     = (isset($args[15])?$args[15]:'');
+  $track_me         = (isset($args[8])?$args[8]:'');
+  $nofollow         = (isset($args[9])?$args[9]:'');
+  $redirect_type    = (isset($args[10])?$args[10]:'');
+  $param_forwarding = (isset($args[11])?$args[11]:'');
+  $param_struct     = (isset($args[12])?$args[12]:'');
   
   if( $link = prli_update_pretty_link( $id, 
                                        $target_url, 
@@ -177,12 +160,9 @@ function prli_xmlrpc_update_pretty_link( $args )
                                        $name, 
                                        $description, 
                                        $group_id, 
-                                       $show_prettybar, 
-                                       $ultra_cloak, 
                                        $track_me, 
                                        $nofollow, 
                                        $redirect_type,
-                                       $track_as_img,
                                        $param_forwarding,
                                        $param_struct ) )
     return $link;

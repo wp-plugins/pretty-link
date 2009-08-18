@@ -35,22 +35,16 @@ else if($params['action'] == 'quick-create')
   }
   else
   {
-    $_POST['gorder'] = '0';
     $_POST['param_forwarding'] = 'off';
     $_POST['param_struct'] = '';
     $_POST['name'] = '';
     $_POST['description'] = '';
-    if( get_option( 'prli_link_show_prettybar' ) )
-      $_POST['use_prettybar'] = 'on';
-    if( get_option( 'prli_link_ultra_cloak' ) )
-      $_POST['use_ultra_cloak'] = 'on';
-    if( get_option( 'prli_link_track_me' ) )
+    if( $prli_options->link_track_me )
       $_POST['track_me'] = 'on';
-    if( get_option( 'prli_link_track_as_pixel' ) )
-      $_POST['track_as_img'] = 'on';
-    if( get_option( 'prli_link_nofollow' ) )
+    if( $prli_options->link_nofollow )
       $_POST['nofollow'] = 'on';
-    $_POST['redirect_type'] = get_option( 'prli_link_redirect_type' );
+
+    $_POST['redirect_type'] = $prli_options->link_redirect_type;
 
     $record = $prli_link->create( $_POST );
 
@@ -213,9 +207,6 @@ function prli_get_link_sort_vars($params,$where_clause = '')
     case "group_name":
     case "slug":
       $order_by .= " ORDER BY $sort_str";
-      break;
-    case "gorder":
-      $order_by .= " ORDER BY gorder,group_name";
       break;
     default:
       $order_by .= " ORDER BY created_at";

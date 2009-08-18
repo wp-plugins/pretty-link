@@ -22,15 +22,11 @@ class PrliLink
                       'param_struct,'.
                       'redirect_type,'.
                       'description,'.
-                      'gorder,'.
                       'track_me,'.
                       'nofollow,'.
-                      'use_prettybar,'.
-                      'use_ultra_cloak,'.
-                      'track_as_img,'.
                       'group_id,'.
                       'created_at) ' .
-                      'VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,NOW())';
+                      'VALUES (%s,%s,%s,%s,%s,%s,%s,%d,%d,%d,NOW())';
 
       $query = $wpdb->prepare( $query_str,
                                $values['url'],
@@ -40,12 +36,8 @@ class PrliLink
                                $values['param_struct'],
                                $values['redirect_type'],
                                $values['description'],
-                               $values['gorder'],
                                (int)isset($values['track_me']),
                                (int)isset($values['nofollow']),
-                               (int)isset($values['use_prettybar']),
-                               (int)isset($values['use_ultra_cloak']),
-                               (int)isset($values['track_as_img']),
                                (isset($values['group_id'])?(int)$values['group_id']:'NULL') );
       $query_results = $wpdb->query($query);
 
@@ -68,12 +60,8 @@ class PrliLink
                           'param_struct=%s, ' .
                           'redirect_type=%s, ' .
                           'description=%s, ' .
-                          'gorder=%s, ' .
                           'track_me=%d, ' .
                           'nofollow=%d, ' .
-                          'use_prettybar=%d, ' .
-                          'use_ultra_cloak=%d, ' .
-                          'track_as_img=%d, ' .
                           'group_id=%d ' .
                      ' WHERE id=%d';
 
@@ -85,12 +73,8 @@ class PrliLink
                                $values['param_struct'],
                                $values['redirect_type'],
                                $values['description'],
-                               $values['gorder'],
                                (int)isset($values['track_me']),
                                (int)isset($values['nofollow']),
-                               (int)isset($values['use_prettybar']),
-                               (int)isset($values['use_ultra_cloak']),
-                               (int)isset($values['track_as_img']),
                                (isset($values['group_id'])?(int)$values['group_id']:'NULL'),
                                $id );
 
@@ -168,11 +152,8 @@ class PrliLink
                           'group_id,'.
                           'redirect_type,'.
                           'track_me,'.
-                          'use_prettybar,'.
-                          'use_ultra_cloak,'.
                           'param_forwarding,'.
-                          'param_struct,'.
-                          'track_as_img '.
+                          'param_struct'.
                      "FROM {$this->table_name} ".
                      'WHERE id=%d';
       $query = $wpdb->prepare($query_str, $id);
@@ -261,13 +242,13 @@ class PrliLink
       $link = $this->getOneFromSlug($slug);
 
       if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
-         (isset($link->track_as_img) and $link->track_as_img == 1))
+         (isset($link->redirect_type) and $link->redirect_type == 'pixel'))
         return "&lt;img src=\"".$prli_blogurl . '/' . $link->slug . $link->param_struct . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
       else if((!isset($link->param_forwarding) or $link->param_forwarding != 'custom') and
-              (isset($link->track_as_img) and $link->track_as_img == 1))
+              (isset($link->redirect_type) and $link->redirect_type == 'pixel'))
         return "&lt;img src=\"".$prli_blogurl . '/' . $link->slug . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
       else if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
-              (!isset($link->track_as_img) or $link->track_as_img == 0))
+              (!isset($link->redirect_type) or $link->redirect_type != 'pixel'))
         return $prli_blogurl . '/' . $link->slug . $link->param_struct;
       else
         return $prli_blogurl . '/' . $link->slug;
@@ -296,7 +277,7 @@ class PrliLink
       global $wpdb, $prli_utils, $prli_blogurl;
 
       $errors = array();
-      if( ( $values['url'] == null or $values['url'] == '') and $values['track_as_img'] != 'on' )
+      if( ( $values['url'] == null or $values['url'] == '') and $values['redirect_type'] != 'pixel' )
         $errors[] = "Target URL can't be blank";
 
       if( $values['slug'] == null or $values['slug'] == '' )

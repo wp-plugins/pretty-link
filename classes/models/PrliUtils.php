@@ -255,34 +255,29 @@ class PrliUtils
       }
     }
     
-    //Redirect to Product URL
-    if(!isset($pretty_link->track_as_img) or $pretty_link->track_as_img == 0)
+    if(isset($pretty_link->nofollow) and $pretty_link->nofollow)
+      header('X-Robots-Tag: noindex, nofollow');
+
+    switch($pretty_link->redirect_type)
     {
-      if(isset($pretty_link->nofollow) and $pretty_link->nofollow)
-        header('X-Robots-Tag: noindex, nofollow');
-  
-      // If we're using the pretty bar then don't redirect -- load the pretty bar view
-      if( isset($pretty_link->use_prettybar) and $pretty_link->use_prettybar )
-      {
+      case 'pixel':
+        break;
+      case 'prettybar':
         global $prli_blogurl;
         require_once PRLI_VIEWS_PATH . '/prli-links/bar.php';
-      }
-      else if( isset($pretty_link->use_ultra_cloak) and $pretty_link->use_ultra_cloak )
+        break;
+      case 'cloak':
         require_once PRLI_VIEWS_PATH . '/prli-links/ultra-cloak.php';
-      else
-      {
-        if ((int)$pretty_link->redirect_type == 301)
-          header("HTTP/1.1 301 Moved Permanently");
-        elseif ((int)$pretty_link->redirect_type == 307)
-        {
-          if($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0')
-            header("HTTP/1.1 302 Found");
-          else
-            header("HTTP/1.1 307 Temporary Redirect");
-        }
-  
+        break;
+      case '301':
+        header("HTTP/1.1 301 Moved Permanently");
         header('Location: '.$pretty_link_url.$param_string);
-      }
+        break;
+      default:
+        if($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0')
+          header("HTTP/1.1 302 Found");
+        else
+          header("HTTP/1.1 307 Temporary Redirect");
     }
   }
   
@@ -886,5 +881,41 @@ class PrliUtils
     return rmdir($dir);
   }
 
+  // Used in the install procedure to migrate database columns
+  function migrate_before_db_upgrade()
+  {
+    global $prli_link, $prli_click, $wpdb;
+    $db_version = (int)get_option('prli_db_version');
+
+    // Migration for version 1 of the database
+    if(!$db_version or $db_version < 1)
+    {
+      $query = "SELECT * from {$prli_link->table_name}";
+      $links = $wpdb->get_results($query);
+      $query_str = "UPDATE {$prli_link->table_name} SET redirect_type=%s WHERE id=%d";
+
+      foreach($links as $link)
+      {
+        if(isset($link->track_as_img) and $link->track_as_img)
+        {
+          $query = $wpdb->prepare($query_str, 'pixel', $link->id);
+          $wpdb->query($query);
+        }
+        else if(isset($link->use_prettybar) and $link->use_prettybar)
+        {
+          $query = $wpdb->prepare($query_str, 'prettybar', $link->id);
+          $wpdb->query($query);
+        }
+        else if(isset($link->use_ultra_cloak) and $link->use_ultra_cloak)
+        {
+          $query = $wpdb->prepare($query_str, 'cloak', $link->id);
+          $wpdb->query($query);
+        }
+      }
+
+      $query = "ALTER TABLE {$prli_link->table_name} DROP COLUMN track_as_img, DROP COLUMN use_prettybar, DROP COLUMN use_ultra_cloak";
+      $wpdb->query($query);
+    }
+  }
 }
 ?>

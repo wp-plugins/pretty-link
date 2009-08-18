@@ -220,14 +220,14 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 function prli_install()
 {
   global $wpdb, $prli_utils;
-
-  //require_once(dirname(__FILE__) . "/classes/models/PrliUtils.php");
-  //$prli_utils = new PrliUtils();
+  $db_version = 1;
 
   $groups_table       = $wpdb->prefix . "prli_groups";
   $clicks_table       = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
   $link_metas_table   = $wpdb->prefix . "prli_link_metas";
+
+  $prli_utils->migrate_before_db_upgrade();
 
   require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
   
@@ -262,15 +262,11 @@ function prli_install()
             description text default NULL,
             url text default NULL,
             slug varchar(255) default NULL,
-            track_as_img tinyint(1) default 0,
             nofollow tinyint(1) default 0,
             track_me tinyint(1) default 1,
-            use_prettybar tinyint(1) default 0,
-            use_ultra_cloak tinyint(1) default 0,
             param_forwarding varchar(255) default NULL,
             param_struct varchar(255) default NULL,
             redirect_type varchar(255) default '307',
-            gorder int(11) default 0,
             created_at datetime NOT NULL,
             group_id int(11) default NULL,
             PRIMARY KEY  (id),
@@ -313,48 +309,8 @@ function prli_install()
       $prli_utils->get_pro_user_type($prlipro_username,$prlipro_password) != false )
     $prlipro_response = $prli_utils->download_and_install_pro( $prlipro_username, $prlipro_password );
 
-  // TODO: Move all these options into a central options class
-  // Set PrettyBar Defaults
-  $prettybar_show_title            = 'prli_prettybar_show_title';
-  $prettybar_show_description      = 'prli_prettybar_show_description';
-  $prettybar_show_share_links      = 'prli_prettybar_show_share_links';
-  $prettybar_show_target_url_link  = 'prli_prettybar_show_target_url_link';
-
-  if(!get_option($prettybar_show_title))
-    add_option('prli_prettybar_show_title',1);
-  if(!get_option($prettybar_show_description))
-    add_option('prli_prettybar_show_description',1);
-  if(!get_option($prettybar_show_share_links))
-    add_option('prli_prettybar_show_share_links',1);
-  if(!get_option($prettybar_show_target_url_link))
-    add_option('prli_prettybar_show_target_url_link',1);
-
-  // Set Link Defaults
-  $link_show_prettybar = 'prli_link_show_prettybar';
-  $link_ultra_cloak = 'prli_link_ultra_cloak';
-  $link_track_me       = 'prli_link_track_me';
-  $link_track_as_pixel = 'prli_link_track_as_pixel';
-  $link_nofollow       = 'prli_link_nofollow';
-  $link_redirect_type  = 'prli_link_redirect_type';
-
-  if(!get_option($link_show_prettybar))
-    add_option('prli_link_show_prettybar',0);
-  if(!get_option($link_ultra_cloak))
-    add_option('prli_link_ultra_cloak',0);
-  if(!get_option($link_track_me))
-    add_option('prli_link_track_me',1);
-  if(!get_option($link_track_as_pixel))
-    add_option('prli_link_track_as_pixel',0);
-  if(!get_option($link_nofollow))
-    add_option('prli_link_nofollow',0);
-  if(!get_option($link_redirect_type))
-    update_option('prli_link_redirect_type','307');
-  if(!get_option('prli_prettybar_title_limit'))
-    update_option('prli_prettybar_title_limit', '30');
-  if(!get_option('prli_prettybar_desc_limit'))
-    update_option('prli_prettybar_desc_limit', '40');
-  if(!get_option('prli_prettybar_link_limit'))
-    update_option('prli_prettybar_link_limit', '40');
+  delete_option('prli_db_version');
+  add_option('prli_db_version',$db_version);
 }
 
 // Ensure this gets called on first install

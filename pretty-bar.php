@@ -26,24 +26,6 @@ $bar_link_limit = (int)get_option('prli_prettybar_link_limit');
 
 $target_url = $_GET['url'];
 
-if(empty($bar_image) or !$bar_image)
-  $bar_image = 'images/pretty-link-48x48.png';
-
-if((empty($bar_background_image) and empty($bar_color)) or (!$bar_background_image and !$bar_color))
-  $bar_background_image = 'images/bar_background.png';
-
-if(empty($bar_text_color) or !$bar_text_color)
-  $bar_text_color = '000000';
-
-if(empty($bar_link_color) or !$bar_link_color)
-  $bar_link_color = '0000ee';
-
-if(empty($bar_visited_color) or !$bar_visited_color)
-  $bar_visited_color = '551a8b';
-
-if(empty($bar_hover_color) or !$bar_hover_color)
-  $bar_hover_color = 'ababab';
-
 $shortened_title = htmlspecialchars(stripslashes(substr($prli_blogname,0,$bar_title_limit)));
 $shortened_desc  = htmlspecialchars(stripslashes(substr($prli_blogdescription,0,$bar_desc_limit)));
 $shortened_link  = htmlspecialchars(stripslashes(substr($target_url,0,$bar_link_limit)));

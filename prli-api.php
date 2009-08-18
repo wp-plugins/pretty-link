@@ -8,7 +8,7 @@
  */
 function prli_api_version()
 {
-  return '1.1';
+  return '1.2';
 }
 
 /**
@@ -30,14 +30,6 @@ function prli_api_version()
  *                          If this value isn't set then the link will not be
  *                          placed in a group.
  *
- * @param boolean $show_prettybar Optional, If true the prettybar will be shown,
- *                                if not set the default value (from the pretty
- *                                link option page) will be used
- *
- * @param boolean $ultra_cloak Optional, If true then the link will be ultra-cloaked,
- *                             if not set the default value (from the pretty link
- *                             option page) will be used
- *
  * @param boolean $link_track_me Optional, If true the link will be tracked,
  *                               if not set the default value (from the pretty
  *                               link option page) will be used
@@ -47,7 +39,8 @@ function prli_api_version()
  *                               value (from the pretty link option page) will
  *                               be used
  *
- * @param string $link_redirect_type Optional, valid values include '307' or '301',
+ * @param string $link_redirect_type Optional, valid values include '307', '301', 
+ *                                   'prettybar', 'cloak' or 'pixel'
  *                                   if not set the default value (from the pretty
  *                                   link option page) will be used
  *
@@ -63,12 +56,9 @@ function prli_create_pretty_link( $target_url,
                                   $name = '',
                                   $description = '',
                                   $group_id = 0,
-                                  $show_prettybar = '',
-                                  $ultra_cloak = '',
                                   $track_me = '',
                                   $nofollow = '',
                                   $redirect_type = '',
-                                  $track_as_img = '',
                                   $param_forwarding = '',
                                   $param_struct = '' )
 {
@@ -85,25 +75,15 @@ function prli_create_pretty_link( $target_url,
   $values['group_id']         = $group_id;
   $values['redirect_type']    = (($redirect_type == '')?get_option( 'prli_link_redirect_type' ):$redirect_type);
   $values['nofollow']         = (($nofollow == '')?get_option( 'prli_link_nofollow' ):$nofollow);
-  $values['use_prettybar']    = (($show_prettybar == '')?(int)get_option( 'prli_link_show_prettybar' ):$show_prettybar);
-  $values['use_ultra_cloak']  = (($ultra_cloak == '')?(int)get_option( 'prli_link_ultra_cloak' ):$ultra_cloak);
   $values['track_me']         = (($track_me == '')?get_option( 'prli_link_track_me' ):$track_me);
-  $values['track_as_img']     = (($track_as_img == '')?0:$track_as_img);
   $values['param_forwarding'] = (($param_forwarding == '')?'off':$param_forwarding);
   $values['param_struct']     = $param_struct;
-  $values['gorder']           = '0';     // not supported by this function
 
   // make array look like $_POST
   if(empty($values['nofollow']) or !$values['nofollow'])
     unset($values['nofollow']);
-  if(empty($values['use_prettybar']) or !$values['use_prettybar'])
-    unset($values['use_prettybar']);
-  if(empty($values['use_ultra_cloak']) or !$values['use_ultra_cloak'])
-    unset($values['use_ultra_cloak']);
   if(empty($values['track_me']) or !$values['track_me'])
     unset($values['track_me']);
-  if(empty($values['track_as_img']) or !$values['track_as_img'])
-    unset($values['track_as_img']);
 
   $prli_error_messages = $prli_link->validate( $values );
     
@@ -127,12 +107,9 @@ function prli_update_pretty_link( $id,
                                   $name = -1,
                                   $description = -1,
                                   $group_id = '',
-                                  $show_prettybar = '',
-                                  $ultra_cloak = '',
                                   $track_me = '',
                                   $nofollow = '',
                                   $redirect_type = '',
-                                  $track_as_img = '',
                                   $param_forwarding = '',
                                   $param_struct = -1 )
 {
@@ -158,25 +135,15 @@ function prli_update_pretty_link( $id,
   $values['group_id']         = (($group_id == '')?$record->group_id:$group_id);
   $values['redirect_type']    = (($redirect_type == '')?$record->redirect_type:$redirect_type);
   $values['nofollow']         = (($nofollow == '')?$record->nofollow:$nofollow);
-  $values['use_prettybar']    = (($show_prettybar == '')?(int)$record->use_prettybar:$show_prettybar);
-  $values['use_ultra_cloak']  = (($ultra_cloak == '')?(int)$record->use_ultra_cloak:$ultra_cloak);
   $values['track_me']         = (($track_me == '')?(int)$record->track_me:$track_me);
-  $values['track_as_img']     = (($track_as_img == '')?(int)$record->track_as_img:$track_as_img);
   $values['param_forwarding'] = (($param_forwarding == '')?$record->param_forwarding:$param_forwarding);
   $values['param_struct']     = (($param_struct == -1)?$record->param_struct:$param_struct);
-  $values['gorder']           = $record->gorder;     // not supported by this function
 
   // make array look like $_POST
   if(empty($values['nofollow']) or !$values['nofollow'])
     unset($values['nofollow']);
-  if(empty($values['use_prettybar']) or !$values['use_prettybar'])
-    unset($values['use_prettybar']);
-  if(empty($values['use_ultra_cloak']) or !$values['use_ultra_cloak'])
-    unset($values['use_ultra_cloak']);
   if(empty($values['track_me']) or !$values['track_me'])
     unset($values['track_me']);
-  if(empty($values['track_as_img']) or !$values['track_as_img'])
-    unset($values['track_as_img']);
 
   $prli_error_messages = $prli_link->validate( $values );
     

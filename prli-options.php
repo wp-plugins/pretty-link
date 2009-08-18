@@ -20,38 +20,13 @@ $prettybar_show_target_url_link  = 'prli_prettybar_show_target_url_link';
 $prettybar_title_limit = 'prli_prettybar_title_limit';
 $prettybar_desc_limit = 'prli_prettybar_desc_limit';
 $prettybar_link_limit = 'prli_prettybar_link_limit';
-$link_show_prettybar = 'prli_link_show_prettybar';
-$link_ultra_cloak = 'prli_link_ultra_cloak';
+
 $link_track_me = 'prli_link_track_me';
-$link_track_as_pixel = 'prli_link_track_as_pixel';
 $link_nofollow = 'prli_link_nofollow';
 $link_redirect_type = 'prli_link_redirect_type';
 $hidden_field_name = 'prli_update_options';
 
 $prli_domain = "pretty-link";
-
-// Read in existing option value from database
-$prli_exclude_ips_val = get_option( $prli_exclude_ips );
-$prettybar_image_url_val = get_option( $prettybar_image_url );
-$prettybar_background_image_url_val = get_option( $prettybar_background_image_url );
-$prettybar_color_val = get_option( $prettybar_color );
-$prettybar_text_color_val = get_option( $prettybar_text_color );
-$prettybar_link_color_val = get_option( $prettybar_link_color );
-$prettybar_hover_color_val = get_option( $prettybar_hover_color );
-$prettybar_visited_color_val = get_option( $prettybar_visited_color );
-$prettybar_show_title_val = get_option( $prettybar_show_title );
-$prettybar_show_description_val = get_option( $prettybar_show_description );
-$prettybar_show_share_links_val = get_option( $prettybar_show_share_links );
-$prettybar_show_target_url_link_val = get_option( $prettybar_show_target_url_link );
-$prettybar_title_limit_val = get_option( $prettybar_title_limit );
-$prettybar_desc_limit_val = get_option( $prettybar_desc_limit );
-$prettybar_link_limit_val = get_option( $prettybar_link_limit );
-$link_show_prettybar_val = get_option( $link_show_prettybar );
-$link_ultra_cloak_val = get_option( $link_ultra_cloak );
-$link_track_me_val = get_option( $link_track_me );
-$link_track_as_pixel_val = get_option( $link_track_as_pixel );
-$link_nofollow_val = get_option( $link_nofollow );
-$link_redirect_type_val = get_option( $link_redirect_type );
 
 // See if the user has posted us some information
 // If they did, this hidden field will be set to 'Y'
@@ -101,27 +76,24 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     $errors[] = "PrettyBar Link Character Limit must be a number";
 
   // Read their posted value
-  $prli_exclude_ips_val = stripslashes($_POST[ $prli_exclude_ips ]);
-  $prettybar_image_url_val = stripslashes($_POST[ $prettybar_image_url ]);
-  $prettybar_background_image_url_val = stripslashes($_POST[ $prettybar_background_image_url ]);
-  $prettybar_color_val = stripslashes($_POST[ $prettybar_color ]);
-  $prettybar_text_color_val = stripslashes($_POST[ $prettybar_text_color ]);
-  $prettybar_link_color_val = stripslashes($_POST[ $prettybar_link_color ]);
-  $prettybar_hover_color_val = stripslashes($_POST[ $prettybar_hover_color ]);
-  $prettybar_visited_color_val = stripslashes($_POST[ $prettybar_visited_color ]);
-  $prettybar_show_title_val = (int)isset($_POST[ $prettybar_show_title ]);
-  $prettybar_show_description_val = (int)isset($_POST[ $prettybar_show_description ]);
-  $prettybar_show_share_links_val = (int)isset($_POST[ $prettybar_show_share_links ]);
-  $prettybar_show_target_url_link_val = (int)isset($_POST[ $prettybar_show_target_url_link ]);
-  $prettybar_title_limit_val = stripslashes($_POST[ $prettybar_title_limit ]);
-  $prettybar_desc_limit_val = stripslashes($_POST[ $prettybar_desc_limit ]);
-  $prettybar_link_limit_val = stripslashes($_POST[ $prettybar_link_limit ]);
-  $link_show_prettybar_val = (int)isset($_POST[ $link_show_prettybar ]);
-  $link_ultra_cloak_val = (int)isset($_POST[ $link_ultra_cloak ]);
-  $link_track_me_val = (int)isset($_POST[ $link_track_me ]);
-  $link_track_as_pixel_val = (int)isset($_POST[ $link_track_as_pixel ]);
-  $link_nofollow_val = (int)isset($_POST[ $link_nofollow ]);
-  $link_redirect_type_val = $_POST[ $link_redirect_type ];
+  $prli_options->prli_exclude_ips = stripslashes($_POST[ $prli_exclude_ips ]);
+  $prli_options->prettybar_image_url = stripslashes($_POST[ $prettybar_image_url ]);
+  $prli_options->prettybar_background_image_url = stripslashes($_POST[ $prettybar_background_image_url ]);
+  $prli_options->prettybar_color = stripslashes($_POST[ $prettybar_color ]);
+  $prli_options->prettybar_text_color = stripslashes($_POST[ $prettybar_text_color ]);
+  $prli_options->prettybar_link_color = stripslashes($_POST[ $prettybar_link_color ]);
+  $prli_options->prettybar_hover_color = stripslashes($_POST[ $prettybar_hover_color ]);
+  $prli_options->prettybar_visited_color = stripslashes($_POST[ $prettybar_visited_color ]);
+  $prli_options->prettybar_show_title = (int)isset($_POST[ $prettybar_show_title ]);
+  $prli_options->prettybar_show_description = (int)isset($_POST[ $prettybar_show_description ]);
+  $prli_options->prettybar_show_share_links = (int)isset($_POST[ $prettybar_show_share_links ]);
+  $prli_options->prettybar_show_target_url_link = (int)isset($_POST[ $prettybar_show_target_url_link ]);
+  $prli_options->prettybar_title_limit = stripslashes($_POST[ $prettybar_title_limit ]);
+  $prli_options->prettybar_desc_limit = stripslashes($_POST[ $prettybar_desc_limit ]);
+  $prli_options->prettybar_link_limit = stripslashes($_POST[ $prettybar_link_limit ]);
+  $prli_options->link_track_me = (int)isset($_POST[ $link_track_me ]);
+  $prli_options->link_nofollow = (int)isset($_POST[ $link_nofollow ]);
+  $prli_options->link_redirect_type = $_POST[ $link_redirect_type ];
 
   if( count($errors) > 0 )
   {
@@ -130,27 +102,12 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   else
   {
     // Save the posted value in the database
-    update_option( $prli_exclude_ips, $prli_exclude_ips_val );
-    update_option( $prettybar_image_url, $prettybar_image_url_val );
-    update_option( $prettybar_background_image_url, $prettybar_background_image_url_val );
-    update_option( $prettybar_color, $prettybar_color_val );
-    update_option( $prettybar_text_color, $prettybar_text_color_val );
-    update_option( $prettybar_link_color, $prettybar_link_color_val );
-    update_option( $prettybar_hover_color, $prettybar_hover_color_val );
-    update_option( $prettybar_visited_color, $prettybar_visited_color_val );
-    update_option( $prettybar_show_title, $prettybar_show_title_val );
-    update_option( $prettybar_show_description, $prettybar_show_description_val );
-    update_option( $prettybar_show_share_links, $prettybar_show_share_links_val );
-    update_option( $prettybar_show_target_url_link, $prettybar_show_target_url_link_val );
-    update_option( $prettybar_title_limit, $prettybar_title_limit_val );
-    update_option( $prettybar_desc_limit, $prettybar_desc_limit_val );
-    update_option( $prettybar_link_limit, $prettybar_link_limit_val );
-    update_option( $link_show_prettybar, $link_show_prettybar_val );
-    update_option( $link_ultra_cloak, $link_ultra_cloak_val );
-    update_option( $link_track_me, $link_track_me_val );
-    update_option( $link_track_as_pixel, $link_track_as_pixel_val );
-    update_option( $link_nofollow, $link_nofollow_val );
-    update_option( $link_redirect_type, $link_redirect_type_val );
+    $prli_options_str = serialize($prli_options);
+
+    // Save the posted value in the database
+    delete_option( 'prli_options' );
+    add_option( 'prli_options', $prli_options_str );
+
 
     // Put an options updated message on the screen
 ?>
