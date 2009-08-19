@@ -64,11 +64,15 @@ function setup_new_vars($groups)
   $values['redirect_type']['pixel'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == 'pixel') or (!isset($_POST['redirect_type']) and $prli_options->link_redirect_type == 'pixel'))?'selected="selected"':'');
 
   $values['groups'] = array();
-  foreach($groups as $group)
+
+  if(is_array($groups))
   {
-    $values['groups'][] = array( 'id' => $group->id,
-                                 'value' => (($_POST['group_id'] == $group->id)?' selected="true"':''),
-                                 'name' => $group->name );
+    foreach($groups as $group)
+    {
+      $values['groups'][] = array( 'id' => $group->id,
+                                   'value' => (($_POST['group_id'] == $group->id)?' selected="true"':''),
+                                   'name' => $group->name );
+    }
   }
 
   $values['param_forwarding'] = array();
