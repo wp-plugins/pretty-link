@@ -131,10 +131,10 @@ class PrliOptions
       $this->prli_exclude_ips = '';
 
     if(!isset($this->prettybar_image_url))
-      $this->prettybar_image_url = 'images/pretty-link-48x48.png';
+      $this->prettybar_image_url = PRLI_URL . '/images/pretty-link-48x48.png';
 
     if(!isset($this->prettybar_background_image_url))
-      $this->prettybar_background_image_url = 'images/bar_background.png';
+      $this->prettybar_background_image_url = PRLI_URL . '/images/bar_background.png';
 
     if(!isset($this->prettybar_color))
       $this->prettybar_color = '';
