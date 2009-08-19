@@ -101,15 +101,7 @@
           <span title="Permanent Redirection (301)" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong>P</strong></span>&nbsp;
         <?php } ?>
 
-        <?php if( $link->redirect_type != 'pixel' )
-        {
-        ?>
-          <a href="<? echo $link->url; ?>" target="_blank" title="Visit Target URL: <?php echo $link->url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
-          <a href="<? echo $pretty_link_url; ?>" target="_blank" title="Visit Pretty Link: <?php echo $pretty_link_url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
-        <?php
-        }
-
-        if( $link->nofollow ) { ?>
+        <?php if( $link->nofollow ) { ?>
             <img src="<?php echo PRLI_URL.'/images/nofollow.png'; ?>" title="nofollow" width="13px" height="13px" />
         <?php }
 
@@ -123,6 +115,15 @@
         {
         ?>
           <img src="<?php echo PRLI_URL.'/images/forward_params.png'; ?>" width="13px" height="13px" name="Custom Parameter Forwarding Enabled" alt="Custom Parameter Forwarding Enabled" title="Custom Parameter Forwarding Enabled"/>&nbsp;
+        <?php
+        }
+        ?>
+
+        <?php if( $link->redirect_type != 'pixel' )
+        {
+        ?>
+          <a href="<? echo $link->url; ?>" target="_blank" title="Visit Target URL: <?php echo $link->url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
+          <a href="<? echo $pretty_link_url; ?>" target="_blank" title="Visit Pretty Link: <?php echo $pretty_link_url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
         <?php
         }
         ?>

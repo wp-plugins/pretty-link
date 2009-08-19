@@ -9,20 +9,20 @@ require_once('prli-config.php');
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
 $link = $prli_link->getOneFromSlug($_GET['slug']);
-$bar_image = get_option('prli_prettybar_image_url');
-$bar_background_image = get_option('prli_prettybar_background_image_url');
-$bar_color = get_option('prli_prettybar_color');
-$bar_text_color = get_option('prli_prettybar_text_color');
-$bar_link_color = get_option('prli_prettybar_link_color');
-$bar_visited_color = get_option('prli_prettybar_visited_color');
-$bar_hover_color = get_option('prli_prettybar_hover_color');
-$bar_show_title = get_option('prli_prettybar_show_title');
-$bar_show_description = get_option('prli_prettybar_show_description');
-$bar_show_share_links = get_option('prli_prettybar_show_share_links');
-$bar_show_target_url_link = get_option('prli_prettybar_show_target_url_link');
-$bar_title_limit = (int)get_option('prli_prettybar_title_limit');
-$bar_desc_limit = (int)get_option('prli_prettybar_desc_limit');
-$bar_link_limit = (int)get_option('prli_prettybar_link_limit');
+$bar_image = $prli_options->prettybar_image_url;
+$bar_background_image = $prli_options->prettybar_background_image_url;
+$bar_color = $prli_options->prettybar_color;
+$bar_text_color = $prli_options->prettybar_text_color;
+$bar_link_color = $prli_options->prettybar_link_color;
+$bar_visited_color = $prli_options->prettybar_visited_color;
+$bar_hover_color = $prli_options->prettybar_hover_color;
+$bar_show_title = $prli_options->prettybar_show_title;
+$bar_show_description = $prli_options->prettybar_show_description;
+$bar_show_share_links = $prli_options->prettybar_show_share_links;
+$bar_show_target_url_link = $prli_options->prettybar_show_target_url_link;
+$bar_title_limit = (int)$prli_options->prettybar_title_limit;
+$bar_desc_limit = (int)$prli_options->prettybar_desc_limit;
+$bar_link_limit = (int)$prli_options->prettybar_link_limit;
 
 $target_url = $_GET['url'];
 

@@ -106,11 +106,11 @@ function setup_edit_vars($groups,$record)
   $values['param_struct'] = (($_POST['param_struct'] != null and $record == null)?$_POST['param_struct']:$record->param_struct);
 
   $values['redirect_type'] = array();
-  $values['redirect_type']['307'] = ((!isset($_POST['redirect_type']) or $_POST['redirect_type'] == '307' or $record->redirect_type == '307')?'checked="true"':'');
-  $values['redirect_type']['301'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == '301') or (isset($record->redirect_type) and $record->redirect_type == '301'))?'checked="true"':'');
-  $values['redirect_type']['prettybar'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == 'prettybar') or (isset($record->redirect_type) and $record->redirect_type == 'prettybar'))?'checked="true"':'');
-  $values['redirect_type']['cloak'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == 'cloak') or (isset($record->redirect_type) and $record->redirect_type == 'cloak'))?'checked="true"':'');
-  $values['redirect_type']['pixel'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == 'pixel') or (isset($record->redirect_type) and $record->redirect_type == 'pixel'))?'checked="true"':'');
+  $values['redirect_type']['307'] = ((!isset($_POST['redirect_type']) or (isset($_POST['redirect_type']) and $_POST['redirect_type'] == '307') or (isset($record->redirect_type) and $record->redirect_type == '307'))?' selected="selected"':'');
+  $values['redirect_type']['301'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == '301') or (isset($record->redirect_type) and $record->redirect_type == '301'))?' selected="selected"':'');
+  $values['redirect_type']['prettybar'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == 'prettybar') or (isset($record->redirect_type) and $record->redirect_type == 'prettybar'))?' selected="selected"':'');
+  $values['redirect_type']['cloak'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == 'cloak') or (isset($record->redirect_type) and $record->redirect_type == 'cloak'))?' selected="selected"':'');
+  $values['redirect_type']['pixel'] = (((isset($_POST['redirect_type']) and $_POST['redirect_type'] == 'pixel') or (isset($record->redirect_type) and $record->redirect_type == 'pixel'))?' selected="selected"':'');
 
   return $values;
 }

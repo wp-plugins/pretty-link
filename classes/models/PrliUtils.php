@@ -278,6 +278,7 @@ class PrliUtils
           header("HTTP/1.1 302 Found");
         else
           header("HTTP/1.1 307 Temporary Redirect");
+        header('Location: '.$pretty_link_url.$param_string);
     }
   }
   
