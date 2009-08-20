@@ -1,10 +1,10 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.8.4
-Stable tag: 1.4.10
+Stable tag: 1.4.11
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -60,6 +60,7 @@ http://blairwilliams.com/x0z
 * Keep users on your site even when being redirected by using the PrettyBar which stays at the top of the page
 * Ability to configure and skin the PrettyBar to mirror the look and feel of your site
 * Hide the Target URL by loading it in a full-screen frame
+* Pretty Link Bookmarklet
 
 = Pro Features =
 You'll get the following additional features when you purchase Pretty Link Pro:

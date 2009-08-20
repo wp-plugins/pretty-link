@@ -8,7 +8,7 @@ define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
 require_once(PRLI_MODELS_PATH.'/PrliOptions.php');
 
 global $prli_version;
-$prli_version = '1.4.10';
+$prli_version = '1.4.11';
   
 // The number of items per page on a table
 global $page_size;
