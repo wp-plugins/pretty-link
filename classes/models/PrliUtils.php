@@ -256,7 +256,7 @@ class PrliUtils
     }
     
     if(isset($pretty_link->nofollow) and $pretty_link->nofollow)
-      header('X-Robots-Tag: noindex, nofollow');
+      header("X-Robots-Tag: noindex, nofollow", true);
 
     switch($pretty_link->redirect_type)
     {
@@ -885,7 +885,7 @@ class PrliUtils
   // Used in the install procedure to migrate database columns
   function migrate_before_db_upgrade()
   {
-    global $prli_link, $prli_click, $wpdb;
+    global $prli_options, $prli_link, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
 
     // Migration for version 1 of the database
@@ -916,6 +916,28 @@ class PrliUtils
 
       $query = "ALTER TABLE {$prli_link->table_name} DROP COLUMN track_as_img, DROP COLUMN use_prettybar, DROP COLUMN use_ultra_cloak, DROP COLUMN gorder";
       $wpdb->query($query);
+    }
+
+    if($db_version < 2)
+    {
+      unset($prli_options->prli_exclude_ips);
+      unset($prli_options->prettybar_image_url);
+      unset($prli_options->prettybar_background_image_url);
+      unset($prli_options->prettybar_color);
+      unset($prli_options->prettybar_text_color);
+      unset($prli_options->prettybar_link_color);
+      unset($prli_options->prettybar_hover_color);
+      unset($prli_options->prettybar_visited_color);
+      unset($prli_options->prettybar_title_limit);
+      unset($prli_options->prettybar_desc_limit);
+      unset($prli_options->prettybar_link_limit);
+
+      // Save the posted value in the database
+      $prli_options_str = serialize($prli_options);
+
+      // Save the posted value in the database
+      delete_option( 'prli_options' );
+      add_option( 'prli_options', $prli_options_str );
     }
   }
 }

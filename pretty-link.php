@@ -43,6 +43,7 @@ function prli_menu()
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Add New Link', 'Add New Link', 8, PRLI_PATH.'/prli-add-link.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 8, PRLI_PATH.'/prli-groups.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 8, PRLI_PATH.'/prli-clicks.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Tools', 'Tools', 8, PRLI_PATH.'/prli-tools.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Options', 'Options', 8, PRLI_PATH.'/prli-options.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Pretty Link Pro', 'Pretty Link Pro', 8, PRLI_PATH.'/prli-pro-settings.php');
 
@@ -220,7 +221,7 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 function prli_install()
 {
   global $wpdb, $prli_utils;
-  $db_version = 1;
+  $db_version = 2; // this is the version of the database we're moving to
 
   $groups_table       = $wpdb->prefix . "prli_groups";
   $clicks_table       = $wpdb->prefix . "prli_clicks";
@@ -309,6 +310,15 @@ function prli_install()
       $prli_utils->get_pro_user_type($prlipro_username,$prlipro_password) != false )
     $prlipro_response = $prli_utils->download_and_install_pro( $prlipro_username, $prlipro_password );
 
+  /***** SAVE OPTIONS *****/
+  // Save the posted value in the database
+  $prli_options_str = serialize($prli_options);
+
+  // Save the posted value in the database
+  delete_option( 'prli_options' );
+  add_option( 'prli_options', $prli_options_str );
+
+  /***** SAVE DB VERSION *****/
   delete_option('prli_db_version');
   add_option('prli_db_version',$db_version);
 }

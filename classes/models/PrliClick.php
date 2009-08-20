@@ -11,7 +11,8 @@ class PrliClick
 
     function get_ip_exclude_list()
     {
-      $exclude_list = get_option('prli_exclude_ips');
+      global $prli_options;
+      $exclude_list = $prli_options->prli_exclude_ips;
       $exclude_list = preg_replace('#[ \t]#','',$exclude_list);
 
       if($exclude_list)

@@ -63,7 +63,7 @@ function prli_create_pretty_link( $target_url,
                                   $param_struct = '' )
 {
   global $wpdb, $prli_link, $prli_blogurl;
-  global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug;
+  global $prli_error_messages, $prli_pretty_link, $prli_pretty_slug, $prli_options;
 
   $prli_error_messages = array();
 
@@ -73,9 +73,9 @@ function prli_create_pretty_link( $target_url,
   $values['name']             = $name;
   $values['description']      = $description;
   $values['group_id']         = $group_id;
-  $values['redirect_type']    = (($redirect_type == '')?get_option( 'prli_link_redirect_type' ):$redirect_type);
-  $values['nofollow']         = (($nofollow == '')?get_option( 'prli_link_nofollow' ):$nofollow);
-  $values['track_me']         = (($track_me == '')?get_option( 'prli_link_track_me' ):$track_me);
+  $values['redirect_type']    = (($redirect_type == '')?$prli_options->link_redirect_type:$redirect_type);
+  $values['nofollow']         = (($nofollow == '')?$prli_options->link_nofollow:$nofollow);
+  $values['track_me']         = (($track_me == '')?$prli_options->link_track_me:$track_me);
   $values['param_forwarding'] = (($param_forwarding == '')?'off':$param_forwarding);
   $values['param_struct']     = $param_struct;
 

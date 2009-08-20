@@ -108,7 +108,6 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     delete_option( 'prli_options' );
     add_option( 'prli_options', $prli_options_str );
 
-
     // Put an options updated message on the screen
 ?>
 

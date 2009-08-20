@@ -131,7 +131,7 @@ else if($params['action'] == 'destroy')
 // Helpers
 function prli_display_links_list($params, $prli_message, $page_params_ov = false, $current_page_ov = false)
 {
-  global $wpdb, $prli_utils, $prli_click, $prli_group, $prli_link, $page_size;
+  global $wpdb, $prli_utils, $prli_click, $prli_group, $prli_link, $page_size, $prli_options;
 
   $controller_file = basename(__FILE__);
 

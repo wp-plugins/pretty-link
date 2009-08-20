@@ -21,6 +21,8 @@ class PrliOptions
   var $link_track_me;
   var $link_nofollow;
 
+  var $bookmarklet_auth;
+
   function PrliOptions()
   {
     $this->set_default_options();
@@ -29,16 +31,28 @@ class PrliOptions
   function set_default_options()
   {
     // Must account for the Legacy Options
-    $prettybar_show_title            = 'prli_prettybar_show_title';
-    $prettybar_show_description      = 'prli_prettybar_show_description';
-    $prettybar_show_share_links      = 'prli_prettybar_show_share_links';
+    $prli_exclude_ips  = 'prli_exclude_ips';
+    $prettybar_image_url  = 'prli_prettybar_image_url';
+    $prettybar_background_image_url  = 'prli_prettybar_background_image_url';
+    $prettybar_color  = 'prli_prettybar_color';
+    $prettybar_text_color  = 'prli_prettybar_text_color';
+    $prettybar_link_color  = 'prli_prettybar_link_color';
+    $prettybar_hover_color  = 'prli_prettybar_hover_color';
+    $prettybar_visited_color  = 'prli_prettybar_visited_color';
+    $prettybar_show_title  = 'prli_prettybar_show_title';
+    $prettybar_show_description  = 'prli_prettybar_show_description';
+    $prettybar_show_share_links  = 'prli_prettybar_show_share_links';
     $prettybar_show_target_url_link  = 'prli_prettybar_show_target_url_link';
-    $link_show_prettybar             = 'prli_link_show_prettybar';
-    $link_ultra_cloak                = 'prli_link_ultra_cloak';
-    $link_track_me                   = 'prli_link_track_me';
-    $link_track_as_pixel             = 'prli_link_track_as_pixel';
-    $link_nofollow                   = 'prli_link_nofollow';
-    $link_redirect_type              = 'prli_link_redirect_type';
+    $prettybar_title_limit = 'prli_prettybar_title_limit';
+    $prettybar_desc_limit = 'prli_prettybar_desc_limit';
+    $prettybar_link_limit = 'prli_prettybar_link_limit';
+    $link_show_prettybar = 'prli_link_show_prettybar';
+    $link_ultra_cloak = 'prli_link_ultra_cloak';
+    $link_track_me = 'prli_link_track_me';
+    $link_track_as_pixel = 'prli_link_track_as_pixel';
+    $link_nofollow = 'prli_link_nofollow';
+    $link_redirect_type = 'prli_link_redirect_type';
+
 
     if(!isset($this->prettybar_show_title)) {
       if($var = get_option( $prettybar_show_title )) {
@@ -128,37 +142,117 @@ class PrliOptions
     }
 
     if(!isset($this->prli_exclude_ips))
-      $this->prli_exclude_ips = '';
+    {
+      if($var = get_option( $prli_exclude_ips )) {
+        $this->prli_exclude_ips = $var;
+        delete_option( $prli_exclude_ips );
+      }
+      else
+        $this->prli_exclude_ips = '';
+    }
 
     if(!isset($this->prettybar_image_url))
-      $this->prettybar_image_url = PRLI_URL . '/images/pretty-link-48x48.png';
+    {
+      if($var = get_option( $prettybar_image_url )) {
+        $this->prettybar_image_url = $var;
+        delete_option( $prettybar_image_url );
+      }
+      else
+        $this->prettybar_image_url = PRLI_URL . '/images/pretty-link-48x48.png';
+    }
 
     if(!isset($this->prettybar_background_image_url))
-      $this->prettybar_background_image_url = PRLI_URL . '/images/bar_background.png';
+    {
+      if($var = get_option( $prettybar_background_image_url )) {
+        $this->prettybar_background_image_url = $var;
+        delete_option( $prettybar_background_image_url );
+      }
+      else
+        $this->prettybar_background_image_url = PRLI_URL . '/images/bar_background.png';
+    }
 
     if(!isset($this->prettybar_color))
-      $this->prettybar_color = '';
+    {
+      if($var = get_option( $prettybar_color )) {
+        $this->prettybar_color = $var;
+        delete_option( $prettybar_color );
+      }
+      else
+        $this->prettybar_color = '';
+    }
 
     if(!isset($this->prettybar_text_color))
-      $this->prettybar_text_color = '000000';
+    {
+      if($var = get_option( $prettybar_text_color )) {
+        $this->prettybar_text_color = $var;
+        delete_option( $prettybar_text_color );
+      }
+      else
+        $this->prettybar_text_color = '000000';
+    }
 
     if(!isset($this->prettybar_link_color))
-      $this->prettybar_link_color = '0000ee';
+    {
+      if($var = get_option( $prettybar_link_color )) {
+        $this->prettybar_link_color = $var;
+        delete_option( $prettybar_link_color );
+      }
+      else
+        $this->prettybar_link_color = '0000ee';
+    }
 
     if(!isset($this->prettybar_hover_color))
-      $this->prettybar_hover_color = 'ababab';
+    {
+      if($var = get_option( $prettybar_hover_color )) {
+        $this->prettybar_hover_color = $var;
+        delete_option( $prettybar_hover_color );
+      }
+      else
+        $this->prettybar_hover_color = 'ababab';
+    }
 
     if(!isset($this->prettybar_visited_color))
-      $this->prettybar_visited_color = '551a8b';
+    {
+      if($var = get_option( $prettybar_visited_color )) {
+        $this->prettybar_visited_color = $var;
+        delete_option( $prettybar_visited_color );
+      }
+      else
+        $this->prettybar_visited_color = '551a8b';
+    }
 
     if(!isset($this->prettybar_title_limit))
-      $this->prettybar_title_limit = '25';
+    {
+      if($var = get_option( $prettybar_title_limit )) {
+        $this->prettybar_title_limit = $var;
+        delete_option( $prettybar_title_limit );
+      }
+      else
+        $this->prettybar_title_limit = '25';
+    }
 
     if(!isset($this->prettybar_desc_limit))
-      $this->prettybar_desc_limit = '30';
+    {
+      if($var = get_option( $prettybar_desc_limit )) {
+        $this->prettybar_desc_limit = $var;
+        delete_option( $prettybar_desc_limit );
+      }
+      else
+        $this->prettybar_desc_limit = '30';
+    }
 
     if(!isset($this->prettybar_link_limit))
-      $this->prettybar_link_limit = '30';
+    {
+      if($var = get_option( $prettybar_link_limit )) {
+        $this->prettybar_link_limit = $var;
+        delete_option( $prettybar_link_limit );
+      }
+      else
+        $this->prettybar_link_limit = '30';
+    }
+
+    if(!isset($this->bookmarklet_auth))
+        $this->bookmarklet_auth = md5(get_option('auth_salt') . time());
   }
 }
 ?>
