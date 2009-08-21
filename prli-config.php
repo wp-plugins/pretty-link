@@ -9,6 +9,15 @@ require_once(PRLI_MODELS_PATH.'/PrliOptions.php');
 
 global $prli_version;
 $prli_version = '1.4.11';
+
+// For IIS compatibility
+if (!function_exists('fnmatch'))
+{
+  function fnmatch($pattern, $string)
+  {
+    return preg_match("#^".strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.'))."$#i", $string);
+  }
+}
   
 // The number of items per page on a table
 global $page_size;

@@ -11,9 +11,9 @@ class PrliLink
 
     function create( $values )
     {
-      global $wpdb;
+      global $wpdb, $prli_url_utils;
 
-      $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
+      $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
       $query_str = "INSERT INTO {$this->table_name} " . 
                      '(url,'.
                       'slug,'.
@@ -49,9 +49,9 @@ class PrliLink
 
     function update( $id, $values )
     {
-      global $wpdb;
+      global $wpdb, $prli_url_utils;
 
-      $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
+      $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
       $query_str = "UPDATE {$this->table_name} " . 
                       'SET url=%s, ' .
                           'slug=%s, ' .

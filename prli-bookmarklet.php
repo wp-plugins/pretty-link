@@ -14,7 +14,11 @@ if(isset($_GET['k']))
   {
     $result = prli_create_pretty_link( $_GET['target_url'] );
 
+    $target_url = $_GET['target_url'];
+    $target_url_title = $prli_url_utils->get_title($_GET['target_url']);
     $pretty_link = prli_get_pretty_link_url($result);
+
+    $twitter_status = substr($target_url_title,0,(114 - strlen($pretty_link))) . ((strlen($target_url_title) > 114)?"...":'') . " | $pretty_link";
     ?>
     <html>
       <head><title>Here's your Pretty Link</title></head>
@@ -47,8 +51,21 @@ if(isset($_GET['k']))
       </style>
       <body>
         <p><img src="<?php echo PRLI_URL; ?>/images/prettylink_logo.jpg" /></p>
-        <h4>Here's your Pretty Link for<br/><?php echo $_GET['target_url']; ?></h4>
+        <h4><em>Here's your Pretty Link for:</em><br/><?php echo $target_url_title; ?><br/>(<span title="<?php echo $target_url; ?>"><?php echo substr($target_url,0,50) . ((strlen($target_url)>50)?"...":''); ?></span>)</h4>
         <h2><a href="<?php echo $pretty_link; ?>"><?php echo $pretty_link; ?></a></h2>
+        <p>Send this link to:<br/>
+        <a href="http://del.icio.us/post?url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/delicious_32.png" title="Delicious" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://www.stumbleupon.com/submit?url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/stumbleupon_32.png" title="StumbleUpon" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://digg.com/submit?phase=2&url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/digg_32.png" title="Digg" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://twitter.com/home?status=<?php echo urlencode($twitter_status); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/twitter_32.png" title="Twitter" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://www.mixx.com/submit?page_url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/mixx_32.png" title="Mixx" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://technorati.com/faves?add=<?php echo urlencode($pretty_link) ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/technorati_32.png" title="Technorati" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://www.facebook.com/sharer.php?u=<?php echo urlencode($pretty_link) ?>&t=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/facebook_32.png" title="Facebook" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://www.newsvine.com/_tools/seed&save?u=<?php echo urlencode($pretty_link) ?>&h=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/newsvine_32.png" title="News Vine" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://reddit.com/submit?url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/reddit_32.png" title="Reddit" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://www.linkedin.com/shareArticle?mini=true&url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/linkedin_32.png" title="LinkedIn" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="http://myweb2.search.yahoo.com/myresults/bookmarklet?u=<?php echo urlencode($pretty_link) ?>&=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_URL; ?>/images/yahoobuzz_32.png" title="Yahoo! Bookmarks" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
+        <a href="mailto:?subject=<?php $target_url_title; ?>&body=<?php echo $target_url; ?><img src="<?php echo PRLI_URL; ?>/images/email_32.png" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
         <p><a href="<?php echo $_GET['target_url']; ?>">&laquo; Back</a></p>
       </body>
     </html>
