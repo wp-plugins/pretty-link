@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.8.4
-Stable tag: 1.4.11
+Stable tag: 1.4.12
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -70,6 +70,8 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Rotate up to 5 URLs from one Pretty Link
 * Split Test these URL rotations for a Pretty Link
 * Setup Conversion Reports
+* Setup your own link shortening service
+* Create an alternate URL for your pretty links to be created on
 * Import / Export Pretty Links
 * Automatically create Pretty Links for each Post / Page
 * Automatically Tweet each Post / Page when it is Published
@@ -94,6 +96,14 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 = Developers =
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
+== Changelog ==
+
+= 1.4.12 =
+* Added title detection
+* Added enhancements to the Pretty Link Bookmarklet
+* Added better support for IIS by redefining the fnmatch function if it isn't present
+* Changed the keyword replacement algorithm in Pro to replace links throughout the post when thresholds are set (instead of only linking to the top x keywords)
+* Fixed some issues surrounding keyword content caching in Pro
 
 == Screenshots ==
 [Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
