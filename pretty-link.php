@@ -311,12 +311,18 @@ function prli_install()
     $prlipro_response = $prli_utils->download_and_install_pro( $prlipro_username, $prlipro_password );
 
   /***** SAVE OPTIONS *****/
-  // Save the posted value in the database
-  $prli_options_str = serialize($prli_options);
+  $prli_options_str = get_option('prli_options');
+  $prli_options = unserialize($prli_options_str);
+  
+  // If unserializing didn't work
+  if(!$prli_options)
+    $prli_options = new PrliOptions();
+  else
+    $prli_options->set_default_options(); // Sets defaults for unset options
 
-  // Save the posted value in the database
-  delete_option( 'prli_options' );
-  add_option( 'prli_options', $prli_options_str );
+  $prli_options_str = serialize($prli_options);
+  delete_option('prli_options');
+  add_option('prli_options',$prli_options_str);
 
   /***** SAVE DB VERSION *****/
   delete_option('prli_db_version');
