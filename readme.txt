@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.8.4
-Stable tag: 1.4.12
+Stable tag: 1.4.13
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -104,6 +104,9 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Added better support for IIS by redefining the fnmatch function if it isn't present
 * Changed the keyword replacement algorithm in Pro to replace links throughout the post when thresholds are set (instead of only linking to the top x keywords)
 * Fixed some issues surrounding keyword content caching in Pro
+
+= 1.4.13 =
+* Fixed the option reset issue
 
 == Screenshots ==
 [Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
