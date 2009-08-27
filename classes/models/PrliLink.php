@@ -141,6 +141,14 @@ class PrliLink
       return $wpdb->get_row($query);
     }
 
+    function find_first_target_url($target_url)
+    {
+      global $wpdb;
+      $query_str = "SELECT id FROM {$this->table_name} WHERE url=%s LIMIT 1";
+      $query = $wpdb->prepare($query_str,$target_url);
+      return $wpdb->get_var($query);
+    }
+
     function get_link_min( $id, $return_type = OBJECT )
     {
       global $wpdb;
