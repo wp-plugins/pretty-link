@@ -83,13 +83,9 @@ class PrliUtils
   function getFirstRecordNum($r_count,$current_p,$p_size)
   {
     if($current_p == 1)
-    {
       return 1;
-    }
     else
-    {
       return ($this->getLastRecordNum($r_count,($current_p - 1),$p_size) + 1);
-    }
   }
   
   function slugIsAvailable( $full_slug, $id = '' )
@@ -940,5 +936,6 @@ class PrliUtils
       add_option( 'prli_options', $prli_options_str );
     }
   }
+
 }
 ?>
