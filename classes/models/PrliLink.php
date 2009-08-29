@@ -130,6 +130,9 @@ class PrliLink
     function getOne( $id )
     {
       global $wpdb, $prli_click;
+      if( !isset($id) or empty($id) )
+          return false;
+
       $query = 'SELECT li.*, ' .
                   '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .

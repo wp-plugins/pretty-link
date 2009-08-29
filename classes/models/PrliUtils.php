@@ -210,7 +210,7 @@ class PrliUtils
       
       if($_COOKIE[$cookie_name] == null)
       {
-        setcookie($cookie_name,$slug,$cookie_expire_time);
+        setcookie($cookie_name,$slug,$cookie_expire_time,'/');
         $first_click = true;
       }
      
@@ -218,7 +218,7 @@ class PrliUtils
       if($_COOKIE[$visitor_cookie] == null)
       {
         $visitor_uid = $prli_click->generateUniqueVisitorId();
-        setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time);
+        setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time,'/');
       }
       else
         $visitor_uid = $_COOKIE[$visitor_cookie];
