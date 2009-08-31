@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.8.4
-Stable tag: 1.4.15
+Stable tag: 1.4.16
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -12,7 +12,7 @@ Shrink, track and share any URL on the Internet from your WordPress website. Cre
 
 Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
 
-= You can now get Pretty Link Pro - it's in Pre-Launch! =
+= Upgrade to Pretty Link Pro =
 
 Pretty Link Pro is an upgrade to Pretty Link that re-sets the bar for Link Management, Automation, Sharing and Tracking! You can learn more about it here:
 
@@ -97,6 +97,11 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.16 =
+* Fixed PrliUrlUtils not found error affecting some users
+* Added instructions for installing the Pretty Link bookmarklet on the iPhone
+* Added a URL Alias feature to Pro to allow tweet counts to be aggregated and hence, more accurate
 
 = 1.4.15 =
 * Fixed the nested slug cookie issue.

@@ -8,7 +8,7 @@ define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
 require_once(PRLI_MODELS_PATH.'/PrliOptions.php');
 
 global $prli_version;
-$prli_version = '1.4.15';
+$prli_version = '1.4.16';
 
 // For IIS compatibility
 if (!function_exists('fnmatch'))
