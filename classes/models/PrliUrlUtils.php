@@ -1,4 +1,4 @@
-<?
+<?php
 class PrliUrlUtils {
 
   function get_title($url, $slug='')
