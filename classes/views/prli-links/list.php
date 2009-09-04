@@ -122,8 +122,8 @@
         <?php if( $link->redirect_type != 'pixel' )
         {
         ?>
-          <a href="<? echo $link->url; ?>" target="_blank" title="Visit Target URL: <?php echo $link->url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
-          <a href="<? echo $pretty_link_url; ?>" target="_blank" title="Visit Pretty Link: <?php echo $pretty_link_url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
+          <a href="<?php echo $link->url; ?>" target="_blank" title="Visit Target URL: <?php echo $link->url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
+          <a href="<?php echo $pretty_link_url; ?>" target="_blank" title="Visit Pretty Link: <?php echo $pretty_link_url; ?> in a New Window"><img src="<?php echo PRLI_URL.'/images/url_icon.gif'; ?>" width="13px" height="13px" name="Visit" alt="Visit"/></a>&nbsp;
         <?php
         }
         ?>
@@ -156,7 +156,7 @@
         <?php if( $link->redirect_type != 'pixel' )
         {
         ?>
-        <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong>Target URL:</strong> <? echo substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':''); ?></span></td>
+        <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong>Target URL:</strong> <?php echo substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':''); ?></span></td>
         <?php
         }
         ?>
