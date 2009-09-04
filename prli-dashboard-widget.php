@@ -2,14 +2,7 @@
   require_once('prli-config.php');
   require_once(PRLI_MODELS_PATH . '/models.inc.php');
 
-  include_once(ABSPATH."/wp-includes/class-IXR.php");
-
-  $client = new IXR_Client('http://blairwilliams.com/xmlrpc.php');
-
-  $message = "Add a pretty link right hereâ";
-
-  if ($client->query('prli.get_main_message'))
-    $message = $client->getResponse();
+  $message = prli_get_main_message("Add a Pretty Link from your Dashboard:");
 
   global $prli_group,$prli_link,$prli_blogurl;
 

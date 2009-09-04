@@ -229,19 +229,5 @@ function prli_get_link_sort_vars($params,$where_clause = '')
                'page_params' => $page_params);
 }
 
-function prli_get_main_message()
-{
-include_once(ABSPATH."/wp-includes/class-IXR.php");
-
-$client = new IXR_Client('http://blairwilliams.com/xmlrpc.php');
-
-$message = "Get started by <a href=\"?page=".PRLI_PLUGIN_NAME."/prli-links.php&action=new\">adding a URL</a> that you want to turn into a pretty link.<br/>Come back to see how many times it was clicked.";
-
-if ($client->query('prli.get_main_message'))
-  $message = $client->getResponse();
-
-return $message;
-}
-
 
 ?>

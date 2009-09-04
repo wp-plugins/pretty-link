@@ -188,7 +188,7 @@ class PrliUtils
     
     if(isset($pretty_link->track_me) and $pretty_link->track_me)
     {
-      $first_click = false;
+      $first_click = 0;
       
       $click_ip = $_SERVER['REMOTE_ADDR'];
       $click_referer = $_SERVER['HTTP_REFERER'];
@@ -211,7 +211,7 @@ class PrliUtils
       if($_COOKIE[$cookie_name] == null)
       {
         setcookie($cookie_name,$slug,$cookie_expire_time,'/');
-        $first_click = true;
+        $first_click = 1;
       }
      
       // Retrieve / Generate visitor id
@@ -224,7 +224,18 @@ class PrliUtils
         $visitor_uid = $_COOKIE[$visitor_cookie];
      
       //Record Click in DB
-      $insert = "INSERT INTO ".$prli_click->table_name." (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES ($pretty_link->id,'$visitor_uid','$click_ip','$click_user_agent','".$click_browser['browser']."','".$click_browser['version']."','".$click_browser['platform']."','$click_referer','$click_uri','$click_host','$first_click',NOW())";
+      $insert_str = "INSERT INTO {$prli_click->table_name} (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES (%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,NOW())";
+      $insert = $wpdb->prepare($insert_str, $pretty_link->id,
+                                            $visitor_uid,
+                                            $click_ip,
+                                            $click_user_agent,
+                                            $click_browser['browser'],
+                                            $click_browser['version'],
+                                            $click_browser['platform'],
+                                            $click_referer,
+                                            $click_uri,
+                                            $click_host,
+                                            $first_click);
       
       $results = $wpdb->query( $insert );
       
@@ -234,7 +245,7 @@ class PrliUtils
     // Reformat Parameters
     $param_string = '';
       
-    if(isset($pretty_link->param_forwarding) and $pretty_link->param_forwarding and isset($values) and count($values) >= 1)
+    if(isset($pretty_link->param_forwarding) and ($pretty_link->param_forwarding == 'custom' OR $pretty_link->param_forwarding == 'on') and isset($values) and count($values) >= 1)
     {
       $first_param = true;
       foreach($values as $key => $value)
