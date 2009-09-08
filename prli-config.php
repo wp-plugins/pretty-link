@@ -3,7 +3,8 @@ define(PRLI_PLUGIN_NAME,"pretty-link");
 define(PRLI_PATH,WP_PLUGIN_DIR.'/'.PRLI_PLUGIN_NAME);
 define(PRLI_MODELS_PATH,PRLI_PATH.'/classes/models');
 define(PRLI_VIEWS_PATH,PRLI_PATH.'/classes/views');
-define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
+//define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
+define(PRLI_URL,plugins_url($path = '/'.PRLI_PLUGIN_NAME));
 
 require_once(PRLI_MODELS_PATH.'/PrliOptions.php');
 

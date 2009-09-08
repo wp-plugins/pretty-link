@@ -155,18 +155,7 @@ class PrliLink
     function get_link_min( $id, $return_type = OBJECT )
     {
       global $wpdb;
-      $query_str = 'SELECT id,'.
-                          'url,'.
-                          'slug,'.
-                          'name,'.
-                          'description,'.
-                          'group_id,'.
-                          'redirect_type,'.
-                          'track_me,'.
-                          'param_forwarding,'.
-                          'param_struct'.
-                     "FROM {$this->table_name} ".
-                     'WHERE id=%d';
+      $query_str = "SELECT * FROM {$this->table_name} WHERE id=%d";
       $query = $wpdb->prepare($query_str, $id);
       return $wpdb->get_row($query, $return_type);
     }
