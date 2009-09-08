@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.8.4
-Stable tag: 1.4.18
+Stable tag: 1.4.19
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -77,6 +77,7 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Automatically Tweet each Post / Page when it is Published
 * Display a Tweet Badge on Pages and / or Posts that contains the number of tweets that this page has received
 * Display a Re-Tweet button on every Page and / or Post that incorporates your twitter handle & Pretty Link into the ReTweet
+* Display a row of social networking buttons on each Page and / or Post
 * Lifetime Updates
 
 == Installation ==
@@ -97,6 +98,14 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.19 =
+* Fixed https image loading / path issue
+* Fixed bookmarklet javascript encoding issue
+* Fixed import / export issue for pro users
+* Added Hyves.nl and Sphinn to the social buttons bar
+* Added more placement options for the social buttons bar
+* Added a social buttons bar shortcode & template tag
 
 = 1.4.18 =
 * Added the Social Network Button Bar for Pro Users
