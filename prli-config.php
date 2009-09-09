@@ -9,7 +9,7 @@ define(PRLI_URL,plugins_url($path = '/'.PRLI_PLUGIN_NAME));
 require_once(PRLI_MODELS_PATH.'/PrliOptions.php');
 
 global $prli_version;
-$prli_version = '1.4.19';
+$prli_version = '1.4.20';
 
 // For IIS compatibility
 if (!function_exists('fnmatch'))
