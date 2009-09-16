@@ -782,6 +782,15 @@ class PrliUtils
     $link_rotations_table   = "{$wpdb->prefix}prli_link_rotations";
     $clicks_rotations_table = "{$wpdb->prefix}prli_clicks_rotations";
 
+    $charset_collate = '';
+    if( $wpdb->has_cap( 'collation' ) )
+    {
+      if( !empty($wpdb->charset) )
+        $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+      if( !empty($wpdb->collate) )
+        $charset_collate .= " COLLATE $wpdb->collate";
+    }
+
     /* Create/Upgrade Tweets Table */
     $sql = "CREATE TABLE {$tweets_table} (
               id int(11) NOT NULL auto_increment,
@@ -799,7 +808,7 @@ class PrliUtils
               PRIMARY KEY  (id),
               KEY link_id (link_id),
               KEY twid (twid)
-            );";
+            ) {$charset_collate};";
     
     dbDelta($sql);
 
@@ -811,7 +820,7 @@ class PrliUtils
               created_at datetime NOT NULL,
               PRIMARY KEY  (id),
               KEY link_id (link_id)
-            );";
+            ) {$charset_collate};";
     
     dbDelta($sql);
 
@@ -823,7 +832,7 @@ class PrliUtils
               created_at datetime NOT NULL,
               PRIMARY KEY  (id),
               KEY goal_link_id (goal_link_id)
-            );";
+            ) {$charset_collate};";
     
     dbDelta($sql);
 
@@ -836,7 +845,7 @@ class PrliUtils
               PRIMARY KEY  (id),
               KEY report_id (report_id),
               KEY link_id (link_id)
-            );";
+            ) {$charset_collate};";
     
     dbDelta($sql);
 
@@ -850,7 +859,7 @@ class PrliUtils
               created_at datetime NOT NULL,
               PRIMARY KEY  (id),
               KEY link_id (link_id)
-            );";
+            ) {$charset_collate};";
     
     dbDelta($sql);
 
@@ -863,7 +872,7 @@ class PrliUtils
               PRIMARY KEY  (id),
               KEY click_id (click_id),
               KEY link_id (link_id)
-            );";
+            ) {$charset_collate};";
     
     dbDelta($sql);
   }
@@ -946,7 +955,39 @@ class PrliUtils
       delete_option( 'prli_options' );
       add_option( 'prli_options', $prli_options_str );
     }
-  }
 
-}
+    // Modify the tables so they're UTF-8
+    if($db_version < 3)
+    { 
+      $charset_collate = '';
+      if( $wpdb->has_cap( 'collation' ) )
+      {
+        if( !empty($wpdb->charset) )
+          $charset_collate = "CONVERT TO CHARACTER SET $wpdb->charset";
+        if( !empty($wpdb->collate) )
+          $charset_collate .= " COLLATE $wpdb->collate";
+      }
+
+      if(!empty($charset_collate))
+      {
+        $prli_table_names = array( "{$wpdb->prefix}prli_groups",
+                                   "{$wpdb->prefix}prli_clicks",
+                                   "{$wpdb->prefix}prli_links",
+                                   "{$wpdb->prefix}prli_link_metas",
+                                   "{$wpdb->prefix}prli_tweets",
+                                   "{$wpdb->prefix}prli_keywords",
+                                   "{$wpdb->prefix}prli_reports",
+                                   "{$wpdb->prefix}prli_report_links",
+                                   "{$wpdb->prefix}prli_link_rotations",
+                                   "{$wpdb->prefix}prli_clicks_rotations" );
+
+        foreach($prli_table_names as $prli_table_name)
+        {
+          $query = "ALTER TABLE {$prli_table_name} {$charset_collate}";
+          $wpdb->query($query);
+        }
+      }
+    } 
+  }   
+}     
 ?>

@@ -289,8 +289,8 @@ class PrliLink
       if( !empty($values['url']) and !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) )
         $errors[] = "Link URL must be a correctly formatted url";
 
-      if( !preg_match('/^[a-zA-Z0-9\.\-_\/]+$/', $values['slug'] ) )
-        $errors[] = "Pretty Link must not contain spaces or special characters";
+      if( preg_match('/^[\?\&\#]+$/', $values['slug'] ) )
+        $errors[] = "Pretty Link must not contain question marks, ampersands or number signs.";
 
       if( !$prli_utils->slugIsAvailable($values['slug'],$values['id']) )
         $errors[] = "This pretty link slug is already taken, please choose a different one";

@@ -39,10 +39,11 @@ class PrliLinkMeta
     if(!is_array($meta_values))
       $meta_values = array($meta_values);
 
+    $status = false;
     foreach($meta_values as $meta_value)
-      $this->add_link_meta($link_id, $meta_key, $meta_value);
+      $status = $this->add_link_meta($link_id, $meta_key, $meta_value);
 
-    return $wpdb->query($query);
+    return $status;
   }
 
   function delete_link_meta($link_id, $meta_key)

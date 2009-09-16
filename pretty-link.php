@@ -143,7 +143,7 @@ function prli_link_redirect_from_slug($slug,$param_str)
 {
   global $prli_link, $prli_utils;
 
-  $link = $prli_link->getOneFromSlug($slug);
+  $link = $prli_link->getOneFromSlug(urldecode($slug));
   
   if(isset($link->slug) and !empty($link->slug))
   {
@@ -221,12 +221,21 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 function prli_install()
 {
   global $wpdb, $prli_utils;
-  $db_version = 2; // this is the version of the database we're moving to
+  $db_version = 3; // this is the version of the database we're moving to
 
   $groups_table       = $wpdb->prefix . "prli_groups";
   $clicks_table       = $wpdb->prefix . "prli_clicks";
   $pretty_links_table = $wpdb->prefix . "prli_links";
   $link_metas_table   = $wpdb->prefix . "prli_link_metas";
+
+  $charset_collate = '';
+  if( $wpdb->has_cap( 'collation' ) )
+  {
+    if( !empty($wpdb->charset) )
+      $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+    if( !empty($wpdb->collate) )
+      $charset_collate .= " COLLATE $wpdb->collate";
+  }
 
   $prli_utils->migrate_before_db_upgrade();
 
@@ -252,7 +261,7 @@ function prli_install()
             KEY vuid (vuid)".
             // We won't worry about this constraint for now.
             //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)
-          ");";
+          ") {$charset_collate};";
   
   dbDelta($sql);
   
@@ -273,7 +282,7 @@ function prli_install()
             PRIMARY KEY  (id),
             KEY group_id (group_id),
             KEY slug (slug)
-          );";
+          ) {$charset_collate};";
   
   dbDelta($sql);
 
@@ -285,7 +294,7 @@ function prli_install()
             cmon_g varchar(255) default NULL,
             created_at datetime NOT NULL,
             PRIMARY KEY  (id)
-          );";
+          ) {$charset_collate};";
   
   dbDelta($sql);
 
@@ -298,7 +307,7 @@ function prli_install()
             created_at datetime NOT NULL,
             PRIMARY KEY  (id),
             KEY link_id (link_id)
-          );";
+          ) {$charset_collate};";
   
   dbDelta($sql);
 
