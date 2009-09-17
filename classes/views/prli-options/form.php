@@ -143,8 +143,23 @@ if(!$permalink_structure or empty($permalink_structure))
     <td valign="top">Excluded IP Addresses: </td>
     <td>
       <input type="text" name="<?php echo $prli_exclude_ips; ?>" value="<?php echo $prli_options->prli_exclude_ips; ?>"> 
-      <br/><span class="description">Enter IP Addresses you want to exclude from your Hit data and Stats. Each IP Address should be separated by commas. Example: <code>192.168.0.1, 192.168.2.1, 192.168.3.4</code></span>
+      <br/><span class="description">Enter IP Addresses or IP Ranges you want to exclude from your Hit data and Stats. Each IP Address should be separated by commas. Example: <code>192.168.0.1, 192.168.2.1, 192.168.3.4 or 192.168.*.*</code></span>
       <br/><span class="description" style="color: red;">Your Current IP Address is <?php echo $_SERVER['REMOTE_ADDR']; ?></span>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2">
+      <input type="checkbox" class="filter-robots-checkbox" name="<?php echo $filter_robots; ?>" <?php echo (($prli_options->filter_robots != 0)?'checked="true"':''); ?>/>&nbsp; Filter Robots
+      <br/><span class="description">Filter known Robots and unidentifiable browser clients from your hit data, stats and reports.</span>
+      <table class="option-pane whitelist-ips">
+        <tr class="form-field">
+          <td valign="top">Whitelist IP Addresses: </td>
+          <td>
+            <input type="text" name="<?php echo $whitelist_ips; ?>" value="<?php echo $prli_options->whitelist_ips; ?>"> 
+            <br/><span class="description">Enter IP Addresses or IP Ranges you want to always include in your Hit data and Stats even if they are flagged as robots. Each IP Address should be separated by commas. Example: <code>192.168.0.1, 192.168.2.1, 192.168.3.4 or 192.168.*.*</code></span>
+          </td>
+        </tr>
+      </table>
     </td>
   </tr>
 </table>

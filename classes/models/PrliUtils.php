@@ -224,7 +224,7 @@ class PrliUtils
         $visitor_uid = $_COOKIE[$visitor_cookie];
      
       //Record Click in DB
-      $insert_str = "INSERT INTO {$prli_click->table_name} (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,created_at) VALUES (%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,NOW())";
+      $insert_str = "INSERT INTO {$prli_click->table_name} (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,robot,created_at) VALUES (%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,NOW())";
       $insert = $wpdb->prepare($insert_str, $pretty_link->id,
                                             $visitor_uid,
                                             $click_ip,
@@ -235,7 +235,8 @@ class PrliUtils
                                             $click_referer,
                                             $click_uri,
                                             $click_host,
-                                            $first_click);
+                                            $first_click,
+                                            $this->this_is_a_robot($click_user_agent,$click_browser['browser']));
       
       $results = $wpdb->query( $insert );
       
@@ -989,5 +990,74 @@ class PrliUtils
       }
     } 
   }   
+
+  function migrate_after_db_upgrade()
+  {
+    global $prli_options, $prli_link, $prli_click, $wpdb;
+    $db_version = (int)get_option('prli_db_version');
+
+    if($db_version < 4)
+    {
+      $clicks = $prli_click->getAll();
+
+      foreach($clicks as $click)
+      {
+        $is_robot = $this->is_robot($click);
+
+        if($is_robot != $click->robot)
+        {
+          $query_str = "UPDATE {$prli_click->table_name} SET robot=%d WHERE id=%d";
+          $query = $wpdb->prepare($query_str,$is_robot,$click->id);
+          $wpdb->query($query);
+        }
+      }
+    }
+  }
+
+  function this_is_a_robot($browser_ua,$btype,$header='')
+  {
+    $click = new PrliClick();
+    $click->browser = $browser_ua;
+    $click->btype = $btype;
+    return $this->is_robot($click, $header);
+  }
+
+  function is_robot($click,$header='')
+  {
+    global $prli_utils, $prli_click;
+    $ua_string = trim(urldecode($click->browser));
+    $browsecap = $prli_utils->php_get_browser($ua_string);
+    $crawler = $browsecap['crawler'];
+    $btype = trim($click->btype);
+
+    // If php_browsecap tells us its a bot, let's believe him
+    if($crawler == 1)
+      return 1;
+
+    // Yah, if the whole user agent string is missing -- wtf?
+    if(empty($ua_string))
+      return 1;
+
+    // Some bots actually say they're bots right up front let's get rid of them asap
+    if(preg_match("#(bot|Bot|spider|Spider|crawl|Crawl)#",$ua_string))
+      return 1;
+
+    // If the Browser type was unidentifiable then it's most likely a bot
+    if(empty($btype))
+      return 1;
+
+    return 0;
+  }
+
+  function check_api_for_bot_status($ip,$ua)
+  {
+    global $prli_url_utils;
+    $api_key = 'cMQeOJvNRAOPRPexkjSEUqM';
+    $ua = urlencode(urldecode($ua));
+    $header = "Content-Type: application/x-www-form-urlencoded\r\n";
+    $params = "?key=$api_key&ip={$ip}";//&ua={$ua}";
+
+    return $prli_url_utils->read_remote_file("http://api.atlbl.com/wc",0,$header,$params);
+  }
 }     
 ?>

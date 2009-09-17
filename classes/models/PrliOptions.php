@@ -2,6 +2,8 @@
 class PrliOptions
 {
   var $prli_exclude_ips;
+  var $whitelist_ips;
+  var $filter_robots;
   var $prettybar_image_url;
   var $prettybar_background_image_url;
   var $prettybar_color;
@@ -253,6 +255,12 @@ class PrliOptions
 
     if(!isset($this->bookmarklet_auth))
         $this->bookmarklet_auth = md5(get_option('auth_salt') . time());
+
+    if(!isset($this->whitelist_ips))
+      $this->whitelist_ips = '';
+
+    if(!isset($this->filter_robots))
+      $this->filter_robots = 0;
   }
 }
 ?>

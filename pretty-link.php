@@ -221,7 +221,7 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 function prli_install()
 {
   global $wpdb, $prli_utils;
-  $db_version = 3; // this is the version of the database we're moving to
+  $db_version = 4; // this is the version of the database we're moving to
 
   $groups_table       = $wpdb->prefix . "prli_groups";
   $clicks_table       = $wpdb->prefix . "prli_clicks";
@@ -252,6 +252,7 @@ function prli_install()
             referer varchar(255) default NULL,
             host varchar(255) default NULL,
             uri varchar(255) default NULL,
+            robot tinyint default 0,
             first_click tinyint default 0,
             created_at datetime NOT NULL,
             link_id int(11) default NULL,
@@ -310,6 +311,8 @@ function prli_install()
           ) {$charset_collate};";
   
   dbDelta($sql);
+
+  $prli_utils->migrate_after_db_upgrade();
 
   // Install / Upgrade Pretty Link Pro
   $prlipro_username = get_option( 'prlipro_username' );

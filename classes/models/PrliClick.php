@@ -9,31 +9,62 @@ class PrliClick
       $this->table_name = "{$wpdb->prefix}prli_clicks";
     }
 
-    function get_ip_exclude_list()
-    {
-      global $prli_options;
-      $exclude_list = $prli_options->prli_exclude_ips;
-      $exclude_list = preg_replace('#[ \t]#','',$exclude_list);
-
-      if($exclude_list)
-        return "'" . implode("','", explode(',',$exclude_list)) . "'";
-      else
-        return '';
-    }
-
     function get_exclude_where_clause( $where = '', $abbr = 'cl')
     {
-      $exclude_list = $this->get_ip_exclude_list();
+      global $prli_options;
+      $exclude_list = trim($prli_options->prli_exclude_ips);
+      $filter_bots  = (int)$prli_options->filter_robots;
+      $return_stmt = '';
 
-      if($where == '')
-        $starts_with = '';
-      else
-        $starts_with = ' AND';
+      if(empty($exclude_list) and $filter_bots == 0)
+        return $return_stmt;
+
+      $return_stmt .= (empty($where)?'':' AND');
       
-      if( $exclude_list != '')
-        return $starts_with . " $abbr.ip NOT IN (" . $exclude_list . ')';
-      else
-        return '';
+      if(!empty($exclude_list))
+      {
+        $exclude_ips = explode(',',$exclude_list);
+        for($i = 0; $i < count($exclude_ips); $i++)
+        {
+          $exclude_ip = trim(preg_replace('#\*#','%',$exclude_ips[$i]));
+
+          if($i > 0)
+            $return_stmt .= ' AND';
+
+          $return_stmt .= " {$abbr}.ip NOT LIKE '{$exclude_ip}'";
+        }
+      }
+
+      if($filter_bots != 0)
+      {
+        $return_stmt .= (empty($exclude_list)?' (':' AND (');
+        $whitelist = trim($prli_options->whitelist_ips);
+
+        if(!empty($whitelist))
+        {
+          $whitelist_ips = explode(',',$whitelist);
+          for($i = 0; $i <= count($whitelist_ips); $i++)
+          {
+            if($i == count($whitelist_ips))
+            {
+              $return_stmt .= ' OR';
+              break;
+            }
+
+            $whitelist_ip = trim(preg_replace('#\*#','%',$whitelist_ips[$i]));
+
+            if($i > 0)
+              $return_stmt .= ' OR';
+
+            $return_stmt .= " {$abbr}.ip LIKE '{$whitelist_ip}'";
+          }
+
+        }
+
+        $return_stmt .= " {$abbr}.robot=0 )";
+      }
+
+      return $return_stmt;
     }
 
     function getOne( $id )

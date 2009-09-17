@@ -26,6 +26,22 @@ jQuery(document).ready(function() {
     jQuery('.link-expand').toggle();
     jQuery('.link-collapse').toggle();
   });
+
+  if (jQuery('.filter-robots-checkbox').is(':checked')) {
+    jQuery('.whitelist-ips').show();
+  }
+  else {
+    jQuery('.whitelist-ips').hide();
+  }
+
+  jQuery('.filter-robots-checkbox').change(function() {
+    if (jQuery('.filter-robots-checkbox').is(':checked')) {
+      jQuery('.whitelist-ips').show();
+    }
+    else {
+      jQuery('.whitelist-ips').hide();
+    }
+  });
 });
 </script>
 

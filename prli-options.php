@@ -6,6 +6,8 @@ $errors = array();
 
 // variables for the field and option names 
 $prli_exclude_ips  = 'prli_exclude_ips';
+$whitelist_ips = 'prli_whitelist_ips';
+$filter_robots = 'prli_filter_robots';
 $prettybar_image_url  = 'prli_prettybar_image_url';
 $prettybar_background_image_url  = 'prli_prettybar_background_image_url';
 $prettybar_color  = 'prli_prettybar_color';
@@ -39,8 +41,11 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   if( !empty($_POST[$prettybar_background_image_url]) and !preg_match('/^http.?:\/\/.*\..*$/', $_POST[$prettybar_background_image_url] ) )
     $errors[] = "Background Image URL must be a correctly formatted URL";
 
-  if( !empty($_POST[ $prli_exclude_ips ]) and !preg_match( "#^[ \t]*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4})([ \t]*,[ \t]*(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}|[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}:[0-9a-fA-F]{1,4}))*$#", $_POST[ $prli_exclude_ips ] ) )
-    $errors[] = "Must be a comma separated list of IPv4 or IPv6 addresses.";
+  if( !empty($_POST[ $prli_exclude_ips ]) and !preg_match( "#^[ \t]*((\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)|([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*))([ \t]*,[ \t]*((\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)|([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*)))*$#", $_POST[ $prli_exclude_ips ] ) )
+    $errors[] = "Excluded IP Addresses must be a comma separated list of IPv4 or IPv6 addresses or ranges.";
+
+  if( !empty($_POST[ $whitelist_ips ]) and !preg_match( "#^[ \t]*((\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)|([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*))([ \t]*,[ \t]*((\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)|([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*)))*$#", $_POST[ $whitelist_ips ] ) )
+    $errors[] = "Whitlist IP Addresses must be a comma separated list of IPv4 or IPv6 addresses or ranges.";
 
   if( !empty($_POST[ $prettybar_color ]) and !preg_match( "#^[0-9a-fA-F]{6}$#", $_POST[ $prettybar_color ] ) )
     $errors[] = "PrettyBar Background Color must be an actual RGB Value";
@@ -77,6 +82,8 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
 
   // Read their posted value
   $prli_options->prli_exclude_ips = stripslashes($_POST[ $prli_exclude_ips ]);
+  $prli_options->whitelist_ips = stripslashes($_POST[ $whitelist_ips ]);
+  $prli_options->filter_robots = (int)isset($_POST[ $filter_robots ]);
   $prli_options->prettybar_image_url = stripslashes($_POST[ $prettybar_image_url ]);
   $prli_options->prettybar_background_image_url = stripslashes($_POST[ $prettybar_background_image_url ]);
   $prli_options->prettybar_color = stripslashes($_POST[ $prettybar_color ]);

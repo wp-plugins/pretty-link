@@ -7,13 +7,13 @@
   </tr>
   <tr>
     <td valign="top">Pretty Link*: </td>
-    <td><strong><?php echo $prli_blogurl; ?></strong>/<input type="text" name="slug" value="<?php echo $values['slug']; ?>" size="25">
+    <td><strong><?php echo $prli_blogurl; ?></strong>/<input type="text" name="slug" value="<?php echo $values['slug']; ?>" size="50"/>
     <a class="toggle">&nbsp;[?]</a>
     <span class="toggle_pane description"><br/>Enter the slug (word trailing your main URL) that will form your pretty link and redirect to the URL above.</span></td>
   </tr>
   <tr class="form-field">
     <td width="75px" valign="top">Title: </td>
-    <td><input type="text" name="name" size="75" value="<?php echo $values['name']; ?>" />
+    <td><input type="text" name="name" value="<?php echo $values['name']; ?>" />
     <a class="toggle">&nbsp;[?]</a>
       <span class="description toggle_pane"><br/>This will act as the title of your Pretty Link. If a name is not entered here then the slug name will be used.</span></td>
   </tr>

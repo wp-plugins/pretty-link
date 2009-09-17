@@ -26,9 +26,9 @@ $bar_link_limit = (int)$prli_options->prettybar_link_limit;
 
 $target_url = $_GET['url'];
 
-$shortened_title = htmlspecialchars(stripslashes(substr($prli_blogname,0,$bar_title_limit)));
-$shortened_desc  = htmlspecialchars(stripslashes(substr($prli_blogdescription,0,$bar_desc_limit)));
-$shortened_link  = htmlspecialchars(stripslashes(substr($target_url,0,$bar_link_limit)));
+$shortened_title = stripslashes(substr($prli_blogname,0,$bar_title_limit));
+$shortened_desc  = stripslashes(substr($prli_blogdescription,0,$bar_desc_limit));
+$shortened_link  = stripslashes(substr($target_url,0,$bar_link_limit));
 
 if(strlen($prli_blogname) > $bar_title_limit)
   $shortened_title .= "...";
@@ -45,7 +45,7 @@ if(strlen($target_url) > $bar_link_limit)
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title><?php echo htmlspecialchars(stripslashes($link->name)); ?></title>
+  <title><?php echo stripslashes($link->name); ?></title>
 <style type="text/css">
 html, body {
   margin: 0px;
@@ -78,12 +78,12 @@ html, body {
   border-bottom: 2px solid black;
 }
 
-#baritems {
+.baritems {
   margin-top: 0px;
   padding: 0px;
 }
 
-#blog_title {
+.blog-title {
   padding-top: 5px;
   margin: 0px;
   width: 200px;
@@ -113,7 +113,7 @@ a:hover {
   background-repeat: no-repeat;
 }
 
-#closebutton {
+.closebutton {
   background-position: -200px 0;
   height: 20px;
   width: 20px;
@@ -129,46 +129,46 @@ a:hover {
   overflow: hidden;
 }
 
-#right_container {
+.right_container {
   float: right;
   margin-top: 8px;
   margin-right: 8px;
   text-align: right;
 }
 
-#closebutton:hover {
+.closebutton:hover {
   background-position: -200px -30px;
 }
 
-#closebutton:active {
+.closebutton:active {
   background-position: -200px -60px;
 }
 
-ul#baritems li {
+ul.baritems li {
   display: inline;
   /*float: left;*/
   /*padding-left: 15px;*/
 }
 
-#retweet {
+.retweet {
   padding-top: 5px;
   padding-left: 15px;
   line-height: 26px;
   width: 200px;
 }
 
-#blog_image {
+.blog-image {
   padding-top: 7px;
   padding-left: 5px;
   padding-right: 5px;
   width: 50px;
 }
 
-#small_text {
+.small-text {
   font-size: 10px;
 }
 
-.powered_by {
+.powered-by {
   padding-top: 15px;
   text-align: right;
 }
@@ -184,11 +184,11 @@ td {
   <div id="prettybar">
     <table width="100%" height="65px">
       <tr>
-      <td id="blog_image" valign="top">
+      <td class="blog-image" valign="top">
         <div class="pb-cell">
         <a href="<?php echo $prli_blogurl; ?>" target="_top"><img src="<?php echo $bar_image; ?>" width="48px" height="48px" border="0"/></a></div>
       </td>
-      <td id="blog_title" valign="top">
+      <td class="blog-title" valign="top">
         <div class="pb-cell">
           <h2>
           <?php if( $bar_show_title ) { ?>
@@ -200,7 +200,7 @@ td {
           <?php } else echo "&nbsp;"; ?>
         </div>
       </td>
-      <td id="retweet" valign="top">
+      <td class="retweet" valign="top">
         <div class="pb-cell">
           <h4>
           <?php if( $bar_show_target_url_link ) { ?>
@@ -215,15 +215,15 @@ td {
         </div>
       </td>
       <td valign="top">
-        <div id="right_container" class="pb-cell">
+        <div class="pb-cell right_container">
           <table width="100%" cellpadding="0" cellspacing="0" style="padding: 0px; margin: 0px;">
             <tr>
               <td>
-                <p id="closebutton" class="map"><a href="<?php echo $target_url; ?>" target="_top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
+                <p class="map closebutton"><a href="<?php echo $target_url; ?>" target="_top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a></p>
               </td>
             <tr>
               <td>
-                <p id="small_text" class="powered_by">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="images/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
+                <p class="powered-by small-text">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="images/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
               </td>
             </tr>
           </table>

@@ -50,7 +50,7 @@ class PrliUrlUtils {
   * @param int $timeout
   * @return string|false false if request failed
   */
-  function read_remote_file($url, $num_chunks=0, $chunk_size=1024, $timeout=30 )
+  function read_remote_file($url, $num_chunks=0, $headers='', $params='', $chunk_size=1024, $timeout=30 )
   {
     $purl = @parse_url($url);
 
@@ -79,8 +79,9 @@ class PrliUrlUtils {
     else
     {
       // Send get request
-      $request = "GET {$req_path} HTTP/1.1\r\n";
+      $request = "GET {$req_path}{$params} HTTP/1.1\r\n";
       $request .= "Host: {$req_host}\r\n";
+      $request .= $headers;
       $request .= "Connection: Close\r\n\r\n";
       fwrite($fp, $request);
 
