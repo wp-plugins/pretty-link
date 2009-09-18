@@ -492,7 +492,7 @@ class PrliUtils
           case '}':
             if(!empty($index_str) and !empty($value_str))
             {
-              $json_array[$index_str] = htmlspecialchars_decode(stripslashes($value_str));
+              $json_array[$index_str] = $this->prli_decode_json_unicode($value_str);
               $index_str = '';
               $value_str = '';
             }
@@ -501,7 +501,7 @@ class PrliUtils
           case ']':
             if(!empty($value_str))
             {
-              $json_array[] = htmlspecialchars_decode(stripslashes($value_str));
+              $json_array[] = $this->prli_decode_json_unicode($value_str);
               $value_str = '';
             }
             return array($i,$json_array);
@@ -550,7 +550,7 @@ class PrliUtils
             {
               if(!empty($index_str) and !empty($value_str))
               {
-                $json_array[$index_str] = htmlspecialchars_decode(stripslashes($value_str));
+                $json_array[$index_str] = $this->prli_decode_json_unicode($value_str);
                 $index_str = '';
                 $value_str = '';
               }
@@ -562,7 +562,7 @@ class PrliUtils
             {
               if(!empty($value_str))
               {
-                $json_array[] = htmlspecialchars_decode(stripslashes($value_str));
+                $json_array[] = $this->prli_decode_json_unicode($value_str);
                 $value_str = '';
               }
 
@@ -582,6 +582,17 @@ class PrliUtils
     }
 
     return array(-1,$json_array);
+  }
+
+  function prli_decode_json_unicode($val)
+  { 
+    $val = preg_replace_callback("/\\\u([0-9a-fA-F]{4})/",
+                                 create_function(
+                                   '$matches',
+                                   'return html_entity_decode("&#".hexdec($matches[1]).";",ENT_COMPAT,"UTF-8");'
+                                 ),
+                                 $val);
+    return $val;
   }
 
   // Get the timestamp of the start date
