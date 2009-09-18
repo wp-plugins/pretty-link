@@ -50,3 +50,5 @@ jQuery(document).ready(function() {
   cursor: pointer;
 }
 </style>
+
+<?php do_action('prli-options-head'); ?>

@@ -223,7 +223,12 @@ td {
               </td>
             <tr>
               <td>
-                <p class="powered-by small-text">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="images/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
+              <?php
+                $link_html =<<<LINKHTML
+<p class="powered-by small-text">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="images/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
+LINKHTML;
+                echo apply_filters('prli-display-attrib-link',$link_html);
+              ?>
               </td>
             </tr>
           </table>

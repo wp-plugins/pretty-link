@@ -80,6 +80,8 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   if( !empty($_POST[ $prettybar_link_limit ]) and !preg_match( "#^[0-9]*$#", $_POST[ $prettybar_link_limit ] ) )
     $errors[] = "PrettyBar Link Character Limit must be a number";
 
+  $errors = apply_filters('prli-validate-options',$errors);
+
   // Read their posted value
   $prli_options->prli_exclude_ips = stripslashes($_POST[ $prli_exclude_ips ]);
   $prli_options->whitelist_ips = stripslashes($_POST[ $whitelist_ips ]);
@@ -102,10 +104,10 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   $prli_options->link_nofollow = (int)isset($_POST[ $link_nofollow ]);
   $prli_options->link_redirect_type = $_POST[ $link_redirect_type ];
 
+  do_action('prli-store-options');
+
   if( count($errors) > 0 )
-  {
     require(PRLI_VIEWS_PATH.'/shared/errors.php');
-  }
   else
   {
     // Save the posted value in the database

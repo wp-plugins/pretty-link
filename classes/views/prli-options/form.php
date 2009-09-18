@@ -136,6 +136,7 @@ if(!$permalink_structure or empty($permalink_structure))
     </td>
   </tr>
 
+  <?php do_action('prli-prettybar-options'); ?>
 </table>
 <h3><a class="toggle reporting-toggle-button">Reporting Options <span class="reporting-expand" style="display: none;">[+]</span><span class="reporting-collapse">[-]</span></a></h3>
 <table class="reporting-toggle-pane form-table">
