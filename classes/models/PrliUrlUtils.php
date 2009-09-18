@@ -30,7 +30,7 @@ class PrliUrlUtils {
   {
     $title = false;
 
-    $remote_page = $this->read_remote_file($url,4);
+    $remote_page = $this->read_remote_file($url,10);
 
     // Look for <title>(.*?)</title> in the text
     if($remote_page and preg_match('#<title>[\s\n\r]*?(.*?)[\s\n\r]*?</title>#im', $remote_page, $matches))
