@@ -1007,6 +1007,7 @@ class PrliUtils
     global $prli_options, $prli_link, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
 
+    /*
     if($db_version < 4)
     {
       $clicks = $prli_click->getAll();
@@ -1026,6 +1027,7 @@ class PrliUtils
         $wpdb->query($query);
       }
     }
+    */
   }
 
   function this_is_a_robot($browser_ua,$btype,$header='')
