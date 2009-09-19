@@ -1011,16 +1011,19 @@ class PrliUtils
     {
       $clicks = $prli_click->getAll();
 
+      $bot_array = array();
       foreach($clicks as $click)
       {
-        $is_robot = $this->is_robot($click);
+        if($this->is_robot($click))
+          $bot_array[] = $click->id;
+      }
 
-        if($is_robot != $click->robot)
-        {
-          $query_str = "UPDATE {$prli_click->table_name} SET robot=%d WHERE id=%d";
-          $query = $wpdb->prepare($query_str,$is_robot,$click->id);
-          $wpdb->query($query);
-        }
+      if(count($bot_array) > 1)
+      {
+        $bot_ids = implode(',', $bot_array);
+        $query_str = "UPDATE {$prli_click->table_name} SET robot=1 WHERE id IN ({$bot_ids})";
+        $query = $wpdb->prepare($query_str);
+        $wpdb->query($query);
       }
     }
   }
