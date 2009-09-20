@@ -151,7 +151,7 @@ if(!$permalink_structure or empty($permalink_structure))
   <tr>
     <td colspan="2">
       <input type="checkbox" class="filter-robots-checkbox" name="<?php echo $filter_robots; ?>" <?php echo (($prli_options->filter_robots != 0)?'checked="true"':''); ?>/>&nbsp; Filter Robots
-      <br/><span class="description">Filter known Robots and unidentifiable browser clients from your hit data, stats and reports.</span>
+      <br/><span class="description">Filter known Robots and unidentifiable browser clients from your hit data, stats and reports. <code>IMPORTANT: Any robot hits recorded with any version of Pretty Link before 1.4.22 won't be filtered by this setting.</code></span>
       <table class="option-pane whitelist-ips">
         <tr class="form-field">
           <td valign="top">Whitelist IP Addresses: </td>
