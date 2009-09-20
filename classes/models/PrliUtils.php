@@ -141,7 +141,7 @@ class PrliUtils
   /* Needed because we don't know if the target uesr will have a browsercap file installed
      on their server ... particularly in a shared hosting environment this is difficult
   */
-  function php_get_browser($agent = NULL, &$brows = NULL)
+  function php_get_browser($agent = NULL, $brows = NULL)
   {
     $agent=$agent?$agent:$_SERVER['HTTP_USER_AGENT'];
     $yu=array();
