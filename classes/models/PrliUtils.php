@@ -1055,7 +1055,7 @@ class PrliUtils
     return $this->is_robot($click, $header);
   }
 
-  function is_robot($click,$header='',&$browsercap_ini=NULL)
+  function is_robot($click,$header='',$browsercap_ini=NULL)
   {
     global $prli_utils, $prli_click;
     $ua_string = trim(urldecode($click->browser));
