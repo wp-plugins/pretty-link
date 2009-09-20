@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.8.4
-Stable tag: 1.4.21
+Stable tag: 1.4.22
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -98,6 +98,16 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.22 =
+* Added known robot and unidentified browser filtering to Pretty Link stats 
+* Added IP Address range definition to the Excluded IP address field 
+* Fixed html formatting issue on the bookmarklet success page 
+* Added the ability for Pro users to remove or alter the attribution link on the Pretty Bar 
+* Added new shortcodes for Pro users to display the title, target url and social networking buttons for a newly created public pretty link 
+* Enhanced the default success page for public link creation for pro users 
+* Fixed the redirect-type not being set bug for pro users allowing public link creation 
+* Fixed another php short-code bug affecting Pro users (thanks to Clay Loveless of KillerSoft for helping me with that one)
 
 = 1.4.21 =
 * Fixed UTF-8 issues
