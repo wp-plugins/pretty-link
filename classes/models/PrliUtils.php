@@ -133,16 +133,23 @@ class PrliUtils
     return true;
   }
   
+  function php_get_browsercap_ini()
+  {
+    return parse_ini_file(PRLI_PATH."/includes/php/php_browsecap.ini",true);
+  }
+  
   /* Needed because we don't know if the target uesr will have a browsercap file installed
      on their server ... particularly in a shared hosting environment this is difficult
   */
-  function php_get_browser($agent = NULL)
+  function php_get_browser($agent = NULL, &$brows = NULL)
   {
     $agent=$agent?$agent:$_SERVER['HTTP_USER_AGENT'];
     $yu=array();
     $q_s=array("#\.#","#\*#","#\?#");
     $q_r=array("\.",".*",".?");
-    $brows=parse_ini_file(PRLI_PATH."/includes/php/php_browsecap.ini",true);
+    if($brows==NULL)
+      $brows = $this->php_get_browsercap_ini();
+
     foreach($brows as $k=>$t)
     {
       if(fnmatch($k,$agent))
@@ -1007,27 +1014,35 @@ class PrliUtils
     global $prli_options, $prli_link, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
 
-    /*
-    if($db_version < 4)
+    if(true)//$db_version < 4)
     {
-      $clicks = $prli_click->getAll();
+      $chunk_size = 1000;
+      $offset = 0;
+      $record_count = $wpdb->get_var("SELECT COUNT(*) FROM $prli_click->table_name");
 
-      $bot_array = array();
-      foreach($clicks as $click)
+      $browsercap_ini = $this->php_get_browsercap_ini();
+      while($offset < $record_count)
       {
-        if($this->is_robot($click))
-          $bot_array[] = $click->id;
-      }
+        $clicks = $wpdb->get_results("SELECT id,browser,btype FROM {$prli_click->table_name} LIMIT {$chunk_size} OFFSET {$offset}");
 
-      if(count($bot_array) > 1)
-      {
-        $bot_ids = implode(',', $bot_array);
-        $query_str = "UPDATE {$prli_click->table_name} SET robot=1 WHERE id IN ({$bot_ids})";
-        $query = $wpdb->prepare($query_str);
-        $wpdb->query($query);
+        $bot_array = array();
+        foreach($clicks as $click)
+        {
+          if($this->is_robot($click,'',$browsercap_ini))
+            $bot_array[] = $click->id;
+        }
+
+        if(count($bot_array) > 1)
+        {
+          $bot_ids = implode(',', $bot_array);
+          $query_str = "UPDATE {$prli_click->table_name} SET robot=1 WHERE id IN ({$bot_ids})";
+          $query = $wpdb->prepare($query_str);
+          $wpdb->query($query);
+        }
+
+        $offset += $chunk_size;
       }
     }
-    */
   }
 
   function this_is_a_robot($browser_ua,$btype,$header='')
@@ -1038,28 +1053,29 @@ class PrliUtils
     return $this->is_robot($click, $header);
   }
 
-  function is_robot($click,$header='')
+  function is_robot($click,$header='',&$browsercap_ini=NULL)
   {
     global $prli_utils, $prli_click;
     $ua_string = trim(urldecode($click->browser));
-    $browsecap = $prli_utils->php_get_browser($ua_string);
-    $crawler = $browsecap['crawler'];
     $btype = trim($click->btype);
-
-    // If php_browsecap tells us its a bot, let's believe him
-    if($crawler == 1)
-      return 1;
 
     // Yah, if the whole user agent string is missing -- wtf?
     if(empty($ua_string))
+      return 1;
+
+    // If the Browser type was unidentifiable then it's most likely a bot
+    if(empty($btype))
       return 1;
 
     // Some bots actually say they're bots right up front let's get rid of them asap
     if(preg_match("#(bot|Bot|spider|Spider|crawl|Crawl)#",$ua_string))
       return 1;
 
-    // If the Browser type was unidentifiable then it's most likely a bot
-    if(empty($btype))
+    $browsecap = $prli_utils->php_get_browser($ua_string,$browsercap_ini);
+    $crawler = $browsecap['crawler'];
+
+    // If php_browsecap tells us its a bot, let's believe him
+    if($crawler == 1)
       return 1;
 
     return 0;
