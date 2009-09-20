@@ -1014,7 +1014,8 @@ class PrliUtils
     global $prli_options, $prli_link, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
 
-    if(true)//$db_version < 4)
+    /* This is too intense for users with a lot of hits
+    if($db_version < 4)
     {
       $chunk_size = 1000;
       $offset = 0;
@@ -1043,6 +1044,7 @@ class PrliUtils
         $offset += $chunk_size;
       }
     }
+    */
   }
 
   function this_is_a_robot($browser_ua,$btype,$header='')
