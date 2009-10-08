@@ -12,7 +12,11 @@ if(isset($_GET['k']))
 {
   if($_GET['k'] == $prli_options->bookmarklet_auth)
   {
-    $result = prli_create_pretty_link( $_GET['target_url'] );
+    $redirect_type = ((isset($_GET['rt']) and $_GET['rt'] != '-1')?$_GET['rt']:'');
+    $track = ((isset($_GET['trk']) and $_GET['trk'] != '-1')?$_GET['trk']:'');
+    $group = ((isset($_GET['grp']) and $_GET['grp'] != '-1')?$_GET['grp']:'');
+
+    $result = prli_create_pretty_link( $_GET['target_url'], '', '', '', $group, $track, '', $redirect_type );
 
     $plink = prli_get_link($result);
     $target_url = $plink->url;

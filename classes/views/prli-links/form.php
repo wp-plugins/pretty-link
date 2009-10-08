@@ -1,7 +1,7 @@
 <table class="form-table">
   <tr class="form-field">
     <td width="75px" valign="top">Target URL*: </td>
-    <td><textarea style="height: 50px;" name="url"><?php echo $values['url']; ?></textarea>
+    <td><textarea style="height: 50px;" name="url"><?php echo htmlentities($values['url'],ENT_COMPAT,'UTF-8'); ?></textarea>
     <a class="toggle">&nbsp;[?]</a>
     <span class="description toggle_pane"><br/>Enter the URL you want to mask and track. Don't forget to start your url with <code>http://</code> or <code>https://</code>. Example: <code>http://www.yoururl.com</code></span></td>
   </tr>

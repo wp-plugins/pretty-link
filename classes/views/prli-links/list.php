@@ -156,7 +156,7 @@
         <?php if( $link->redirect_type != 'pixel' )
         {
         ?>
-        <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong>Target URL:</strong> <?php echo substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':''); ?></span></td>
+        <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong>Target URL:</strong> <?php echo htmlentities((substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':'')),ENT_COMPAT,'UTF-8'); ?></span></td>
         <?php
         }
         ?>

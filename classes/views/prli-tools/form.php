@@ -16,4 +16,5 @@
     <li>Paste the text you copied in Step 1 into the address field</li>
     <li>To save the changes hit "Bookmarks" and <strong>you're done!</strong> Now when you find a page you want to save off as a Pretty Link, just click the "Bookmarks" icon at the bottom of the screen and select your link.</li>
   </ol>
+<?php do_action('prli-add-tools'); ?>
 </div>
