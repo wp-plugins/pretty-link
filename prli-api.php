@@ -8,7 +8,7 @@
  */
 function prli_api_version()
 {
-  return '1.2';
+  return '1.3';
 }
 
 /**
@@ -195,10 +195,10 @@ function prli_get_all_links()
  * @return bool (false if failure) | array An associative array with all the
  *                                         data about the given pretty link.
  */
-function prli_get_link_from_slug($slug)
+function prli_get_link_from_slug($slug, $include_stats = false)
 {
   global $prli_link;
-  $link = $prli_link->getOneFromSlug($slug, ARRAY_A);
+  $link = $prli_link->getOneFromSlug($slug, ARRAY_A, $include_stats);
   return $link;
 }
 
@@ -208,10 +208,10 @@ function prli_get_link_from_slug($slug)
  * @return bool (false if failure) | array An associative array with all the
  *                                         data about the given pretty link.
  */
-function prli_get_link($id)
+function prli_get_link($id, $include_stats = false)
 {
   global $prli_link;
-  $link = $prli_link->getOne($id, ARRAY_A);
+  $link = $prli_link->getOne($id, ARRAY_A, $include_stats);
   return $link;
 }
 

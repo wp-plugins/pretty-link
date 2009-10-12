@@ -113,35 +113,45 @@ class PrliLink
       return $wpdb->query($reset);
     }
 
-    function getOneFromSlug( $slug, $return_type = OBJECT )
+    function getOneFromSlug( $slug, $return_type = OBJECT, $include_stats = false )
     {
       global $wpdb, $prli_click;
-      $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
-                      'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
-                      'WHERE cl.link_id = li.id ' .
-                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
-               'FROM ' . $this->table_name . ' li ' .
-               'WHERE slug=\'' . $slug . '\'';
+      if($include_stats)
+        $query = 'SELECT li.*, ' .
+                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+                        'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
+                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+                        'WHERE cl.link_id = li.id ' .
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
+                 "FROM {$this->table_name} li " .
+                 'WHERE slug=%s';
+      else
+        $query = "SELECT * FROM {$this->table_name} WHERE slug=%s";
+
+      $query = $wpdb->prepare($query, $slug);
       return $wpdb->get_row($query, $return_type);
     }
 
-    function getOne( $id )
+    function getOne( $id, $return_type = OBJECT, $include_stats = false )
     {
       global $wpdb, $prli_click;
       if( !isset($id) or empty($id) )
           return false;
 
-      $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
-                      'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
-                      'WHERE cl.link_id = li.id ' .
-                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
-               'FROM ' . $this->table_name . ' li ' .
-               'WHERE id=' . $id;
-      return $wpdb->get_row($query);
+      if($include_stats)
+        $query = 'SELECT li.*, ' .
+                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+                        'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
+                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+                        'WHERE cl.link_id = li.id ' .
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
+                 'FROM ' . $this->table_name . ' li ' .
+                 'WHERE id=%d';
+      else
+        $query = "SELECT * FROM {$this->table_name} WHERE id=%d";
+
+      $query = $wpdb->prepare($query, $id);
+      return $wpdb->get_row($query, $return_type);
     }
 
     function find_first_target_url($target_url)
