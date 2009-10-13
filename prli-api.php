@@ -222,9 +222,9 @@ function prli_get_link($id, $include_stats = false)
  */
 function prli_get_pretty_link_url($id)
 {
-  global $prli_blogurl;
+  global $prli_link,$prli_blogurl;
 
-  if($pretty_link = prli_get_link($id))
+  if($pretty_link = $prli_link->getOne($id))
     return "{$prli_blogurl}/{$pretty_link->slug}";
 
   return false;

@@ -77,9 +77,10 @@
   }
   else
   {
+    global $prli_blogurl;
     foreach($links as $link)
     {
-      $pretty_link_url = $prli_link->get_pretty_link_url($link->slug);//$prli_blogurl . '/' . $link->slug;
+      $pretty_link_url = "{$prli_blogurl}/{$link->slug}";
       ?>
       <tr style="min-height: 75px; height: 75px;">
         <td class="edit_link">
