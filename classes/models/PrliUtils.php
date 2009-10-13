@@ -1011,40 +1011,34 @@ class PrliUtils
 
   function migrate_after_db_upgrade()
   {
-    global $prli_options, $prli_link, $prli_click, $wpdb;
+    global $prli_options, $prli_link, $prli_link_meta, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
 
-    /* This is too intense for users with a lot of hits
-    if($db_version < 4)
+    if($db_version < 5)
     {
-      $chunk_size = 1000;
-      $offset = 0;
-      $record_count = $wpdb->get_var("SELECT COUNT(*) FROM $prli_click->table_name");
+      // Migrate pretty-link-posted-to-twitter
+      $query = "SELECT * FROM {$wpdb->prefix}postmeta WHERE meta_key=%s";
+      $query = $wpdb->prepare($query,'pretty-link-posted-to-twitter');
+      $posts_posted = $wpdb->get_results($query);
 
-      $browsercap_ini = $this->php_get_browsercap_ini();
-      while($offset < $record_count)
+      foreach($posts_posted as $postmeta)
       {
-        $clicks = $wpdb->get_results("SELECT id,browser,btype FROM {$prli_click->table_name} LIMIT {$chunk_size} OFFSET {$offset}");
-
-        $bot_array = array();
-        foreach($clicks as $click)
+        if($postmeta->meta_value == '1')
         {
-          if($this->is_robot($click,'',$browsercap_ini))
-            $bot_array[] = $click->id;
+          $link_id = get_post_meta($postmeta->post_id,'pretty-link',true);
+          $prli_link_meta->update_link_meta($link_id,'pretty-link-posted-to-twitter','1');
         }
-
-        if(count($bot_array) > 1)
-        {
-          $bot_ids = implode(',', $bot_array);
-          $query_str = "UPDATE {$prli_click->table_name} SET robot=1 WHERE id IN ({$bot_ids})";
-          $query = $wpdb->prepare($query_str);
-          $wpdb->query($query);
-        }
-
-        $offset += $chunk_size;
       }
+
+      // Cleanup
+      $query = "DELETE FROM {$wpdb->prefix}postmeta WHERE meta_key=%s OR meta_key=%s OR meta_key=%s OR meta_key=%s";
+      $query = $wpdb->prepare($query,'pretty-link-posted-to-twitter','pretty-link-tweet-count','pretty-link-tweet-last-update','prli-keyword-replacement-count');
+      $results = $wpdb->query($query);
+
+      $query = "DELETE FROM {$prli_link_meta->table_name} WHERE meta_key=%s";
+      $query = $wpdb->prepare($query,'prli-url-aliases');
+      $results = $wpdb->query($query);
     }
-    */
   }
 
   function this_is_a_robot($browser_ua,$btype,$header='')
