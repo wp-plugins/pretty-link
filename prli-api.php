@@ -195,10 +195,10 @@ function prli_get_all_links()
  * @return bool (false if failure) | array An associative array with all the
  *                                         data about the given pretty link.
  */
-function prli_get_link_from_slug($slug, $include_stats = false)
+function prli_get_link_from_slug($slug, $return_type = OBJECT, $include_stats = false)
 {
   global $prli_link;
-  $link = $prli_link->getOneFromSlug($slug, ARRAY_A, $include_stats);
+  $link = $prli_link->getOneFromSlug($slug, $return_type, $include_stats);
   return $link;
 }
 
@@ -208,10 +208,10 @@ function prli_get_link_from_slug($slug, $include_stats = false)
  * @return bool (false if failure) | array An associative array with all the
  *                                         data about the given pretty link.
  */
-function prli_get_link($id, $include_stats = false)
+function prli_get_link($id, $return_type = OBJECT, $include_stats = false)
 {
   global $prli_link;
-  $link = $prli_link->getOne($id, ARRAY_A, $include_stats);
+  $link = $prli_link->getOne($id, $return_type, $include_stats);
   return $link;
 }
 

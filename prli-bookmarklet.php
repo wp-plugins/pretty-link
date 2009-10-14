@@ -18,10 +18,10 @@ if(isset($_GET['k']))
 
     $result = prli_create_pretty_link( $_GET['target_url'], '', '', '', $group, $track, '', $redirect_type );
 
-    $plink = prli_get_link($result);
+    $plink = $prli_link->getOne($result);
     $target_url = $plink->url;
     $target_url_title = $plink->name;
-    $pretty_link = prli_get_pretty_link_url($result);
+    $pretty_link = "{$prli_blogurl}/{$plink->slug}";
 
     $twitter_status = substr($target_url_title,0,(114 - strlen($pretty_link))) . ((strlen($target_url_title) > 114)?"...":'') . " | $pretty_link";
     ?>
