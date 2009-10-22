@@ -790,110 +790,120 @@ class PrliUtils
   {
     global $wpdb;
 
-    $upgrade_path = ABSPATH . 'wp-admin/includes/upgrade.php';
-    require_once($upgrade_path);
+    $pro_db_version = 1; // this is the version of the database we're moving to
+    $old_pro_db_version = get_option('prlipro_db_version');
 
-    // Pretty Link Pro Tables
-    $tweets_table           = "{$wpdb->prefix}prli_tweets";
-    $keywords_table         = "{$wpdb->prefix}prli_keywords";
-    $reports_table          = "{$wpdb->prefix}prli_reports";
-    $report_links_table     = "{$wpdb->prefix}prli_report_links";
-    $link_rotations_table   = "{$wpdb->prefix}prli_link_rotations";
-    $clicks_rotations_table = "{$wpdb->prefix}prli_clicks_rotations";
-
-    $charset_collate = '';
-    if( $wpdb->has_cap( 'collation' ) )
+    if($pro_db_version != $old_pro_db_version)
     {
-      if( !empty($wpdb->charset) )
-        $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
-      if( !empty($wpdb->collate) )
-        $charset_collate .= " COLLATE $wpdb->collate";
+      $upgrade_path = ABSPATH . 'wp-admin/includes/upgrade.php';
+      require_once($upgrade_path);
+
+      // Pretty Link Pro Tables
+      $tweets_table           = "{$wpdb->prefix}prli_tweets";
+      $keywords_table         = "{$wpdb->prefix}prli_keywords";
+      $reports_table          = "{$wpdb->prefix}prli_reports";
+      $report_links_table     = "{$wpdb->prefix}prli_report_links";
+      $link_rotations_table   = "{$wpdb->prefix}prli_link_rotations";
+      $clicks_rotations_table = "{$wpdb->prefix}prli_clicks_rotations";
+
+      $charset_collate = '';
+      if( $wpdb->has_cap( 'collation' ) )
+      {
+        if( !empty($wpdb->charset) )
+          $charset_collate = "DEFAULT CHARACTER SET $wpdb->charset";
+        if( !empty($wpdb->collate) )
+          $charset_collate .= " COLLATE $wpdb->collate";
+      }
+
+      /* Create/Upgrade Tweets Table */
+      $sql = "CREATE TABLE {$tweets_table} (
+                id int(11) NOT NULL auto_increment,
+                twid varchar(255) NOT NULL, 
+                tw_text varchar(255) default NULL,
+                tw_to_user_id varchar(255) default NULL,
+                tw_from_user varchar(255) default NULL,
+                tw_from_user_id varchar(255) NOT NULL,
+                tw_iso_language_code varchar(255) default NULL,
+                tw_source varchar(255) default NULL,
+                tw_profile_image_url varchar(255) default NULL,
+                tw_created_at varchar(255) NOT NULL,
+                created_at datetime NOT NULL,
+                link_id int(11) default NULL,
+                PRIMARY KEY  (id),
+                KEY link_id (link_id),
+                KEY twid (twid)
+              ) {$charset_collate};";
+      
+      dbDelta($sql);
+
+      /* Create/Upgrade Keywords Table */
+      $sql = "CREATE TABLE {$keywords_table} (
+                id int(11) NOT NULL auto_increment,
+                text varchar(255) NOT NULL,
+                link_id int(11) NOT NULL,
+                created_at datetime NOT NULL,
+                PRIMARY KEY  (id),
+                KEY link_id (link_id)
+              ) {$charset_collate};";
+      
+      dbDelta($sql);
+
+      /* Create/Upgrade Reports Table */
+      $sql = "CREATE TABLE {$reports_table} (
+                id int(11) NOT NULL auto_increment,
+                name varchar(255) NOT NULL,
+                goal_link_id int(11) default NULL,
+                created_at datetime NOT NULL,
+                PRIMARY KEY  (id),
+                KEY goal_link_id (goal_link_id)
+              ) {$charset_collate};";
+      
+      dbDelta($sql);
+
+      /* Create/Upgrade Reports Table */
+      $sql = "CREATE TABLE {$report_links_table} (
+                id int(11) NOT NULL auto_increment,
+                report_id int(11) NOT NULL,
+                link_id int(11) NOT NULL,
+                created_at datetime NOT NULL,
+                PRIMARY KEY  (id),
+                KEY report_id (report_id),
+                KEY link_id (link_id)
+              ) {$charset_collate};";
+      
+      dbDelta($sql);
+
+      /* Create/Upgrade Link Rotations Table */
+      $sql = "CREATE TABLE {$link_rotations_table} (
+                id int(11) NOT NULL auto_increment,
+                url varchar(255) default NULL,
+                weight int(11) default 0,
+                r_index int(11) default 0,
+                link_id int(11) NOT NULL,
+                created_at datetime NOT NULL,
+                PRIMARY KEY  (id),
+                KEY link_id (link_id)
+              ) {$charset_collate};";
+      
+      dbDelta($sql);
+
+      /* Create/Upgrade Clicks / Rotations Table */
+      $sql = "CREATE TABLE {$clicks_rotations_table} (
+                id int(11) NOT NULL auto_increment,
+                click_id int(11) NOT NULL,
+                link_id int(11) NOT NULL,
+                url text NOT NULL,
+                PRIMARY KEY  (id),
+                KEY click_id (click_id),
+                KEY link_id (link_id)
+              ) {$charset_collate};";
+      
+      dbDelta($sql);
     }
 
-    /* Create/Upgrade Tweets Table */
-    $sql = "CREATE TABLE {$tweets_table} (
-              id int(11) NOT NULL auto_increment,
-              twid varchar(255) NOT NULL, 
-              tw_text varchar(255) default NULL,
-              tw_to_user_id varchar(255) default NULL,
-              tw_from_user varchar(255) default NULL,
-              tw_from_user_id varchar(255) NOT NULL,
-              tw_iso_language_code varchar(255) default NULL,
-              tw_source varchar(255) default NULL,
-              tw_profile_image_url varchar(255) default NULL,
-              tw_created_at varchar(255) NOT NULL,
-              created_at datetime NOT NULL,
-              link_id int(11) default NULL,
-              PRIMARY KEY  (id),
-              KEY link_id (link_id),
-              KEY twid (twid)
-            ) {$charset_collate};";
-    
-    dbDelta($sql);
-
-    /* Create/Upgrade Keywords Table */
-    $sql = "CREATE TABLE {$keywords_table} (
-              id int(11) NOT NULL auto_increment,
-              text varchar(255) NOT NULL,
-              link_id int(11) NOT NULL,
-              created_at datetime NOT NULL,
-              PRIMARY KEY  (id),
-              KEY link_id (link_id)
-            ) {$charset_collate};";
-    
-    dbDelta($sql);
-
-    /* Create/Upgrade Reports Table */
-    $sql = "CREATE TABLE {$reports_table} (
-              id int(11) NOT NULL auto_increment,
-              name varchar(255) NOT NULL,
-              goal_link_id int(11) default NULL,
-              created_at datetime NOT NULL,
-              PRIMARY KEY  (id),
-              KEY goal_link_id (goal_link_id)
-            ) {$charset_collate};";
-    
-    dbDelta($sql);
-
-    /* Create/Upgrade Reports Table */
-    $sql = "CREATE TABLE {$report_links_table} (
-              id int(11) NOT NULL auto_increment,
-              report_id int(11) NOT NULL,
-              link_id int(11) NOT NULL,
-              created_at datetime NOT NULL,
-              PRIMARY KEY  (id),
-              KEY report_id (report_id),
-              KEY link_id (link_id)
-            ) {$charset_collate};";
-    
-    dbDelta($sql);
-
-    /* Create/Upgrade Link Rotations Table */
-    $sql = "CREATE TABLE {$link_rotations_table} (
-              id int(11) NOT NULL auto_increment,
-              url varchar(255) default NULL,
-              weight int(11) default 0,
-              r_index int(11) default 0,
-              link_id int(11) NOT NULL,
-              created_at datetime NOT NULL,
-              PRIMARY KEY  (id),
-              KEY link_id (link_id)
-            ) {$charset_collate};";
-    
-    dbDelta($sql);
-
-    /* Create/Upgrade Clicks / Rotations Table */
-    $sql = "CREATE TABLE {$clicks_rotations_table} (
-              id int(11) NOT NULL auto_increment,
-              click_id int(11) NOT NULL,
-              link_id int(11) NOT NULL,
-              url text NOT NULL,
-              PRIMARY KEY  (id),
-              KEY click_id (click_id),
-              KEY link_id (link_id)
-            ) {$charset_collate};";
-    
-    dbDelta($sql);
+    /***** SAVE DB VERSION *****/
+    delete_option('prlipro_db_version');
+    add_option('prlipro_db_version',$pro_db_version);
   }
 
   // be careful with this one -- I use it to forceably reinstall pretty link pro

@@ -228,6 +228,7 @@ function prli_install()
 {
   global $wpdb, $prli_utils;
   $db_version = 5; // this is the version of the database we're moving to
+  $old_db_version = get_option('prli_db_version');
 
   $groups_table       = $wpdb->prefix . "prli_groups";
   $clicks_table       = $wpdb->prefix . "prli_clicks";
@@ -243,82 +244,85 @@ function prli_install()
       $charset_collate .= " COLLATE $wpdb->collate";
   }
 
-  $prli_utils->migrate_before_db_upgrade();
+  if($db_version != $old_db_version)
+  {
+    $prli_utils->migrate_before_db_upgrade();
 
-  require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
-  
-  /* Create/Upgrade Clicks (Hits) Table */
-  $sql = "CREATE TABLE " . $clicks_table . " (
-            id int(11) NOT NULL auto_increment,
-            ip varchar(255) default NULL,
-            browser varchar(255) default NULL,
-            btype varchar(255) default NULL,
-            bversion varchar(255) default NULL,
-            os varchar(255) default NULL,
-            referer varchar(255) default NULL,
-            host varchar(255) default NULL,
-            uri varchar(255) default NULL,
-            robot tinyint default 0,
-            first_click tinyint default 0,
-            created_at datetime NOT NULL,
-            link_id int(11) default NULL,
-            vuid varchar(25) default NULL,
-            PRIMARY KEY  (id),
-            KEY link_id (link_id),
-            KEY vuid (vuid)".
-            // We won't worry about this constraint for now.
-            //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)
-          ") {$charset_collate};";
-  
-  dbDelta($sql);
-  
-  /* Create/Upgrade Pretty Links Table */
-  $sql = "CREATE TABLE " . $pretty_links_table . " (
-            id int(11) NOT NULL auto_increment,
-            name varchar(255) default NULL,
-            description text default NULL,
-            url text default NULL,
-            slug varchar(255) default NULL,
-            nofollow tinyint(1) default 0,
-            track_me tinyint(1) default 1,
-            param_forwarding varchar(255) default NULL,
-            param_struct varchar(255) default NULL,
-            redirect_type varchar(255) default '307',
-            created_at datetime NOT NULL,
-            group_id int(11) default NULL,
-            PRIMARY KEY  (id),
-            KEY group_id (group_id),
-            KEY slug (slug)
-          ) {$charset_collate};";
-  
-  dbDelta($sql);
+    require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+    
+    /* Create/Upgrade Clicks (Hits) Table */
+    $sql = "CREATE TABLE " . $clicks_table . " (
+              id int(11) NOT NULL auto_increment,
+              ip varchar(255) default NULL,
+              browser varchar(255) default NULL,
+              btype varchar(255) default NULL,
+              bversion varchar(255) default NULL,
+              os varchar(255) default NULL,
+              referer varchar(255) default NULL,
+              host varchar(255) default NULL,
+              uri varchar(255) default NULL,
+              robot tinyint default 0,
+              first_click tinyint default 0,
+              created_at datetime NOT NULL,
+              link_id int(11) default NULL,
+              vuid varchar(25) default NULL,
+              PRIMARY KEY  (id),
+              KEY link_id (link_id),
+              KEY vuid (vuid)".
+              // We won't worry about this constraint for now.
+              //CONSTRAINT ".$clicks_table."_ibfk_1 FOREIGN KEY (link_id) REFERENCES $pretty_links_table (id)
+            ") {$charset_collate};";
+    
+    dbDelta($sql);
+    
+    /* Create/Upgrade Pretty Links Table */
+    $sql = "CREATE TABLE " . $pretty_links_table . " (
+              id int(11) NOT NULL auto_increment,
+              name varchar(255) default NULL,
+              description text default NULL,
+              url text default NULL,
+              slug varchar(255) default NULL,
+              nofollow tinyint(1) default 0,
+              track_me tinyint(1) default 1,
+              param_forwarding varchar(255) default NULL,
+              param_struct varchar(255) default NULL,
+              redirect_type varchar(255) default '307',
+              created_at datetime NOT NULL,
+              group_id int(11) default NULL,
+              PRIMARY KEY  (id),
+              KEY group_id (group_id),
+              KEY slug (slug)
+            ) {$charset_collate};";
+    
+    dbDelta($sql);
 
-  /* Create/Upgrade Groups Table */
-  $sql = "CREATE TABLE " . $groups_table . " (
-            id int(11) NOT NULL auto_increment,
-            name varchar(255) default NULL,
-            description text default NULL,
-            cmon_g varchar(255) default NULL,
-            created_at datetime NOT NULL,
-            PRIMARY KEY  (id)
-          ) {$charset_collate};";
-  
-  dbDelta($sql);
+    /* Create/Upgrade Groups Table */
+    $sql = "CREATE TABLE " . $groups_table . " (
+              id int(11) NOT NULL auto_increment,
+              name varchar(255) default NULL,
+              description text default NULL,
+              cmon_g varchar(255) default NULL,
+              created_at datetime NOT NULL,
+              PRIMARY KEY  (id)
+            ) {$charset_collate};";
+    
+    dbDelta($sql);
 
-  /* Create/Upgrade Groups Table */
-  $sql = "CREATE TABLE {$link_metas_table} (
-            id int(11) NOT NULL auto_increment,
-            meta_key varchar(255) default NULL,
-            meta_value longtext default NULL,
-            link_id int(11) NOT NULL,
-            created_at datetime NOT NULL,
-            PRIMARY KEY  (id),
-            KEY link_id (link_id)
-          ) {$charset_collate};";
-  
-  dbDelta($sql);
+    /* Create/Upgrade Groups Table */
+    $sql = "CREATE TABLE {$link_metas_table} (
+              id int(11) NOT NULL auto_increment,
+              meta_key varchar(255) default NULL,
+              meta_value longtext default NULL,
+              link_id int(11) NOT NULL,
+              created_at datetime NOT NULL,
+              PRIMARY KEY  (id),
+              KEY link_id (link_id)
+            ) {$charset_collate};";
+    
+    dbDelta($sql);
 
-  $prli_utils->migrate_after_db_upgrade();
+    $prli_utils->migrate_after_db_upgrade();
+  }
 
   // Install / Upgrade Pretty Link Pro
   $prlipro_username = get_option( 'prlipro_username' );
