@@ -115,25 +115,30 @@ function prli_groups_admin_header()
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/
 function prli_redirect()
 {
-  global $prli_blogurl, $wpdb, $prli_link;
- 
-  // Resolve WP installs in sub-directories
-  preg_match('#^http://.*?(/.*)$#', $prli_blogurl, $subdir);
-
-  $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
- 
-  if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
+  // we're now catching the 404 error before the template_redirect
+  // instead of checking for pretty link redirect on each page load
+  if(is_404())
   {
-    // match short slugs (most common)
-    prli_link_redirect_from_slug($match_val[1],$match_val[2]);
+    global $prli_blogurl, $wpdb, $prli_link;
+    
+    // Resolve WP installs in sub-directories
+    preg_match('#^http://.*?(/.*)$#', $prli_blogurl, $subdir);
 
-    // Match nested slugs (pretty link sub-directory nesting)
-    $possible_links = $wpdb->get_col("SELECT slug FROM " . $prli_link->table_name . " WHERE slug like '".$match_val[1]."/%'",0);
-    foreach($possible_links as $possible_link)
+    $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
+    
+    if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
     {
-      // Try to match the full link against the URI
-      if( preg_match('#^'.$subdir[1].'/('.$possible_link.')([\?/].*?)?$#', $_SERVER['REQUEST_URI'], $match_val) )
-        prli_link_redirect_from_slug($possible_link,$match_val[2]);
+      // match short slugs (most common)
+      prli_link_redirect_from_slug($match_val[1],$match_val[2]);
+
+      // Match nested slugs (pretty link sub-directory nesting)
+      $possible_links = $wpdb->get_col("SELECT slug FROM " . $prli_link->table_name . " WHERE slug like '".$match_val[1]."/%'",0);
+      foreach($possible_links as $possible_link)
+      {
+        // Try to match the full link against the URI
+        if( preg_match('#^'.$subdir[1].'/('.$possible_link.')([\?/].*?)?$#', $_SERVER['REQUEST_URI'], $match_val) )
+          prli_link_redirect_from_slug($possible_link,$match_val[2]);
+      }
     }
   }
 }
@@ -157,7 +162,8 @@ function prli_link_redirect_from_slug($slug,$param_str)
   }
 }
 
-add_action('init', 'prli_redirect'); //Redirect
+//add_action('init', 'prli_redirect'); //Redirect
+add_action('template_redirect', 'prli_redirect'); //Redirect
 
 /********* DASHBOARD WIDGET ***********/
 function prli_dashboard_widget_function() {

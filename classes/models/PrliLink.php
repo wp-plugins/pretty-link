@@ -170,19 +170,27 @@ class PrliLink
       return $wpdb->get_row($query, $return_type);
     }
 
-    function getAll($where = '', $order_by = '', $return_type = OBJECT)
+    function getAll($where = '', $order_by = '', $return_type = OBJECT, $include_stats = false)
     {
       global $wpdb, $prli_click, $prli_group, $prli_utils;
-      $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
-                      'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
-                      'WHERE cl.link_id = li.id ' .
-                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
-                  'gr.name as group_name ' .
-               'FROM '. $this->table_name . ' li ' .
-               'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
-               $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+
+      if($include_stats)
+        $query = 'SELECT li.*, ' .
+                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+                        'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
+                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+                        'WHERE cl.link_id = li.id ' .
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
+                    'gr.name as group_name ' .
+                 'FROM '. $this->table_name . ' li ' .
+                 'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
+                 $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+      else
+        $query = "SELECT li.*, gr.name as group_name FROM {$this->table_name} li " . 
+                 'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
+                 $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+       
+
       return $wpdb->get_results($query, $return_type);
     }
 
