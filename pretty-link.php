@@ -163,7 +163,7 @@ function prli_link_redirect_from_slug($slug,$param_str)
 }
 
 //add_action('init', 'prli_redirect'); //Redirect
-add_action('template_redirect', 'prli_redirect'); //Redirect
+add_action('template_redirect', 'prli_redirect',0); //Redirect
 
 /********* DASHBOARD WIDGET ***********/
 function prli_dashboard_widget_function() {

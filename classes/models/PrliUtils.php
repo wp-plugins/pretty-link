@@ -276,12 +276,15 @@ class PrliUtils
     switch($pretty_link->redirect_type)
     {
       case 'pixel':
+        header("HTTP/1.1 200 OK");
         break;
       case 'prettybar':
         global $prli_blogurl;
+        header("HTTP/1.1 200 OK");
         require_once PRLI_VIEWS_PATH . '/prli-links/bar.php';
         break;
       case 'cloak':
+        header("HTTP/1.1 200 OK");
         require_once PRLI_VIEWS_PATH . '/prli-links/ultra-cloak.php';
         break;
       case '301':
