@@ -54,9 +54,9 @@ class PrliGroup
       global $wpdb, $prli_link, $prli_click;
 
       if($include_stats)
-        $query = 'SELECT gr.*, (SELECT COUNT(*) FROM ' . $prli_link->table_name . ' li WHERE li.group_id = gr.id) as link_count, (SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl WHERE link_id IN (SELECT li2.id FROM ' . $prli_link->table_name . ' li2 WHERE li2.group_id=gr.id)) as click_count FROM ' . $this->table_name . ' gr WHERE id=' . $id;
+        $query = 'SELECT gr.*, (SELECT COUNT(*) FROM ' . $prli_link->table_name . ' li WHERE li.group_id = gr.id) as link_count FROM ' . $this->table_name . ' gr WHERE id=' . $id;
       else
-        $query = 'SELECT * FROM ' . $this->table_name . ' WHERE id=' . $id;
+        $query = 'SELECT gr.* FROM ' . $this->table_name . ' gr WHERE id=' . $id;
       return $wpdb->get_row($query);
   }
 
@@ -65,9 +65,9 @@ class PrliGroup
       global $wpdb, $prli_utils, $prli_link, $prli_click;
 
       if($include_stats)
-        $query = 'SELECT gr.*, (SELECT COUNT(*) FROM ' . $prli_link->table_name . ' li WHERE li.group_id = gr.id) as link_count, (SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl WHERE link_id IN (SELECT li2.id FROM ' . $prli_link->table_name . ' li2 WHERE li2.group_id=gr.id)) as click_count FROM ' . $this->table_name . ' gr' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+        $query = 'SELECT gr.*, (SELECT COUNT(*) FROM ' . $prli_link->table_name . ' li WHERE li.group_id = gr.id) as link_count FROM ' . $this->table_name . ' gr' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
       else
-        $query = 'SELECT * FROM ' . $this->table_name . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+        $query = 'SELECT gr.* FROM ' . $this->table_name . " gr" . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
       return $wpdb->get_results($query, $return_type);
   }
 
@@ -89,7 +89,7 @@ class PrliGroup
       global $wpdb, $prli_link, $prli_utils, $prli_click;
       $end_index = $current_p * $p_size;
       $start_index = $end_index - $p_size;
-      $query = 'SELECT gr.*, (SELECT COUNT(*) FROM ' . $prli_link->table_name . ' li WHERE li.group_id = gr.id) as link_count, (SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl WHERE link_id IN (SELECT li2.id FROM ' . $prli_link->table_name . ' li2 WHERE li2.group_id=gr.id)) as click_count FROM ' . $this->table_name . ' gr' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by .' LIMIT ' . $start_index . ',' . $p_size;
+      $query = 'SELECT gr.*, (SELECT COUNT(*) FROM ' . $prli_link->table_name . ' li WHERE li.group_id = gr.id) as link_count FROM ' . $this->table_name . ' gr' . $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by .' LIMIT ' . $start_index . ',' . $p_size;
       $results = $wpdb->get_results($query);
       return $results;
   }

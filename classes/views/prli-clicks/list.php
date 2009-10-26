@@ -3,7 +3,7 @@
   require(PRLI_VIEWS_PATH.'/shared/nav.php');
 ?>
   <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Hits</h2>
-  <span style="font-size: 14px; font-weight: bold;">For <?php echo $link_name; ?>: </span>
+  <span style="font-size: 14px; font-weight: bold;">For <?php echo stripslashes($link_name); ?>: </span>
   <?php
   // Don't show this sheesh if we're displaying the vuid or ip grouping
   if(empty($params['ip']) and empty($params['vuid']))
@@ -122,7 +122,7 @@
         <td><?php echo $click->host; ?></td>
         <td><?php echo $click->uri; ?></td>
         <td><?php echo $click->referer; ?></td>
-        <td><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $click->link_id; ?>" title="View clicks for <?php echo $click->link_name; ?>"><?php echo $click->link_name; ?></a></td>
+        <td><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $click->link_id; ?>" title="View clicks for <?php echo stripslashes($click->link_name); ?>"><?php echo stripslashes($click->link_name); ?></a></td>
       </tr>
       <?php
     }
@@ -142,7 +142,7 @@
     </tfoot>
 </table>
 
-<a href="<?php echo PRLI_URL; ?>/prli-clicks.php?action=csv<?php echo $page_params; ?>">Download CSV (<?php echo $link_name; ?>)</a>
+<a href="<?php echo PRLI_URL; ?>/prli-clicks.php?action=csv<?php echo $page_params; ?>">Download CSV (<?php echo stripslashes($link_name); ?>)</a>
 
 <?php
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');

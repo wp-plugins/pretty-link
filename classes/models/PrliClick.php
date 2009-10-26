@@ -77,13 +77,16 @@ class PrliClick
     }
 
     // SELECT cl.*,li.name as link_name FROM wp_prli_clicks cl, wp_prli_links li WHERE li.id = cl.link_id ORDER BY created_at DESC
-    function getAll($where = '', $order = '')
+    function getAll($where = '', $order = '', $include_stats = false)
     {
         global $wpdb, $prli_link, $prli_utils;
         $click_table = $wpdb->prefix . "prli_clicks";
         $where .= $this->get_exclude_where_clause( $where );
         $where = $prli_utils->prepend_and_or_where(' AND', $where);
-        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order;
+        if($include_stats)
+          $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order;
+        else
+          $query = 'SELECT cl.*, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order;
         return $wpdb->get_results($query);
     }
 
@@ -110,7 +113,7 @@ class PrliClick
         return ceil((int)$this->getRecordCount($where) / (int)$p_size);
     }
 
-    function getPage($current_p,$p_size, $where = '', $order = '')
+    function getPage($current_p,$p_size, $where = '', $order = '',$include_stats=false)
     {
         global $wpdb, $prli_link, $prli_utils;
         $click_table = $wpdb->prefix . "prli_clicks";
@@ -118,7 +121,10 @@ class PrliClick
         $start_index = $end_index - $p_size;
         $where .= $this->get_exclude_where_clause( $where );
         $where = $prli_utils->prepend_and_or_where(' AND', $where);
-        $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order . ' LIMIT ' . $start_index . ',' . $p_size . ';';
+        if($include_stats)
+          $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order . ' LIMIT ' . $start_index . ',' . $p_size . ';';
+        else
+          $query = 'SELECT cl.*, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order . ' LIMIT ' . $start_index . ',' . $p_size . ';';
         $results = $wpdb->get_results($query);
         return $results;
     }

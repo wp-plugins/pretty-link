@@ -33,8 +33,7 @@
     <thead>
     <tr>
       <th class="manage-column" width="50%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&sort=name<?php echo (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="10%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&sort=click_count<?php echo (($sort_str == 'click_count' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Hits<?php echo (($sort_str == 'click_count')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="10%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&sort=link_count<?php echo (($sort_str == 'link_count' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'link_count')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="20%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&sort=link_count<?php echo (($sort_str == 'link_count' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Links<?php echo (($sort_str == 'link_count')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <th class="manage-column" width="30%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Created<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
     </tr>
     </thead>
@@ -64,7 +63,6 @@
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Hits</a>
           </div>
         </td>
-        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo $group->click_count; ?></a></td>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $group->id; ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo $group->link_count; ?></a></td>
         <td><?php echo $group->created_at; ?></td>
       </tr>
@@ -75,7 +73,6 @@
     <tfoot>
     <tr>
       <th class="manage-column">Name</th>
-      <th class="manage-column">Hits</th>
       <th class="manage-column">Links</th>
       <th class="manage-column">Created</th>
     </tr>

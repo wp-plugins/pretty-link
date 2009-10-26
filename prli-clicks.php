@@ -98,7 +98,7 @@ if($_GET['action'] == null and $_POST['action'] == null)
 
   $record_count = $prli_click->getRecordCount($count_where_clause);
   $page_count = $prli_click->getPageCount($page_size,$count_where_clause);
-  $clicks = $prli_click->getPage($current_page,$page_size,$where_clause,$order_by);
+  $clicks = $prli_click->getPage($current_page,$page_size,$where_clause,$order_by,true);
   $page_last_record = $prli_utils->getLastRecordNum($record_count,$current_page,$page_size);
   $page_first_record = $prli_utils->getFirstRecordNum($record_count,$current_page,$page_size);
 
