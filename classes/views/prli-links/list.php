@@ -37,6 +37,7 @@
   <div id="button_bar">
     <p><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-add-link.php"><img src="<?php echo PRLI_URL.'/images/pretty-link-add.png'; ?>"/> Add a Pretty Link</a>
     &nbsp;|&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-options.php">Options</a>
+    &nbsp;|&nbsp;<a href="http://blairwilliams.com/plintro">Watch Pretty Link Intro Video</a>
     <?php do_action('prli-link-nav'); ?>
     </p>
   </div>
@@ -71,7 +72,7 @@
   {
       ?>
     <tr>
-      <td colspan="5">No Pretty Links were found</td>
+      <td colspan="5">No Pretty Links have been created. Watch this video to see how to get started!<br/><object width="640" height="385"><param name="movie" value="http://www.youtube.com/v/i6C2Bljby3k&hl=en&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/i6C2Bljby3k&hl=en&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object></td>
     </tr>
     <?php
   }
