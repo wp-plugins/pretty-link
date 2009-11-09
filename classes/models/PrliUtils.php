@@ -1022,40 +1022,20 @@ class PrliUtils
     }
     
     // Upgrade the twitter hide badges on pages / posts for pro users
-    if($db_version < 6)
+    if($db_version < 7)
     {
       if($this->pro_is_installed())
       {
-        $prlipro_options_str = get_option('prlipro_options');
-        $prlipro_options = unserialize($prlipro_options_str);
+        global $prlipro_options;
 
-        // If unserializing didn't work
-        if(!$prlipro_options)
-        {
-          $prlipro_options = new PrliProOptions();
-
-          $prlipro_options_str = serialize($prlipro_options);
-          delete_option('prlipro_options');
-          add_option('prlipro_options',$prlipro_options_str);
-        }
-        else
-          $prlipro_options->set_default_options(); // Sets defaults for unset options
-        
-        if(!trim($prlipro_options->twitter_badge_hidden) == '')
+        if(!empty(trim($prlipro_options->twitter_badge_hidden)))
         {
           $hidden_post_ids = explode(',',trim($prlipro_options->twitter_badge_hidden));
           foreach($hidden_post_ids as $post_id)
           {
-            $prlipro_post_options_str = get_post_meta($post_id,"prlipro-post-options",true);
-            $prlipro_post_options = unserialize($prlipro_post_options_str);
-            if(!$prlipro_post_options)
-              $prlipro_post_options = new PrliProPostOptions();
-              
-            $prlipro_post_option->hide_twitter_button = 1;
-            
-            $prlipro_post_options_str = serialize($prlipro_post_options);
-            delete_post_meta($post_id,'prlipro-post-options');
-            add_post_meta($post_id, 'prlipro-post-options', $prlipro_post_options_str);
+            $prlipro_post_options = PrliProPostOptions::get_stored_object($post_id);
+            $prlipro_post_options->hide_twitter_button = 1;
+            $prlipro_post_options->store();
           }
         }
       }
