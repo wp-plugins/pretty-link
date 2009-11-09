@@ -1028,14 +1028,14 @@ class PrliUtils
       {
         global $prlipro_options;
 
-        if(!empty(trim($prlipro_options->twitter_badge_hidden)))
+        if(trim($prlipro_options->twitter_badge_hidden) != '')
         {
           $hidden_post_ids = explode(',',trim($prlipro_options->twitter_badge_hidden));
           foreach($hidden_post_ids as $post_id)
           {
             $prlipro_post_options = PrliProPostOptions::get_stored_object($post_id);
             $prlipro_post_options->hide_twitter_button = 1;
-            $prlipro_post_options->store();
+            $prlipro_post_options->store($post_id);
           }
         }
       }

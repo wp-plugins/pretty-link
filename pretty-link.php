@@ -227,7 +227,7 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 function prli_install()
 {
   global $wpdb, $prli_utils;
-  $db_version = 6; // this is the version of the database we're moving to
+  $db_version = 7; // this is the version of the database we're moving to
   $old_db_version = get_option('prli_db_version');
 
   $groups_table       = $wpdb->prefix . "prli_groups";
