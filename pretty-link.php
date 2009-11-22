@@ -117,8 +117,8 @@ function prli_redirect()
 {
   // we're now catching the 404 error before the template_redirect
   // instead of checking for pretty link redirect on each page load
-  if(is_404())
-  {
+  //if(is_404())
+  //{
     global $prli_blogurl, $wpdb, $prli_link;
     
     // Resolve WP installs in sub-directories
@@ -140,7 +140,7 @@ function prli_redirect()
           prli_link_redirect_from_slug($possible_link,$match_val[2]);
       }
     }
-  }
+  //}
 }
 
 // For use with the prli_redirect function
@@ -162,8 +162,8 @@ function prli_link_redirect_from_slug($slug,$param_str)
   }
 }
 
-//add_action('init', 'prli_redirect'); //Redirect
-add_action('template_redirect', 'prli_redirect',0); //Redirect
+add_action('init', 'prli_redirect'); //Redirect
+//add_action('template_redirect', 'prli_redirect',0); //Redirect
 
 /********* DASHBOARD WIDGET ***********/
 function prli_dashboard_widget_function() {
