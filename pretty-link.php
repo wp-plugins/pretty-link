@@ -364,7 +364,7 @@ function prli_pro_action_needed( $plugin )
     $prli_update->queue_update(true);
     $inst_install_url = wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . $plugin, 'upgrade-plugin_' . $plugin);
 ?>
-  <td colspan="5" class="plugin-update">&nbsp;&nbsp;<?php printf(__('Sorry, your Pretty Link Pro installation isn\'t quite complete yet.<br/>%1$sAutomatically Upgrade and Enable Pretty Link Pro%2$s', 'pretty-link'), '<a href="'.$inst_install_url.'">', '</a>'); ?></td>
+  <td colspan="5" class="plugin-update">&nbsp;&nbsp;<?php printf(__('Sorry, your Pretty Link Pro installation isn\'t quite complete yet.<br/>%1$sAutomatically Upgrade to Enable Pretty Link Pro%2$s', 'pretty-link'), '<a href="'.$inst_install_url.'">', '</a>'); ?></td>
 <?php
   }
 }
@@ -373,13 +373,17 @@ function prli_pro_get_started_headline()
 {
   global $prli_update;
   
+  // Don't display this error as we're upgrading the thing... cmon
+  if(isset($_GET['action']) and $_GET['action'] == 'upgrade-plugin')
+    return;
+
   if( $prli_update->pro_is_authorized() and
-      !$prli_update->pro_is_installed() )
+      !$prli_update->pro_is_installed())
   {
     $prli_update->queue_update(true);
     $inst_install_url = wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . $prli_update->plugin_name, 'upgrade-plugin_' . $prli_update->plugin_name);
     ?>
-<div class="error" style="padding-top: 5px; padding-bottom: 5px;"><?php printf(__('Sorry, your Pretty Link Pro installation isn\'t quite complete yet.<br/>%1$sAutomatically Upgrade and Enable Pretty Link Pro%2$s', 'pretty-link'), '<a href="'.$inst_install_url.'">','</a>'); ?></div>  
+<div class="error" style="padding-top: 5px; padding-bottom: 5px;"><?php printf(__('Sorry, your Pretty Link Pro installation isn\'t quite complete yet.<br/>%1$sAutomatically Upgrade to Enable Pretty Link Pro%2$s', 'pretty-link'), '<a href="'.$inst_install_url.'">','</a>'); ?></div>  
     <?php 
   }
 }
