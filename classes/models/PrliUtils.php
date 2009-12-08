@@ -642,138 +642,6 @@ class PrliUtils
     return (( $where == '' )?'':$starts_with . $where);
   }
 
-  // Determines whether or not Pretty Link Pro is installed and activated
-  function pro_is_installed()
-  {
-    $activated = get_option('prlipro_activated');
-
-    if(!$activated)
-    {
-      $username = get_option( 'prlipro_username' );
-      $password = get_option( 'prlipro_password' );
-
-      if($username and $password)
-      {
-        $user_type = $this->get_pro_user_type($username, $password);
-
-        if(!empty($user_type))
-        {
-          // Tells us that Pro has been activated
-          delete_option('prlipro_activated');
-          add_option('prlipro_activated',1);
-
-          $activated = true;
-        }
-      }
-    }
-
-
-    return ( $activated and $this->pro_files_installed() );
-  }
-
-  function pro_files_installed()
-  {
-    return file_exists(PRLI_PATH . "/pro/pretty-link-pro.php");
-  }
-
-  function get_pro_version()
-  {
-    if($this->pro_is_installed())
-    {
-      require_once(PRLI_PATH . "/pro/prlipro-config.php");
-      global $prlipro_version;
-
-      return $prlipro_version;
-    }
-    else
-      return 0;
-  }
-
-  function get_pro_user_type($username, $password)
-  {
-    include_once(ABSPATH."wp-includes/class-IXR.php");
-
-    $client = new IXR_Client('http://prettylinkpro.com/xmlrpc.php');
-
-    if (!$client->query('prlipro.get_user_type',$username,$password))
-      return false;
-
-    $type = $client->getResponse();
-
-    return $type;
-  }
-
-  function download_and_install_pro($username, $password, $force = false)
-  {
-    global $prli_version, $wpdb;
-
-    include_once(ABSPATH."wp-includes/class-IXR.php");
-
-    $client = new IXR_Client('http://prettylinkpro.com/xmlrpc.php');
-    $user_type = $this->get_pro_user_type($username, $password);
-
-    if(!empty($user_type))
-    {
-      if($force or !$this->pro_files_installed())
-      {
-        // Test to make sure this sheesh is writeable
-        $handle = fopen(PRLI_PATH . '/098j1248iomv.txt', 'w');
-        if(!$handle)
-        {
-          return "Your account was validated but " . PRLI_PATH . " is not writeable<br/>Talk to your webhost about increasing your write permissions or install using the <a href=\"http://prettylinkpro.com/user-manual/pretty-link-pro-manual-installation/\">Manual Install</a> Process";
-        }
-        else
-        {
-          fclose($handle);
-          unlink(PRLI_PATH . '/098j1248iomv.txt');
-        }
-
-        // Get the file
-        if (!$client->query('prlipro.download_upgrade_file',$username,$password,$prli_version))
-          return $client->getErrorCode() . ": " . $client->getErrorMessage();
-
-        $zipfile_str = $client->getResponse();
-
-        $zipfilename = PRLI_PATH . "/pretty-link-pro-{$prli_version}.zip";
-
-        // Write the transferred string out as a file
-        $fh = fopen($zipfilename, 'w');
-        fwrite($fh, $zipfile_str);
-        fclose($fh);
-
-        // Unzip the file
-        include_once(ABSPATH.'wp-admin/includes/class-pclzip.php');
-        $prlipro_path = PRLI_PATH . '/pro';
-
-        // unlink pro directory if force is set to true
-        if($force)
-          $this->delete_dir($prlipro_path);
-
-        $archive = new PclZip($zipfilename);
-        if( !($archive_files = $archive->extract( PCLZIP_OPT_PATH, PRLI_PATH ) ) )
-          return("Unzip Error : ".$archive->errorInfo(true));
-
-        // Unlink the zip file
-        unlink($zipfilename);
-      }
-      
-      $this->install_pro_db();
-
-      // Delete all Pro Keyword Caches if they exist
-      $postmeta_table = "{$wpdb->prefix}postmeta";
-      $query = $wpdb->prepare("DELETE FROM {$postmeta_table} WHERE meta_key=%s", 'prli-keyword-cached-content');
-      $wpdb->query($query);
-
-      // Tells us that Pro has been activated
-      delete_option('prlipro_activated');
-      add_option('prlipro_activated',1);
-    }
-    else
-      return("Your Username and/or Password are not valid");
-
-    return 'SUCCESS';
-  }
-
   function uninstall_pro()
   {
     $prlipro_path = PRLI_PATH . '/pro';
@@ -784,6 +652,7 @@ class PrliUtils
     delete_option( 'prlipro_activated' );
     delete_option( 'prlipro_username' );
     delete_option( 'prlipro_password' );
+    delete_option( 'prlipro_credentials' );
     
     // Yah- I just leave the pro database tables & data hanging
     // around in case you want to re-install it at some point

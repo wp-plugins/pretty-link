@@ -15,11 +15,10 @@ $prlipro_password_val = get_option( $prlipro_password );
 
 if($_GET['action'] == 'force-pro-reinstall')
 {
-  $prli_utils->download_and_install_pro($prlipro_username_val, $prlipro_password_val, true);
-  ?>
-  
-  <div class="updated"><p><strong><?php _e('Pretty Link Pro Successfully Reinstalled.' ); ?></strong></p></div>
-  <?php
+  // Queue the update and auto upgrade
+  $prli_update->queue_update($true);
+  wp_redirect( wp_nonce_url('update.php?action=upgrade-plugin&plugin=pretty-link/pretty-link.php', 'upgrade-plugin_pretty-link/pretty-link.php') );
+  exit;
 }
 if($_GET['action'] == 'pro-uninstall')
 {

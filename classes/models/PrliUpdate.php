@@ -247,6 +247,7 @@ class PrliUpdate
 
           if( $force or ( $curr_version != $installed_version ) )
           {
+            echo "{$curr_version} / {$installed_version}<br/>";
             if(!isset($plugin_updates->response[$this->plugin_name]))
             {
               if(isset($plugin_updates->response[$this->plugin_name]))
@@ -262,7 +263,7 @@ class PrliUpdate
           }
         }
         else if($this->pro_plugin_type == 'partial')
-        {  
+        {
           if(isset($plugin_updates->response[$this->plugin_name]))
             $plugin_updates->response[$this->plugin_name]->package = $download_url;
         }

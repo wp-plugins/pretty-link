@@ -1,7 +1,7 @@
 <?php
-  global $prli_utils;
+  global $prli_update;
   
-  if($prli_utils->pro_is_installed())
+  if($prli_update->pro_is_installed_and_authorized())
   {
     $support_link =<<<SUPPORT_LINK
 &nbsp;|&nbsp;<a href="http://prettylinkpro.com/user-manual">Pro Manual</a>&nbsp;|&nbsp;<a href="http://prettylinkpro.com/forum">Pro Forums</a>

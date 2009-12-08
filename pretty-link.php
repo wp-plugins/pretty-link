@@ -226,7 +226,7 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 /********* INSTALL PLUGIN ***********/
 function prli_install()
 {
-  global $wpdb, $prli_utils;
+  global $wpdb, $prli_utils, $prli_update;
   $db_version = 8; // this is the version of the database we're moving to
   $old_db_version = get_option('prli_db_version');
 
@@ -323,16 +323,10 @@ function prli_install()
 
     $prli_utils->migrate_after_db_upgrade();
   }
-
-  // Install / Upgrade Pretty Link Pro
-  $creds = get_option( 'prlipro_credentials' );
-
-  if( $creds and is_array($creds) and count($creds) > 0 )
-  {
-    extract($creds);
-    if($prli_utils->authorize_user($username, $password))
-      $prlipro_response = $prli_utils->download_and_install_pro( $username, $password );
-  }
+  
+  // Install Pro DB if this user is authorized
+  if( $prli_update->pro_is_authorized() )
+    $prli_utils->install_pro_db();
 
   /***** SAVE OPTIONS *****/
   $prli_options_str = get_option('prli_options');
