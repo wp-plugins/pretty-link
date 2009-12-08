@@ -325,12 +325,14 @@ function prli_install()
   }
 
   // Install / Upgrade Pretty Link Pro
-  $prlipro_username = get_option( 'prlipro_username' );
-  $prlipro_password = get_option( 'prlipro_password' );
+  $creds = get_option( 'prlipro_credentials' );
 
-  if( !empty($prlipro_username) and !empty($prlipro_password) and
-      $prli_utils->get_pro_user_type($prlipro_username,$prlipro_password) != false )
-    $prlipro_response = $prli_utils->download_and_install_pro( $prlipro_username, $prlipro_password );
+  if( $creds and is_array($creds) and count($creds) > 0 )
+  {
+    extract($creds);
+    if($prli_utils->authorize_user($username, $password))
+      $prlipro_response = $prli_utils->download_and_install_pro( $username, $password );
+  }
 
   /***** SAVE OPTIONS *****/
   $prli_options_str = get_option('prli_options');
