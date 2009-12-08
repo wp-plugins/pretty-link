@@ -1,7 +1,7 @@
 <?php
 
 /** Okay, this class is not a pure model -- it contains all the functions
-  * necessary to successfully provide an update mechanism for MinglePlus!
+  * necessary to successfully provide an update mechanism for PrettyLinkPro!
   */
 class PrliUpdate
 {
@@ -139,7 +139,7 @@ class PrliUpdate
         ?>
 <div class="error">
   <ul>
-    <li><strong><?php _e('ERROR', 'mingle'); ?></strong>: <?php echo $this->pro_error_message_str; ?></li>
+    <li><strong><?php _e('ERROR', 'pretty-link'); ?></strong>: <?php echo $this->pro_error_message_str; ?></li>
   </ul>
 </div>
         <?php
@@ -247,7 +247,6 @@ class PrliUpdate
 
           if( $force or ( $curr_version != $installed_version ) )
           {
-            echo "{$curr_version} / {$installed_version}<br/>";
             if(!isset($plugin_updates->response[$this->plugin_name]))
             {
               if(isset($plugin_updates->response[$this->plugin_name]))

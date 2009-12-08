@@ -350,4 +350,37 @@ function prli_install()
 // Ensure this gets called on first install
 register_activation_hook(__FILE__,'prli_install');
 
+add_action('after_plugin_row', 'prli_pro_action_needed');
+add_action('admin_notices', 'prli_pro_get_started_headline');
+
+function prli_pro_action_needed( $plugin )
+{
+  global $prli_update;
+  
+  if( $plugin == 'pretty-link/pretty-link.php' and
+      $prli_update->pro_is_authorized() and
+      !$prli_update->pro_is_installed() )
+  {
+    $prli_update->queue_update(true);
+    $inst_install_url = wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . $plugin, 'upgrade-plugin_' . $plugin);
+?>
+  <td colspan="5" class="plugin-update">&nbsp;&nbsp;<?php printf(__('Sorry, your Pretty Link Pro installation isn\'t quite complete yet.<br/>%1$sAutomatically Upgrade and Enable Pretty Link Pro%2$s', 'pretty-link'), '<a href="'.$inst_install_url.'">', '</a>'); ?></td>
+<?php
+  }
+}
+
+function prli_pro_get_started_headline()
+{
+  global $prli_update;
+  
+  if( $prli_update->pro_is_authorized() and
+      !$prli_update->pro_is_installed() )
+  {
+    $prli_update->queue_update(true);
+    $inst_install_url = wp_nonce_url('update.php?action=upgrade-plugin&plugin=' . $prli_update->plugin_name, 'upgrade-plugin_' . $prli_update->plugin_name);
+    ?>
+<div class="error" style="padding-top: 5px; padding-bottom: 5px;"><?php printf(__('Sorry, your Pretty Link Pro installation isn\'t quite complete yet.<br/>%1$sAutomatically Upgrade and Enable Pretty Link Pro%2$s', 'pretty-link'), '<a href="'.$inst_install_url.'">','</a>'); ?></div>  
+    <?php 
+  }
+}
 ?>
