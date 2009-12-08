@@ -652,7 +652,7 @@ class PrliUtils
     delete_option( 'prlipro_activated' );
     delete_option( 'prlipro_username' );
     delete_option( 'prlipro_password' );
-    delete_option( 'prlipro_credentials' );
+    delete_option( 'prlipro-credentials' );
     
     // Yah- I just leave the pro database tables & data hanging
     // around in case you want to re-install it at some point
