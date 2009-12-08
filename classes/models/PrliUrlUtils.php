@@ -4,7 +4,7 @@ class PrliUrlUtils {
   function get_title($url, $slug='')
   {
     // Grab the title tag
-    $title = $this->url_grab_title($url);
+    $title = PrliUrlUtils::url_grab_title($url);
     
     if(!$title)
       return $slug;
@@ -19,9 +19,12 @@ class PrliUrlUtils {
   {
     $valid = false;
 
-    $remote_page = $this->read_remote_file($url,1);
+    $remote_page = PrliUrlUtils::read_remote_file($url,1);
     if($remote_page and !empty($remote_page))
-      $valid = true;
+    {
+      
+      $valid = !preg_match('#(400|401|402|403|404|405|406|407|408|409|410|411|412|413|414|415|416|417|500|501|502|503|504|505)#', $remote_page);
+    }
 
     return $valid;
   }
@@ -30,7 +33,7 @@ class PrliUrlUtils {
   {
     $title = false;
 
-    $remote_page = $this->read_remote_file($url,10);
+    $remote_page = PrliUrlUtils::read_remote_file($url,10);
 
     // Look for <title>(.*?)</title> in the text
     if($remote_page and preg_match('#<title>[\s\n\r]*?(.*?)[\s\n\r]*?</title>#im', $remote_page, $matches))
@@ -111,7 +114,7 @@ class PrliUrlUtils {
                preg_match("#http/1\.1 307#i",$header))
             {
               preg_match("#^Location:(.*?)$#im",$header,$matches);
-              return $this->read_remote_file(trim($matches[1]));
+              return PrliUrlUtils::read_remote_file(trim($matches[1]));
             }
           }
         }

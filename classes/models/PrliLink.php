@@ -319,6 +319,9 @@ class PrliLink
       if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and !preg_match('#%.*?%#', $values['param_struct']) )
         $errors[] = "Your parameter forwarding must have at least one parameter specified in the format ex: <code>/%var1%/%var_two%/%varname3% ...</code>";
 
+      if( !empty($values['url']) and !PrliUrlUtils::valid_url($values['url']) )
+        $errors[] = __("Your Target URL doesn't work -- check the spelling and try it again");
+
       return $errors;
     }
 }

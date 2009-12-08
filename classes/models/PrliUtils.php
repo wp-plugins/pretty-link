@@ -937,7 +937,7 @@ class PrliUtils
     $db_version = (int)get_option('prli_db_version');
 
     // Migration for version 1 of the database
-    if(!$db_version or $db_version < 1)
+    if($db_version and $db_version < 1)
     {
       $query = "SELECT * from {$prli_link->table_name}";
       $links = $wpdb->get_results($query);
@@ -966,7 +966,7 @@ class PrliUtils
       $wpdb->query($query);
     }
 
-    if($db_version < 2)
+    if($db_version and $db_version < 2)
     {
       unset($prli_options->prli_exclude_ips);
       unset($prli_options->prettybar_image_url);
@@ -989,7 +989,7 @@ class PrliUtils
     }
 
     // Modify the tables so they're UTF-8
-    if($db_version < 3)
+    if($db_version and $db_version < 3)
     { 
       $charset_collate = '';
       if( $wpdb->has_cap( 'collation' ) )
@@ -1022,7 +1022,7 @@ class PrliUtils
     }
     
     // Upgrade the twitter hide badges on pages / posts for pro users
-    if($db_version < 7)
+    if($db_version and $db_version < 7)
     {
       if($this->pro_is_installed())
       {
@@ -1039,6 +1039,20 @@ class PrliUtils
           }
         }
       }
+    }
+    
+    if($db_version and $db_version < 8)
+    {
+      // Install / Upgrade Pretty Link Pro
+      $prlipro_username = get_option( 'prlipro_username' );
+      $prlipro_password = get_option( 'prlipro_password' );
+
+      if( !empty($prlipro_username) and !empty($prlipro_password) )
+      {
+        $creds = array('username' => $prlipro_username,
+                       'password' => $prlipro_password);
+        update_option('prlipro-credentials', $creds);
+      }
     } 
   }   
 
@@ -1047,7 +1061,7 @@ class PrliUtils
     global $prli_options, $prli_link, $prli_link_meta, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
 
-    if($db_version < 5)
+    if($db_version and $db_version < 5)
     {
       // Migrate pretty-link-posted-to-twitter
       $query = "SELECT * FROM {$wpdb->prefix}postmeta WHERE meta_key=%s";

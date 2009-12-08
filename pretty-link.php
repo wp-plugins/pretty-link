@@ -29,12 +29,12 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 require_once('prli-api.php'); // load api methods
 require_once('prli-xmlrpc.php'); // load xml-rpc api methods
 
-$prli_inc_utils = new PrliUtils();
+$prli_update = new PrliUpdate();
 
 add_action('admin_menu', 'prli_menu');
 
 // Provide Back End Hooks to the Pro version of Pretty Link
-if($prli_inc_utils->pro_is_installed())
+if($prli_update->pro_is_installed_and_authorized())
   require_once(PRLI_PATH.'/pro/pretty-link-pro.php');
 
 function prli_menu()
@@ -227,7 +227,7 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 function prli_install()
 {
   global $wpdb, $prli_utils;
-  $db_version = 7; // this is the version of the database we're moving to
+  $db_version = 8; // this is the version of the database we're moving to
   $old_db_version = get_option('prli_db_version');
 
   $groups_table       = $wpdb->prefix . "prli_groups";

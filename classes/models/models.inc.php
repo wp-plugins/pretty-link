@@ -5,6 +5,7 @@ require_once(PRLI_MODELS_PATH.'/PrliGroup.php');
 require_once(PRLI_MODELS_PATH.'/PrliUtils.php');
 require_once(PRLI_MODELS_PATH.'/PrliUrlUtils.php');
 require_once(PRLI_MODELS_PATH.'/PrliLinkMeta.php');
+require_once(PRLI_MODELS_PATH.'/PrliUpdate.php');
 
 global $prli_link;
 global $prli_link_meta;
