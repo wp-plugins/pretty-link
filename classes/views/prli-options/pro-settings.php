@@ -1,7 +1,7 @@
 <div class="wrap">
 <div id="icon-options-general" class="icon32"><br /></div>
 <h2 id="prli_title">Pretty Link: Pro Account Information</h2>
-
+<?php $this_uri = preg_replace('#&.*?$#', '', str_replace( '%7E', '~', $_SERVER['REQUEST_URI'])); ?>
 <h3>Pretty Link Pro Account Information</h3>
 <?php if($prli_update->pro_is_installed_and_authorized()) { ?>
   <p><a href="http://prettylinkpro.com/user-manual">User Manual</a></p>
