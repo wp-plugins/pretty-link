@@ -60,7 +60,7 @@ class PrliUpdate
       // Plugin Update Actions -- gotta make sure the right url is used with pro ... don't want any downgrades of course
       add_action('update_option_update_plugins', array($this, 'queue_update')); // for WordPress 2.7
       add_action('update_option__transient_update_plugins', array($this, 'queue_update')); // for WordPress 2.8
-      add_action("admin_init", array($this, 'queue_update'));
+      //add_action("admin_init", array($this, 'queue_update'));
     }
   }
   
@@ -237,15 +237,15 @@ class PrliUpdate
       $plugin_updates = ((function_exists('get_transient'))?get_transient("update_plugins"):get_option("update_plugins")); 
 
       $curr_version = $this->get_current_version();
-      $download_url = $this->get_download_url($curr_version);
+      $installed_version = $plugin_updates->checked[$this->plugin_name];
 
-      if(!empty($download_url) and $download_url and $this->user_allowed_to_download())
-      {  
-        if( $force or $this->pro_plugin_type == 'full' )
-        {
-          $installed_version = $plugin_updates->checked[$this->plugin_name];
-
-          if( $force or ( $curr_version != $installed_version ) )
+      if( $force or ( $curr_version != $installed_version ) )
+      {
+        $download_url = $this->get_download_url($curr_version);
+        
+        if(!empty($download_url) and $download_url and $this->user_allowed_to_download())
+        {  
+          if( $force or $this->pro_plugin_type == 'full' )
           {
             if(!isset($plugin_updates->response[$this->plugin_name]))
             {
@@ -260,18 +260,18 @@ class PrliUpdate
               $plugin_updates->response[$this->plugin_name]->package     = $download_url;
             }
           }
-        }
-        else if($this->pro_plugin_type == 'partial')
-        {
-          if(isset($plugin_updates->response[$this->plugin_name]))
-            $plugin_updates->response[$this->plugin_name]->package = $download_url;
+          else if($this->pro_plugin_type == 'partial')
+          {
+            if(isset($plugin_updates->response[$this->plugin_name]))
+              $plugin_updates->response[$this->plugin_name]->package = $download_url;
+          }
+
+          if ( function_exists('set_transient') )
+            set_transient("update_plugins", $plugin_updates); // for WordPress 2.8+
+          else
+            update_option("update_plugins", $plugin_updates); // for WordPress 2.7
         }
       }
-      
-      if ( function_exists('set_transient') )
-        set_transient("update_plugins", $plugin_updates); // for WordPress 2.8+
-      else
-        update_option("update_plugins", $plugin_updates); // for WordPress 2.7
     }
   }
 }
