@@ -189,6 +189,9 @@ class PrliUpdate
     {
       update_option($this->pro_cred_store, $creds);
       update_option($this->pro_auth_store, $user_authorized);
+      
+      if(!$this->pro_is_installed())
+        $this->queue_update(true);
     }
     
     return $user_authorized;
