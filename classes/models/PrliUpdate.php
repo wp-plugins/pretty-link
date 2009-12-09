@@ -190,6 +190,10 @@ class PrliUpdate
       update_option($this->pro_cred_store, $creds);
       update_option($this->pro_auth_store, $user_authorized);
       
+      extract($creds);
+      $this->pro_username = ((isset($username) and !empty($username))?$username:'');
+      $this->pro_password = ((isset($password) and !empty($password))?$password:'');
+      
       if(!$this->pro_is_installed())
         $this->queue_update(true);
     }
