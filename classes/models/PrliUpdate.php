@@ -60,7 +60,7 @@ class PrliUpdate
       // Plugin Update Actions -- gotta make sure the right url is used with pro ... don't want any downgrades of course
       add_action('update_option_update_plugins', array($this, 'queue_update')); // for WordPress 2.7
       add_action('update_option__transient_update_plugins', array($this, 'queue_update')); // for WordPress 2.8
-      //add_action("admin_init", array($this, 'queue_update'));
+      add_action("admin_init", array($this, 'queue_update'));
     }
   }
   
@@ -84,6 +84,8 @@ class PrliUpdate
         return $new_auth;
       }
     }
+
+    return false;
   }
   
   function pro_is_installed_and_authorized()
@@ -129,7 +131,7 @@ class PrliUpdate
 
           ?>
 <div id="message" class="updated fade">
-<strong><?php printf(__('Your Username & Password was accepted<br/>Now you can %1$sUpgrade Automatically%2$s!'), "<a href=\"{$inst_install_url}\">","</a>"); ?></strong>
+<strong><?php printf(__('Your Username & Password was accepted<br/>Now you can %1$sUpgrade Automatically!%2$s'), "<a href=\"{$inst_install_url}\">","</a>"); ?></strong>
 </div>
           <?php
         }
