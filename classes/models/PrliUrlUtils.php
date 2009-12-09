@@ -17,16 +17,7 @@ class PrliUrlUtils {
   */
   function valid_url($url)
   {
-    $valid = false;
-
-    $remote_page = PrliUrlUtils::read_remote_file($url,1);
-    if($remote_page and !empty($remote_page))
-    {
-      
-      $valid = !preg_match('#(400|401|402|403|404|405|406|407|408|409|410|411|412|413|414|415|416|417|500|501|502|503|504|505)#', $remote_page);
-    }
-
-    return $valid;
+    return PrliUrlUtils::read_remote_file($url,5);
   }
   
   function url_grab_title($url)
@@ -109,13 +100,13 @@ class PrliUrlUtils {
             $contents .= substr($buffer, ($head_end + 4));
             $header .= substr($buffer, 0, $head_end);
             // Follow HTTP redirects
-            if(preg_match("#http/1\.1 301#i",$header) or
-               preg_match("#http/1\.1 302#i",$header) or
-               preg_match("#http/1\.1 307#i",$header))
+            if(preg_match("#http/1\.1 (301|302|307)#i",$header))
             {
               preg_match("#^Location:(.*?)$#im",$header,$matches);
               return PrliUrlUtils::read_remote_file(trim($matches[1]));
             }
+            else if(preg_match("#http/1\.1 (400|401|402|403|404|405|406|407|408|409|410|411|412|413|414|415|416|417|500|501|502|503|504|505)#i",$header))
+              return false; // The file wasn't found
           }
         }
       }
