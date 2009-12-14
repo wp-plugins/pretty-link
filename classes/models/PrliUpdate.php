@@ -22,29 +22,30 @@ class PrliUpdate
   
   var $pro_error_message_str;
   
+  var $pro_check_interval;
+  var $pro_last_checked_store;
+  
   var $pro_username;
   var $pro_password;
   var $pro_mothership_xmlrpc_url;
   
-  var $pro_plugin_type; // 'full' or 'partial' -- full means this thing isn't on the WordPress repo ... 
-                        // partial means the user is just paying for a premium upgrade
-  
   function PrliUpdate()
   {
     // Where all the vitals are defined for this plugin
-    $this->plugin_name    = 'pretty-link/pretty-link.php';
-    $this->plugin_slug    = 'pretty-link';
-    $this->plugin_url     = 'http://blairwilliams.com/pl';
-    $this->pro_script     = PRLI_PATH . '/pro/pretty-link-pro.php';
-    $this->pro_mothership = 'http://prettylinkpro.com';
-    $this->pro_cred_store = 'prlipro-credentials';
-    $this->pro_auth_store = 'prlipro_activated';
-    $this->pro_username_label    = __('Pretty Link Pro Username');
-    $this->pro_password_label    = __('Pretty Link Pro Password');
-    $this->pro_error_message_str = __('Your Pretty Link Pro Username or Password was Invalid');
-    $this->pro_plugin_type       = 'partial';
+    $this->plugin_name            = 'pretty-link/pretty-link.php';
+    $this->plugin_slug            = 'pretty-link';
+    $this->plugin_url             = 'http://blairwilliams.com/pl';
+    $this->pro_script             = PRLI_PATH . '/pro/pretty-link-pro.php';
+    $this->pro_mothership         = 'http://prettylinkpro.com';
+    $this->pro_cred_store         = 'prlipro-credentials';
+    $this->pro_auth_store         = 'prlipro_activated';
+    $this->pro_last_checked_store = 'prlipro_last_checked_update';
+    $this->pro_username_label     = __('Pretty Link Pro Username');
+    $this->pro_password_label     = __('Pretty Link Pro Password');
+    $this->pro_error_message_str  = __('Your Pretty Link Pro Username or Password was Invalid');
     
     // Don't modify these variables
+    $this->pro_check_interval = 60*60; // Checking every hour
     $this->pro_username_str = 'proplug-username';
     $this->pro_password_str = 'proplug-password';
     $this->pro_mothership_xmlrpc_url = $this->pro_mothership . '/xmlrpc.php';
@@ -60,7 +61,7 @@ class PrliUpdate
       // Plugin Update Actions -- gotta make sure the right url is used with pro ... don't want any downgrades of course
       add_action('update_option_update_plugins', array($this, 'queue_update')); // for WordPress 2.7
       add_action('update_option__transient_update_plugins', array($this, 'queue_update')); // for WordPress 2.8
-      add_action("admin_init", array($this, 'queue_update'));
+      add_action("admin_init", array($this, 'periodically_check_for_update'));
     }
   }
   
@@ -235,8 +236,13 @@ class PrliUpdate
     return $client->getResponse();
   }
   
+  public static $already_set_option;
+  public static $already_set_transient;
   function queue_update($force=false)
   {
+    if(!is_admin())
+      return;
+
     if($this->pro_is_authorized())
     {
       // If pro is authorized but not installed then we need to force an upgrade
@@ -254,33 +260,45 @@ class PrliUpdate
         
         if(!empty($download_url) and $download_url and $this->user_allowed_to_download())
         {  
-          if( $force or $this->pro_plugin_type == 'full' )
-          {
-            if(!isset($plugin_updates->response[$this->plugin_name]))
-            {
-              if(isset($plugin_updates->response[$this->plugin_name]))
-                unset($plugin_updates->response[$this->plugin_name]);
-              
-              $plugin_updates->response[$this->plugin_name]              = new stdClass();
-              $plugin_updates->response[$this->plugin_name]->id          = '0';
-              $plugin_updates->response[$this->plugin_name]->slug        = $this->plugin_slug;
-              $plugin_updates->response[$this->plugin_name]->new_version = $curr_version;
-              $plugin_updates->response[$this->plugin_name]->url         = $this->plugin_url;
-              $plugin_updates->response[$this->plugin_name]->package     = $download_url;
-            }
-          }
-          else if($this->pro_plugin_type == 'partial')
-          {
-            if(isset($plugin_updates->response[$this->plugin_name]))
-              $plugin_updates->response[$this->plugin_name]->package = $download_url;
-          }
-
-          if ( function_exists('set_transient') )
-            set_transient("update_plugins", $plugin_updates); // for WordPress 2.8+
-          else
-            update_option("update_plugins", $plugin_updates); // for WordPress 2.7
+          if(isset($plugin_updates->response[$this->plugin_name]))
+            unset($plugin_updates->response[$this->plugin_name]);
+          
+          $plugin_updates->response[$this->plugin_name]              = new stdClass();
+          $plugin_updates->response[$this->plugin_name]->id          = '0';
+          $plugin_updates->response[$this->plugin_name]->slug        = $this->plugin_slug;
+          $plugin_updates->response[$this->plugin_name]->new_version = $curr_version;
+          $plugin_updates->response[$this->plugin_name]->url         = $this->plugin_url;
+          $plugin_updates->response[$this->plugin_name]->package     = $download_url;
         }
       }
+      else
+      {
+        if(isset($plugin_updates->response[$this->plugin_name]))
+          unset($plugin_updates->response[$this->plugin_name]);
+      }
+
+      if ( function_exists('set_transient') and !self::$already_set_transient )
+      {
+        self::$already_set_transient = true;
+        set_transient("update_plugins", $plugin_updates); // for WordPress 2.8+
+      }
+
+      if( !self::$already_set_option )
+      {
+        self::$already_set_option = true;
+        update_option("update_plugins", $plugin_updates); // for WordPress 2.7
+      }
+    }
+  }
+
+  function periodically_check_for_update()
+  {
+    $last_checked = get_option($this->pro_last_checked_store);
+    
+    if(!$last_checked or ((time() - $last_checked) >= $this->pro_check_interval))
+    {
+      $this->queue_update();
+      update_option($this->pro_last_checked_store, time());
     }
   }
 }
