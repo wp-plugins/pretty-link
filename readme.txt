@@ -1,10 +1,10 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, stats, statistics, stat, statistic, cloaking, cloak, twitter, email, ajax, javascript, ui, csv, download
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
-Tested up to: 2.8
-Stable tag: 1.3.37
+Tested up to: 2.9
+Stable tag: 1.4.37
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -12,15 +12,21 @@ Shrink, track and share any URL on the Internet from your WordPress website. Cre
 
 Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
 
+= Upgrade to Pretty Link Pro =
+
+Pretty Link Pro is an upgrade to Pretty Link that re-sets the bar for Link Management, Automation, Sharing and Tracking! You can learn more about it here:
+
+http://prettylinkpro.com
+
 = Examples =
 
 This is a link setup using Pretty Link that redirects to the Pretty Link Homepage where you can find more info about this Plugin:
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com:
+Here's a named Pretty Link (I used the slug 'thesis') that redirects to my affiliate link for diythemes.com -- only the best theme you can get for WordPress -- in my humble opinion :) :
 
-http://blairwilliams.com/aweber
+http://blairwilliams.com/thesis
 
 Here's a link that Pretty Link generated a random slug for (similar to how bit.ly or tinyurl would do):
 
@@ -54,6 +60,25 @@ http://blairwilliams.com/x0z
 * Keep users on your site even when being redirected by using the PrettyBar which stays at the top of the page
 * Ability to configure and skin the PrettyBar to mirror the look and feel of your site
 * Hide the Target URL by loading it in a full-screen frame
+* Pretty Link Bookmarklet
+
+= Pro Features =
+You'll get the following additional features when you purchase Pretty Link Pro:
+
+* Replace keywords throughout your blog with Pretty Links
+* Replace URLs throughout your blog with Pretty Links
+* Rotate up to 5 URLs from one Pretty Link
+* Split Test these URL rotations for a Pretty Link
+* Setup Conversion Reports
+* Setup your own link shortening service
+* Create an alternate URL for your pretty links to be created on
+* Import / Export Pretty Links
+* Automatically create Pretty Links for each Post / Page
+* Automatically Tweet each Post / Page when it is Published
+* Display a Tweet Badge on Pages and / or Posts that contains the number of tweets that this page has received
+* Display a Re-Tweet button on every Page and / or Post that incorporates your twitter handle & Pretty Link into the ReTweet
+* Display a row of social networking buttons on each Page and / or Post
+* Lifetime Updates
 
 == Installation ==
 
@@ -70,16 +95,141 @@ http://blairwilliams.com/x0z
 [Pretty Link FAQ](http://blairwilliams.com/pretty-link/pretty-link-faq "Pretty link FAQ")
 
 = Developers =
-Pretty Link has an API with 2 different access methods:
-
-1. A Local WordPress API (usable by other plugins)
-
-2. A Remote XML-RPC API (usable by any Internet enabled application)
-
-If you're interested in offering your users the possibility of creating shortlinks on their own domain name from within your WordPress plugin or Internet enabled application check this out:
-
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
+== Changelog ==
+
+= 1.4.37 =
+* Fixed some update and validation bugs affecting a small number of users
+
+= 1.4.36 =
+* Fixed pro export issue
+* Fixed html within shortcodes in keyword replacement issues for pro users
+* Fixed XHTML validation for pro users using keyword replacement
+* Added an email button to the social bar for pro users
+* Fixed update code for pro users to not display false update message
+* Fixed url utilities port configuration for all users
+* Fixed url validation issue for all users
+
+= 1.4.35 =
+* Made significant changes to the Pretty Link Pro update routines
+* Fixed several bugs with remote url reading
+
+= 1.4.34 =
+* Fixed a redirection issue for all users
+
+= 1.4.33 =
+* Added more support options for all users
+* Updated install
+* Added exclude tweet badge/comments & social media buttons for specific pages & posts to the page/post edit screen for pro users
+
+= 1.4.32 =
+* Optimized CSV download of hits
+* Optimized more SQL calls
+* Fixed keyword replacement bug on password protected posts for Pro Users
+* Fixed group issue on options page for Pro Users
+
+= 1.4.31 =
+* Fixed a bug in pretty link, pixel & cloaking redirection.
+
+= 1.4.30 =
+* Altered the where Pretty Links are redirected to put less burden on normal page loads
+* Optimized Group & Report SQL calls to be significantly faster
+* Added a shortcode & template tag for pro users to display their pretty links on pages & posts (the shortcode is [post-pretty-link] and the template tag is the_prettylink())
+
+= 1.4.29 =
+* Added some more support options
+* fixed some minor bugs in keyword replacement and pro options.
+
+= 1.4.28 =
+* Fixed a bug with link creation from the bookmarklet, post publishing and public link creation that was introduced in the last release
+
+= 1.4.27 =
+* Simplified SQL Calls and reduced the number of them that it takes to load a page
+* Modified tweets to be counted for each link -- even ones not associated with a post -- got rid of the url_alias feature
+* Streamlined database calls & fixed a bug in the api
+* Added the ability to tweet to multiple accounts...
+* Added tweetmeme count checking and added additional twitter account validation
+
+= 1.4.26 =
+* Fixed the html entity display issue for target urls
+* Reduced package size of Pretty Link for more reliable installation
+* Added Customizable Bookmarklet for Pro Users
+
+= 1.4.25 =
+* Fixed some bugs in the install
+* Added nofollows to links in the social bar & re-tweet badge
+
+= 1.4.23/24 =
+* Fixed an installation issue for PHP4 users
+
+= 1.4.22 =
+* Added known robot and unidentified browser filtering to Pretty Link stats 
+* Added IP Address range definition to the Excluded IP address field 
+* Fixed html formatting issue on the bookmarklet success page 
+* Added the ability for Pro users to remove or alter the attribution link on the Pretty Bar 
+* Added new shortcodes for Pro users to display the title, target url and social networking buttons for a newly created public pretty link 
+* Enhanced the default success page for public link creation for pro users 
+* Fixed the redirect-type not being set bug for pro users allowing public link creation 
+* Fixed another php short-code bug affecting Pro users (thanks to Clay Loveless of KillerSoft for helping me with that one)
+
+= 1.4.21 =
+* Fixed UTF-8 issues
+* Enabled UTF-8 Pretty Link slugs
+* Enabled UTF-8 tweets for Pro users
+* Fixed several issues for users hosted on Windows
+* Added padding configuration to space the buttons on the social bar for Pro users
+* Fixed the html validation issues with the tweet badge and social buttons bar for Pro users
+
+= 1.4.20 =
+* Added IPv6 support for IP Address Exclusions
+* Added Twitter Comments post widget for Pro users
+* Added RSS feed support for the tweet badge for Pro users
+
+= 1.4.19 =
+* Fixed https image loading / path issue
+* Fixed bookmarklet javascript encoding issue
+* Fixed import / export issue for pro users
+* Added Hyves.nl and Sphinn to the social buttons bar
+* Added more placement options for the social buttons bar
+* Added a social buttons bar shortcode & template tag
+
+= 1.4.18 =
+* Added the Social Network Button Bar for Pro Users
+
+= 1.4.17 =
+* Fixed the php strict tags issue affecting some users
+* Fixed the click record issue affecting some IIS users
+* Added DOCTYPE line to Pretty Bar HTML
+* Elimitated Pro upgrade messages for Pro users
+
+= 1.4.16 =
+* Fixed PrliUrlUtils not found error affecting some users
+* Added instructions for installing the Pretty Link bookmarklet on the iPhone
+* Added a URL Alias feature to Pro to allow tweet counts to be aggregated and hence, more accurate
+
+= 1.4.15 =
+* Fixed the nested slug cookie issue.
+
+= 1.4.14 =
+* Fixed bookmarklet/fopen issue affecting some users
+* Fixed XML-RPC auto-tweeting of Posts
+* Fixed Scheduled auto-tweeting & link creation of Posts issue
+* Fixed bulk auto link creation issue
+* Added slug choice for your post
+* Added a twitter message formatting textarea on the post edit screen
+
+= 1.4.13 =
+* Fixed the option reset issue
+
+= 1.4.12 =
+* Added title detection
+* Added enhancements to the Pretty Link Bookmarklet
+* Added better support for IIS by redefining the fnmatch function if it isn't present
+* Changed the keyword replacement algorithm in Pro to replace links throughout the post when thresholds are set (instead of only linking to the top x keywords)
+* Fixed some issues surrounding keyword content caching in Pro
 
 == Screenshots ==
 [Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
+
+[Pretty Link Pro Screenshots](http://prettylinkpro.com "Pretty link Pro Screenshots")
