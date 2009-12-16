@@ -243,6 +243,10 @@ class PrliUpdate
     if(!is_admin())
       return;
 
+    // Make sure this method doesn't check back with the mothership too often
+    if(self::$already_set_option or self::$already_set_transient)
+      return;
+
     if($this->pro_is_authorized())
     {
       // If pro is authorized but not installed then we need to force an upgrade
