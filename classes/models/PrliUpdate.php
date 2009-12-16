@@ -236,15 +236,15 @@ class PrliUpdate
     return $client->getResponse();
   }
   
-  public static $already_set_option;
-  public static $already_set_transient;
   function queue_update($force=false)
   {
+    static $already_set_option, $already_set_transient;
+
     if(!is_admin())
       return;
 
     // Make sure this method doesn't check back with the mothership too often
-    if(self::$already_set_option or self::$already_set_transient)
+    if($already_set_option or $already_set_transient)
       return;
 
     if($this->pro_is_authorized())
@@ -281,15 +281,15 @@ class PrliUpdate
           unset($plugin_updates->response[$this->plugin_name]);
       }
 
-      if ( function_exists('set_transient') and !self::$already_set_transient )
+      if ( function_exists('set_transient') and !$already_set_transient )
       {
-        self::$already_set_transient = true;
+        $already_set_transient = true;
         set_transient("update_plugins", $plugin_updates); // for WordPress 2.8+
       }
 
-      if( !self::$already_set_option )
+      if( !$already_set_option )
       {
-        self::$already_set_option = true;
+        $already_set_option = true;
         update_option("update_plugins", $plugin_updates); // for WordPress 2.7
       }
     }

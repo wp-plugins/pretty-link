@@ -802,8 +802,11 @@ class PrliUtils
   // Used in the install procedure to migrate database columns
   function migrate_before_db_upgrade()
   {
-    global $prli_options, $prli_link, $prli_click, $wpdb;
+    global $prli_options, $prli_update, $prli_link, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
+
+    if(!$db_version)
+      return;
 
     // Migration for version 1 of the database
     if($db_version and $db_version < 1)
@@ -893,7 +896,7 @@ class PrliUtils
     // Upgrade the twitter hide badges on pages / posts for pro users
     if($db_version and $db_version < 7)
     {
-      if($this->pro_is_installed())
+      if($prli_update->pro_is_installed())
       {
         global $prlipro_options;
 
@@ -929,6 +932,9 @@ class PrliUtils
   {
     global $prli_options, $prli_link, $prli_link_meta, $prli_click, $wpdb;
     $db_version = (int)get_option('prli_db_version');
+
+    if(!$db_version)
+      return;
 
     if($db_version and $db_version < 5)
     {

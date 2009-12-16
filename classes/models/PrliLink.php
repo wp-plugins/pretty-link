@@ -305,7 +305,7 @@ class PrliLink
         $errors[] = "Target URL must be different than the Pretty Link";
 
       if( !empty($values['url']) and
-          !preg_match('!^(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?$!', $values['url'] ) and
+          !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) and
           !preg_match('!^(http|https)://(localhost|127\.0\.0\.1)(:\d+)?(/[\w- ./?%&=]*)?!', $values['url'] ) )
         $errors[] = "Link URL must be a correctly formatted url";
 
