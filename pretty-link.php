@@ -29,8 +29,6 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 require_once('prli-api.php'); // load api methods
 require_once('prli-xmlrpc.php'); // load xml-rpc api methods
 
-$prli_update = new PrliUpdate();
-
 add_action('admin_menu', 'prli_menu');
 
 // Provide Back End Hooks to the Pro version of Pretty Link

@@ -59,8 +59,8 @@ class PrliUpdate
       $this->pro_password = ((isset($password) and !empty($password))?$password:'');
 
       // Plugin Update Actions -- gotta make sure the right url is used with pro ... don't want any downgrades of course
-      add_action('update_option_update_plugins', array($this, 'queue_update')); // for WordPress 2.7
-      add_action('update_option__transient_update_plugins', array($this, 'queue_update')); // for WordPress 2.8
+      add_action('update_option_update_plugins', array($this, 'check_for_update_now')); // for WordPress 2.7
+      add_action('update_option__transient_update_plugins', array($this, 'check_for_update_now')); // for WordPress 2.8
       add_action("admin_init", array($this, 'periodically_check_for_update'));
     }
   }
@@ -289,6 +289,11 @@ class PrliUpdate
         update_option("update_plugins", $plugin_updates); // for WordPress 2.7
       }
     }
+  }
+  
+  function check_for_update_now()
+  {
+    $this->queue_update();
   }
 
   function periodically_check_for_update()
