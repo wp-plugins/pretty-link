@@ -49,7 +49,7 @@ class PrliUrlUtils {
     $purl = @parse_url($url);
 
     $sock_host   = $purl['host'];
-    $sock_port   = 80;
+    $sock_port   = ($purl['port']?(int)$purl['port']:80);
     $sock_scheme = $purl['scheme'];
 
     $req_host    = $purl['host'];
