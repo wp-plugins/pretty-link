@@ -79,10 +79,6 @@ function prli_groups_admin_header()
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/
 function prli_redirect()
 {
-  // we're now catching the 404 error before the template_redirect
-  // instead of checking for pretty link redirect on each page load
-  //if(is_404())
-  //{
     global $prli_blogurl, $wpdb, $prli_link;
     
     // Resolve WP installs in sub-directories
@@ -90,7 +86,7 @@ function prli_redirect()
 
     $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
     
-    if(preg_match($match_str, $_SERVER['REQUEST_URI'], $match_val))
+    if(preg_match($match_str, urldecode($_SERVER['REQUEST_URI']), $match_val))
     {
       // match short slugs (most common)
       prli_link_redirect_from_slug($match_val[1],$match_val[2]);
@@ -104,7 +100,6 @@ function prli_redirect()
           prli_link_redirect_from_slug($possible_link,$match_val[2]);
       }
     }
-  //}
 }
 
 // For use with the prli_redirect function

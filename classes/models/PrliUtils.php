@@ -150,33 +150,36 @@ class PrliUtils
     if($brows==NULL)
       $brows = $this->php_get_browsercap_ini();
 
-    foreach($brows as $k=>$t)
+    if(!empty($brows) and $brows and is_array($brows))
     {
-      if(fnmatch($k,$agent))
+      foreach($brows as $k=>$t)
       {
-        $yu['browser_name_pattern']=$k;
-        $pat=preg_replace($q_s,$q_r,$k);
-        $yu['browser_name_regex']=strtolower("^$pat$");
-        foreach($brows as $g=>$r)
+        if(fnmatch($k,$agent))
         {
-          if($t['Parent']==$g)
+          $yu['browser_name_pattern']=$k;
+          $pat=preg_replace($q_s,$q_r,$k);
+          $yu['browser_name_regex']=strtolower("^$pat$");
+          foreach($brows as $g=>$r)
           {
-            foreach($brows as $a=>$b)
+            if($t['Parent']==$g)
             {
-              if($r['Parent']==$a)
+              foreach($brows as $a=>$b)
               {
-                $yu=array_merge($yu,$b,$r,$t);
-                foreach($yu as $d=>$z)
+                if($r['Parent']==$a)
                 {
-                  $l=strtolower($d);
-                  $hu[$l]=$z;
+                  $yu=array_merge($yu,$b,$r,$t);
+                  foreach($yu as $d=>$z)
+                  {
+                    $l=strtolower($d);
+                    $hu[$l]=$z;
+                  }
                 }
               }
             }
           }
+      
+          break;
         }
-  
-        break;
       }
     }
   
