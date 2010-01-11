@@ -218,10 +218,10 @@ class PrliUpdate
 
     $client = new IXR_Client( $this->pro_mothership_xmlrpc_url );
 
-    if( !$client->query( 'proplug.get_download_url', $this->pro_username, $this->pro_password, $version ) )
+    if( !$client->query( 'proplug.get_encoded_download_url', $this->pro_username, $this->pro_password, $version ) )
       return false;
 
-    return $client->getResponse();
+    return base64_decode($client->getResponse());
   }
   
   function get_current_version()

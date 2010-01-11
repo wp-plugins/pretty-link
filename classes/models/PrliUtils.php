@@ -135,7 +135,10 @@ class PrliUtils
   
   function php_get_browsercap_ini()
   {
-    return parse_ini_file(PRLI_PATH."/includes/php/php_browsecap.ini",true);
+    if( version_compare(PHP_VERSION, '5.3.0') >= 0 )
+      return parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true, INI_SCANNER_RAW );
+    else
+      return parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true );
   }
   
   /* Needed because we don't know if the target uesr will have a browsercap file installed
