@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.9
-Stable tag: 1.4.38
+Stable tag: 1.4.39
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -98,6 +98,13 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.39 =
+* Fixed browsecap integration for users on PHP 5.3 or higher
+* Added new browsecap file to include android based phones in hit results
+* Fixed form submission issues affecting a small number of users
+* Fixed a pro update bug affecting some users
+* Fixed a bug affecting pro users more tag and keyword replacement
 
 = 1.4.38 =
 * Fixed some update and validation bugs affecting a small number of users
