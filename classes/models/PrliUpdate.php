@@ -155,10 +155,9 @@ class PrliUpdate
   function display_pro_cred_form()
   {
     // Yah, this is the view for the credentials form -- this class isn't a true model
-    $this_uri = preg_replace('#&.*?$#', '', str_replace( '%7E', '~', $_SERVER['REQUEST_URI']));
     extract($this->get_pro_cred_form_vals());
     ?>
-<form name="cred_form" method="post" action="<?php echo $this_uri; ?>">
+<form name="cred_form" method="post" action="">
   <input type="hidden" name="process_cred_form" value="Y">
   <?php wp_nonce_field('cred_form'); ?>
 

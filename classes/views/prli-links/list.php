@@ -17,7 +17,7 @@
   <div id="message" class="updated fade" style="padding:5px;"><?php echo $prli_message; ?></div> 
   <?php do_action('prli-link-message'); ?>
   <div id="search_pane" style="float: right;">
-    <form class="form-fields" name="link_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+    <form class="form-fields" name="link_form" method="post" action="">
       <?php wp_nonce_field('prli-links'); ?>
       <input type="hidden" name="sort" id="sort" value="<?php echo $sort_str; ?>" />
       <input type="hidden" name="sdir" id="sort" value="<?php echo $sdir_str; ?>" />
@@ -52,7 +52,7 @@
   <?php
   }
   ?>
-<form class="form-fields link-list-form" name="link_list_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+<form class="form-fields link-list-form" name="link_list_form" method="post" action="">
 <input type="hidden" name="action" value="list-form"/>
 <?php $footer = false; require(PRLI_VIEWS_PATH.'/shared/link-table-nav.php'); ?>
 <table class="widefat post fixed" cellspacing="0">

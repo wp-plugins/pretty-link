@@ -5,7 +5,7 @@
   <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Groups</h2>
   <div id="message" class="updated fade" style="padding:5px;"><?php echo $prli_message; ?></div> 
   <div id="search_pane" style="float: right;">
-    <form class="form-fields" name="group_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+    <form class="form-fields" name="group_form" method="post" action="">
       <?php wp_nonce_field('prli-groups'); ?>
       <input type="hidden" name="sort" id="sort" value="<?php echo $sort_str; ?>" />
       <input type="hidden" name="sdir" id="sort" value="<?php echo $sdir_str; ?>" />

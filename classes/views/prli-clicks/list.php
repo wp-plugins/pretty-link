@@ -25,7 +25,7 @@
 
 
 <div class="filter_pane">
-  <form class="form-fields" name="form2" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+  <form class="form-fields" name="form2" method="post" action="">
     <?php wp_nonce_field('prli-reports'); ?>
     <span>Type:</span>&nbsp;
     <select id="type" name="type" style="display: inline;">
@@ -53,7 +53,7 @@
 ?>
 
   <div id="search_pane" style="padding-top: 5px;">
-    <form class="form-fields" name="click_form" method="post" action="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI']); ?>">
+    <form class="form-fields" name="click_form" method="post" action="">
       <?php wp_nonce_field('prli-clicks'); ?>
 
       <input type="hidden" name="sort" id="sort" value="<?php echo $sort_str; ?>" />
