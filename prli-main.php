@@ -79,27 +79,31 @@ function prli_groups_admin_header()
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/
 function prli_redirect()
 {
-    global $prli_blogurl, $wpdb, $prli_link;
-    
-    // Resolve WP installs in sub-directories
-    preg_match('#^http://.*?(/.*)$#', $prli_blogurl, $subdir);
+  global $prli_blogurl, $wpdb, $prli_link;
+  
+  $request_uri = urldecode($_SERVER['REQUEST_URI']);
 
-    $match_str = '#^'.$subdir[1].'/(.*?)([\?/].*?)?$#';
-    
-    if(preg_match($match_str, urldecode($_SERVER['REQUEST_URI']), $match_val))
+  // Resolve WP installs in sub-directories
+  preg_match('#^https?://.*?(/.*)$#', $prli_blogurl, $subdir);
+  
+  $struct = PrliUtils::get_permalink_pre_slug_uri();
+
+  $match_str = '#^'.$subdir[1].$struct.'(.*?)([\?/].*?)?$#';
+  
+  if(preg_match($match_str, $request_uri, $match_val))
+  {
+    // match short slugs (most common)
+    prli_link_redirect_from_slug($match_val[1],$match_val[2]);
+
+    // Match nested slugs (pretty link sub-directory nesting)
+    $possible_links = $wpdb->get_col("SELECT slug FROM " . $prli_link->table_name . " WHERE slug like '".$match_val[1]."/%'",0);
+    foreach($possible_links as $possible_link)
     {
-      // match short slugs (most common)
-      prli_link_redirect_from_slug($match_val[1],$match_val[2]);
-
-      // Match nested slugs (pretty link sub-directory nesting)
-      $possible_links = $wpdb->get_col("SELECT slug FROM " . $prli_link->table_name . " WHERE slug like '".$match_val[1]."/%'",0);
-      foreach($possible_links as $possible_link)
-      {
-        // Try to match the full link against the URI
-        if( preg_match('#^'.$subdir[1].'/('.$possible_link.')([\?/].*?)?$#', $_SERVER['REQUEST_URI'], $match_val) )
-          prli_link_redirect_from_slug($possible_link,$match_val[2]);
-      }
+      // Try to match the full link against the URI
+      if( preg_match('#^'.$subdir[1].$struct.'('.$possible_link.')([\?/].*?)?$#', $request_uri, $match_val) )
+        prli_link_redirect_from_slug($possible_link,$match_val[2]);
     }
+  }
 }
 
 // For use with the prli_redirect function
@@ -188,10 +192,6 @@ function prli_install()
   global $wpdb, $prli_utils, $prli_update;
   $db_version = 8; // this is the version of the database we're moving to
   $old_db_version = get_option('prli_db_version');
-
-$fh = fopen('install_pretty_link.log','w+');
-fwrite($fh,"Wow -- actually installing -- ODB: {$old_db_version} NDB: {$db_version}");
-fclose($fh);
 
   $groups_table       = $wpdb->prefix . "prli_groups";
   $clicks_table       = $wpdb->prefix . "prli_clicks";

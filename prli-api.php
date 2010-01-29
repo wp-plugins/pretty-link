@@ -225,7 +225,7 @@ function prli_get_pretty_link_url($id)
   global $prli_link,$prli_blogurl;
 
   if($pretty_link = $prli_link->getOne($id))
-    return "{$prli_blogurl}/{$pretty_link->slug}";
+    return "{$prli_blogurl}".PrliUtils::get_permalink_pre_slug_uri()."{$pretty_link->slug}";
 
   return false;
 }

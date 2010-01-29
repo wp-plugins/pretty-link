@@ -81,7 +81,8 @@
     global $prli_blogurl;
     foreach($links as $link)
     {
-      $pretty_link_url = "{$prli_blogurl}/{$link->slug}";
+      $struct = PrliUtils::get_permalink_pre_slug_uri();
+      $pretty_link_url = "{$prli_blogurl}{$struct}{$link->slug}";
       ?>
       <tr style="min-height: 75px; height: 75px;">
         <td class="edit_link">

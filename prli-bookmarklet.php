@@ -21,7 +21,7 @@ if(isset($_GET['k']))
     $plink = $prli_link->getOne($result);
     $target_url = $plink->url;
     $target_url_title = $plink->name;
-    $pretty_link = "{$prli_blogurl}/{$plink->slug}";
+    $pretty_link = "{$prli_blogurl}".PrliUtils::get_permalink_pre_slug_uri()."{$plink->slug}";
 
     $twitter_status = substr($target_url_title,0,(114 - strlen($pretty_link))) . ((strlen($target_url_title) > 114)?"...":'') . " | $pretty_link";
     ?>

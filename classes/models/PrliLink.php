@@ -261,15 +261,15 @@ class PrliLink
 
       if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
          (isset($link->redirect_type) and $link->redirect_type == 'pixel'))
-        return "&lt;img src=\"".$prli_blogurl . '/' . $link->slug . $link->param_struct . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
+        return "&lt;img src=\"".$prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . $link->slug . $link->param_struct . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
       else if((!isset($link->param_forwarding) or $link->param_forwarding != 'custom') and
               (isset($link->redirect_type) and $link->redirect_type == 'pixel'))
-        return "&lt;img src=\"".$prli_blogurl . '/' . $link->slug . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
+        return "&lt;img src=\"".$prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . $link->slug . "\" width=\"1\" height=\"1\" style=\"display: none\" /&gt;";
       else if((isset($link->param_forwarding) and $link->param_forwarding == 'custom') and
               (!isset($link->redirect_type) or $link->redirect_type != 'pixel'))
-        return $prli_blogurl . '/' . $link->slug . $link->param_struct;
+        return $prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . $link->slug . $link->param_struct;
       else
-        return $prli_blogurl . '/' . $link->slug;
+        return $prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . $link->slug;
     }
 
     // Set defaults and grab get or post of each possible param
@@ -301,7 +301,7 @@ class PrliLink
       if( $values['slug'] == null or $values['slug'] == '' )
         $errors[] = "Pretty Link can't be blank";
 
-      if( $values['url'] == "$prli_blogurl/".$values['slug'] )
+      if( $values['url'] == $prli_blogurl.PrliUtils::get_permalink_pre_slug_uri().$values['slug'] )
         $errors[] = "Target URL must be different than the Pretty Link";
 
       if( !empty($values['url']) and

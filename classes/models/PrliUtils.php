@@ -1015,5 +1015,11 @@ class PrliUtils
 
     return $prli_url_utils->read_remote_file("http://api.atlbl.com/wc",0,$header,$params);
   }
-}     
+  
+  function get_permalink_pre_slug_uri()
+  {
+    preg_match('#^([^%]*?)%#', get_option('permalink_structure'), $struct);
+    return $struct[1];
+  }
+}   
 ?>
