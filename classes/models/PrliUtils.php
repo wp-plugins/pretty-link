@@ -1019,7 +1019,11 @@ class PrliUtils
   function get_permalink_pre_slug_uri()
   {
     preg_match('#^([^%]*?)%#', get_option('permalink_structure'), $struct);
-    return $struct[1];
+
+    if(preg_match('#index\.php#', $struct[1]))
+      return $struct[1];
+    else
+      return '/';
   }
 }   
 ?>
