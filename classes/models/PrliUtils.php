@@ -138,25 +138,33 @@ class PrliUtils
     return true;
   }
   
-  function php_get_browsercap_ini()
+  function &php_get_browsercap_ini()
   {
-    if( version_compare(PHP_VERSION, '5.3.0') >= 0 )
-      return parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true, INI_SCANNER_RAW );
-    else
-      return parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true );
+    // Since it's a fairly expensive proposition to load the ini file
+    // let's make sure we only do it once
+    static $browsecap_ini;
+    
+    if(!isset($browsecap_ini))
+    {
+      if( version_compare(PHP_VERSION, '5.3.0') >= 0 )
+        $browsecap_ini =& parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true, INI_SCANNER_RAW );
+      else
+        $browsecap_ini =& parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true );
+    }
+    
+    return $browsecap_ini;
   }
   
   /* Needed because we don't know if the target uesr will have a browsercap file installed
      on their server ... particularly in a shared hosting environment this is difficult
   */
-  function php_get_browser($agent = NULL, $brows = NULL)
+  function php_get_browser($agent = NULL)
   {
     $agent=$agent?$agent:$_SERVER['HTTP_USER_AGENT'];
     $yu=array();
     $q_s=array("#\.#","#\*#","#\?#");
     $q_r=array("\.",".*",".?");
-    if($brows==NULL)
-      $brows = $this->php_get_browsercap_ini();
+    $brows =& $this->php_get_browsercap_ini();
 
     if(!empty($brows) and $brows and is_array($brows))
     {
@@ -254,7 +262,7 @@ class PrliUtils
                                             $click_uri,
                                             $click_host,
                                             $first_click,
-                                            $this->this_is_a_robot($click_user_agent,$click_browser['browser']));
+                                            $this->this_is_a_robot($click_user_agent,$click_browser));
       
       $results = $wpdb->query( $insert );
       
@@ -974,15 +982,15 @@ class PrliUtils
     }
   }
 
-  function this_is_a_robot($browser_ua,$btype,$header='')
+  function this_is_a_robot($browser_ua,&$browsecap,$header='')
   {
-    $click = new PrliClick();
+    $click =& new PrliClick();
     $click->browser = $browser_ua;
-    $click->btype = $btype;
-    return $this->is_robot($click, $header);
+    $click->btype = $browsecap['browser'];
+    return $this->is_robot($click, $browsecap, $header);
   }
 
-  function is_robot($click,$header='',$browsercap_ini=NULL)
+  function is_robot(&$click,&$browsecap,$header='')
   {
     global $prli_utils, $prli_click;
     $ua_string = trim(urldecode($click->browser));
@@ -1000,7 +1008,6 @@ class PrliUtils
     if(preg_match("#(bot|Bot|spider|Spider|crawl|Crawl)#",$ua_string))
       return 1;
 
-    $browsecap = $prli_utils->php_get_browser($ua_string,$browsercap_ini);
     $crawler = $browsecap['crawler'];
 
     // If php_browsecap tells us its a bot, let's believe him

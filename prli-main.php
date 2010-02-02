@@ -111,7 +111,7 @@ function prli_link_redirect_from_slug($slug,$param_str)
 {
   global $prli_link, $prli_utils;
 
-  $link = $prli_link->getOneFromSlug(urldecode($slug));
+  $link =& $prli_link->getOneFromSlug(urldecode($slug));
   
   if(isset($link->slug) and !empty($link->slug))
   {
