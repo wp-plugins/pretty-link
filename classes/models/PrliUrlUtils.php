@@ -3,34 +3,76 @@ class PrliUrlUtils {
 
   function get_title($url, $slug='')
   {
-    // Grab the title tag
-    $title = PrliUrlUtils::url_grab_title($url);
-    
-    if(!$title)
+    $title = '';
+
+    $data = PrliUrlUtils::curl_read_remote_file($url);
+
+    // Look for <title>(.*?)</title> in the text
+    if($data and preg_match('#<title>[\s\n\r]*?(.*?)[\s\n\r]*?</title>#im', $data, $matches))
+      $title = trim($matches[1]);
+
+    if(empty($title) or !$title)
       return $slug;
     
     return $title;
   }
   
-  /*
-    Go out to the web and see if the url resolves
-  */
   function valid_url($url)
   {
-    return PrliUrlUtils::read_remote_file($url,5);
+    $data = PrliUrlUtils::curl_read_remote_header($url);
+
+    if(!empty($data) and $data)
+    {
+       preg_match("/HTTP\/1\.[1|0]\s(\d{3})/",$data,$matches);
+       return ($matches[1] == '200');
+    }
+
+    // Let's just assume its valid if we can't test it
+    return true;
   }
-  
-  function url_grab_title($url)
+
+  function curl_read_remote_header($url)
   {
-    $title = false;
+    if(function_exists('curl_init'))
+    {
+      $ch = curl_init();
 
-    $remote_page = PrliUrlUtils::read_remote_file($url,10);
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_HEADER, true);
+      curl_setopt($ch, CURLOPT_NOBODY, true);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
-    // Look for <title>(.*?)</title> in the text
-    if($remote_page and preg_match('#<title>[\s\n\r]*?(.*?)[\s\n\r]*?</title>#im', $remote_page, $matches))
-      $title = trim($matches[1]);
+      $data = curl_exec($ch);
+
+      curl_close($ch);
+      
+      return $data;
+    }
     
-    return $title;
+    return false;
+  }
+
+  function curl_read_remote_file($url)
+  {
+    if(function_exists('curl_init'))
+    {
+      $ch = curl_init();
+
+      curl_setopt($ch, CURLOPT_URL, $url);
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+      curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+      curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+      $data = curl_exec($ch);
+
+      curl_close($ch);
+      
+      return $data;
+    }
+    
+    return false;
   }
 
   /**

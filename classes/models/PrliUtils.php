@@ -128,6 +128,11 @@ class PrliUtils
     if( $link_slug == $full_slug )
       return false;
   
+    $pre_slug_slug = PrliUtils::get_permalink_pre_slug_uri(true,true);
+
+    if($full_slug == $pre_slug_slug)
+      return false;
+
     // TODO: Check permalink structure to avoid the ability of creating a year or something as a slug
   
     return true;
@@ -1005,25 +1010,36 @@ class PrliUtils
     return 0;
   }
 
-  function check_api_for_bot_status($ip,$ua)
-  {
-    global $prli_url_utils;
-    $api_key = 'cMQeOJvNRAOPRPexkjSEUqM';
-    $ua = urlencode(urldecode($ua));
-    $header = "Content-Type: application/x-www-form-urlencoded\r\n";
-    $params = "?key=$api_key&ip={$ip}";//&ua={$ua}";
-
-    return $prli_url_utils->read_remote_file("http://api.atlbl.com/wc",0,$header,$params);
-  }
-  
-  function get_permalink_pre_slug_uri()
+  function get_permalink_pre_slug_uri($force=false,$trim=false)
   {
     preg_match('#^([^%]*?)%#', get_option('permalink_structure'), $struct);
+    $pre_slug_uri = $struct[1];
 
-    if(preg_match('#index\.php#', $struct[1]))
-      return $struct[1];
+    if($force or preg_match('#index\.php#', $pre_slug_uri))
+    {
+      if($trim)
+      {
+        $pre_slug_uri = trim($pre_slug_uri);
+        $pre_slug_uri = preg_replace('#^/#','',$pre_slug_uri);
+        $pre_slug_uri = preg_replace('#/$#','',$pre_slug_uri);
+      }
+
+      return $pre_slug_uri;
+    }
     else
       return '/';
+  }
+
+  function get_permalink_pre_slug_regex()
+  {
+    $pre_slug_uri = PrliUtils::get_permalink_pre_slug_uri(true);
+
+    if(preg_match('#index\.php#', $pre_slug_uri))
+      return "{$pre_slug_uri}";
+    else if(empty($pre_slug_uri))
+      return '/';
+    else
+      return "{$pre_slug_uri}|/";
   }
 }   
 ?>

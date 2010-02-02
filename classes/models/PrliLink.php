@@ -13,7 +13,11 @@ class PrliLink
     {
       global $wpdb, $prli_url_utils;
 
-      $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
+      if($values['redirect_type'] == 'pixel')
+        $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
+      else
+        $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
+
       $query_str = "INSERT INTO {$this->table_name} " . 
                      '(url,'.
                       'slug,'.
@@ -51,7 +55,11 @@ class PrliLink
     {
       global $wpdb, $prli_url_utils;
 
-      $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
+      if($values['redirect_type'] == 'pixel')
+        $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
+      else
+        $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
+
       $query_str = "UPDATE {$this->table_name} " . 
                       'SET url=%s, ' .
                           'slug=%s, ' .
