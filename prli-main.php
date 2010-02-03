@@ -88,7 +88,9 @@ function prli_redirect()
   
   $struct = PrliUtils::get_permalink_pre_slug_regex();
 
-  $match_str = '#^'.$subdir[1].'('.$struct.')(.*?)([\?/].*?)?$#';
+  $subdir_str = (isset($subdir[1])?$subdir[1]:'');
+
+  $match_str = '#^'.$subdir_str.'('.$struct.')(.*?)([\?/].*?)?$#';
   
   if(preg_match($match_str, $request_uri, $match_val))
   {
@@ -100,7 +102,7 @@ function prli_redirect()
     foreach($possible_links as $possible_link)
     {
       // Try to match the full link against the URI
-      if( preg_match('#^'.$subdir[1].'('.$struct.')('.$possible_link.')([\?/].*?)?$#', $request_uri, $match_val) )
+      if( preg_match('#^'.$subdir_str.'('.$struct.')('.$possible_link.')([\?/].*?)?$#', $request_uri, $match_val) )
         prli_link_redirect_from_slug($possible_link,$match_val[3]);
     }
   }

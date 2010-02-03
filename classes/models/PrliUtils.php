@@ -984,7 +984,7 @@ class PrliUtils
 
   function this_is_a_robot($browser_ua,&$browsecap,$header='')
   {
-    $click =& new PrliClick();
+    $click = new PrliClick();
     $click->browser = $browser_ua;
     $click->btype = $browsecap['browser'];
     return $this->is_robot($click, $browsecap, $header);
