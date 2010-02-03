@@ -135,6 +135,9 @@ function prli_display_links_list($params, $prli_message, $page_params_ov = false
 
   $controller_file = basename(__FILE__);
 
+  $where_clause = '';
+  $page_params  = '';
+
   if(!empty($params['group']))
   {
     $where_clause = " group_id=" . $params['group'];
