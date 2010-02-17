@@ -1,9 +1,8 @@
 <?php
-  require_once('prli-config.php');
-
-  if(is_user_logged_in() and $current_user->user_level >= 8)
+  if(is_user_logged_in() and current_user_can('level_10'))
   {
-    $filename = date("ymdHis",time()) . '_' . $link_name . '_pretty_link_clicks.csv';
+
+    $filename = date("ymdHis",time()) . '_' . $link_name . '_pretty_link_clicks_' . $hmin . '-' . $hmax . '.csv';
     header("Content-Type: text/x-csv");
     header("Content-Disposition: attachment; filename=\"$filename\"");
     header("Expires: ".gmdate("D, d M Y H:i:s", mktime(date("H")+2, date("i"), date("s"), date("m"), date("d"), date("Y")))." GMT");

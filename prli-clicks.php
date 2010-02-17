@@ -1,19 +1,11 @@
 <?php
 
-if(isset($_GET['action']) and $_GET['action'] == 'csv')
-{
-  $root = dirname(dirname(dirname(dirname(__FILE__))));
-  if (file_exists($root.'/wp-load.php')) 
-    require_once($root.'/wp-load.php');
-  else
-    require_once($root.'/wp-config.php');
-}
-
 require_once 'prli-config.php';
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
 require_once(PRLI_PATH . '/prli-image-lookups.php');
 
 $controller_file = basename(__FILE__);
+$max_rows_per_file = 1000;
 
 if($_GET['action'] == null and $_POST['action'] == null)
 {
@@ -106,6 +98,65 @@ if($_GET['action'] == null and $_POST['action'] == null)
 }
 else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
 {
+  $param_string = '';
+  $where_clause = '';
+
+  if(isset($_GET['l']))
+  {
+    $where_clause = " link_id=".$_GET['l'];
+    $link_name = $wpdb->get_var("SELECT name FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
+    $link_slug = $wpdb->get_var("SELECT slug FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
+    $param_string .= "l=".$_GET['l'];
+  }
+  else if(isset($_GET['ip']))
+  {
+    $link_name = "ip_addr_" . $_GET['ip'];
+    $where_clause = " cl.ip='".$_GET['ip']."'";
+    $param_string .= "ip=".$_GET['ip'];
+  }
+  else if(isset($_GET['vuid']))
+  {
+    $link_name = "visitor_" . $_GET['vuid'];
+    $where_clause = " cl.vuid='".$_GET['vuid']."'";
+    $param_string .= "vuid=".$_GET['vuid'];
+  }
+  else if(isset($_GET['group']))
+  {
+    $group = $prli_group->getOne($_GET['group']);
+    $link_name = "group_" . $group->name;
+    $where_clause .= " cl.link_id IN (SELECT id FROM {$prli_link->table_name} WHERE group_id=".$_GET['group'].")";
+    $param_string .= "group=".$_GET['group'];
+  }
+  else
+  {
+    $link_name = "all_links";
+  }
+
+  $hit_record_count = $prli_click->getRecordCount($where_clause);
+  $hit_page_count   = (int)ceil($hit_record_count / $max_rows_per_file);
+
+  if(!empty($where_clause))
+    $history_where_clause = " (cl.ip IN (SELECT DISTINCT cl2.ip FROM {$prli_click->table_name} cl2 WHERE{$where_clause}))";
+  $history_record_count = $prli_click->getRecordCount($history_where_clause);
+  $history_page_count   = ceil($history_record_count / $max_rows_per_file);
+
+  if( PrliUtils::rewriting_on() )
+  {
+    $param_string       = (empty($param_string)?'':"?{$param_string}");
+    $hit_report_url     = "{$prli_blogurl}/prli_download_csv_hit_report{$param_string}";
+    $history_report_url = "{$prli_blogurl}/prli_download_csv_history_report{$param_string}";
+  }
+  else
+  {
+    $param_string       = (empty($param_string)?'':"&{$param_string}");
+    $hit_report_url     = "{$prli_blogurl}/index.php?action=prli_download_csv_hit_report{$param_string}";
+    $history_report_url = "{$prli_blogurl}/index.php?action=prli_download_csv_history_report{$param_string}";
+  }
+
+  require_once 'classes/views/prli-clicks/csv_download.php';
+}
+else if($_GET['action'] == 'download_csv_hit_report' or $_POST['action'] == 'download_csv_hit_report')
+{
   if(isset($_GET['l']))
   {
     $where_clause = " link_id=".$_GET['l'];
@@ -134,7 +185,78 @@ else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
     $where_clause = "";
   }
 
-  $clicks = $prli_click->getAll($where_clause);
+  $link_name = stripslashes($link_name);
+  $link_name = preg_replace("#[ ,]#",'',$link_name);
+
+  $record_count = $prli_click->getRecordCount($where_clause);
+  $page_count   = (int)ceil($record_count / $max_rows_per_file);
+  $prli_page = $_GET['prli_page'];
+  $hmin = 0;
+
+  if($prli_page)
+    $hmin = ($prli_page - 1) * $max_rows_per_file;
+
+  if($prli_page==$page_count)
+    $hmax = $record_count;
+  else
+    $hmax = ($prli_page * $max_rows_per_file) - 1;
+
+  $hlimit = "{$hmin},{$max_rows_per_file}";
+  $clicks = $prli_click->getAll($where_clause,'',false,$hlimit);
+  require_once 'classes/views/prli-clicks/csv.php';
+}
+else if($_GET['action'] == 'download_csv_history_report' or $_POST['action'] == 'download_csv_history_report')
+{
+  if(isset($_GET['l']))
+  {
+    $where_clause = " link_id=".$_GET['l'];
+    $link_name = $wpdb->get_var("SELECT name FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
+    $link_slug = $wpdb->get_var("SELECT slug FROM ".$wpdb->prefix."prli_links WHERE id=".$_GET['l']);
+  }
+  else if(isset($_GET['ip']))
+  {
+    $link_name = "ip_addr_" . $_GET['ip'];
+    $where_clause = " cl2.ip='".$_GET['ip']."'";
+  }
+  else if(isset($_GET['vuid']))
+  {
+    $link_name = "visitor_" . $_GET['vuid'];
+    $where_clause = " cl2.vuid='".$_GET['vuid']."'";
+  }
+  else if(isset($_GET['group']))
+  {
+    $group = $prli_group->getOne($_GET['group']);
+    $link_name = "group_" . $group->name;
+    $where_clause .= " cl2.link_id IN (SELECT id FROM " . $prli_link->table_name . " WHERE group_id=".$_GET['group'].")";
+  }
+  else
+  {
+    $link_name = "all_links";
+    $where_clause = "";
+  }
+
+  if(!empty($where_clause))
+    $where_clause = " (cl.ip IN (SELECT DISTINCT cl2.ip FROM {$prli_click->table_name} cl2 WHERE{$where_clause}))";
+
+  $link_name = stripslashes($link_name);
+  $link_name = preg_replace("#[ ,]#",'',$link_name);
+  $link_name = $link_name . "_history";
+  $record_count = $prli_click->getRecordCount($where_clause);
+  $page_count   = (int)ceil($record_count / $max_rows_per_file);
+  $prli_page = $_GET['prli_page'];
+  $hmin = 0;
+
+  if($prli_page)
+    $hmin = ($prli_page - 1) * $max_rows_per_file;
+
+  if($prli_page==$page_count)
+    $hmax = $record_count;
+  else
+    $hmax = ($prli_page * $max_rows_per_file) - 1;
+
+  $hlimit = "{$hmin},{$max_rows_per_file}";
+  $horder = " ORDER BY cl.ip, cl.created_at DESC";
+  $clicks = $prli_click->getAll($where_clause,$horder,false,$hlimit);
   require_once 'classes/views/prli-clicks/csv.php';
 }
 

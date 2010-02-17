@@ -198,7 +198,6 @@ class PrliLink
                  'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
                  $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
        
-
       return $wpdb->get_results($query, $return_type);
     }
 

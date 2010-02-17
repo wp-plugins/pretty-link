@@ -169,8 +169,17 @@ if(!$permalink_structure or empty($permalink_structure))
 <input type="submit" name="Submit" value="<?php _e('Update Options', $prli_domain ) ?>" />
 </p>
 
-<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_all_clicks4134" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data in your Database. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete all your data because there is no going back!');">Delete All Hits</a>
-      <br/><span class="description">Seriously, only click this link if you want to delete all the Hit data in your database.</span></p>
+
+<h3>Trim Hit Database</h3>
+
+<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_30day_clicks" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data that is older than 30 days. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete this data because there is no going back!');">Delete Hits older than 30 days</a>
+<br/><span class="description">This will clear all hits in your database that are older than 30 days.</span></p>
+
+<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_90day_clicks" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data that is older than 90 days. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete this data because there is no going back!');">Delete Hits older than 90 days</a>
+<br/><span class="description">This will clear all hits in your database that are older than 90 days.</span></p>
+
+<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_all_clicks" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data in your Database. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete all your data because there is no going back!');">Delete All Hits</a>
+<br/><span class="description">Seriously, only click this link if you want to delete all the Hit data in your database.</span></p>
 
 </form>
 </div>

@@ -70,23 +70,23 @@ class PrliClick
     function getOne( $id )
     {
         global $wpdb, $prli_link, $prli_utils;
-        $click_table = $wpdb->prefix . "prli_clicks";
         $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id AND id=' . $id . $prli_utils->prepend_and_or_where(' AND',$this->get_exclude_where_clause());
     
         return $wpdb->get_row($query);
     }
 
     // SELECT cl.*,li.name as link_name FROM wp_prli_clicks cl, wp_prli_links li WHERE li.id = cl.link_id ORDER BY created_at DESC
-    function getAll($where = '', $order = '', $include_stats = false)
+    function getAll($where = '', $order = '', $include_stats = false, $limit = '')
     {
         global $wpdb, $prli_link, $prli_utils;
-        $click_table = $wpdb->prefix . "prli_clicks";
         $where .= $this->get_exclude_where_clause( $where );
         $where = $prli_utils->prepend_and_or_where(' AND', $where);
+        $limit = (empty($limit)?'':" LIMIT {$limit}");
         if($include_stats)
-          $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order;
+          $query = 'SELECT cl.*, (SELECT count(*) FROM '. $this->table_name .' cl2 WHERE cl2.ip = cl.ip) as ip_count, (SELECT count(*) FROM '. $this->table_name .' cl3 WHERE cl3.vuid = cl.vuid) as vuid_count, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order . $limit;
         else
-          $query = 'SELECT cl.*, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order;
+          $query = 'SELECT cl.*, li.name as link_name FROM ' . $this->table_name . ' cl, ' . $prli_link->table_name . ' li WHERE li.id = cl.link_id' . $where . $order . $limit;
+
         return $wpdb->get_results($query);
     }
 
@@ -96,6 +96,36 @@ class PrliClick
       global $wpdb;
       $query = "TRUNCATE TABLE " . $this->table_name;
       return $wpdb->query($query);
+    }
+
+    /* This will delete all the clicks in the database by their age measured in days. */
+    function clear_clicks_by_age_in_days($days)
+    {
+      global $wpdb;
+
+      $days_in_seconds = $days * 24 * 60 * 60;
+      $oldest_time     = time() - $days_in_seconds;
+      
+      $num_records = $this->getRecordCount( " UNIX_TIMESTAMP(created_at) < {$oldest_time}" );
+
+      if($num_records)
+      {
+        $query = "DELETE FROM {$this->table_name} WHERE UNIX_TIMESTAMP(created_at) < %d";
+        $query = $wpdb->prepare( $query, $oldest_time );
+
+        $wpdb->query($query);
+      }
+
+      return $num_records;
+    }
+
+    function get_distinct_ip_count($where='')
+    {
+        global $wpdb, $prli_link, $prli_utils;
+        $where .= $this->get_exclude_where_clause( $where );
+        $where = $prli_utils->prepend_and_or_where(' WHERE', $where);
+        $query = 'SELECT COUNT(DISTINCT ip) FROM ' . $this->table_name . ' cl'. $where;
+        return $wpdb->get_var($query);
     }
 
     // Pagination Methods
@@ -116,7 +146,6 @@ class PrliClick
     function getPage($current_p,$p_size, $where = '', $order = '',$include_stats=false)
     {
         global $wpdb, $prli_link, $prli_utils;
-        $click_table = $wpdb->prefix . "prli_clicks";
         $end_index = $current_p * $p_size;
         $start_index = $end_index - $p_size;
         $where .= $this->get_exclude_where_clause( $where );

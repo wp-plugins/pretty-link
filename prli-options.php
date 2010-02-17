@@ -28,7 +28,7 @@ $link_nofollow = 'prli_link_nofollow';
 $link_redirect_type = 'prli_link_redirect_type';
 $hidden_field_name = 'prli_update_options';
 
-$prli_domain = "pretty-link";
+$update_message = false;
 
 // See if the user has posted us some information
 // If they did, this hidden field will be set to 'Y'
@@ -118,18 +118,39 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     add_option( 'prli_options', $prli_options_str );
 
     // Put an options updated message on the screen
-?>
 
-<div class="updated"><p><strong><?php _e('Options saved.', $prli_domain ); ?></strong></p></div>
-<?php
+    $update_message = __('Options saved.');
   }
 }
-else if($_GET['action'] == 'clear_all_clicks4134' or $_POST['action'] == 'clear_all_clicks4134')
+else if($_GET['action'] == 'clear_all_clicks' or $_POST['action'] == 'clear_all_clicks')
 {
   $prli_click->clearAllClicks();
-?>
 
-<div class="updated"><p><strong><?php _e('Hit Database Was Cleared.', $prli_domain ); ?></strong></p></div>
+  $update_message = __('Hit Database was Cleared.');
+}
+else if($_GET['action'] == 'clear_30day_clicks' or $_POST['action'] == 'clear_30day_clicks')
+{
+  $num_clicks = $prli_click->clear_clicks_by_age_in_days(30);
+
+  if($num_clicks)
+    $update_message = __("Hits older than 30 days ({$num_clicks} Hits) were deleted" );
+  else
+    $update_message = __("No hits older than 30 days were found, so nothing was deleted" );
+}
+else if($_GET['action'] == 'clear_90day_clicks' or $_POST['action'] == 'clear_90day_clicks')
+{
+  $num_clicks = $prli_click->clear_clicks_by_age_in_days(90);
+
+  if($num_clicks)
+    $update_message = __("Hits older than 90 days ({$num_clicks} Hits) were deleted" );
+  else
+    $update_message = __("No hits older than 90 days were found, so nothing was deleted" );
+}
+
+if($update_message)
+{
+?>
+<div class="updated"><p><strong><?php echo $update_message; ?></strong></p></div>
 <?php
 }
 

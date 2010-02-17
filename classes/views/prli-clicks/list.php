@@ -142,7 +142,7 @@
     </tfoot>
 </table>
 
-<a href="<?php echo PRLI_URL; ?>/prli-clicks.php?action=csv<?php echo $page_params; ?>">Download CSV (<?php echo stripslashes($link_name); ?>)</a>
+<a href="?page=pretty-link/prli-clicks.php&action=csv<?php echo $page_params; ?>">Download CSV (<?php echo stripslashes($link_name); ?>)</a>
 
 <?php
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');

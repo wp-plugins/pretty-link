@@ -130,6 +130,26 @@ function prli_link_redirect_from_slug($slug,$param_str)
 add_action('init', 'prli_redirect'); //Redirect
 //add_action('template_redirect', 'prli_redirect',0); //Redirect
 
+function prli_route_scripts()
+{
+  if( ( $_GET['action'] == 'prli_download_csv_hit_report' ) or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_hit_report#", $_SERVER['REQUEST_URI'] ) ) )
+  {
+    global $wpdb, $prli_click, $prli_group, $prli_link;
+    $_GET['action'] = "download_csv_hit_report";
+    require_once( PRLI_PATH . "/prli-clicks.php" );
+    exit;
+  }
+  else if( ( $_GET['action'] == 'prli_download_csv_history_report') or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_history_report#", $_SERVER['REQUEST_URI'] ) ) )
+  {
+    global $wpdb, $prli_click, $prli_group, $prli_link;
+    $_GET['action'] = "download_csv_history_report";
+    require_once( PRLI_PATH . "/prli-clicks.php" );
+    exit;
+  }
+}
+
+add_action('init', 'prli_route_scripts');
+
 /********* DASHBOARD WIDGET ***********/
 function prli_dashboard_widget_function() {
   require_once 'prli-dashboard-widget.php';

@@ -1048,5 +1048,12 @@ class PrliUtils
     else
       return "{$pre_slug_uri}|/";
   }
+    
+  function rewriting_on()
+  {
+    $permalink_structure = get_option('permalink_structure');
+  
+    return ($permalink_structure and !empty($permalink_structure));
+  }
 }   
 ?>
