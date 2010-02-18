@@ -5,7 +5,7 @@ require_once(PRLI_MODELS_PATH . '/models.inc.php');
 require_once(PRLI_PATH . '/prli-image-lookups.php');
 
 $controller_file = basename(__FILE__);
-$max_rows_per_file = 1000;
+$max_rows_per_file = 5000;
 
 if($_GET['action'] == null and $_POST['action'] == null)
 {
