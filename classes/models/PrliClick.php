@@ -135,6 +135,7 @@ class PrliClick
         $where .= $this->get_exclude_where_clause( $where );
         $where = $prli_utils->prepend_and_or_where(' WHERE', $where);
         $query = 'SELECT COUNT(*) FROM ' . $this->table_name . ' cl'. $where;
+
         return $wpdb->get_var($query);
     }
 

@@ -146,6 +146,13 @@ function prli_route_scripts()
     require_once( PRLI_PATH . "/prli-clicks.php" );
     exit;
   }
+  else if( ( $_GET['action'] == 'prli_download_csv_origin_report') or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_origin_report#", $_SERVER['REQUEST_URI'] ) ) )
+  {
+    global $wpdb, $prli_click, $prli_group, $prli_link;
+    $_GET['action'] = "download_csv_origin_report";
+    require_once( PRLI_PATH . "/prli-clicks.php" );
+    exit;
+  }
 }
 
 add_action('init', 'prli_route_scripts');
