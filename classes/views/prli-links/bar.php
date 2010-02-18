@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="description" content="<?php echo stripslashes($pretty_link->description); ?>" />
     <title><?php echo htmlspecialchars(stripslashes($pretty_link->name)); ?></title>
   </head>
   <frameset rows="66,*" framespacing=0 frameborder=0>

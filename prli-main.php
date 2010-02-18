@@ -81,7 +81,8 @@ function prli_redirect()
 {
   global $prli_blogurl, $wpdb, $prli_link;
   
-  $request_uri = urldecode($_SERVER['REQUEST_URI']);
+  // Remove the trailing slash if there is one
+  $request_uri = preg_replace('#/$#','',urldecode($_SERVER['REQUEST_URI']));
 
   // Resolve WP installs in sub-directories
   preg_match('#^https?://.*?(/.*)$#', $prli_blogurl, $subdir);
@@ -90,20 +91,30 @@ function prli_redirect()
 
   $subdir_str = (isset($subdir[1])?$subdir[1]:'');
 
-  $match_str = '#^'.$subdir_str.'('.$struct.')(.*?)([\?/].*?)?$#';
+  $match_str = '#^'.$subdir_str.'('.$struct.')([^\?]*?)([\?].*?)?$#';
   
   if(preg_match($match_str, $request_uri, $match_val))
   {
-    // match short slugs (most common)
+    // Match longest slug -- this is the most common
     prli_link_redirect_from_slug($match_val[2],$match_val[3]);
 
-    // Match nested slugs (pretty link sub-directory nesting)
-    $possible_links = $wpdb->get_col("SELECT slug FROM " . $prli_link->table_name . " WHERE slug like '".$match_val[2]."/%'",0);
-    foreach($possible_links as $possible_link)
+    // Trim down the matched link
+    $matched_link = preg_replace('#/[^/]*?$#','',$match_val[2],1);
+
+    // cycle through the links (maximum depth 25 folders so we don't get out
+    // of control -- that should be enough eh?) and trim the link down each time
+    for( $i=0; ($i < 25) and 
+               $matched_link and 
+               !empty($matched_link) and
+               $matched_link != $match_val[2]; $i++ )
     {
-      // Try to match the full link against the URI
-      if( preg_match('#^'.$subdir_str.'('.$struct.')('.$possible_link.')([\?/].*?)?$#', $request_uri, $match_val) )
-        prli_link_redirect_from_slug($possible_link,$match_val[3]);
+      $new_match_str ="#^{$subdir_str}({$struct})({$matched_link})(.*?)?$#";
+
+      if(preg_match($new_match_str, $request_uri, $match_val))
+        prli_link_redirect_from_slug($match_val[2],$match_val[3]);
+
+      // Trim down the matched link and try again
+      $matched_link = preg_replace('#/[^/]*$#','',$match_val[2],1);
     }
   }
 }

@@ -45,6 +45,7 @@ if(strlen($target_url) > $bar_link_limit)
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="description" content="<?php echo stripslashes($link->description); ?>" />
   <title><?php echo stripslashes($link->name); ?></title>
 <style type="text/css">
 html, body {
