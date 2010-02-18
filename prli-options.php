@@ -24,6 +24,7 @@ $prettybar_desc_limit = 'prli_prettybar_desc_limit';
 $prettybar_link_limit = 'prli_prettybar_link_limit';
 
 $link_track_me = 'prli_link_track_me';
+$link_prefix = 'prli_link_prefix';
 $link_nofollow = 'prli_link_nofollow';
 $link_redirect_type = 'prli_link_redirect_type';
 $hidden_field_name = 'prli_update_options';
@@ -101,6 +102,7 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   $prli_options->prettybar_desc_limit = stripslashes($_POST[ $prettybar_desc_limit ]);
   $prli_options->prettybar_link_limit = stripslashes($_POST[ $prettybar_link_limit ]);
   $prli_options->link_track_me = (int)isset($_POST[ $link_track_me ]);
+  $prli_options->link_prefix = (int)isset($_POST[ $link_prefix ]);
   $prli_options->link_nofollow = (int)isset($_POST[ $link_nofollow ]);
   $prli_options->link_redirect_type = $_POST[ $link_redirect_type ];
 

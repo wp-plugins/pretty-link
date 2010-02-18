@@ -1019,11 +1019,13 @@ class PrliUtils
 
   function get_permalink_pre_slug_uri($force=false,$trim=false)
   {
-    preg_match('#^([^%]*?)%#', get_option('permalink_structure'), $struct);
-    $pre_slug_uri = $struct[1];
+    global $prli_options;
 
-    if($force or preg_match('#index\.php#', $pre_slug_uri))
+    if($force or $prli_options->link_prefix)
     {
+      preg_match('#^([^%]*?)%#', get_option('permalink_structure'), $struct);
+      $pre_slug_uri = $struct[1];
+
       if($trim)
       {
         $pre_slug_uri = trim($pre_slug_uri);
@@ -1041,9 +1043,7 @@ class PrliUtils
   {
     $pre_slug_uri = PrliUtils::get_permalink_pre_slug_uri(true);
 
-    if(preg_match('#index\.php#', $pre_slug_uri))
-      return "{$pre_slug_uri}";
-    else if(empty($pre_slug_uri))
+    if(empty($pre_slug_uri))
       return '/';
     else
       return "{$pre_slug_uri}|/";

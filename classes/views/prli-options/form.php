@@ -20,12 +20,17 @@ if(!$permalink_structure or empty($permalink_structure))
 
 <h3><a class="toggle link-toggle-button">Link Option Defaults <span class="link-expand" style="display: none;">[+]</span><span class="link-collapse">[-]</span></a></h3>
 <ul class="link-toggle-pane" style="list-style-type: none;">
+  <li>
     <input type="checkbox" name="<?php echo $link_track_me; ?>" <?php echo (($prli_options->link_track_me != 0)?'checked="true"':''); ?>/>&nbsp; Track Link
     <br/><span class="description">Default all new links to be tracked.</span>
   </li>
   <li>
     <input type="checkbox" name="<?php echo $link_nofollow; ?>" <?php echo (($prli_options->link_nofollow != 0)?'checked="true"':''); ?>/>&nbsp; Add <code>nofollow</code> to Link
-    <br/><span class="description">Add the <code>nofollow</code> attribute by default to new links.</span>
+<br/><span class="description">Add the <code>nofollow</code> attribute by default to new links.</span>
+  </li>
+  <li>
+    <input type="checkbox" name="<?php echo $link_prefix; ?>" <?php echo (($prli_options->link_prefix != 0)?'checked="true"':''); ?>/>&nbsp; Use a prefix from your Permalink structure in your Pretty Links
+<br/><span class="description">This option should only be checked if you have elements in your permalink structure that must be present in any link on your site. For example, some WordPress installs don't have the benefit of full rewrite capabilities and in this case you'd need an index.php included in each link (http://example.com/index.php/mycoolslug instead of http://example.com/mycoolslug). If this is the case for you then check this option but the vast majority of users will want to keep this unchecked.</span>
   </li>
   <li>
     <h4>Default Link Redirection Type:</h4>

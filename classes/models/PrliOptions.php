@@ -20,6 +20,7 @@ class PrliOptions
   var $prettybar_link_limit;
 
   var $link_redirect_type;
+  var $link_prefix;
   var $link_track_me;
   var $link_nofollow;
 
@@ -51,6 +52,7 @@ class PrliOptions
     $link_show_prettybar = 'prli_link_show_prettybar';
     $link_ultra_cloak = 'prli_link_ultra_cloak';
     $link_track_me = 'prli_link_track_me';
+    $link_prefix = 'prli_link_prefix';
     $link_track_as_pixel = 'prli_link_track_as_pixel';
     $link_nofollow = 'prli_link_nofollow';
     $link_redirect_type = 'prli_link_redirect_type';
@@ -100,6 +102,9 @@ class PrliOptions
       else
         $this->link_track_me = '1';
     }
+
+    if(!isset($this->link_prefix))
+        $this->link_prefix = 0;
 
     if(!isset($this->link_nofollow)) {
       if($var = get_option( $link_nofollow )) {
