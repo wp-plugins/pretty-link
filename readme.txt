@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.9
-Stable tag: 1.4.42
+Stable tag: 1.4.43
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -98,6 +98,19 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.43 =
+* Added an enhanced CSV Hit Reports...
+* Added CSV IP History reports... (the history of each visitor by IP address)
+* Added CSV IP Origin reports... (the first time we see each visitor click a Pretty Link)
+* Separating CSV Reports into blocks of 5000 rows each ... this will help with performance in a major way and prevent locking ...
+* Added an option to use a prefixed element from your permalink structure (this is necessary for users who need an index.php as part of their permalink structure)
+* Fixed the pretty link nesting issue so larger slugs are matched first enabling users to create folder structures more efficiently
+* The Link Description is now showing up as the meta description for Pretty Bar'd and Cloaked Pretty Links 
+* Altered Tweet badge so it shows up as an image which will help it stay consistent across sites and won't ever mess up the excerpts ever again
+* Cleaned up the front facing CSS for the tweet badge, social buttons and twitter comments
+* Checked the [tweetbadge] shortcode and the_tweetbadge() template tag and verified that they are working properly...
+* Fixed saving posts / pages issue... Now pages are saved & auto tweeted (if the option is set)...
 
 = 1.4.42 =
 * Fixed more pretty link path issues to easily handle pre-slug elements in custom permalink structures
@@ -250,6 +263,11 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Added better support for IIS by redefining the fnmatch function if it isn't present
 * Changed the keyword replacement algorithm in Pro to replace links throughout the post when thresholds are set (instead of only linking to the top x keywords)
 * Fixed some issues surrounding keyword content caching in Pro
+
+== Upgrade Notice ==
+
+= 1.4.43 =
+All users should upgrade to this new version -- several functional and performance related issues have been fixed for Pretty Link and Pretty Link Pro users.
 
 == Screenshots ==
 [Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
