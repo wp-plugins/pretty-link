@@ -966,7 +966,7 @@ class PrliUtils
       {
         if($postmeta->meta_value == '1')
         {
-          $link_id = get_post_meta($postmeta->post_id,'pretty-link',true);
+          $link_id = PrliUtils::get_prli_post_meta($postmeta->post_id,'pretty-link',true);
           $prli_link_meta->update_link_meta($link_id,'pretty-link-posted-to-twitter','1');
         }
       }
@@ -1055,5 +1055,50 @@ class PrliUtils
   
     return ($permalink_structure and !empty($permalink_structure));
   }
-}   
+
+  function get_prli_post_meta($post_id, $key, $single=false)
+  {
+    PrliUtils::clear_unknown_post_metas();
+    if( isset($post_id) and !empty($post_id) and
+        $post_id and is_numeric($post_id) ) 
+      return get_post_meta($post_id, $key, $single);
+    else
+      return false;
+  }
+
+  function update_prli_post_meta($post_id, $meta_key, $meta_value)
+  {
+    PrliUtils::clear_unknown_post_metas();
+    if( isset($post_id) and !empty($post_id) and
+        $post_id and is_numeric($post_id) ) 
+      return update_post_meta($post_id, $meta_key, $meta_value);
+    else
+      return false;
+  }
+
+  function delete_prli_post_meta($post_id, $key)
+  {
+    PrliUtils::clear_unknown_post_metas();
+    if( isset($post_id) and !empty($post_id) and
+        $post_id and is_numeric($post_id) ) 
+      return delete_post_meta($post_id, $key, $meta_value);
+    else
+      return false;
+  }
+
+  /** Gets rid of any pretty link postmetas created without a post_id **/
+  function clear_unknown_post_metas()
+  {
+    global $wpdb;
+
+    $query = "SELECT count(*) FROM {$wpdb->postmeta} WHERE ( meta_key LIKE 'prli%' OR meta_key LIKE 'pretty-link%' ) AND post_id=0";
+    $count = $wpdb->get_var($query);
+
+    if($count)
+    {
+      $query = "DELETE FROM {$wpdb->postmeta} WHERE ( meta_key LIKE 'prli%' OR meta_key LIKE 'pretty-link%' ) AND post_id=0";
+      $wpdb->query($query);
+    }
+  }
+}
 ?>

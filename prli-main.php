@@ -331,6 +331,9 @@ function prli_install()
   if( $prli_update->pro_is_authorized() )
     $prli_utils->install_pro_db();
 
+  // If there are any post metas with a post_id of 0 get rid of them...
+  $prli_utils->clear_unknown_post_metas();
+
   /***** SAVE OPTIONS *****/
   $prli_options_str = get_option('prli_options');
   $prli_options = unserialize($prli_options_str);
