@@ -1058,7 +1058,6 @@ class PrliUtils
 
   function get_prli_post_meta($post_id, $key, $single=false)
   {
-    PrliUtils::clear_unknown_post_metas();
     if( isset($post_id) and !empty($post_id) and
         $post_id and is_numeric($post_id) ) 
       return get_post_meta($post_id, $key, $single);
@@ -1068,7 +1067,6 @@ class PrliUtils
 
   function update_prli_post_meta($post_id, $meta_key, $meta_value)
   {
-    PrliUtils::clear_unknown_post_metas();
     if( isset($post_id) and !empty($post_id) and
         $post_id and is_numeric($post_id) ) 
       return update_post_meta($post_id, $meta_key, $meta_value);
@@ -1078,7 +1076,6 @@ class PrliUtils
 
   function delete_prli_post_meta($post_id, $key)
   {
-    PrliUtils::clear_unknown_post_metas();
     if( isset($post_id) and !empty($post_id) and
         $post_id and is_numeric($post_id) ) 
       return delete_post_meta($post_id, $key, $meta_value);
