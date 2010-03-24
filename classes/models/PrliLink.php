@@ -170,6 +170,81 @@ class PrliLink
       return $wpdb->get_var($query);
     }
 
+    function &get_or_create_pretty_link_for_target_url( $target_url, $group=0 )
+    {
+      $pretty_link_id = $this->find_first_target_url( $target_url );
+      $pretty_link = $this->getOne($pretty_link_id);
+
+      if(empty($pretty_link) or !$pretty_link)
+      {
+        $pl_insert_id = prli_create_pretty_link( $target_url, '', '', '', $group );
+        $pretty_link = $this->getOne($pl_insert_id);
+      }
+      else
+        prli_update_pretty_link( $pretty_link->id, '', '', '', '', $group );
+
+      if( !isset($pretty_link) or
+          empty($pretty_link) or
+          !$pretty_link )
+        return false;
+      else
+        return $pretty_link;
+    }
+
+    function &is_pretty_link($url, $check_domain=true)
+    {
+      global $prli_blogurl;
+
+      if( !$check_domain or preg_match( '#^' . preg_quote( $prli_blogurl ) . '#', $url ) )
+      {
+        $uri = preg_replace('#' . preg_quote($prli_blogurl) . '#', '', $url);
+
+        // Resolve WP installs in sub-directories
+        preg_match('#^(https?://.*?)(/.*)$#', $prli_blogurl, $subdir);
+        
+        $struct = PrliUtils::get_permalink_pre_slug_regex();
+
+        $subdir_str = (isset($subdir[1])?$subdir[1]:'');
+
+        $match_str = '#^'.$subdir_str.'('.$struct.')([^\?]*?)([\?].*?)?$#';
+        
+        if(preg_match($match_str, $uri, $match_val))
+        {
+          // Match longest slug -- this is the most common
+          $params = $match_val[3];
+          if( $pretty_link_found =& $this->is_pretty_link_slug( $match_val[2] ) )
+            return compact('pretty_link_found','pretty_link_params');
+
+          // Trim down the matched link
+          $matched_link = preg_replace('#/[^/]*?$#','',$match_val[2],1);
+
+          // cycle through the links (maximum depth 25 folders so we don't get out
+          // of control -- that should be enough eh?) and trim the link down each time
+          for( $i=0; ($i < 25) and 
+                     $matched_link and 
+                     !empty($matched_link) and
+                     $matched_link != $match_val[2]; $i++ )
+          {
+            $new_match_str ="#^{$subdir_str}({$struct})({$matched_link})(.*?)?$#";
+
+            $params = $match_val[3];
+            if( $pretty_link_found =& $this->is_pretty_link_slug( $match_val[2] ) )
+              return compact('pretty_link_found','pretty_link_params');
+
+            // Trim down the matched link and try again
+            $matched_link = preg_replace('#/[^/]*$#','',$match_val[2],1);
+          }
+        }
+      }
+      
+      return false;
+    }
+
+    function &is_pretty_link_slug($slug)
+    {
+      return $this->getOneFromSlug( urldecode($slug) );
+    }
+
     function get_link_min( $id, $return_type = OBJECT )
     {
       global $wpdb;

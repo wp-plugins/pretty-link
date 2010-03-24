@@ -79,44 +79,13 @@ function prli_groups_admin_header()
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/
 function prli_redirect()
 {
-  global $prli_blogurl, $wpdb, $prli_link;
+  global $prli_link;
   
   // Remove the trailing slash if there is one
   $request_uri = preg_replace('#/$#','',urldecode($_SERVER['REQUEST_URI']));
 
-  // Resolve WP installs in sub-directories
-  preg_match('#^https?://.*?(/.*)$#', $prli_blogurl, $subdir);
-  
-  $struct = PrliUtils::get_permalink_pre_slug_regex();
-
-  $subdir_str = (isset($subdir[1])?$subdir[1]:'');
-
-  $match_str = '#^'.$subdir_str.'('.$struct.')([^\?]*?)([\?].*?)?$#';
-  
-  if(preg_match($match_str, $request_uri, $match_val))
-  {
-    // Match longest slug -- this is the most common
-    prli_link_redirect_from_slug($match_val[2],$match_val[3]);
-
-    // Trim down the matched link
-    $matched_link = preg_replace('#/[^/]*?$#','',$match_val[2],1);
-
-    // cycle through the links (maximum depth 25 folders so we don't get out
-    // of control -- that should be enough eh?) and trim the link down each time
-    for( $i=0; ($i < 25) and 
-               $matched_link and 
-               !empty($matched_link) and
-               $matched_link != $match_val[2]; $i++ )
-    {
-      $new_match_str ="#^{$subdir_str}({$struct})({$matched_link})(.*?)?$#";
-
-      if(preg_match($new_match_str, $request_uri, $match_val))
-        prli_link_redirect_from_slug($match_val[2],$match_val[3]);
-
-      // Trim down the matched link and try again
-      $matched_link = preg_replace('#/[^/]*$#','',$match_val[2],1);
-    }
-  }
+  if( $link_info =& $prli_link->is_pretty_link($request_uri,false) )
+    prli_link_redirect_from_slug( $link_info['pretty_link_found']->slug, $link_info['pretty_link_params'] );
 }
 
 // For use with the prli_redirect function
