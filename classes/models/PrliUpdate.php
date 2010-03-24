@@ -237,13 +237,13 @@ class PrliUpdate
   
   function queue_update($force=false)
   {
-    static $already_set_option, $already_set_transient;
+    static $already_set_option, $already_set_transient, $already_set_site_transient;
 
     if(!is_admin())
       return;
 
     // Make sure this method doesn't check back with the mothership too often
-    if($already_set_option or $already_set_transient)
+    if($already_set_option or $already_set_transient or $already_set_site_transient)
       return;
 
     if($this->pro_is_authorized())
@@ -252,7 +252,12 @@ class PrliUpdate
       if(!$this->pro_is_installed())
         $force=true;
 
-      $plugin_updates = ((function_exists('get_transient'))?get_transient("update_plugins"):get_option("update_plugins")); 
+      if(function_exists('get_site_transient'))
+         $plugin_updates = get_site_transient("update_plugins");
+      else if(function_exists('get_transient'))
+         $plugin_updates = get_transient("update_plugins");
+      else
+         $plugin_updates = get_option("update_plugins");
 
       $curr_version = $this->get_current_version();
       $installed_version = $plugin_updates->checked[$this->plugin_name];
@@ -280,16 +285,20 @@ class PrliUpdate
           unset($plugin_updates->response[$this->plugin_name]);
       }
 
-      if ( function_exists('set_transient') and !$already_set_transient )
+      if( function_exists('set_site_transient') and !$already_set_site_transient )
+      {
+        $already_set_site_transient = true;
+        set_site_transient("update_plugins", $plugin_updates); // for WordPress 3.0+
+      }
+      else if( function_exists('set_transient') and !$already_set_transient )
       {
         $already_set_transient = true;
         set_transient("update_plugins", $plugin_updates); // for WordPress 2.8+
       }
-
-      if( !$already_set_option )
+      else if( !$already_set_option )
       {
         $already_set_option = true;
-        update_option("update_plugins", $plugin_updates); // for WordPress 2.7
+        update_option("update_plugins", $plugin_updates); // for WordPress 2.7+
       }
     }
   }
