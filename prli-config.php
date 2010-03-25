@@ -34,20 +34,22 @@ $prli_blogdescription = get_option('blogdescription');
 /***** SETUP OPTIONS OBJECT *****/
 global $prli_options;
 
-$prli_options_str = get_option('prli_options');
-$prli_options = unserialize($prli_options_str);
+$prli_options = get_option('prli_options');
 
 // If unserializing didn't work
-if(!$prli_options)
+if(!is_object($prli_options))
 {
-  $prli_options = new PrliOptions();
+  if($prli_options and is_string($prli_options))
+    $prli_options = unserialize($prli_options);
 
-  $prli_options_str = serialize($prli_options);
-  delete_option('prli_options');
-  add_option('prli_options',$prli_options_str);
+  // If it still isn't an object then let's create it
+  if(!is_object($prli_options))
+    $prli_options = new PrliOptions();
+
+  update_option('prli_options',$prli_options);
 }
-else
-  $prli_options->set_default_options(); // Sets defaults for unset options
+
+$prli_options->set_default_options(); // Sets defaults for unset options
 
 /***** TODO: Uh... these functions should find a better home somewhere *****/
 function setup_new_vars($groups)

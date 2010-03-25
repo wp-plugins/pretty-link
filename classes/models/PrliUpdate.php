@@ -45,7 +45,7 @@ class PrliUpdate
     $this->pro_error_message_str  = __('Your Pretty Link Pro Username or Password was Invalid');
     
     // Don't modify these variables
-    $this->pro_check_interval = 60*60; // Checking every hour
+    $this->pro_check_interval = 60*15; // Checking every 15 minutes
     $this->pro_username_str = 'proplug-username';
     $this->pro_password_str = 'proplug-password';
     $this->pro_mothership_xmlrpc_url = $this->pro_mothership . '/xmlrpc.php';

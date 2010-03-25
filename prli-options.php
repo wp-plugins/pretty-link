@@ -113,11 +113,7 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   else
   {
     // Save the posted value in the database
-    $prli_options_str = serialize($prli_options);
-
-    // Save the posted value in the database
-    delete_option( 'prli_options' );
-    add_option( 'prli_options', $prli_options_str );
+    update_option( 'prli_options', $prli_options );
 
     // Put an options updated message on the screen
 

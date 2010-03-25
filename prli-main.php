@@ -199,7 +199,7 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 function prli_install()
 {
   global $wpdb, $prli_utils, $prli_update;
-  $db_version = 8; // this is the version of the database we're moving to
+  $db_version = 9; // this is the version of the database we're moving to
   $old_db_version = get_option('prli_db_version');
 
   $groups_table       = $wpdb->prefix . "prli_groups";
@@ -304,8 +304,7 @@ function prli_install()
   $prli_utils->clear_unknown_post_metas();
 
   /***** SAVE OPTIONS *****/
-  $prli_options_str = get_option('prli_options');
-  $prli_options = unserialize($prli_options_str);
+  $prli_options = get_option('prli_options');
   
   // If unserializing didn't work
   if(!$prli_options)
@@ -313,13 +312,10 @@ function prli_install()
   else
     $prli_options->set_default_options(); // Sets defaults for unset options
 
-  $prli_options_str = serialize($prli_options);
-  delete_option('prli_options');
-  add_option('prli_options',$prli_options_str);
+  update_option('prli_options',$prli_options);
 
   /***** SAVE DB VERSION *****/
-  delete_option('prli_db_version');
-  add_option('prli_db_version',$db_version);
+  update_option('prli_db_version',$db_version);
 }
 
 // Ensure this gets called on first install
