@@ -941,43 +941,6 @@ class PrliUtils
         update_option('prlipro-credentials', $creds);
       }
     } 
-
-    if($db_version and $db_version < 9)
-    {
-      $curr_prli_options_str    = get_option('prli_options');
-      if($curr_prli_options_str and is_string($curr_prli_options_str))
-      {
-        $curr_prli_options = unserialize($curr_prli_options_str);
-        update_option('prli_options',$curr_prli_options);
-      }
-
-      $curr_prlipro_options_str = get_option('prlipro_options');
-      if($curr_prlipro_options_str and is_string($curr_prlipro_options_str))
-      {
-        $curr_prlipro_options = unserialize($curr_prlipro_options_str);
-        update_option('prlipro_options',$curr_prlipro_options);
-      }
-
-      $query = "SELECT ID from {$wpdb->posts}";
-      $post_ids = $wpdb->get_col($query);
-
-      foreach( $post_ids as $post_id )
-      {
-        $curr_prlipro_post_options_str = PrliUtils::get_prli_post_meta($post_id,"prlipro-post-options",true);
-        if($curr_prlipro_post_options_str and is_string($curr_prlipro_post_options_str))
-        {
-          $curr_prlipro_post_options = unserialize($curr_prlipro_post_options_str);
-          PrliUtils::update_prli_post_meta($post_id, 'prlipro-post-options', $curr_prlipro_post_options);
-        }
-
-        $curr_prli_keyword_cache_str = PrliUtils::get_prli_post_meta($post_id,'prli-keyword-cached-content',true);
-        if($curr_prli_keyword_cache_str and is_string($curr_prli_keyword_cache_str))
-        {
-          $curr_prli_keyword_cache = unserialize($curr_prli_keyword_cache_str);
-          PrliUtils::update_prli_post_meta($post_id, 'prli-keyword-cached-content', $curr_prli_keyword_cache);
-        }
-      }
-    }
   }
 
 
