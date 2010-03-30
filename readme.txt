@@ -3,8 +3,8 @@ Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
-Tested up to: 2.9
-Stable tag: 1.4.44
+Tested up to: 2.9.2
+Stable tag: 1.4.45
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -71,7 +71,7 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Split Test these URL rotations for a Pretty Link
 * Setup Conversion Reports
 * Setup your own link shortening service
-* Create an alternate URL for your pretty links to be created on
+* Create shorter URLs by using an alternate domain name you own (other than your blog's) for your Pretty Links
 * Import / Export Pretty Links
 * Automatically create Pretty Links for each Post / Page
 * Automatically Tweet each Post / Page when it is Published
@@ -98,6 +98,14 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.45 =
+* Refactored and Options code
+* Pro: Refactored Update code to work with the upcoming WordPress 3.0
+* Pro: Tweet Badge now loads asynchronously in an iFrame to prevent performance issues when updating multiple tweet badges simultaneously.
+* Pro: Enabled limit on number of keyword replacements to occur per page load
+* Pro: Cleaned up options code
+* Pro: Added keyword replacement to comments and feeds and an option to make all links into pretty links automatically.
 
 = 1.4.44 =
 * Fixed the phantom postmeta issue
@@ -268,6 +276,9 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+
+= 1.4.45 =
+Bug fixes have been made in Pretty Link and several enhancements have been made it Pretty Link Pro.
 
 = 1.4.44 =
 All users -- especially pro users should upgrade to this new version -- it fixes the phantom postmeta issue
