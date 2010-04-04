@@ -204,7 +204,7 @@ class PrliLink
         
         $struct = PrliUtils::get_permalink_pre_slug_regex();
 
-        $subdir_str = (isset($subdir[1])?$subdir[1]:'');
+        $subdir_str = (isset($subdir[2])?$subdir[2]:'');
 
         $match_str = '#^'.$subdir_str.'('.$struct.')([^\?]*?)([\?].*?)?$#';
         
