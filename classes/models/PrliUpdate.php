@@ -29,6 +29,8 @@ class PrliUpdate
   var $pro_password;
   var $pro_mothership_xmlrpc_url;
   
+  var $wordpress_version;
+  
   function PrliUpdate()
   {
     // Where all the vitals are defined for this plugin
@@ -49,6 +51,9 @@ class PrliUpdate
     $this->pro_username_str = 'proplug-username';
     $this->pro_password_str = 'proplug-password';
     $this->pro_mothership_xmlrpc_url = $this->pro_mothership . '/xmlrpc.php';
+
+    // Get the numerical version of wordpress
+    $this->wordpress_version = (float)preg_replace( "#^([\d\.]*).*$#", '$1', get_bloginfo('version') );
     
     // Retrieve Pro Credentials
     $creds = get_option($this->pro_cred_store);
@@ -237,13 +242,13 @@ class PrliUpdate
   
   function queue_update($force=false)
   {
-    static $already_set_option, $already_set_transient;
+    static $already_set_option, $already_set_transient, $already_set_site_transient;
 
     if(!is_admin())
       return;
 
     // Make sure this method doesn't check back with the mothership too often
-    if($already_set_option or $already_set_transient)
+    if($already_set_option or $already_set_transient or $already_set_site_transient)
       return;
 
     if($this->pro_is_authorized())
@@ -252,10 +257,15 @@ class PrliUpdate
       if(!$this->pro_is_installed())
         $force=true;
 
-      if(function_exists('get_transient'))
-         $plugin_updates = get_transient("update_plugins");
+      if($this->wordpress_version >= 3.0)
+        $plugin_updates = get_site_transient("update_plugins");
       else
-         $plugin_updates = get_option("update_plugins");
+      {
+        if(function_exists('get_transient'))
+          $plugin_updates = get_transient("update_plugins");
+        else
+          $plugin_updates = get_option("update_plugins");
+      }
 
       $curr_version = $this->get_current_version();
       $installed_version = $plugin_updates->checked[$this->plugin_name];
@@ -283,7 +293,12 @@ class PrliUpdate
           unset($plugin_updates->response[$this->plugin_name]);
       }
 
-      if( function_exists('set_transient') and !$already_set_transient )
+      if( ( $this->wordpress_version >= 3.0 ) and !$already_set_site_transient )
+      {
+        $already_set_site_transient = true;
+        set_site_transient("update_plugins", $plugin_updates); // for WordPress 3.0
+      }
+      else if( function_exists('set_transient') and !$already_set_transient )
       {
         $already_set_transient = true;
         set_transient("update_plugins", $plugin_updates); // for WordPress 2.8+
