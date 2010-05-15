@@ -941,6 +941,21 @@ class PrliUtils
         update_option('prlipro-credentials', $creds);
       }
     } 
+
+    // Hiding pretty link custom fields
+    if($db_version and $db_version < 10)
+    {
+      $query_str = "UPDATE {$wpdb->postmeta} SET meta_key=%s WHERE meta_key=%s";
+
+      $query = $wpdb->prepare($query_str, '_pretty-link', 'pretty-link');
+      $wpdb->query($query);
+
+      $query = $wpdb->prepare($query_str, '_prli-keyword-cached-content', 'prli-keyword-cached-content');
+      $wpdb->query($query);
+
+      $query = $wpdb->prepare($query_str, '_prlipro-post-options', 'prlipro-post-options');
+      $wpdb->query($query);
+    }
   }
 
 
@@ -1085,12 +1100,12 @@ class PrliUtils
   {
     global $wpdb;
 
-    $query = "SELECT count(*) FROM {$wpdb->postmeta} WHERE ( meta_key LIKE 'prli%' OR meta_key LIKE 'pretty-link%' ) AND post_id=0";
+    $query = "SELECT count(*) FROM {$wpdb->postmeta} WHERE ( meta_key LIKE 'prli%' OR meta_key LIKE 'pretty-link%' OR meta_key LIKE '_prli%' OR meta_key LIKE '_pretty-link%' ) AND post_id=0";
     $count = $wpdb->get_var($query);
 
     if($count)
     {
-      $query = "DELETE FROM {$wpdb->postmeta} WHERE ( meta_key LIKE 'prli%' OR meta_key LIKE 'pretty-link%' ) AND post_id=0";
+      $query = "DELETE FROM {$wpdb->postmeta} WHERE ( meta_key LIKE 'prli%' OR meta_key LIKE 'pretty-link%' OR meta_key LIKE '_prli%' OR meta_key LIKE '_pretty-link%' ) AND post_id=0";
       $wpdb->query($query);
     }
   }
