@@ -4,7 +4,7 @@ Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
 Requires at least: 2.7.1
 Tested up to: 2.9.2
-Stable tag: 1.4.46
+Stable tag: 1.4.47
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -98,6 +98,11 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.47 =
+* Updated code for WP 3.0
+* Fixed tweetbadge indexing issue
+* Added an underscore to postmeta values
 
 = 1.4.46 =
 * Fixed a subdirectory redirection issue
@@ -279,6 +284,9 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+
+= 1.4.47 =
+Upgrade to make Pretty Link compatible with WordPress 3.0
 
 = 1.4.46 =
 If your wordpress website is in a subdirectory and you've had issues with your pretty links since the last release then this upgrade will fix it.
