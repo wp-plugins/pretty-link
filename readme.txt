@@ -24,7 +24,7 @@ This is a link setup using Pretty Link that redirects to the Pretty Link Homepag
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com -- only the mailing list software out there -- in my humble opinion :) :
+Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com -- only the BEST mailing list and autoresponder service out there -- in my humble opinion :) :
 
 http://blairwilliams.com/aweber
 
