@@ -14,7 +14,7 @@ Shrink, track and share any URL on the Internet from your WordPress website. You
 
 = Upgrade to Pretty Link Pro =
 
-Pretty Link Pro is an upgrade to Pretty Link that re-sets the bar for Link Management, Automation, Sharing and Tracking! You can learn more about it here:
+Pretty Link Pro is an upgrade to Pretty Link that adds the capability to automate your pretty link creation, auto-tweet them, replace keywords thoughout your blog and much more. You can learn more about it here:
 
 http://prettylinkpro.com
 
@@ -24,9 +24,9 @@ This is a link setup using Pretty Link that redirects to the Pretty Link Homepag
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'thesis') that redirects to my affiliate link for diythemes.com -- only the best theme you can get for WordPress -- in my humble opinion :) :
+Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com -- only the mailing list software out there -- in my humble opinion :) :
 
-http://blairwilliams.com/thesis
+http://blairwilliams.com/aweber
 
 Here's a link that Pretty Link generated a random slug for (similar to how bit.ly or tinyurl would do):
 
@@ -62,24 +62,6 @@ http://blairwilliams.com/x0z
 * Hide the Target URL by loading it in a full-screen frame
 * Pretty Link Bookmarklet
 
-= Pro Features =
-You'll get the following additional features when you purchase Pretty Link Pro:
-
-* Replace keywords throughout your blog with Pretty Links
-* Replace URLs throughout your blog with Pretty Links
-* Rotate up to 5 URLs from one Pretty Link
-* Split Test these URL rotations for a Pretty Link
-* Setup Conversion Reports
-* Setup your own link shortening service
-* Create shorter URLs by using an alternate domain name you own (other than your blog's) for your Pretty Links
-* Import / Export Pretty Links
-* Automatically create Pretty Links for each Post / Page
-* Automatically Tweet each Post / Page when it is Published
-* Display a Tweet Badge on Pages and / or Posts that contains the number of tweets that this page has received
-* Display a Re-Tweet button on every Page and / or Post that incorporates your twitter handle & Pretty Link into the ReTweet
-* Display a row of social networking buttons on each Page and / or Post
-* Lifetime Updates
-
 == Installation ==
 
 1. Upload 'pretty-link.zip' to the '/wp-content/plugins/' directory
@@ -98,6 +80,10 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.48 =
+* Fixed a performance issue in Pretty Link affecting some users when viewing their dashboard
+* Fixed the custom menu auto-tweet issue affecting some Pretty Link Pro users
 
 = 1.4.47 =
 * Updated code for WP 3.0
@@ -284,6 +270,8 @@ You'll get the following additional features when you purchase Pretty Link Pro:
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+= 1.4.48 =
+Fixed some dashboard performance issues for Pretty Link users and a custom menu tweeting fix that was affecting some pro users.
 
 = 1.4.47 =
 Upgrade to make Pretty Link compatible with WordPress 3.0
@@ -302,5 +290,4 @@ All users should upgrade to this new version -- several functional and performan
 
 == Screenshots ==
 [Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
-
 [Pretty Link Pro Screenshots](http://prettylinkpro.com "Pretty link Pro Screenshots")
