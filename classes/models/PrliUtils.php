@@ -959,6 +959,8 @@ class PrliUtils
 
     if($db_version and $db_version < 11)
     {
+      /* Too much to handle on larger tweet databases -- this code will still be accessible by going to the following url:
+         {$prli_blogurl}/wp-admin/admin.php?page=pretty-link/pro/prlipro-options.php&action=trim_dup_tweets
       // Clearing out duplicate tweets
       if($prli_update->pro_is_installed())
       {
@@ -982,6 +984,7 @@ class PrliUtils
           }
         }
       }
+      */
     }
   }
 
