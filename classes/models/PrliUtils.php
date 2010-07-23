@@ -956,6 +956,33 @@ class PrliUtils
       $query = $wpdb->prepare($query_str, '_prlipro-post-options', 'prlipro-post-options');
       $wpdb->query($query);
     }
+
+    if($db_version and $db_version < 11)
+    {
+      // Clearing out duplicate tweets
+      if($prli_update->pro_is_installed())
+      {
+        $block_size = 2000;
+        $upper_limit = $block_size - 1;
+        $tweet_table = "{$wpdb->prefix}prli_tweets";
+
+        $query = $wpdb->prepare("SELECT count(DISTINCT twid) FROM {$tweet_table}");
+        $twid_count = $wpdb->get_var($query);
+
+        for($offset=0; $offset < $twid_count; $offset += $block_size)
+        {
+          $limit = $offset + $upper_limit;
+          $query = $wpdb->prepare("SELECT id FROM {$tweet_table} GROUP BY twid LIMIT %d,%d",$offset,$limit);
+          $tweet_ids = $wpdb->get_col($query);
+
+          if(is_array($tweet_ids) and count($tweet_ids) > 0)
+          {
+            $query = $wpdb->prepare("DELETE FROM {$tweet_table} WHERE id not in (" . implode(',', $tweet_ids) . ")");
+            $wpdb->query($query);
+          }
+        }
+      }
+    }
   }
 
 
