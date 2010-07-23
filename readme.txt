@@ -2,9 +2,9 @@
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
-Requires at least: 2.7.1
-Tested up to: 2.9.2
-Stable tag: 1.4.47
+Requires at least: 2.9
+Tested up to: 3.0
+Stable tag: 1.4.49
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -24,7 +24,7 @@ This is a link setup using Pretty Link that redirects to the Pretty Link Homepag
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com -- only the mailing list software out there -- in my humble opinion :) :
+Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com -- only the BEST mailing list and autoresponder service out there -- in my humble opinion :) :
 
 http://blairwilliams.com/aweber
 
@@ -80,6 +80,10 @@ http://blairwilliams.com/x0z
 [Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
+
+= 1.4.49 =
+* Fixed Keyword Caching Issue for Pro Users
+* Fixed recording duplicate tweet issue for Pro Users
 
 = 1.4.48 =
 * Fixed a performance issue in Pretty Link affecting some users when viewing their dashboard
@@ -270,6 +274,9 @@ http://blairwilliams.com/x0z
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+= 1.4.49 =
+* Fixed some important bugs for pro users -- non-pro users will be pretty much unchanged by this release
+
 = 1.4.48 =
 Fixed some dashboard performance issues for Pretty Link users and a custom menu tweeting fix that was affecting some pro users.
 
