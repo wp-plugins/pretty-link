@@ -6,7 +6,7 @@ Description: Shrink, track and share any URL on the Internet from your WordPress
 Version: 1.4.22
 Author: Blair Williams
 Author URI: http://blairwilliams.com
-Copyright: 2009, Blair Williams
+Copyright: 2009, Caseproof, LLC
 
 GNU General Public License, Free Software Foundation <http://creativecommons.org/licenses/GPL/2.0/>
 This program is free software; you can redistribute it and/or modify
