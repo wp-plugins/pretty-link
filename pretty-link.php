@@ -6,7 +6,7 @@ Description: Create clean, simple, trackable links on your website that redirect
 Version: 1.1.8
 Author: Blair Williams
 Author URI: http://blairwilliams.com
-Copyright: 2009, Blair Williams
+Copyright: 2009, Caseproof, LLC
 
 GNU General Public License, Free Software Foundation <http://creativecommons.org/licenses/GPL/2.0/>
 This program is free software; you can redistribute it and/or modify
