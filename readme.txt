@@ -81,6 +81,10 @@ http://blairwilliams.com/x0z
 
 == Changelog ==
 
+= 1.4.50 =
+* Updated to use the Twitter oAuth authentication protocol
+* Updated the tweetbadge to use the new Twitter Tweet Button
+
 = 1.4.49 =
 * Fixed Keyword Caching Issue for Pro Users
 * Fixed recording duplicate tweet issue for Pro Users
@@ -274,6 +278,9 @@ http://blairwilliams.com/x0z
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+= 1.4.50 =
+* If you are a pro user and use the twitter related features of Pretty Link Pro you need to update immediately -- non-pro users will be pretty much unchanged by this release
+
 = 1.4.49 =
 * Fixed some important bugs for pro users -- non-pro users will be pretty much unchanged by this release
 
