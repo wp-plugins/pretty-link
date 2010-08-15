@@ -4,8 +4,8 @@ Plugin Name: Pretty Link
 Plugin URI: http://blairwilliams.com/pretty-link
 Description: Shrink, track and share any URL on the Internet from your WordPress website!
 Version: 1.4.50
-Author: Blair Williams
-Author URI: http://blairwilliams.com
+Author: Caseproof
+Author URI: http://caseproof.com
 Copyright: 2009-2010, Caseproof, LLC
 
 GNU General Public License, Free Software Foundation <http://creativecommons.org/licenses/GPL/2.0/>
