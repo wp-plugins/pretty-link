@@ -1,4 +1,4 @@
-=== Pretty Link ===
+=== Pretty Link (Lite Version) ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
@@ -44,7 +44,6 @@ http://blairwilliams.com/w7a
 * Intuitive Javascript / AJAX Admin User Interface
 * Pass custom parameters to your scripts through pretty link and still have full tracking ability
 * Ability to rewrite these custom Parameters before forwarding to Target URL
-* Setup Pretty Links as Tracking Pixels and track impressions
 * Exclude IP Addresses from Stats
 * Enables you to post your Pretty Links to Twitter directly from your WordPress admin
 * Enables you to send your Pretty Links via Email directly from your WordPress admin
@@ -53,9 +52,6 @@ http://blairwilliams.com/w7a
 * Organize Links into Groups
 * Create nofollow/noindex links
 * Turn tracking on / off on each link
-* Keep users on your site even when being redirected by using the PrettyBar which stays at the top of the page
-* Ability to configure and skin the PrettyBar to mirror the look and feel of your site
-* Hide the Target URL by loading it in a full-screen frame
 * Pretty Link Bookmarklet
 
 == Installation ==
