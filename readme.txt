@@ -1,7 +1,7 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pro, professional, pages, posts, shortcode, seo, automation, keyword, replacement, replacements, widget, widgets, dashboard, sidebar
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 2.9
 Tested up to: 3.0.1
 Stable tag: 1.4.50
@@ -24,7 +24,7 @@ This is a link setup using Pretty Link that redirects to the Pretty Link Homepag
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com -- only the BEST mailing list and autoresponder service out there -- in my humble opinion :) :
+Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com:
 
 http://blairwilliams.com/aweber
 
@@ -69,15 +69,6 @@ http://blairwilliams.com/x0z
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
-
-= Release Notes =
-[Pretty Link Change Log](http://blairwilliams.com/pretty-link/change-log "Pretty link Change Log")
-
-== Frequently Asked Questions ==
-[Pretty Link FAQ](http://blairwilliams.com/pretty-link/pretty-link-faq "Pretty link FAQ")
-
-= Developers =
-[Pretty Link API](http://blairwilliams.com/pretty-link/api/ "Pretty link API")
 
 == Changelog ==
 
@@ -301,7 +292,3 @@ All users -- especially pro users should upgrade to this new version -- it fixes
 
 = 1.4.43 =
 All users should upgrade to this new version -- several functional and performance related issues have been fixed for Pretty Link and Pretty Link Pro users.
-
-== Screenshots ==
-[Pretty Link Screenshots](http://blairwilliams.com/pretty-link "Pretty link Screenshots")
-[Pretty Link Pro Screenshots](http://prettylinkpro.com "Pretty link Pro Screenshots")
