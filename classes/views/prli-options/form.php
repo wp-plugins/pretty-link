@@ -37,13 +37,16 @@ if(!$permalink_structure or empty($permalink_structure))
     <select name="<?php echo $link_redirect_type; ?>">
         <option value="307" <?php echo (($prli_options->link_redirect_type == '307')?' selected="selected"':''); ?>/>Temporary (307)</option>
         <option value="301" <?php echo (($prli_options->link_redirect_type == '301')?' selected="selected"':''); ?>/>Permanent (301)</option>
+        <!--
         <option value="prettybar" <?php echo (($prli_options->link_redirect_type == 'prettybar')?' selected="selected"':''); ?>/>Pretty Bar</option>
         <option value="cloak" <?php echo (($prli_options->link_redirect_type == 'cloak')?' selected="selected"':''); ?>/>Cloak</option>
         <option value="pixel" <?php echo (($prli_options->link_redirect_type == 'pixel')?' selected="selected"':''); ?>/>Pixel</option>
+        -->
     </select>
     <br/><span class="description">Select the type of redirection you want your newly created links to have.</span>
   </li>
 </ul>
+<!--
 <h3><a class="toggle prettybar-toggle-button">PrettyBar Options <span class="prettybar-expand" style="display: none;">[+]</span><span class="prettybar-collapse">[-]</span></a></h3>
 <table class="prettybar-toggle-pane form-table">
   <tr class="form-field">
@@ -57,7 +60,7 @@ if(!$permalink_structure or empty($permalink_structure))
     <td valign="top" width="15%"><?php _e("Background Image URL:", $prettybar_background_image_url ); ?> </td>
     <td width="85%">
       <input type="text" name="<?php echo $prettybar_background_image_url; ?>" value="<?php echo $prli_options->prettybar_background_image_url; ?>"/>
-      <br/><span class="description">If set, this will replace the background image on PrettyBar. The image that this URL references should be 65px tall -- this image will be repeated horizontally across the bar.</span>
+      <br/><span class="description">If set, this will replace the background image on PrettyBar. The image that this URL references should be 65px tall - this image will be repeated horizontally across the bar.</span>
     </td>
   </tr>
   <tr>
@@ -143,6 +146,7 @@ if(!$permalink_structure or empty($permalink_structure))
 
   <?php do_action('prli-prettybar-options'); ?>
 </table>
+-->
 <h3><a class="toggle reporting-toggle-button">Reporting Options <span class="reporting-expand" style="display: none;">[+]</span><span class="reporting-collapse">[-]</span></a></h3>
 <table class="reporting-toggle-pane form-table">
   <tr class="form-field">

@@ -294,6 +294,7 @@ class PrliUtils
 
     switch($pretty_link->redirect_type)
     {
+        /*
       case 'pixel':
         header("HTTP/1.1 200 OK");
         break;
@@ -306,6 +307,7 @@ class PrliUtils
         header("HTTP/1.1 200 OK");
         require_once PRLI_VIEWS_PATH . '/prli-links/ultra-cloak.php';
         break;
+        */
       case '301':
         header("HTTP/1.1 301 Moved Permanently");
         header('Location: '.$pretty_link_url.$param_string);

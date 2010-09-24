@@ -1,7 +1,7 @@
 === Pretty Link ===
 Contributors: supercleanse
 Donate link: http://www.blairwilliams.com/pretty-link/donate/
-Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, slug, slugs, admin, administration, stats, statistics, stat, statistic, cloaking, cloak, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
+Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 2.9
 Tested up to: 3.0.1
 Stable tag: 1.4.50
@@ -10,7 +10,7 @@ Shrink, track and share any URL on the Internet from your WordPress website. Cre
 
 == Description ==
 
-Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to mask their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
+Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to clean up their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
 
 = Upgrade to Pretty Link Pro =
 
@@ -24,7 +24,7 @@ This is a link setup using Pretty Link that redirects to the Pretty Link Homepag
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'aweber') that redirects to my affiliate link for aweber.com:
+Here's a named Pretty Link (I used the slug 'aweber') that does a 307  redirect to my affiliate link for aweber.com:
 
 http://blairwilliams.com/aweber
 
@@ -32,13 +32,9 @@ Here's a link that Pretty Link generated a random slug for (similar to how bit.l
 
 http://blairwilliams.com/w7a
 
-Here's a Pretty Link that uses the configurable Pretty Link PrettyBar:
-
-http://blairwilliams.com/x0z
-
 = Features =
 
-* Gives you the ability to create clean, simple URLs on your website that redirect to any other URL
+* Gives you the ability to create clean, simple URLs on your website that redirect to any other URL (allows for 301 and 307 redirects only)
 * Generates random 2-3 character slugs for your URL or allows you to name a custom slug for your URL
 * Tracks the Number of Hits per link
 * Tracks the Number of Unique Hits per link
@@ -71,6 +67,9 @@ http://blairwilliams.com/x0z
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
 
 == Changelog ==
+
+= 1.4.51 =
+* Removed cloaking & pretty bar redirection to comply with wordpress.org policy requirements
 
 = 1.4.50 =
 * Updated to use the Twitter oAuth authentication protocol
@@ -269,6 +268,9 @@ http://blairwilliams.com/x0z
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+= 1.4.51 =
+* Removed cloaking & pretty bar redirection to comply with wordpress.org policy requirements
+
 = 1.4.50 =
 * If you are a pro user and use the twitter related features of Pretty Link Pro you need to update immediately -- non-pro users will be pretty much unchanged by this release
 
