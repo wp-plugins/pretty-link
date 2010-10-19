@@ -294,30 +294,19 @@ class PrliUtils
 
     switch($pretty_link->redirect_type)
     {
-        /*
-      case 'pixel':
-        header("HTTP/1.1 200 OK");
-        break;
-      case 'prettybar':
-        global $prli_blogurl;
-        header("HTTP/1.1 200 OK");
-        require_once PRLI_VIEWS_PATH . '/prli-links/bar.php';
-        break;
-      case 'cloak':
-        header("HTTP/1.1 200 OK");
-        require_once PRLI_VIEWS_PATH . '/prli-links/ultra-cloak.php';
-        break;
-        */
       case '301':
         header("HTTP/1.1 301 Moved Permanently");
         header('Location: '.$pretty_link_url.$param_string);
         break;
-      default:
+      case '307':
         if($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0')
           header("HTTP/1.1 302 Found");
         else
           header("HTTP/1.1 307 Temporary Redirect");
         header('Location: '.$pretty_link_url.$param_string);
+        break;
+      default:
+        do_action('prli_issue_cloaked_redirect', $pretty_link->redirect_type);
     }
   }
   

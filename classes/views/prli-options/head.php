@@ -1,13 +1,6 @@
 <script type="text/javascript">
 jQuery(document).ready(function() {
-  jQuery('.prettybar-expand').show();
-  jQuery('.prettybar-collapse').hide();
-  jQuery('.prettybar-toggle-pane').hide();
-  jQuery('.prettybar-toggle-button').click(function() {
-    jQuery('.prettybar-toggle-pane').toggle();
-    jQuery('.prettybar-expand').toggle();
-    jQuery('.prettybar-collapse').toggle();
-  });
+<?php do_action('prli_options_js'); ?>
 
   jQuery('.reporting-expand').show();
   jQuery('.reporting-collapse').hide();
