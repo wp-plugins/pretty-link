@@ -52,6 +52,10 @@
           <?php do_action('prli_redirection_types', $values); ?>
         </select><a class="toggle">&nbsp;[?]</a>
         <div class="toggle_pane description"><strong>307 Redirection</strong> is the best option if your Target URL could possibly change or need accurate reporting for this link.<br/><br/><strong>301 Redirection</strong> is the best option if you're <strong>NOT</strong> planning on changing your Target URL. Traditionally this option is considered to be the best approach to use for your SEO/SEM efforts but since Pretty Link uses your domain name either way this notion isn't necessarily true for Pretty Links. Also, this option may not give you accurate reporting since proxy and caching servers may go directly to your Target URL once it's cached.<br/><br/><strong>Pretty Bar Redirection</strong> is the best option if you want to show the Pretty Bar at the top of the page when redirecting to the Target URL.<br/><br/><strong>Cloak Redirection</strong> is the best option if you don't want your Target URL to be visible even after the redirection. This way, if a Target URL doesn't redirect to a URL you want to show then this will mask it.<br/><br/><strong>Pixel Redirection</strong> is the option you should select if you want this link to behave like a tracking pixel instead of as a link. This option is useful if you want to track the number of times a page or email is opened. If you place your Pretty Link inside an img tag on the page (Example: <code>&lt;img src="<?php echo $prli_blogurl . "/yourslug"; ?>" /&gt;</code>) then the page load will be tracked as a click and then displayed. Note: If this option is selected your Target URL will simply be ignored if there's a value in it.</div>
+        <?php global $prli_update; ?>
+        <?php if(!$prli_update->pro_is_installed_and_authorized()) { ?>
+              <p class="description">To Enable Cloaking &amp; Pretty Bar<br/>Upgrade to <a href="http://prettylinkpro.com">Pretty Link Pro</a></p>
+        <?php } ?>
       </div>
       <br/>
       <h3>SEO Options</h3>
@@ -78,10 +82,12 @@
           <input type="radio" name="param_forwarding" value="on" <?php echo $values['param_forwarding']['on']; ?> />&nbsp;Standard Parameter Forwarding <a class="toggle">&nbsp;[?]</a>
           <div class="toggle_pane description">Select this option if you want to forward parameters through your pretty link to your Target URL. This will allow you to pass parameters in the standard syntax for example the pretty link <code>http://yoururl.com/coollink?product_id=4&sku=5441</code> will forward to the target URL and append the same parameters like so: <code>http://anotherurl.com?product_id=4&sku=5441</code>.</div>
         </li>
+        <!--
         <li>
           <input type="radio" name="param_forwarding" value="custom" <?php echo $values['param_forwarding']['custom']; ?> />&nbsp;Custom Parameter Forwarding&nbsp;&nbsp;<input type="text" name="param_struct" value="<?php echo $values['param_struct'] ?>" size="25"/> <a class="toggle">&nbsp;[?]</a>
           <div class="toggle_pane description">Select this option if you want to forward parameters through your Pretty Link to your Target URL and write the parameters in a custom format. For example, say I wanted to to have my links look like this: <code>http://yourdomain.com/products/14/4</code> and I wanted this to forward to <code>http://anotherurl.com?product_id=14&dock=4</code> you'd just select this option and enter the following string into the text field <code>/products/%product_id%/%dock%</code>. This will tell Pretty Link where each variable will be located in the URL and what each variable name is.</div>
         </li>
+        -->
       </ul>
     </td>
   </tr>
