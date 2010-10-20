@@ -309,7 +309,7 @@ class PrliUtils
           header('Location: '.$pretty_link_url.$param_string);
         }
         else
-          do_action('prli_issue_cloaked_redirect', $pretty_link->redirect_type);
+          do_action('prli_issue_cloaked_redirect', $pretty_link->redirect_type, $pretty_link_url, $param_string);
     }
   }
   
