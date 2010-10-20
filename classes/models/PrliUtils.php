@@ -205,7 +205,7 @@ class PrliUtils
   // This is where the magic happens!
   function track_link($slug,$values)
   {
-    global $wpdb, $prli_click, $prli_link;
+    global $wpdb, $prli_click, $prli_link, $prli_update;
   
     $query = "SELECT * FROM ".$prli_link->table_name." WHERE slug='$slug' LIMIT 1";
     $pretty_link = $wpdb->get_row($query);
@@ -298,15 +298,18 @@ class PrliUtils
         header("HTTP/1.1 301 Moved Permanently");
         header('Location: '.$pretty_link_url.$param_string);
         break;
-      case '307':
-        if($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0')
-          header("HTTP/1.1 302 Found");
-        else
-          header("HTTP/1.1 307 Temporary Redirect");
-        header('Location: '.$pretty_link_url.$param_string);
-        break;
       default:
-        do_action('prli_issue_cloaked_redirect', $pretty_link->redirect_type);
+        if( $pretty_link->redirect_type == '307' or
+            !$prli_update->pro_is_installed_and_authorized() )
+        {
+          if($_SERVER['SERVER_PROTOCOL'] == 'HTTP/1.0')
+            header("HTTP/1.1 302 Found");
+          else
+            header("HTTP/1.1 307 Temporary Redirect");
+          header('Location: '.$pretty_link_url.$param_string);
+        }
+        else
+          do_action('prli_issue_cloaked_redirect', $pretty_link->redirect_type);
     }
   }
   
