@@ -133,14 +133,14 @@ class PrliLink
                         'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
                     '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id ' .
-                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ';
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ';
         }
         else
         {
           $query .= '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
                         'WHERE lm.meta_key="static-clicks" AND lm.link_id=li.id LIMIT 1) as clicks, ' .
                     '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
-                        'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques, ';
+                        'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques ';
         }
         $query .= "FROM {$this->table_name} li " .
                   'WHERE slug=%s';
@@ -175,14 +175,14 @@ class PrliLink
                         'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
                     '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id ' .
-                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ';
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ';
         }
         else
         {
           $query .= '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
                         'WHERE lm.meta_key="static-clicks" AND lm.link_id=li.id LIMIT 1) as clicks, ' .
                     '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
-                        'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques, ';
+                        'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques ';
         }
         $query .= 'FROM ' . $this->table_name . ' li ' .
                   'WHERE id=%d';
