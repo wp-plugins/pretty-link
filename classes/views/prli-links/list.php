@@ -135,7 +135,7 @@
           <div class="link_actions">
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>">Delete</a>
-            <?php if( $link->track_me ) { ?>
+            <?php if( $link->track_me and $prli_options->extended_tracking!='count' ) { ?>
             |&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>&nbsp;|
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php echo $link->slug; ?>">Hits</a>
             <?php do_action('prli-link-action',$link->id); ?>
@@ -151,7 +151,13 @@
           </div>
         </td>
         <?php do_action('prli_link_column_row',$link->id); ?>
-        <td><?php echo (($link->track_me)?"<a href=\"?page=".PRLI_PLUGIN_NAME."/prli-clicks.php&l=$link->id\" title=\"View clicks for $link->slug\">$link->clicks/$link->uniques</a>":"<img src=\"".PRLI_URL."/images/not_tracking.png\" title=\"This link isn't being tracked\"/>"); ?></td>
+        <td>
+          <?php if($prli_options->extended_tracking!='count')
+                  echo (($link->track_me)?"<a href=\"?page=".PRLI_PLUGIN_NAME."/prli-clicks.php&l=$link->id\" title=\"View clicks for $link->slug\">" . (empty($link->clicks)?0:$link->clicks) . "/" . (empty($link->uniques)?0:$link->uniques) . "</a>":"<img src=\"".PRLI_URL."/images/not_tracking.png\" title=\"This link isn't being tracked\"/>");
+                else
+                  echo (($link->track_me)?(empty($link->clicks)?0:$link->clicks) . "/" . (empty($link->uniques)?0:$link->uniques):"<img src=\"".PRLI_URL."/images/not_tracking.png\" title=\"This link isn't being tracked\"/>");
+          ?>
+        </td>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $link->group_id; ?>"><?php echo $link->group_name; ?></a></td>
         <td><?php echo $link->created_at; ?></td>
         </td>

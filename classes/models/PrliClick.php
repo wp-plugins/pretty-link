@@ -183,6 +183,7 @@ class PrliClick
     {
       global $wpdb, $prli_link;
 
+      $search_where = '';
       $query = "SELECT DATE(cl.created_at) as cldate,COUNT(*) as clcount FROM ".$this->table_name." cl WHERE cl.created_at BETWEEN '".date("Y-n-j",$start_timestamp)." 00:00:00' AND '".date("Y-n-j",$end_timestamp)." 23:59:59'".$search_where.$this->get_exclude_where_clause( ' AND' );
 
       if($link_id != "all")

@@ -57,10 +57,10 @@ function setup_new_vars($groups)
   global $prli_link, $prli_options;
 
   $values = array();
-  $values['url'] =  (($_POST['url'] != null)?$_POST['url']:'');
-  $values['slug'] = (($_POST['slug'] != null)?$_POST['slug']:$prli_link->generateValidSlug());
-  $values['name'] = htmlspecialchars((($_POST['name'] != null)?stripslashes($_POST['name']):''));
-  $values['description'] = htmlspecialchars((($_POST['description'] != null)?stripslashes($_POST['description']):''));
+  $values['url'] =  (isset($_REQUEST['url'])?$_REQUEST['url']:'');
+  $values['slug'] = (isset($_POST['slug'])?$_REQUEST['slug']:$prli_link->generateValidSlug());
+  $values['name'] = htmlspecialchars((isset($_REQUEST['name'])?stripslashes($_REQUEST['name']):''));
+  $values['description'] = htmlspecialchars((isset($_REQUEST['description'])?stripslashes($_REQUEST['description']):''));
 
   $values['track_me'] = (((isset($_POST['track_me']) and $_POST['track_me'] == 'on') or (!isset($_POST['track_me']) and $prli_options->link_track_me == '1'))?'checked="true"':'');
   $values['nofollow'] = (((isset($_POST['nofollow']) and $_POST['nofollow'] == 'on') or (!isset($_POST['nofollow']) and $prli_options->link_nofollow == '1'))?'checked="true"':'');
@@ -79,7 +79,7 @@ function setup_new_vars($groups)
     foreach($groups as $group)
     {
       $values['groups'][] = array( 'id' => $group->id,
-                                   'value' => (($_POST['group_id'] == $group->id)?' selected="true"':''),
+                                   'value' => ((isset($_REQUEST['group_id']) and $_REQUEST['group_id'] == $group->id)?' selected="true"':''),
                                    'name' => $group->name );
     }
   }
@@ -97,10 +97,10 @@ function setup_edit_vars($groups,$record)
   global $prli_link;
 
   $values = array();
-  $values['url'] =  (($_POST['url'] != null and $record == null)?$_POST['url']:$record->url);
-  $values['slug'] = (($_POST['slug'] != null and $record == null)?$_POST['slug']:$record->slug);
-  $values['name'] = htmlspecialchars(stripslashes((($_POST['name'] != null and $record == null)?$_POST['name']:$record->name)));
-  $values['description'] = htmlspecialchars(stripslashes((($_POST['description'] != null and $record == null)?$_POST['description']:$record->description)));
+  $values['url'] =  ((isset($_POST['url']) and $record == null)?$_POST['url']:$record->url);
+  $values['slug'] = ((isset($_POST['slug']) and $record == null)?$_POST['slug']:$record->slug);
+  $values['name'] = htmlspecialchars(stripslashes(((isset($_POST['name']) and $record == null)?$_POST['name']:$record->name)));
+  $values['description'] = htmlspecialchars(stripslashes(((isset($_POST['description']) and $record == null)?$_POST['description']:$record->description)));
   $values['track_me'] = ((($_POST['track_me'] or $record->track_me) and ($_POST['track_me'] == 'on' or $record->track_me == 1))?'checked="true"':'');
   $values['nofollow'] = ((($_POST['nofollow'] or $record->nofollow) and ($_POST['nofollow'] == 'on' or $record->nofollow == 1))?'checked="true"':'');
 
@@ -116,7 +116,7 @@ function setup_edit_vars($groups,$record)
   $values['param_forwarding']['off'] = ((!isset($_POST['param_forwarding']) or $record->param_forwarding == 'off')?'checked="true"':'');
   $values['param_forwarding']['on'] = (((isset($_POST['param_forwarding']) and $_POST['param_forwarding'] == 'on') or (isset($record->param_forwarding) and $record->param_forwarding == 'on'))?'checked="true"':'');
   $values['param_forwarding']['custom'] = (((isset($_POST['param_forwarding']) and $_POST['param_forwarding'] == 'custom') or (isset($record->param_forwarding) and $record->param_forwarding == 'custom'))?'checked="true"':'');
-  $values['param_struct'] = (($_POST['param_struct'] != null and $record == null)?$_POST['param_struct']:$record->param_struct);
+  $values['param_struct'] = ((isset($_POST['param_struct']) and $record == null)?$_POST['param_struct']:$record->param_struct);
 
   $values['redirect_type'] = array();
   $values['redirect_type']['307'] = ((!isset($_POST['redirect_type']) or (isset($_POST['redirect_type']) and $_POST['redirect_type'] == '307') or (isset($record->redirect_type) and $record->redirect_type == '307'))?' selected="selected"':'');

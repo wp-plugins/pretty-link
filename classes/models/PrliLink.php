@@ -123,38 +123,70 @@ class PrliLink
 
     function getOneFromSlug( $slug, $return_type = OBJECT, $include_stats = false )
     {
-      global $wpdb, $prli_click;
+      global $wpdb, $prli_click, $prli_options, $prli_link_meta;
       if($include_stats)
-        $query = 'SELECT li.*, ' .
-                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+      {
+        $query = 'SELECT li.*, ';
+        if($prli_options->extended_tracking != 'count')
+        {
+          $query .= '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
                     '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id ' .
-                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
-                 "FROM {$this->table_name} li " .
-                 'WHERE slug=%s';
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ';
+        }
+        else
+        {
+          $query .= '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                        'WHERE lm.meta_key="static-clicks" AND lm.link_id=li.id LIMIT 1) as clicks, ' .
+                    '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                        'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques, ';
+        }
+        $query .= "FROM {$this->table_name} li " .
+                  'WHERE slug=%s';
+      }
       else
         $query = "SELECT * FROM {$this->table_name} WHERE slug=%s";
 
       $query = $wpdb->prepare($query, $slug);
-      return $wpdb->get_row($query, $return_type);
+      $link = $wpdb->get_row($query, $return_type);
+
+      if( $include_stats and $link and $prli_options->extended_tracking == 'count' )
+      {
+        $link->clicks  = $prli_link_meta->get_link_meta($link->id,'static-clicks',true);
+        $link->uniques = $prli_link_meta->get_link_meta($link->id,'static-uniques',true);
+      }
+
+      return $link;
     }
 
     function getOne( $id, $return_type = OBJECT, $include_stats = false )
     {
-      global $wpdb, $prli_click;
+      global $wpdb, $prli_click, $prli_link_meta, $prli_options;
       if( !isset($id) or empty($id) )
           return false;
 
       if($include_stats)
-        $query = 'SELECT li.*, ' .
-                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+      {
+        $query = 'SELECT li.*, ';
+        if($prli_options->extended_tracking != 'count')
+        {
+          $query .= '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
                     '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id ' .
-                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques ' .
-                 'FROM ' . $this->table_name . ' li ' .
-                 'WHERE id=%d';
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ';
+        }
+        else
+        {
+          $query .= '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                        'WHERE lm.meta_key="static-clicks" AND lm.link_id=li.id LIMIT 1) as clicks, ' .
+                    '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                        'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques, ';
+        }
+        $query .= 'FROM ' . $this->table_name . ' li ' .
+                  'WHERE id=%d';
+      }
       else
         $query = "SELECT * FROM {$this->table_name} WHERE id=%d";
 
@@ -191,7 +223,7 @@ class PrliLink
         return $pretty_link;
     }
 
-    function &is_pretty_link($url, $check_domain=true)
+    function is_pretty_link($url, $check_domain=true)
     {
       global $prli_blogurl;
 
@@ -211,7 +243,7 @@ class PrliLink
         if(preg_match($match_str, $uri, $match_val))
         {
           // Match longest slug -- this is the most common
-          $params = $match_val[3];
+          $params = (isset($match_val[3])?$match_val[3]:'');
           if( $pretty_link_found =& $this->is_pretty_link_slug( $match_val[2] ) )
             return compact('pretty_link_found','pretty_link_params');
 
@@ -227,7 +259,7 @@ class PrliLink
           {
             $new_match_str ="#^{$subdir_str}({$struct})({$matched_link})(.*?)?$#";
 
-            $params = $match_val[3];
+            $params = (isset($match_val[3])?$match_val:'');
             if( $pretty_link_found =& $this->is_pretty_link_slug( $match_val[2] ) )
               return compact('pretty_link_found','pretty_link_params');
 
@@ -240,7 +272,7 @@ class PrliLink
       return false;
     }
 
-    function &is_pretty_link_slug($slug)
+    function is_pretty_link_slug($slug)
     {
       return $this->getOneFromSlug( urldecode($slug) );
     }
@@ -255,23 +287,37 @@ class PrliLink
 
     function getAll($where = '', $order_by = '', $return_type = OBJECT, $include_stats = false)
     {
-      global $wpdb, $prli_click, $prli_group, $prli_utils;
+      global $wpdb, $prli_click, $prli_group, $prli_link_meta, $prli_options, $prli_utils;
 
       if($include_stats)
-        $query = 'SELECT li.*, ' .
-                    '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+      {
+        $query = 'SELECT li.*, ';
+        if($prli_options->extended_tracking != 'count')
+        {
+          $query .= '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
                     '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                         'WHERE cl.link_id = li.id ' .
-                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
-                    'gr.name as group_name ' .
+                        'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ';
+        }
+        else
+        {
+          $query .= '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                        'WHERE lm.meta_key="static-clicks" AND lm.link_id=li.id LIMIT 1) as clicks, ' .
+                    '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                        'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques, ';
+        }
+        $query .= 'gr.name as group_name ' .
                  'FROM '. $this->table_name . ' li ' .
                  'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
                  $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+      }
       else
+      {
         $query = "SELECT li.*, gr.name as group_name FROM {$this->table_name} li " . 
                  'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
                  $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by;
+      }
        
       return $wpdb->get_results($query, $return_type);
     }
@@ -291,16 +337,26 @@ class PrliLink
 
     function getPage($current_p,$p_size, $where = "", $order_by = '', $return_type = OBJECT)
     {
-      global $wpdb, $prli_click, $prli_utils, $prli_group;
+      global $wpdb, $prli_click, $prli_utils, $prli_group, $prli_link_meta, $prli_options;
       $end_index = $current_p * $p_size;
       $start_index = $end_index - $p_size;
-      $query = 'SELECT li.*, ' .
-                  '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
+      $query = 'SELECT li.*, ';
+      if($prli_options->extended_tracking != 'count')
+      {
+        $query .= '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as clicks, ' .
                   '(SELECT COUNT(*) FROM ' . $prli_click->table_name . ' cl ' .
                       'WHERE cl.link_id = li.id ' .
-                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ' .
-                  'gr.name as group_name ' .
+                      'AND cl.first_click <> 0' . $prli_click->get_exclude_where_clause( ' AND' ) . ') as uniques, ';
+      }
+      else
+      {
+        $query .= '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                      'WHERE lm.meta_key="static-clicks" AND lm.link_id=li.id LIMIT 1) as clicks, ' .
+                  '(SELECT lm.meta_value FROM ' . $prli_link_meta->table_name . ' lm ' .
+                      'WHERE lm.meta_key="static-uniques" AND lm.link_id=li.id LIMIT 1) as uniques, ';
+      }
+      $query .= 'gr.name as group_name ' .
                'FROM ' . $this->table_name . ' li ' .
                'LEFT OUTER JOIN ' . $prli_group->table_name . ' gr ON li.group_id=gr.id' . 
                $prli_utils->prepend_and_or_where(' WHERE', $where) . $order_by . ' ' . 

@@ -205,7 +205,7 @@ class PrliUtils
   // This is where the magic happens!
   function track_link($slug,$values)
   {
-    global $wpdb, $prli_click, $prli_link, $prli_update;
+    global $wpdb, $prli_click, $prli_options, $prli_link, $prli_update;
   
     $query = "SELECT * FROM ".$prli_link->table_name." WHERE slug='$slug' LIMIT 1";
     $pretty_link = $wpdb->get_row($query);
@@ -216,57 +216,87 @@ class PrliUtils
     {
       $first_click = 0;
       
-      $click_ip = $_SERVER['REMOTE_ADDR'];
-      $click_referer = $_SERVER['HTTP_REFERER'];
-      $click_host = gethostbyaddr($click_ip);
-      
-      $click_uri = $_SERVER['REQUEST_URI'];
-      $click_user_agent = $_SERVER['HTTP_USER_AGENT'];
-      $click_browser = $this->php_get_browser();
-      
+      $click_ip =         isset($_SERVER['REMOTE_ADDR'])?$_SERVER['REMOTE_ADDR']:'';
+      $click_referer =    isset($_SERVER['HTTP_REFERER'])?$_SERVER['HTTP_REFERER']:'';
+      $click_uri =        isset($_SERVER['REQUEST_URI'])?$_SERVER['REQUEST_URI']:'';
+      $click_user_agent = isset($_SERVER['HTTP_USER_AGENT'])?$_SERVER['HTTP_USER_AGENT']:'';
+
       //Set Cookie if it doesn't exist
       $cookie_name = 'prli_click_' . $pretty_link->id;
+
       //Used for unique click tracking
       $cookie_expire_time = time()+60*60*24*30; // Expire in 30 days
-     
-      $visitor_cookie = 'prli_visitor';
-      //Used for visitor activity
-      $visitor_cookie_expire_time = time()+60*60*24*365; // Expire in 1 year
       
-      
-      if($_COOKIE[$cookie_name] == null)
+      if(!isset($_COOKIE[$cookie_name]))
       {
         setcookie($cookie_name,$slug,$cookie_expire_time,'/');
         $first_click = 1;
       }
      
-      // Retrieve / Generate visitor id
-      if($_COOKIE[$visitor_cookie] == null)
+      if(isset($prli_options->extended_tracking) and $prli_options->extended_tracking == 'extended')
       {
-        $visitor_uid = $prli_click->generateUniqueVisitorId();
-        setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time,'/');
+        $click_browser = $this->php_get_browser();
+        $click_host = gethostbyaddr($click_ip);
+
+        $visitor_cookie = 'prli_visitor';
+        //Used for visitor activity
+        $visitor_cookie_expire_time = time()+60*60*24*365; // Expire in 1 year
+        
+        // Retrieve / Generate visitor id
+        if($_COOKIE[$visitor_cookie] == null)
+        {
+          $visitor_uid = $prli_click->generateUniqueVisitorId();
+          setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time,'/');
+        }
+        else
+          $visitor_uid = $_COOKIE[$visitor_cookie];
       }
       else
-        $visitor_uid = $_COOKIE[$visitor_cookie];
-     
-      //Record Click in DB
-      $insert_str = "INSERT INTO {$prli_click->table_name} (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,robot,created_at) VALUES (%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,NOW())";
-      $insert = $wpdb->prepare($insert_str, $pretty_link->id,
-                                            $visitor_uid,
-                                            $click_ip,
-                                            $click_user_agent,
-                                            $click_browser['browser'],
-                                            $click_browser['version'],
-                                            $click_browser['platform'],
-                                            $click_referer,
-                                            $click_uri,
-                                            $click_host,
-                                            $first_click,
-                                            $this->this_is_a_robot($click_user_agent,$click_browser));
+      {
+        $click_browser = array( 'browser' => '', 'version' => '', 'platform' => '', 'crawler' => '' );
+        $click_host = '';
+        $visitor_uid = '';
+      }
       
-      $results = $wpdb->query( $insert );
-      
-      do_action('prli_record_click',array('link_id' => $pretty_link->id, 'click_id' => $wpdb->insert_id, 'url' => $pretty_link_url));
+      if($prli_options->extended_tracking != 'count')
+      {
+        //Record Click in DB
+        $insert_str = "INSERT INTO {$prli_click->table_name} (link_id,vuid,ip,browser,btype,bversion,os,referer,uri,host,first_click,robot,created_at) VALUES (%d,%s,%s,%s,%s,%s,%s,%s,%s,%s,%d,%d,NOW())";
+        $insert = $wpdb->prepare($insert_str, $pretty_link->id,
+                                              $visitor_uid,
+                                              $click_ip,
+                                              $click_user_agent,
+                                              $click_browser['browser'],
+                                              $click_browser['version'],
+                                              $click_browser['platform'],
+                                              $click_referer,
+                                              $click_uri,
+                                              $click_host,
+                                              $first_click,
+                                              $this->this_is_a_robot($click_user_agent,$click_browser));
+        
+        $results = $wpdb->query( $insert );
+        
+        do_action('prli_record_click',array('link_id' => $pretty_link->id, 'click_id' => $wpdb->insert_id, 'url' => $pretty_link_url));
+      }
+      else
+      {
+        global $prli_link_meta;
+        $exclude_ips = explode(",", $prli_options->prli_exclude_ips);
+        if(!in_array($click_ip, $exclude_ips) and !$this->this_is_a_robot($click_user_agent,$click_browser))
+        {
+          $clicks  = $prli_link_meta->get_link_meta($pretty_link->id, 'static-clicks', true);
+          $clicks = (empty($clicks) or $clicks === false)?0:$clicks;
+          $prli_link_meta->update_link_meta($pretty_link->id, 'static-clicks', $clicks+1);
+
+          if($first_click)
+          {
+            $uniques  = $prli_link_meta->get_link_meta($pretty_link->id, 'static-uniques', true);
+            $uniques = (empty($uniques) or $uniques === false)?0:$uniques;
+            $prli_link_meta->update_link_meta($pretty_link->id, 'static-uniques', $uniques+1);
+          }
+        }
+      }
     }
   
     // Reformat Parameters
@@ -1028,7 +1058,7 @@ class PrliUtils
 
   function is_robot(&$click,&$browsecap,$header='')
   {
-    global $prli_utils, $prli_click;
+    global $prli_utils, $prli_click, $prli_options;
     $ua_string = trim(urldecode($click->browser));
     $btype = trim($click->btype);
 
@@ -1036,8 +1066,11 @@ class PrliUtils
     if(empty($ua_string))
       return 1;
 
-    // If the Browser type was unidentifiable then it's most likely a bot
-    if(empty($btype))
+    // If we're doing extended tracking and the Browser type
+    // was unidentifiable then it's most likely a bot
+    if( isset($prli_options->extended_tracking) and
+        $prli_options->extended_tracking == 'extended' and 
+        empty($btype) )
       return 1;
 
     // Some bots actually say they're bots right up front let's get rid of them asap

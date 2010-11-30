@@ -1,15 +1,26 @@
 <?php
+
+// Let's give pretty link plenty of room to work with
+$mem = abs(intval(@ini_get('memory_limit')));
+if( $mem and $mem < 128 )
+  @ini_set('memory_limit', '128M');
+
 add_action('admin_menu', 'prli_menu');
 
 function prli_menu()
 {
-  add_menu_page('Pretty Link', 'Pretty Link', 8, PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Add New Link', 'Add New Link', 8, PRLI_PATH.'/prli-add-link.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 8, PRLI_PATH.'/prli-groups.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 8, PRLI_PATH.'/prli-clicks.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Tools', 'Tools', 8, PRLI_PATH.'/prli-tools.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Options', 'Options', 8, PRLI_PATH.'/prli-options.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Pretty Link Pro', 'Pretty Link Pro', 8, PRLI_PATH.'/prli-pro-settings.php');
+  global $prli_options;
+
+  add_menu_page('Pretty Link', 'Pretty Link', 'administrator', PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Add New Link', 'Add New Link', 'administrator', PRLI_PATH.'/prli-add-link.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 'administrator', PRLI_PATH.'/prli-groups.php');
+
+  if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking != "count" )
+    add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 'administrator', PRLI_PATH.'/prli-clicks.php');
+
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Tools', 'Tools', 'administrator', PRLI_PATH.'/prli-tools.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Options', 'Options', 'administrator', PRLI_PATH.'/prli-options.php');
+  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Pretty Link Pro', 'Pretty Link Pro', 'administrator', PRLI_PATH.'/prli-pro-settings.php');
 
   add_action('admin_head-pretty-link/prli-clicks.php', 'prli_reports_admin_header');
   add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');
@@ -85,7 +96,10 @@ function prli_redirect()
   $request_uri = preg_replace('#/$#','',urldecode($_SERVER['REQUEST_URI']));
 
   if( $link_info =& $prli_link->is_pretty_link($request_uri,false) )
-    prli_link_redirect_from_slug( $link_info['pretty_link_found']->slug, $link_info['pretty_link_params'] );
+  {
+    $params = (isset($link_info['pretty_link_params'])?$link_info['pretty_link_params']:'');
+    prli_link_redirect_from_slug( $link_info['pretty_link_found']->slug, $params );
+  }
 }
 
 // For use with the prli_redirect function
@@ -112,21 +126,21 @@ add_action('init', 'prli_redirect'); //Redirect
 
 function prli_route_scripts()
 {
-  if( ( $_GET['action'] == 'prli_download_csv_hit_report' ) or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_hit_report#", $_SERVER['REQUEST_URI'] ) ) )
+  if( ( isset($_GET['action']) and $_GET['action'] == 'prli_download_csv_hit_report' ) or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_hit_report#", $_SERVER['REQUEST_URI'] ) ) )
   {
     global $wpdb, $prli_click, $prli_group, $prli_link;
     $_GET['action'] = "download_csv_hit_report";
     require_once( PRLI_PATH . "/prli-clicks.php" );
     exit;
   }
-  else if( ( $_GET['action'] == 'prli_download_csv_history_report') or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_history_report#", $_SERVER['REQUEST_URI'] ) ) )
+  else if( ( isset($_GET['action']) and $_GET['action'] == 'prli_download_csv_history_report') or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_history_report#", $_SERVER['REQUEST_URI'] ) ) )
   {
     global $wpdb, $prli_click, $prli_group, $prli_link;
     $_GET['action'] = "download_csv_history_report";
     require_once( PRLI_PATH . "/prli-clicks.php" );
     exit;
   }
-  else if( ( $_GET['action'] == 'prli_download_csv_origin_report') or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_origin_report#", $_SERVER['REQUEST_URI'] ) ) )
+  else if( ( isset($_GET['action']) and $_GET['action'] == 'prli_download_csv_origin_report') or ( PrliUtils::rewriting_on() and preg_match( "#^/prli_download_csv_origin_report#", $_SERVER['REQUEST_URI'] ) ) )
   {
     global $wpdb, $prli_click, $prli_group, $prli_link;
     $_GET['action'] = "download_csv_origin_report";

@@ -8,6 +8,7 @@ $errors = array();
 $prli_exclude_ips  = 'prli_exclude_ips';
 $whitelist_ips = 'prli_whitelist_ips';
 $filter_robots = 'prli_filter_robots';
+$extended_tracking = 'prli_extended_tracking';
 
 $link_track_me = 'prli_link_track_me';
 $link_prefix = 'prli_link_prefix';
@@ -19,7 +20,7 @@ $update_message = false;
 
 // See if the user has posted us some information
 // If they did, this hidden field will be set to 'Y'
-if( $_POST[ $hidden_field_name ] == 'Y' ) 
+if( isset($_REQUEST[ $hidden_field_name ]) and $_REQUEST[ $hidden_field_name ] == 'Y' ) 
 {
   // Validate This
   if( !empty($_POST[ $prli_exclude_ips ]) and !preg_match( "#^[ \t]*((\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)|([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*))([ \t]*,[ \t]*((\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)\.(\d{1,3}|\*)|([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*):([0-9a-fA-F]{1,4}|\*)))*$#", $_POST[ $prli_exclude_ips ] ) )
@@ -34,6 +35,7 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
   $prli_options->prli_exclude_ips = stripslashes($_POST[ $prli_exclude_ips ]);
   $prli_options->whitelist_ips = stripslashes($_POST[ $whitelist_ips ]);
   $prli_options->filter_robots = (int)isset($_POST[ $filter_robots ]);
+  $prli_options->extended_tracking = stripslashes($_POST[ $extended_tracking ]);
   $prli_options->link_track_me = (int)isset($_POST[ $link_track_me ]);
   $prli_options->link_prefix = (int)isset($_POST[ $link_prefix ]);
   $prli_options->link_nofollow = (int)isset($_POST[ $link_nofollow ]);
@@ -53,13 +55,13 @@ if( $_POST[ $hidden_field_name ] == 'Y' )
     $update_message = __('Options saved.');
   }
 }
-else if($_GET['action'] == 'clear_all_clicks' or $_POST['action'] == 'clear_all_clicks')
+else if(isset($_REQUEST['action']) and $_REQUEST['action'] == 'clear_all_clicks')
 {
   $prli_click->clearAllClicks();
 
   $update_message = __('Hit Database was Cleared.');
 }
-else if($_GET['action'] == 'clear_30day_clicks' or $_POST['action'] == 'clear_30day_clicks')
+else if(isset($_REQUEST['action']) and $_REQUEST['action'] == 'clear_30day_clicks')
 {
   $num_clicks = $prli_click->clear_clicks_by_age_in_days(30);
 
@@ -68,7 +70,7 @@ else if($_GET['action'] == 'clear_30day_clicks' or $_POST['action'] == 'clear_30
   else
     $update_message = __("No hits older than 30 days were found, so nothing was deleted" );
 }
-else if($_GET['action'] == 'clear_90day_clicks' or $_POST['action'] == 'clear_90day_clicks')
+else if(isset($_REQUEST['action']) and $_REQUEST['action'] == 'clear_90day_clicks')
 {
   $num_clicks = $prli_click->clear_clicks_by_age_in_days(90);
 

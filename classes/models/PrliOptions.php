@@ -4,6 +4,7 @@ class PrliOptions
   var $prli_exclude_ips;
   var $whitelist_ips;
   var $filter_robots;
+  var $extended_tracking;
   var $prettybar_image_url;
   var $prettybar_background_image_url;
   var $prettybar_color;
@@ -266,6 +267,9 @@ class PrliOptions
 
     if(!isset($this->filter_robots))
       $this->filter_robots = 0;
+
+    if(!isset($this->extended_tracking))
+      $this->extended_tracking = 'normal';
   }
 }
 ?>

@@ -7,7 +7,7 @@ require_once(PRLI_PATH . '/prli-image-lookups.php');
 $controller_file = basename(__FILE__);
 $max_rows_per_file = 5000;
 
-if($_GET['action'] == null and $_POST['action'] == null)
+if(!isset($_REQUEST['action']))
 {
   $page_params = '';
 
@@ -96,7 +96,7 @@ if($_GET['action'] == null and $_POST['action'] == null)
 
   require_once 'classes/views/prli-clicks/list.php';
 }
-else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
+else if(isset($_REQUEST['action']) and $_REQUEST['action'] == 'csv')
 {
   $param_string = '';
   $where_clause = '';
@@ -174,7 +174,7 @@ else if($_GET['action'] == 'csv' or $_POST['action'] == 'csv')
 
   require_once 'classes/views/prli-clicks/csv_download.php';
 }
-else if($_GET['action'] == 'download_csv_hit_report' or $_POST['action'] == 'download_csv_hit_report')
+else if(isset($_REQUEST['action']) and $_REQUEST['action'] == 'download_csv_hit_report')
 {
   if(isset($_GET['l']))
   {
@@ -224,7 +224,7 @@ else if($_GET['action'] == 'download_csv_hit_report' or $_POST['action'] == 'dow
   $clicks = $prli_click->getAll($where_clause,'',false,$hlimit);
   require_once 'classes/views/prli-clicks/csv.php';
 }
-else if($_GET['action'] == 'download_csv_origin_report' or $_POST['action'] == 'download_csv_origin_report')
+else if(isset($_REQUEST['action']) and $_REQUEST['action'] == 'download_csv_origin_report')
 {
   if(isset($_GET['l']))
   {
@@ -360,6 +360,7 @@ function prli_get_click_sort_vars($params,$where_clause = '')
 {
   $count_where_clause = '';
   $page_params = '';
+  $order_by = '';
 
   // These will have to work with both get and post
   $sort_str   = $params['sort'];

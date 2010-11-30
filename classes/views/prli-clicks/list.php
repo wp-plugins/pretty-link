@@ -74,20 +74,26 @@
 <table class="widefat post fixed" cellspacing="0">
     <thead>
     <tr>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=btype<?php echo (($sort_str == 'btype' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Browser<?php echo (($sort_str == 'btype')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
+    <?php } ?>
       <th class="manage-column" width="12%">
         <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=ip<?php echo (($sort_str == 'ip' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">IP<?php echo (($sort_str == 'ip')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column" width="12%">
         <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=vuid<?php echo (($sort_str == 'vuid' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Visitor<?php echo (($sort_str == 'vuid')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
+    <?php } ?>
       <th class="manage-column" width="13%">
         <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Timestamp<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column" width="16%">
         <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=host<?php echo (($sort_str == 'host' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Host<?php echo (($sort_str == 'host')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
+    <?php } ?>
       <th class="manage-column" width="16%">
         <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=uri<?php echo (($sort_str == 'uri' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">URI<?php echo (($sort_str == 'uri')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_URL.'/images/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
@@ -115,11 +121,17 @@
     {
       ?>
       <tr>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
         <td><img src="http://d14715w921jdje.cloudfront.net/browser/<?php echo prli_browser_image($click->btype); ?>" alt="<?php echo $click->btype . " v" . $click->bversion; ?>" title="<?php echo $click->btype . " v" . $click->bversion; ?>"/>&nbsp;<img src="http://d14715w921jdje.cloudfront.net/os/<?php echo prli_os_image($click->os); ?>" alt="<?php echo $click->os; ?>" title="<?php echo $click->os; ?>"/></td>
+    <?php } ?>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&ip=<?php echo $click->ip; ?>" title="View All Activity for IP Address: <?php echo $click->ip; ?>"><?php echo $click->ip; ?> (<?php echo $click->ip_count; ?>)</a></td>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&vuid=<?php echo $click->vuid; ?>" title="View All Activity for Visitor: <?php echo $click->vuid; ?>"><?php echo $click->vuid; ?><?php echo (($click->vuid != null)?" ($click->vuid_count)":''); ?></a></td>
+    <?php } ?>
         <td><?php echo $click->created_at; ?></td>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
         <td><?php echo $click->host; ?></td>
+    <?php } ?>
         <td><?php echo $click->uri; ?></td>
         <td><?php echo $click->referer; ?></td>
         <td><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $click->link_id; ?>" title="View clicks for <?php echo stripslashes($click->link_name); ?>"><?php echo stripslashes($click->link_name); ?></a></td>
@@ -130,11 +142,17 @@
   ?>
     <tfoot>
     <tr>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column">Browser</th>
+    <?php } ?>
       <th class="manage-column">IP</th>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column">Visitor</th>
+    <?php } ?>
       <th class="manage-column">Timestamp</th>
+    <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column">Host</th>
+    <?php } ?>
       <th class="manage-column">URI</th>
       <th class="manage-column">Referrer</th>
       <th class="manage-column">Link</th>

@@ -68,10 +68,28 @@ if(!$permalink_structure or empty($permalink_structure))
       </table>
     </td>
   </tr>
+  <tr>
+    <td colspan="2">
+      <h4><?php _e('Tracking Style:'); ?></h4><span class="description"><code><?php _e('Note: Changing your tracking style can affect the accuracy of your existing statistics.'); ?></code></span>
+      <div id="option-pane">
+        <ul style="list-style-type: none;" class="pane">
+          <li>
+            <input type="radio" name="<?php echo $extended_tracking; ?>" value="normal"<?php echo (($prli_options->extended_tracking == 'normal')?' checked="checked"':''); ?>/>&nbsp;<?php _e('Normal Tracking'); ?>
+          </li>
+          <li>
+            <input type="radio" name="<?php echo $extended_tracking; ?>" value="extended"<?php echo (($prli_options->extended_tracking == 'extended')?' checked="checked"':''); ?>/>&nbsp;<?php _e('Extended Tracking (more stats / slower performance)'); ?>
+          </li>
+          <li>
+            <input type="radio" name="<?php echo $extended_tracking; ?>" value="count"<?php echo (($prli_options->extended_tracking == 'count')?' checked="checked"':''); ?>/>&nbsp;<?php _e('Simple Click Count Tracking (less stats / faster performance)'); ?>
+          </li>
+        </ul>
+      </div>
+    </td>
+  </tr>
 </table>
 
 <p class="submit">
-<input type="submit" name="Submit" value="<?php _e('Update Options', $prli_domain ) ?>" />
+<input type="submit" name="Submit" value="<?php _e('Update Options') ?>" />
 </p>
 
 
