@@ -1147,7 +1147,7 @@ class PrliUtils
   {
     if( isset($post_id) and !empty($post_id) and
         $post_id and is_numeric($post_id) ) 
-      return delete_post_meta($post_id, $key, $meta_value);
+      return delete_post_meta($post_id, $key);
     else
       return false;
   }

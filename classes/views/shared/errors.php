@@ -1,5 +1,5 @@
 <?php
-  if( $errors != null and count($errors) > 0 )
+  if( isset($errors) and count($errors) > 0 )
   {
       ?>
 <div class="error">
