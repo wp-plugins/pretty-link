@@ -4,19 +4,23 @@ Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 2.9
 Tested up to: 3.0.1
-Stable tag: 1.4.52
+Stable tag: 1.4.53
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
 == Description ==
 
-Shrink, track and share any URL on the Internet from your WordPress website. You can now shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to clean up their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
+Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
 = Upgrade to Pretty Link Pro =
 
-Pretty Link Pro is an upgrade to Pretty Link that adds the capability to automate your pretty link creation, auto-tweet them, replace keywords thoughout your blog and much more. You can learn more about it here:
+Pretty Link Pro is an upgrade to Pretty Link that adds the capability to automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog and much more. You can learn more about it here:
 
 http://prettylinkpro.com
+
+= Detail =
+
+Pretty Link enables you to shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to clean up their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
 
 = Examples =
 
@@ -24,7 +28,7 @@ This is a link setup using Pretty Link that redirects to the Pretty Link Homepag
 
 http://blairwilliams.com/pl
 
-Here's a named Pretty Link (I used the slug 'aweber') that does a 307  redirect to my affiliate link for aweber.com:
+Here's a named Pretty Link (I used the slug 'aweber') that does a 307 redirect to my affiliate link for aweber.com:
 
 http://blairwilliams.com/aweber
 
@@ -62,6 +66,12 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
 
 == Changelog ==
+
+= 1.4.53 =
+* Added the ability to change the pretty link tracking mode to simple, normal and extended
+* Fixed numerous debug issues
+* Fixed memory_limit issue in pretty link
+* Fixed pretty bar issue affecting pro users
 
 = 1.4.52 =
 * Fixed bugs related to the cloaking and pretty bar redirection changes
@@ -266,6 +276,9 @@ http://blairwilliams.com/w7a
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+= 1.4.53 =
+* Everyone should upgrade to this version. It fixes numerous bugs for all users -- including a memory_limit issue and some click tracking algorithm issues. In addition to the upgrade, users who have had performance issues with click tracking should also switch to simple click count tracking in "Pretty Link" -> "Options" -> "Reporting Options" ...
+
 = 1.4.52 =
 * Fixed bugs related to the cloaking and pretty bar redirection changes. This affected all Pretty Link users -- everyone should upgrade to this release.
 
