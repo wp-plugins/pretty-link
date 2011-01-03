@@ -243,7 +243,7 @@ class PrliUtils
         $visitor_cookie_expire_time = time()+60*60*24*365; // Expire in 1 year
         
         // Retrieve / Generate visitor id
-        if($_COOKIE[$visitor_cookie] == null)
+        if(!isset($_COOKIE[$visitor_cookie]))
         {
           $visitor_uid = $prli_click->generateUniqueVisitorId();
           setcookie($visitor_cookie,$visitor_uid,$visitor_cookie_expire_time,'/');
