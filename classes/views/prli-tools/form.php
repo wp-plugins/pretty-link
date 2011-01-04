@@ -1,15 +1,5 @@
 <div class="wrap">
 <script type="text/javascript">
-function toggle_tweetdeck_instructions()
-{
-  jQuery('.tweetdeck_instructions').slideToggle();
-}
-
-function toggle_twitter_iphone_instructions()
-{
-  jQuery('.twitter_iphone_instructions').slideToggle();
-}
-
 function toggle_iphone_instructions()
 {
   jQuery('.iphone_instructions').slideToggle();
@@ -20,22 +10,6 @@ function toggle_iphone_instructions()
   require(PRLI_VIEWS_PATH.'/shared/nav.php');
 ?>
   <h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Tools</h2>
-  <h3><?php _e('End-Point URL:'); ?></h3>
-  <p><span class="description"><?php _e('This can be used to integrate with your twitter client.'); ?></span>
-    <pre><?php echo $prli_blogurl; ?>/index.php?action=prli_endpoint_url&k=<?php echo $prli_options->bookmarklet_auth; ?>&url=</pre>
-    <br/>
-    <a href="javascript:toggle_tweetdeck_instructions();"><strong><?php _e('Show TweetDeck Integration Instructions'); ?></strong></a>
-    <div class="tweetdeck_instructions" style="display: none">
-      <span class="description"><?php _e('Follow the'); ?> <a href="http://support.tweetdeck.com/entries/132632-add-a-custom-url-shortener" target="_blank"><?php _e('TweetDeck Custom URL Instructions'); ?></a><?php _e(' and add the following URL to TweetDeck'); ?></span>
-      <pre><?php echo $prli_blogurl; ?>/index.php?action=prli_endpoint_url&k=<?php echo $prli_options->bookmarklet_auth; ?>&url=%@</pre>
-    </div>
-    <br/>
-    <a href="javascript:toggle_twitter_iphone_instructions();"><strong><?php _e('Show Twitter for iPhone Integration Instructions'); ?></strong></a>
-    <div class="twitter_iphone_instructions" style="display: none">
-      <span class="description"><?php _e('Follow the'); ?> <a href="http://developer.atebits.com/tweetie-iphone/custom-shortening/" target="_blank"><?php _e('Twitter for iPhone Custom URL Instructions'); ?></a><?php _e(' and add the following URL to Twitter for iPhone'); ?></span>
-      <pre><?php echo $prli_blogurl; ?>/index.php?action=prli_endpoint_url&k=<?php echo $prli_options->bookmarklet_auth; ?>&url=%@</pre>
-    </div>
-  </p>
   <h3>Bookmarklet: </h3>
   <p><strong><a href="javascript:location.href='<?php echo PRLI_URL; ?>/prli-bookmarklet.php?k=<?php echo $prli_options->bookmarklet_auth; ?>&target_url='+escape(location.href);">Get PrettyLink</a></strong><br/>
   <span class="description">Just drag this "Get PrettyLink" link to your toolbar to install the bookmarklet. As you browse the web, you can just click this bookmarklet to create a pretty link from the current url you're looking at.&nbsp;&nbsp;<a href="http://blairwilliams.com/pretty-link-bookmarklet/">(more help)</a></span>

@@ -132,26 +132,6 @@ function prli_route_scripts()
     require_once( PRLI_PATH . "/prli-clicks.php" );
     exit;
   }
-  else if( isset($_REQUEST['action']) and $_REQUEST['action'] == 'prli_endpoint_url' )
-  {
-    global $prli_options;
-
-    $key = $_REQUEST['k'];
-    $url = $_REQUEST['url'];
-
-    if($key == $prli_options->bookmarklet_auth)
-    {
-      $pretty_link_id = prli_create_pretty_link( $url );
-      if( $pretty_link = prli_get_pretty_link_url( $pretty_link_id ) )
-        echo $pretty_link; 
-      else
-        _e('ERROR: Your Pretty Link was unable to be created');
-    }
-    else
-      _e('Unauthorized');
-  
-    exit;
-  }
 }
 
 add_action('init', 'prli_route_scripts');
