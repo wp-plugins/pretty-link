@@ -5,6 +5,11 @@ function toggle_tweetdeck_instructions()
   jQuery('.tweetdeck_instructions').slideToggle();
 }
 
+function toggle_twitter_iphone_instructions()
+{
+  jQuery('.twitter_iphone_instructions').slideToggle();
+}
+
 function toggle_iphone_instructions()
 {
   jQuery('.iphone_instructions').slideToggle();
@@ -22,6 +27,12 @@ function toggle_iphone_instructions()
     <a href="javascript:toggle_tweetdeck_instructions();"><strong><?php _e('Show TweetDeck Integration Instructions'); ?></strong></a>
     <div class="tweetdeck_instructions" style="display: none">
       <span class="description"><?php _e('Follow the'); ?> <a href="http://support.tweetdeck.com/entries/132632-add-a-custom-url-shortener" target="_blank"><?php _e('TweetDeck Custom URL Instructions'); ?></a><?php _e(' and add the following URL to TweetDeck'); ?></span>
+      <pre><?php echo $prli_blogurl; ?>/index.php?action=prli_endpoint_url&k=<?php echo $prli_options->bookmarklet_auth; ?>&url=%@</pre>
+    </div>
+    <br/>
+    <a href="javascript:toggle_twitter_iphone_instructions();"><strong><?php _e('Show Twitter for iPhone Integration Instructions'); ?></strong></a>
+    <div class="twitter_iphone_instructions" style="display: none">
+      <span class="description"><?php _e('Follow the'); ?> <a href="http://developer.atebits.com/tweetie-iphone/custom-shortening/" target="_blank"><?php _e('Twitter for iPhone Custom URL Instructions'); ?></a><?php _e(' and add the following URL to Twitter for iPhone'); ?></span>
       <pre><?php echo $prli_blogurl; ?>/index.php?action=prli_endpoint_url&k=<?php echo $prli_options->bookmarklet_auth; ?>&url=%@</pre>
     </div>
   </p>
