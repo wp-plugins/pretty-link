@@ -1,5 +1,5 @@
 <div class="wrap">
-<h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Edit Group</h2>
+<h2><img src="<?php echo PRLI_IMAGES_URL.'/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Edit Group</h2>
 
 <?php
   require(PRLI_VIEWS_PATH.'/shared/errors.php');

@@ -11,7 +11,7 @@ function prli_menu()
 {
   global $prli_options;
 
-  add_menu_page('Pretty Link', 'Pretty Link', 'administrator', PRLI_PATH.'/prli-links.php','',PRLI_URL.'/images/pretty-link-small.png'); 
+  add_menu_page('Pretty Link', 'Pretty Link', 'administrator', PRLI_PATH.'/prli-links.php','',PRLI_IMAGES_URL.'/pretty-link-small.png'); 
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Add New Link', 'Add New Link', 'administrator', PRLI_PATH.'/prli-add-link.php');
   add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 'administrator', PRLI_PATH.'/prli-groups.php');
 

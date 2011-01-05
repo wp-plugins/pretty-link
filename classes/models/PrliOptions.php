@@ -166,7 +166,7 @@ class PrliOptions
         delete_option( $prettybar_image_url );
       }
       else
-        $this->prettybar_image_url = PRLI_URL . '/images/pretty-link-48x48.png';
+        $this->prettybar_image_url = PRLI_IMAGES_URL . '/pretty-link-48x48.png';
     }
 
     if(!isset($this->prettybar_background_image_url))
@@ -176,7 +176,7 @@ class PrliOptions
         delete_option( $prettybar_background_image_url );
       }
       else
-        $this->prettybar_background_image_url = PRLI_URL . '/images/bar_background.png';
+        $this->prettybar_background_image_url = PRLI_IMAGES_URL . '/bar_background.png';
     }
 
     if(!isset($this->prettybar_color))

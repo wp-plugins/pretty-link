@@ -110,7 +110,7 @@ a:hover {
 }
 
 .map {
-  background-image: url(./images/bar_map.png);
+  background-image: url(http://d14715w921jdje.cloudfront.net/images/bar_map.png);
   background-repeat: no-repeat;
 }
 
@@ -226,7 +226,7 @@ td {
               <td>
               <?php
                 $link_html =<<<LINKHTML
-<p class="powered-by small-text">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="images/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
+<p class="powered-by small-text">Powered by <a href="http://blairwilliams.com/pl" target="_top"><img src="<?php echo PRLI_IMAGES_URL; ?>/pretty-link-small.png" width="12px" height="12px" border="0"/> Pretty Link</a></p>
 LINKHTML;
                 echo apply_filters('prli-display-attrib-link',$link_html);
               ?>

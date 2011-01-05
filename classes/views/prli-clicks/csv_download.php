@@ -3,7 +3,7 @@
   require(PRLI_VIEWS_PATH.'/shared/nav.php');
 ?>
 
-<h2><img src="<?php echo PRLI_URL.'/images/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: CSV Downloads</h2>
+<h2><img src="<?php echo PRLI_IMAGES_URL.'/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: CSV Downloads</h2>
 <span style="font-size: 14px; font-weight: bold;">For <?php echo stripslashes($link_name); ?>: </span>
 
 <h3>Hit Reports:</h3>

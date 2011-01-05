@@ -5,6 +5,7 @@ define('PRLI_MODELS_PATH',PRLI_PATH.'/classes/models');
 define('PRLI_VIEWS_PATH',PRLI_PATH.'/classes/views');
 //define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
 define('PRLI_URL',plugins_url($path = '/'.PRLI_PLUGIN_NAME));
+define('PRLI_IMAGES_URL','https://d14715w921jdje.cloudfront.net/images');
 
 require_once(PRLI_MODELS_PATH.'/PrliOptions.php');
 
