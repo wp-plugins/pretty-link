@@ -4,7 +4,7 @@ Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 2.9
 Tested up to: 3.0.4
-Stable tag: 1.4.54
+Stable tag: 1.4.55
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -67,7 +67,7 @@ http://blairwilliams.com/w7a
 
 == Changelog ==
 
-= 1.4.54 =
+= 1.4.55 =
 * Fixed the CSV export issues
 * Moved all Pretty Link images to Amazon CloudFront
 * Added TweetDeck & Twitter for iPhone support for Pro Users
@@ -281,7 +281,7 @@ http://blairwilliams.com/w7a
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
-= 1.4.54 =
+= 1.4.55 =
 * Everyone should upgrade -- this fixes the CSV export issue with hits.
 
 = 1.4.53 =
