@@ -135,9 +135,9 @@
           <div class="link_actions">
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=edit&id=<?php echo $link->id; ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=destroy&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>">Delete</a>
+            |&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>
             <?php if( $link->track_me and $prli_options->extended_tracking!='count' ) { ?>
-            |&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&action=reset&id=<?php echo $link->id; ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php echo $link->slug; ?>">Hits</a>
+            |&nbsp;<a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $link->id; ?>" title="View clicks for <?php echo $link->slug; ?>">Hits</a>
             <?php do_action('prli-link-action',$link->id); ?>
             <?php } ?>
             <?php if( $link->redirect_type != 'pixel' )

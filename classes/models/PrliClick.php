@@ -93,8 +93,12 @@ class PrliClick
     // Delete all of the clicks from the database.
     function clearAllClicks()
     {
-      global $wpdb;
-      $query = "TRUNCATE TABLE " . $this->table_name;
+      global $wpdb, $prli_link_meta;
+
+      $query = $wpdb->prepare("DELETE FROM {$prli_link_meta->table_name} WHERE meta_key=%s OR meta_key=%s", 'static-clicks', 'static-uniques');
+      $wpdb->query($query);
+
+      $query = "TRUNCATE TABLE {$this->table_name}";
       return $wpdb->query($query);
     }
 

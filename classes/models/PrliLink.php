@@ -103,11 +103,14 @@ class PrliLink
     function destroy( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
-      global $wpdb, $prli_click;
+      global $wpdb, $prli_click, $prli_link_meta;
 
-      $reset = 'DELETE FROM ' . $prli_click->table_name .  ' WHERE link_id=' . $id;
-      $destroy = 'DELETE FROM ' . $this->table_name .  ' WHERE id=' . $id;
+      do_action('prli_delete_link', $id);
+      $metas = $wpdb->prepare("DELETE FROM {$prli_link_meta->table_name} WHERE link_id=%d",$id);
+      $reset = $wpdb->prepare("DELETE FROM {$prli_click->table_name} WHERE link_id=%d",$id);
+      $destroy = $wpdb->prepare("DELETE FROM {$this->table_name} WHERE id=%d",$id);
 
+      $wpdb->query($metas);
       $wpdb->query($reset);
       return $wpdb->query($destroy);
     }
@@ -115,9 +118,12 @@ class PrliLink
     function reset( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
-      global $wpdb, $prli_click;
+      global $wpdb, $prli_click, $prli_link_meta;
 
-      $reset = 'DELETE FROM ' . $prli_click->table_name .  ' WHERE link_id=' . $id;
+      $prli_link_meta->delete_link_meta($id, 'static-clicks');
+      $prli_link_meta->delete_link_meta($id, 'static-uniques');
+
+      $reset = $wpdb->prepare("DELETE FROM {$prli_click->table_name} WHERE link_id=%d", $id);
       return $wpdb->query($reset);
     }
 
@@ -413,19 +419,18 @@ class PrliLink
     // Set defaults and grab get or post of each possible param
     function get_params_array()
     {
-      $values = array(
-         'action'     => (isset($_GET['action'])?$_GET['action']:(isset($_POST['action'])?$_POST['action']:'list')),
-         'regenerate' => (isset($_GET['regenerate'])?$_GET['regenerate']:(isset($_POST['regenerate'])?$_POST['regenerate']:'false')),
-         'id'         => (isset($_GET['id'])?$_GET['id']:(isset($_POST['id'])?$_POST['id']:'')),
-         'group_name' => (isset($_GET['group_name'])?$_GET['group_name']:(isset($_POST['group_name'])?$_POST['group_name']:'')),
-         'paged'      => (isset($_GET['paged'])?$_GET['paged']:(isset($_POST['paged'])?$_POST['paged']:1)),
-         'group'      => (isset($_GET['group'])?$_GET['group']:(isset($_POST['group'])?$_POST['group']:'')),
-         'search'     => (isset($_GET['search'])?$_GET['search']:(isset($_POST['search'])?$_POST['search']:'')),
-         'sort'       => (isset($_GET['sort'])?$_GET['sort']:(isset($_POST['sort'])?$_POST['sort']:'')),
-         'sdir'       => (isset($_GET['sdir'])?$_GET['sdir']:(isset($_POST['sdir'])?$_POST['sdir']:''))
+      return array(
+         'action'     => (isset($_REQUEST['action'])?$_REQUEST['action']:'list'),
+         'regenerate' => (isset($_REQUEST['regenerate'])?$_REQUEST['regenerate']:'false'),
+         'id'         => (isset($_REQUEST['id'])?$_REQUEST['id']:''),
+         'group_name' => (isset($_REQUEST['group_name'])?$_REQUEST['group_name']:''),
+         'paged'      => (isset($_REQUEST['paged'])?$_REQUEST['paged']:1),
+         'group'      => (isset($_REQUEST['group'])?$_REQUEST['group']:''),
+         'search'     => (isset($_REQUEST['search'])?$_REQUEST['search']:''),
+         'sort'       => (isset($_REQUEST['sort'])?$_REQUEST['sort']:''),
+         'sdir'       => (isset($_REQUEST['sdir'])?$_REQUEST['sdir']:''),
+         'message'    => (isset($_REQUEST['message'])?$_REQUEST['message']:'')
       );
-
-      return $values;
     }
 
     function validate( $values )
