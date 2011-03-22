@@ -1,10 +1,10 @@
-=== Pretty Link (Lite Version) ===
+=== Pretty Link Lite ===
 Contributors: supercleanse
 Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 2.9
-Tested up to: 3.0.1
-Stable tag: 1.4.53
+Tested up to: 3.1
+Stable tag: 1.4.56
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -66,6 +66,19 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%postname%/" for the simplest possible URL slugs.
 
 == Changelog ==
+
+= 1.4.56 =
+* Updated to be fully compatible with WordPress 3.1 and WordPress MultiSite for all users
+* Fixed link rotation issue (weights not sticking) for Pro Users
+* Fixed auto link creation issue with the group not being set properly for Pro Users
+* Fixed the slug available routine for all users
+* Fixed the delete hits issue with simple click counting for all users
+* Fixed some keyword replacement deletion issues for pro users
+
+= 1.4.55 =
+* Fixed the CSV export issues
+* Moved all Pretty Link images to Amazon CloudFront
+* Added TweetDeck & Twitter for iPhone support for Pro Users
 
 = 1.4.53 =
 * Added the ability to change the pretty link tracking mode to simple, normal and extended
@@ -276,6 +289,13 @@ http://blairwilliams.com/w7a
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+
+= 1.4.56 =
+* This release fixes several issues including full WordPress 3.1 and MultiSite compatibility. So everyone should upgrade to this release.
+
+= 1.4.55 =
+* Everyone should upgrade -- this fixes the CSV export issue with hits.
+
 = 1.4.53 =
 * Everyone should upgrade to this version. It fixes numerous bugs for all users -- including a memory_limit issue and some click tracking algorithm issues. In addition to the upgrade, users who have had performance issues with click tracking should also switch to simple click count tracking in "Pretty Link" -> "Options" -> "Reporting Options" ...
 

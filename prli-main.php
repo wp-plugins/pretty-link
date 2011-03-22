@@ -197,8 +197,7 @@ add_filter('xmlrpc_methods', 'prli_export_api');
 /********* INSTALL PLUGIN ***********/
 function prli_install()
 {
-  global $wpdb, $prli_utils, $prli_update;
-  $db_version = 11; // this is the version of the database we're moving to
+  global $wpdb, $prli_utils, $prli_update, $prli_db_version;
   $old_db_version = get_option('prli_db_version');
 
   $groups_table       = $wpdb->prefix . "prli_groups";
@@ -215,7 +214,7 @@ function prli_install()
       $charset_collate .= " COLLATE $wpdb->collate";
   }
 
-  if($db_version != $old_db_version)
+  if($prli_db_version != $old_db_version)
   {
     $prli_utils->migrate_before_db_upgrade();
 
@@ -314,7 +313,7 @@ function prli_install()
   update_option('prli_options',$prli_options);
 
   /***** SAVE DB VERSION *****/
-  update_option('prli_db_version',$db_version);
+  update_option('prli_db_version',$prli_db_version);
 }
 
 // Ensure this gets called on first install

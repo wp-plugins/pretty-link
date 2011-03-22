@@ -2,6 +2,7 @@
 define('PRLI_PLUGIN_NAME',"pretty-link");
 define('PRLI_PATH',WP_PLUGIN_DIR.'/'.PRLI_PLUGIN_NAME);
 define('PRLI_MODELS_PATH',PRLI_PATH.'/classes/models');
+define('PRLI_CONTROLLERS_PATH',PRLI_PATH.'/classes/controllers');
 define('PRLI_VIEWS_PATH',PRLI_PATH.'/classes/views');
 //define(PRLI_URL,WP_PLUGIN_URL.'/'.PRLI_PLUGIN_NAME);
 define('PRLI_URL',plugins_url($path = '/'.PRLI_PLUGIN_NAME));
@@ -109,7 +110,7 @@ function setup_edit_vars($groups,$record)
   foreach($groups as $group)
   {
     $values['groups'][] = array( 'id' => $group->id,
-                                 'value' => ((isset($_REQUEST['group_id']) and (($_REQUEST['group_id'] == $group->id) or ($record->group_id == $group->id)))?' selected="true"':''),
+                                 'value' => (((isset($_REQUEST['group_id']) and ($_REQUEST['group_id'] == $group->id)) or ($record->group_id == $group->id))?' selected="true"':''),
                                  'name' => $group->name );
   }
 

@@ -98,13 +98,11 @@ class PrliUtils
     $slug = $slug_components[0];
   
     // Check slug uniqueness against posts, pages and categories
-    $posts_table = $wpdb->prefix . "posts";
-    $terms_table = $wpdb->prefix . "terms";
+    $postname = $wpdb->get_var($wpdb->prepare("SELECT post_name FROM {$wpdb->posts} WHERE post_name=%s LIMIT 1",$slug));
+    $taxonomy = $wpdb->get_var($wpdb->prepare("SELECT taxonomy FROM {$wpdb->term_taxonomy} WHERE taxonomy=%s LIMIT 1",$slug));
   
-    $post_slug = $wpdb->get_var("SELECT post_name FROM $posts_table WHERE post_name='$slug'");
-    $term_slug = $wpdb->get_col("SELECT slug FROM $terms_table WHERE slug='$slug'");
-  
-    if( $post_slug == $slug or $term_slug == $slug )
+    // If anything was returned for these two calls then the slug has been taken
+    if( $postname or $taxonomy )
       return false;
   
     // Check slug against files on the root wordpress install
@@ -118,10 +116,10 @@ class PrliUtils
   
     // Check slug against other slugs in the prli links database.
     // We'll use the full_slug here because its easier to guarantee uniqueness.
-    if($id != null and $id != '')
-      $query = "SELECT slug FROM " . $prli_link->table_name . " WHERE slug='" . $full_slug . "' AND id <> " . $id;
+    if(!is_null($id) and !empty($id) and is_numeric($id))
+      $query = $wpdb->prepare("SELECT slug FROM {$prli_link->table_name} WHERE slug=%s AND id <> %d", $full_slug, $id);
     else
-      $query = "SELECT slug FROM " . $prli_link->table_name . " WHERE slug='" . $full_slug . "'";
+      $query = $wpdb->prepare("SELECT slug FROM {$prli_link->table_name} WHERE slug=%s", $full_slug);
   
     $link_slug = $wpdb->get_var($query);
   
@@ -703,12 +701,11 @@ class PrliUtils
 
   function install_pro_db()
   {
-    global $wpdb;
+    global $wpdb, $prlipro_db_version;
 
-    $pro_db_version = 1; // this is the version of the database we're moving to
     $old_pro_db_version = get_option('prlipro_db_version');
 
-    if($pro_db_version != $old_pro_db_version)
+    if($prlipro_db_version != $old_pro_db_version)
     {
       $upgrade_path = ABSPATH . 'wp-admin/includes/upgrade.php';
       require_once($upgrade_path);
@@ -818,7 +815,7 @@ class PrliUtils
 
     /***** SAVE DB VERSION *****/
     delete_option('prlipro_db_version');
-    add_option('prlipro_db_version',$pro_db_version);
+    add_option('prlipro_db_version',$prlipro_db_version);
   }
 
   // be careful with this one -- I use it to forceably reinstall pretty link pro
