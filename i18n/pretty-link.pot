@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Pretty Link Lite package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Pretty Link Lite 1.4.6\n"
+"Project-Id-Version: Pretty Link Lite 1.5.0\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/pretty-link\n"
-"POT-Creation-Date: 2011-10-16 20:37:55+00:00\n"
+"POT-Creation-Date: 2011-10-17 04:06:02+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
