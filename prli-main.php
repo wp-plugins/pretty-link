@@ -1,4 +1,6 @@
 <?php
+if(!defined('ABSPATH'))
+  die('You are not allowed to call this page directly.');
 
 // Let's give pretty link plenty of room to work with
 $mem = abs(intval(@ini_get('memory_limit')));
