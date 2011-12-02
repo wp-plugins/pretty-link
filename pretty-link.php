@@ -3,7 +3,7 @@
 Plugin Name: Pretty Link Lite
 Plugin URI: http://blairwilliams.com/pretty-link
 Description: Shrink, track and share any URL on the Internet from your WordPress website!
-Version: 1.5.0
+Version: 1.5.1
 Author: Caseproof
 Author URI: http://caseproof.com
 Copyright: 2004-2011, Caseproof, LLC
@@ -23,6 +23,8 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 */
+if(!defined('ABSPATH'))
+  die('You are not allowed to call this page directly.');
 
 require_once('prli-config.php');
 require_once(PRLI_MODELS_PATH . '/models.inc.php');
