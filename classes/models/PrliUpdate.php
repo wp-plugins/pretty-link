@@ -92,13 +92,15 @@ class PrliUpdate
         !empty($this->pro_password) )
     {
       $authorized = get_option($this->pro_auth_store);
-      if(!$force_check and isset($authorized) and ($authorized===true or $authorized===false))
-        return $authorized;
+      
+      if(!$force_check and isset($authorized) and $authorized and ($authorized=='true' or $authorized=='false'))
+        return ($authorized=='true');
       else
       {
         $new_auth = $this->authorize_user($this->pro_username,$this->pro_password);
+        $new_auth = ($new_auth?'true':'false');
         update_option($this->pro_auth_store, $new_auth);
-        return $new_auth;
+        return ($new_auth=='true');
       }
     }
 
@@ -217,16 +219,14 @@ class PrliUpdate
     if(!empty($user_authorized) and $user_authorized)
     {
       update_option($this->pro_cred_store, $creds);
-      update_option($this->pro_auth_store, $user_authorized);
+      update_option($this->pro_auth_store, ($user_authorized?'true':'false'));
 
       extract($creds);
       $this->pro_username = ((isset($username) and !empty($username))?$username:'');
       $this->pro_password = ((isset($password) and !empty($password))?$password:'');
 
-      if(!$this->pro_is_installed()) {
-	    $transient = get_site_transient("update_plugins");
-        set_site_transient("update_plugins",$this->queue_update($transient, true));
-      }
+      if(!$this->pro_is_installed())
+        $this->manually_queue_update();
     }
 
     return $user_authorized;
@@ -300,5 +300,10 @@ class PrliUpdate
     }
 
     return $transient;
+  }
+
+  public function manually_queue_update() {
+    $transient = get_site_transient("update_plugins");
+    set_site_transient("update_plugins",$this->queue_update($transient, true));
   }
 }

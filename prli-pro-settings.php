@@ -19,7 +19,7 @@ $prlipro_password_val = get_option( $prlipro_password );
 if($_GET['action'] == 'force-pro-reinstall')
 {
   // Queue the update and auto upgrade
-  $prli_update->queue_update(true);
+  $prli_update->manually_queue_update();
   $reinstall_url = wp_nonce_url('update.php?action=upgrade-plugin&plugin=pretty-link/pretty-link.php', 'upgrade-plugin_pretty-link/pretty-link.php');
 ?>
 <div class="updated"><p><strong><?php printf(__('You\'re almost done!<br/>%1$sFinish your Re-Install of Pretty Link Pro%2$s', 'pretty-link'), '<a href="'.$reinstall_url.'">', '</a>'); ?></strong></p></div>
