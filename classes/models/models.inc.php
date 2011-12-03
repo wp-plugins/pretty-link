@@ -55,7 +55,7 @@ function prli_get_main_message($message='',$expiration=1800) // Get new messages
   // if the messages array has expired go back to the mothership
   if(!$messages)
   {
-	$remote_controller = !$prli_update->pro_is_installed_and_authorized() ? 'prlipro' : 'prli';
+	$remote_controller = $prli_update->pro_is_installed_and_authorized() ? 'prlipro' : 'prli';
 	$message_mothership = "http://prettylinkpro.com/index.php?controller={$remote_controller}&action=json_messages";
 
     if( !class_exists( 'WP_Http' ) )
@@ -64,7 +64,10 @@ function prli_get_main_message($message='',$expiration=1800) // Get new messages
     $http = new WP_Http;
     $response = $http->request( $message_mothership );
     
-    if(isset($response) and isset($response['body']) and !empty($response['body']))
+    if( isset($response) and
+        is_array($response) and // if response is an error then WP_Error will be returned
+        isset($response['body']) and
+        !empty($response['body']))
       $messages = json_decode($response['body']);
     else
       $messages = array($message);

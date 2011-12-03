@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Pretty Link Lite package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Pretty Link Lite 1.5.1\n"
+"Project-Id-Version: Pretty Link Lite 1.5.2\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/pretty-link\n"
-"POT-Creation-Date: 2011-12-02 02:28:04+00:00\n"
+"POT-Creation-Date: 2011-12-03 18:00:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -140,22 +140,22 @@ msgstr ""
 msgid "Your Pretty Link Pro Username or Password was Invalid"
 msgstr ""
 
-#: classes/models/PrliUpdate.php:151
+#: classes/models/PrliUpdate.php:153
 msgid ""
 "Your Username & Password was accepted<br/>Now you can %1$sUpgrade "
 "Automatically!%2$s"
 msgstr ""
 
-#: classes/models/PrliUpdate.php:161
+#: classes/models/PrliUpdate.php:163
 msgid ""
 "Your Username & Password was accepted<br/>Now you can %1$sGet Started!%2$s"
 msgstr ""
 
-#: classes/models/PrliUpdate.php:171
+#: classes/models/PrliUpdate.php:173
 msgid "ERROR"
 msgstr ""
 
-#: classes/models/PrliUpdate.php:206
+#: classes/models/PrliUpdate.php:208
 #: pro/classes/views/prlipro-options/form.php:432
 msgid "Save"
 msgstr ""
