@@ -829,8 +829,10 @@ class PrliUtils
 
     if($old_pro_db_version < 3) {
 	  global $prli_keyword;
+	
       // Reset the whole keyword cache for good
-      $prli_keyword->deleteContentCache();
+	  if(isset($prli_keyword) and is_a($prli_keyword, 'PrliKeyword'))
+        $prli_keyword->deleteContentCache();
     }
 
     /***** SAVE DB VERSION *****/
