@@ -102,6 +102,12 @@ if(!defined('ABSPATH'))
         else if( $link->redirect_type == 'pixel' ) { ?>
           <img src="<?php echo PRLI_IMAGES_URL . '/pixel_track.png'; ?>" width="13px" height="13px" name="Pixel Tracking Enabled" alt="Pixel Tracking Enabled" title="Pixel Tracking Enabled"/>&nbsp;
         <?php }
+        else if( $link->redirect_type == 'metarefresh' ) { ?>
+          <span title="<?php _e('Meta Refresh Redirection', 'pretty-link') ?>" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong>M</strong></span>&nbsp;
+        <?php }
+        else if( $link->redirect_type == 'javascript' ) { ?>
+          <span title="<?php _e('Javascript Redirection', 'pretty-link') ?>" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong>J</strong></span>&nbsp;
+        <?php }
         else if( $link->redirect_type == '307' ) { ?>
           <span title="Temporary Redirection (307)" style="font-size: 14px; line-height: 14px; padding: 0px; margin: 0px; color: green;"><strong>T</strong></span>&nbsp;
         <?php }
