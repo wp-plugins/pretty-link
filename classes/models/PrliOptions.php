@@ -24,6 +24,7 @@ class PrliOptions
   var $prettybar_link_limit;
 
   var $link_redirect_type;
+  var $link_redirect_action;
   var $link_prefix;
   var $link_track_me;
   var $link_nofollow;
@@ -60,6 +61,7 @@ class PrliOptions
     $link_track_as_pixel = 'prli_link_track_as_pixel';
     $link_nofollow = 'prli_link_nofollow';
     $link_redirect_type = 'prli_link_redirect_type';
+    $link_redirect_action = 'prli_link_redirect_action';
 
 
     if(!isset($this->prettybar_show_title)) {
@@ -151,6 +153,9 @@ class PrliOptions
       else
         $this->link_redirect_type = '307';
     }
+
+    if(!isset($this->link_redirect_action))
+        $this->link_redirect_action = 'init';
 
     if(!isset($this->prli_exclude_ips))
     {

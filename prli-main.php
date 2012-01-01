@@ -89,6 +89,11 @@ function prli_groups_admin_header()
   require_once 'classes/views/prli-groups/head.php';
 }
 
+function prli_template_redirect() {
+  if( is_404() )
+	prli_redirect();
+}
+
 /********* ADD REDIRECTS FOR STANDARD MODE ***********/
 function prli_redirect()
 {
@@ -123,8 +128,10 @@ function prli_link_redirect_from_slug($slug,$param_str)
   }
 }
 
-add_action('init', 'prli_redirect'); //Redirect
-//add_action('template_redirect', 'prli_redirect',0); //Redirect
+if($prli_options->link_redirect_action=='template_redirect')
+  add_action('template_redirect', 'prli_template_redirect',1); //Redirect
+else // We just default to 'init'
+  add_action('init', 'prli_redirect'); // Redirect
 
 function prli_route_scripts()
 {

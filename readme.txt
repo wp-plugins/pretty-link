@@ -4,7 +4,7 @@ Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 3.0
 Tested up to: 3.3
-Stable tag: 1.5.4
+Stable tag: 1.5.5
 
 Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
 
@@ -66,6 +66,15 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%year%/%month%/%postname%/" for the simplest possible URL slugs with the best performance.
 
 == Changelog ==
+
+= 1.5.5
+* Added the option to redirect on the template_redirect hook
+* Fixed an issue with the database upgrade process
+* Added Javascript redirection for pro users
+* Added Meta-Refresh redirection for pro users
+* Fixed issue where keywords were only being replaced on the first post of the post overview page for pro users
+* Fixed issue preventing the graph from appearing on the conversion reports page for pro users
+* Fixed issue with automatic tweeting when a post title contains a dollar sign for pro users
 
 = 1.5.4 =
 * Fixed XSS Vulnerability
@@ -315,6 +324,9 @@ http://blairwilliams.com/w7a
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+
+= 1.5.5 =
+* Adds some new functionality that could be important for many users. Also fixed some minor issues affecting some users.
 
 = 1.5.4 =
 * Everyone should upgrade to this new release as it fixes an XSS vulnerability
