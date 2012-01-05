@@ -3,18 +3,16 @@ Contributors: supercleanse
 Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 3.0
-Tested up to: 3.3
+Tested up to: 3.3.1
 Stable tag: 1.5.5
 
-Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
+Shrink, track, manage and share any URL from your WordPress website. Create links that look however you want using your own domain name!
 
 == Description ==
 
-Shrink, track and share any URL on the Internet from your WordPress website. Create short links suitable for Twitter using your own domain name!
+= [Upgrade to Pretty Link Pro](http://prettylinkpro.com "Upgrade to Pretty Link Pro") =
 
-= Upgrade to Pretty Link Pro =
-
-Pretty Link Pro is an upgrade to Pretty Link that adds the capability to automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog and much more. You can learn more about it here:
+Pretty Link Pro is an upgrade to Pretty Link Lite that adds the capability to automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog and much more. You can learn more about it here:
 
 http://prettylinkpro.com
 
