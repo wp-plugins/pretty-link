@@ -65,7 +65,7 @@ http://blairwilliams.com/w7a
 
 == Changelog ==
 
-= 1.5.5
+= 1.5.5 =
 * Added the option to redirect on the template_redirect hook
 * Fixed an issue with the database upgrade process
 * Added Javascript redirection for pro users
