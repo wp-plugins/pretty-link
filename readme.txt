@@ -10,14 +10,11 @@ Shrink, track, manage and share any URL from your WordPress website. Create link
 
 == Description ==
 
-= Upgrade to Pretty Link Pro =
+[Upgrade to Pretty Link Pro](http://prettylinkpro.com "Upgrade to Pretty Link Pro")
 
-[Pretty Link Pro](http://prettylinkpro.com "Pretty Link Pro")
+*Pretty Link Pro* is a **significant upgrade** to *Pretty Link Lite* that adds many tools that will automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog with them and much more.
 
-*Pretty Link Pro* is a significant upgrade to *Pretty Link Lite* that adds several tools to automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog with them and much more.
-
-You can learn more about it here:
-
+You can learn more about *Pretty Link Pro* here:
 [About](http://prettylinkpro.com/about "About") | [Features](http://prettylinkpro.com/features "Features") | [Pricing](http://prettylinkpro.com/pricing "Pricing")
 
 = Detail =
