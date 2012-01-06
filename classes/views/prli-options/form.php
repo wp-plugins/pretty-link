@@ -19,7 +19,7 @@ if(!$permalink_structure or empty($permalink_structure))
 <?php do_action('prli-options-message'); ?>
 <a href="admin.php?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php">&laquo Pretty Link Admin</a>
 
-<form name="form1" method="post" action="">
+<form name="form1" method="post" action="<?php echo admin_url("/admin.php?page=pretty-link/prli-options.php"); ?>">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 <?php wp_nonce_field('update-options'); ?>
 

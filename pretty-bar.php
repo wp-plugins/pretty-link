@@ -210,7 +210,7 @@ td {
           </h4>
           <h4>
           <?php if( $bar_show_share_links ) { ?>
-            <a href="http://twitter.com/home?status=<?php echo $prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . $_GET['slug']; ?>" target="_top">Share on Twitter</a>
+            <a href="http://twitter.com/home?status=<?php echo $prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . esc_html($_GET['slug']); ?>" target="_top">Share on Twitter</a>
           <?php } else echo "&nbsp;"; ?>
           </h4> 
         </div>
