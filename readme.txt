@@ -4,24 +4,25 @@ Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.5.5
+Stable tag: 1.5.6
 
-Shrink, track, manage and share any URL from your WordPress website. Create links that look however you want using your own domain name!
+Shrink, beautify, track, manage and share any URL on or off of your WordPress website. Create links that look however you want using your own domain name!
 
 == Description ==
 
-Use *Pretty Link Lite* **or** [Upgrade to Pretty Link Pro](http://prettylinkpro.com "Upgrade to Pretty Link Pro")
+= Pretty Link Pro =
 
-*Pretty Link Pro* is a **significant upgrade** to *Pretty Link Lite* that adds many tools that will automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog with them and much more.
+[Upgrade to Pretty Link Pro](http://prettylinkpro.com "Upgrade to Pretty Link Pro")
 
-You can learn more about *Pretty Link Pro* here:
+*Pretty Link Pro* is a **significant upgrade** to *Pretty Link Lite* that adds many tools and redirection types that will allow you to create pretty links automatically, cloak links, auto-tweet links, replace keywords thoughout your blog with pretty links and much more.  You can learn more about *Pretty Link Pro* here:
+
 [About](http://prettylinkpro.com/about "About") | [Features](http://prettylinkpro.com/features "Features") | [Pricing](http://prettylinkpro.com/pricing "Pricing")
 
-= Pretty Link Detail =
+= Pretty Link Lite =
 
 Pretty Link enables you to shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to clean up their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
 
-= Examples =
+= Link Examples =
 
 This is a link setup using Pretty Link that redirects to the Pretty Link Homepage where you can find more info about this Plugin:
 
@@ -38,7 +39,7 @@ http://blairwilliams.com/w7a
 = Features =
 
 * Gives you the ability to create clean, simple URLs on your website that redirect to any other URL (allows for 301 and 307 redirects only)
-* Generates random 2-3 character slugs for your URL or allows you to name a custom slug for your URL
+* Generates random 3-4 character slugs for your URL or allows you to name a custom slug for your URL
 * Tracks the Number of Hits per link
 * Tracks the Number of Unique Hits per link
 * Provides a reporting interface where you can see a configurable chart of clicks per day. This report can be filtered by the specific link clicked, date range, and/or unique clicks.
@@ -64,6 +65,9 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%year%/%month%/%postname%/" for the simplest possible URL slugs with the best performance.
 
 == Changelog ==
+
+= 1.5.6 =
+* Fixed a cross-site scripting vulnerability that could have affected a very small number of users
 
 = 1.5.5 =
 * Added the option to redirect on the template_redirect hook
@@ -322,6 +326,9 @@ http://blairwilliams.com/w7a
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+
+= 1.5.6 =
+* Fixed a cross-site scripting vulnerability that could have affected a very small number of users
 
 = 1.5.5 =
 * Adds some new functionality that could be important for many users. Also fixed some minor issues affecting some users.
