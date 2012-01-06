@@ -10,14 +10,14 @@ Shrink, track, manage and share any URL from your WordPress website. Create link
 
 == Description ==
 
-[Upgrade to Pretty Link Pro](http://prettylinkpro.com "Upgrade to Pretty Link Pro")
+Use *Pretty Link Lite* **or** [Upgrade to Pretty Link Pro](http://prettylinkpro.com "Upgrade to Pretty Link Pro")
 
 *Pretty Link Pro* is a **significant upgrade** to *Pretty Link Lite* that adds many tools that will automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog with them and much more.
 
 You can learn more about *Pretty Link Pro* here:
 [About](http://prettylinkpro.com/about "About") | [Features](http://prettylinkpro.com/features "Features") | [Pricing](http://prettylinkpro.com/pricing "Pricing")
 
-= Detail =
+= Pretty Link Detail =
 
 Pretty Link enables you to shorten links using your own domain name (as opposed to using tinyurl.com, bit.ly, or any other link shrinking service)! In addition to creating clean links, Pretty Link tracks each hit on your URL and provides a full, detailed report of where the hit came from, the browser, os and host. Pretty Link is a killer plugin for people who want to clean up their affiliate links, track clicks from emails, their links on Twitter to come from their own domain, or generally increase the reach of their website by spreading these links on forums or comments on other blogs.
 
