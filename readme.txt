@@ -10,11 +10,15 @@ Shrink, track, manage and share any URL from your WordPress website. Create link
 
 == Description ==
 
-= [Upgrade to Pretty Link Pro](http://prettylinkpro.com "Upgrade to Pretty Link Pro") =
+= Upgrade to Pretty Link Pro =
 
-Pretty Link Pro is an upgrade to Pretty Link Lite that adds the capability to automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog and much more. You can learn more about it here:
+[Pretty Link Pro](http://prettylinkpro.com "Pretty Link Pro")
 
-http://prettylinkpro.com
+*Pretty Link Pro* is a significant upgrade to *Pretty Link Lite* that adds several tools to automate your pretty link creation, cloak links, auto-tweet them, replace keywords thoughout your blog with them and much more.
+
+You can learn more about it here:
+
+[About](http://prettylinkpro.com/about "About") | [Features](http://prettylinkpro.com/features "Features") | [Pricing](http://prettylinkpro.com/pricing "Pricing")
 
 = Detail =
 
@@ -30,7 +34,7 @@ Here's a named Pretty Link (I used the slug 'aweber') that does a 307 redirect t
 
 http://blairwilliams.com/aweber
 
-Here's a link that Pretty Link generated a random slug for (similar to how bit.ly or tinyurl would do):
+Here's a link that Pretty Link generated a random slug for (similar to what bit.ly or tinyurl would do):
 
 http://blairwilliams.com/w7a
 
@@ -46,7 +50,6 @@ http://blairwilliams.com/w7a
 * Intuitive Javascript / AJAX Admin User Interface
 * Pass custom parameters to your scripts through pretty link and still have full tracking ability
 * Exclude IP Addresses from Stats
-* Enables you to post your Pretty Links to Twitter directly from your WordPress admin
 * Enables you to send your Pretty Links via Email directly from your WordPress admin
 * Select Temporary (307) or Permanent (301) redirection for your Pretty Links
 * Cookie based system for tracking visitor activity across hits
