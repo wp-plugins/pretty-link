@@ -6,7 +6,7 @@ if(!defined('ABSPATH'))
 <?php
   require(PRLI_VIEWS_PATH.'/shared/nav.php');
 ?>
-  <h2><img src="<?php echo PRLI_IMAGES_URL.'/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Groups</h2>
+  <?php echo PrliAppHelper::page_title(__('Groups', 'pretty-link')); ?>
   <div id="message" class="updated fade" style="padding:5px;"><?php echo $prli_message; ?></div> 
   <div id="search_pane" style="float: right;">
     <form class="form-fields" name="group_form" method="post" action="">

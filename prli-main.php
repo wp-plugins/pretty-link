@@ -11,24 +11,31 @@ add_action('admin_menu', 'prli_menu');
 
 function prli_menu()
 {
-  global $prli_options;
+  global $prli_options, $prlipro_options;
 
-  add_menu_page('Pretty Link', 'Pretty Link', 'administrator', PRLI_PATH.'/prli-links.php','',PRLI_IMAGES_URL.'/pretty-link-small.png'); 
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Add New Link', 'Add New Link', 'administrator', PRLI_PATH.'/prli-add-link.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Groups', 'Groups', 'administrator', PRLI_PATH.'/prli-groups.php');
+  $role = 'administrator';
+  if(isset($prlipro_options->min_role))
+    $role = $prlipro_options->min_role;
+	
+  $prli_menu_hook = add_menu_page( __('Pretty Link | Manage Pretty Links', 'pretty-link'), __('Pretty Link', 'pretty-link'), $role, 'pretty-link', 'PrliLinksController::route', PRLI_IMAGES_URL.'/pretty-link-small.png' );
+  $prli_add_links_menu_hook = add_submenu_page( 'pretty-link', __('Pretty Link | Add New Link', 'pretty-link'), __('Add New Link', 'pretty-link'), $role, 'add-new-pretty-link', 'PrliLinksController::new_link' );
+  add_submenu_page('pretty-link', 'Pretty Link | Groups', 'Groups', $role, PRLI_PATH.'/prli-groups.php');
 
   if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking != "count" )
-    add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Hits', 'Hits', 'administrator', PRLI_PATH.'/prli-clicks.php');
+    add_submenu_page('pretty-link', 'Pretty Link | Hits', 'Hits', $role, PRLI_PATH.'/prli-clicks.php');
 
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Tools', 'Tools', 'administrator', PRLI_PATH.'/prli-tools.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Options', 'Options', 'administrator', PRLI_PATH.'/prli-options.php');
-  add_submenu_page(PRLI_PATH.'/prli-links.php', 'Pretty Link | Pretty Link Pro', 'Pretty Link Pro', 'administrator', PRLI_PATH.'/prli-pro-settings.php');
+  add_submenu_page('pretty-link', 'Pretty Link | Tools', 'Tools', $role, PRLI_PATH.'/prli-tools.php');
+  add_submenu_page('pretty-link', 'Pretty Link | Options', 'Options', $role, PRLI_PATH.'/prli-options.php');
+  add_submenu_page('pretty-link', 'Pretty Link | Pretty Link Pro', 'Pretty Link Pro', $role, PRLI_PATH.'/prli-pro-settings.php');
 
   add_action('admin_head-pretty-link/prli-clicks.php', 'prli_reports_admin_header');
-  add_action('admin_head-pretty-link/prli-links.php', 'prli_links_admin_header');
-  add_action('admin_head-pretty-link/prli-add-link.php', 'prli_links_admin_header');
+  add_action('admin_print_scripts-' . $prli_menu_hook, 'PrliLinksController::load_scripts');
+  add_action('admin_print_scripts-' . $prli_add_links_menu_hook, 'PrliLinksController::load_scripts');
   add_action('admin_head-pretty-link/prli-groups.php', 'prli_groups_admin_header');
   add_action('admin_head-pretty-link/prli-options.php', 'prli_options_admin_header');
+
+  add_action('admin_print_styles-' . $prli_menu_hook, 'PrliLinksController::load_styles');
+  add_action('admin_print_styles-' . $prli_add_links_menu_hook, 'PrliLinksController::load_styles');
 }
 
 /* Add header to prli-options page */
@@ -73,13 +80,6 @@ function prli_reports_admin_header()
 
     require_once 'classes/views/prli-clicks/head.php';
   }
-}
-
-/* Add header to the prli-links page */
-function prli_links_admin_header()
-{
-  global $prli_siteurl;
-  require_once 'classes/views/prli-links/head.php';
 }
 
 /* Add header to the prli-links page */
@@ -328,15 +328,8 @@ function prli_install()
   $prli_utils->clear_unknown_post_metas();
 
   /***** SAVE OPTIONS *****/
-  $prli_options = get_option('prli_options');
-  
-  // If unserializing didn't work
-  if(!$prli_options)
-    $prli_options = new PrliOptions();
-  else
-    $prli_options->set_default_options(); // Sets defaults for unset options
-
-  update_option('prli_options',$prli_options);
+  $prli_options = PrliOptions::get_options();
+  $prli_options->store();  
 
   /***** SAVE DB VERSION *****/
   update_option('prli_db_version',$prli_db_version);

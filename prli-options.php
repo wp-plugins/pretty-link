@@ -53,7 +53,8 @@ if( isset($_REQUEST[ $hidden_field_name ]) and $_REQUEST[ $hidden_field_name ] =
   else
   {
     // Save the posted value in the database
-    update_option( 'prli_options', $prli_options );
+    //update_option( 'prli_options', $prli_options );
+    $prli_options->store();
 
     // Put an options updated message on the screen
 
