@@ -4,7 +4,7 @@ Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.5.6
+Stable tag: 1.5.7
 
 Shrink, beautify, track, manage and share any URL on or off of your WordPress website. Create links that look however you want using your own domain name!
 
@@ -65,6 +65,23 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%year%/%month%/%postname%/" for the simplest possible URL slugs with the best performance.
 
 == Changelog ==
+
+= 1.5.7 =
+* *Feature* Re-factored the add/edit link screen to be more intuitive and accurate
+* *Feature* Added the ability to add a new group from the Add / Edit Link screen
+* *Fix* Using uniqid() to generate visitor id for normal & extended tracking now in order to increase performance and avoid issues with mt_rand and pow
+* *Fix* Replaced all code dependent on curl to now use the more versatile WP_Http
+* *Fix* Altered the hits list for normal & extended tracking to use GMT time
+* *Fix* Fixed some issues with Parameter Forwarding
+* *Fix* Fixed the conflict with W3 Total Cache Object Caching that was causing pretty link options to not be saved when it was enabled
+* *Pro Feature* Added Double Redirection for any pretty link
+* *Pro Feature* Added Google Analytics support for any pretty link by integrating with the Google Analyticator, Google Analytics for WordPress and Google Analytics Plugin
+* *Pro Feature* Added Delayed Redirection for any pretty links using Javascript and Meta-Refresh Redirection
+* *Pro Feature* Added the ability to automatically create and download QR Codes pretty links
+* *Pro Feature* Added the ability to change the minimum user admin role that can access Pretty Link
+* *Pro Fix* Made some major performance enhancements to Keyword and URL Replacements
+* *Pro Fix* Fixed an issue adding Twitter accounts for some users running wordpress within a subdomain
+* *Pro Fix* Fixed an issue with select all links
 
 = 1.5.6 =
 * Fixed a cross-site scripting vulnerability that could have affected a very small number of users
@@ -326,6 +343,9 @@ http://blairwilliams.com/w7a
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+
+= 1.5.7 =
+* This is a major new release that fixes numerous bugs and adds several new features for Lite and Pro users. Everyone should upgrade.
 
 = 1.5.6 =
 * Fixed a cross-site scripting vulnerability that could have affected a very small number of users

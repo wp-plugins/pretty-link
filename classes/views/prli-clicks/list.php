@@ -3,7 +3,7 @@
 <?php
   require(PRLI_VIEWS_PATH.'/shared/nav.php');
 ?>
-  <h2><img src="<?php echo PRLI_IMAGES_URL.'/pretty-link-med.png'; ?>"/>&nbsp;Pretty Link: Hits</h2>
+  <?php echo PrliAppHelper::page_title(__('Hits', 'pretty-link')); ?>
   <span style="font-size: 14px; font-weight: bold;">For <?php echo stripslashes($link_name); ?>: </span>
   <?php
   // Don't show this sheesh if we're displaying the vuid or ip grouping
@@ -129,7 +129,7 @@
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&vuid=<?php echo $click->vuid; ?>" title="View All Activity for Visitor: <?php echo $click->vuid; ?>"><?php echo $click->vuid; ?><?php echo (($click->vuid != null)?" ($click->vuid_count)":''); ?></a></td>
     <?php } ?>
-        <td><?php echo $click->created_at; ?></td>
+        <td><?php echo gmdate('Y-m-d H:i:s', (strtotime($click->created_at) + (get_option('gmt_offset') * 3600))); ?></td>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
         <td><?php echo $click->host; ?></td>
     <?php } ?>
