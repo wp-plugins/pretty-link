@@ -8,14 +8,14 @@ if(!defined('ABSPATH'))
       ?>
     <div class="tablenav"<?php echo (isset($navstyle)?" style=\"$navstyle\"":''); ?>>
       <?php do_action('prli-link-list-actions', $footer); ?>
-      <div class='tablenav-pages'><span class="displaying-num">Displaying <?php print "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
+      <div class='tablenav-pages'><span class="displaying-num">Displaying <?php echo "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
         
         <?php
         // Only show the prev page button if the current page is not the first page
         if($current_page > 1)
         {
           ?>
-          <a class='prev page-numbers' href='?page=<?php print PRLI_PLUGIN_NAME; ?>/<?php print $controller_file . $page_params; ?>&paged=<?php print($current_page-1); ?>'>&laquo;</a>
+          <a class='prev page-numbers' href='?page=<?php echo esc_html($_REQUEST['page'].$page_params); ?>&paged=<?php echo ($current_page-1); ?>'>&laquo;</a>
           <?php
         }
       
@@ -29,7 +29,7 @@ if(!defined('ABSPATH'))
         else
         {
           ?>
-          <a class='page-numbers' href='?page=<?php print PRLI_PLUGIN_NAME; ?>/<?php print $controller_file . $page_params; ?>&paged=1'>1</a>
+          <a class='page-numbers' href='?page=<?php echo esc_html($_REQUEST['page'].$page_params); ?>&paged=1'>1</a>
           <?php
         }
       
@@ -49,13 +49,13 @@ if(!defined('ABSPATH'))
           if($current_page==$i)
           {
             ?>
-            <span class='page-numbers current'><?php print $i; ?></span>
+            <span class='page-numbers current'><?php echo $i; ?></span>
             <?php
           }
           else
           {
             ?>
-            <a class='page-numbers' href='?page=<?php print PRLI_PLUGIN_NAME; ?>/<?php print $controller_file . $page_params; ?>&paged=<?php print $i; ?>'><?php print $i; ?></a>
+            <a class='page-numbers' href='?page=<?php echo esc_html($_REQUEST['page'].$page_params); ?>&paged=<?php echo $i; ?>'><?php echo $i; ?></a>
             <?php
           }
         }
@@ -72,13 +72,13 @@ if(!defined('ABSPATH'))
         if($current_page == $page_count)
         {
           ?>
-          <span class='page-numbers current'><?php print $page_count; ?></span>
+          <span class='page-numbers current'><?php echo $page_count; ?></span>
           <?php
         }
         else
         {
           ?>
-          <a class='page-numbers' href='?page=<?php print PRLI_PLUGIN_NAME; ?>/<?php print $controller_file . $page_params; ?>&paged=<?php print $page_count; ?>'><?php print $page_count; ?></a>
+          <a class='page-numbers' href='?page=<?php echo esc_html($_REQUEST['page'].$page_params); ?>&paged=<?php echo $page_count; ?>'><?php echo $page_count; ?></a>
           <?php
         }
       
@@ -86,7 +86,7 @@ if(!defined('ABSPATH'))
         if($current_page < $page_count)
         {
           ?>
-          <a class='next page-numbers' href='?page=<?php print PRLI_PLUGIN_NAME; ?>/<?php print $controller_file . $page_params; ?>&paged=<?php print($current_page + 1); ?>'>&raquo;</a>
+          <a class='next page-numbers' href='?page=<?php echo esc_html($_REQUEST['page'].$page_params); ?>&paged=<?php echo ($current_page + 1); ?>'>&raquo;</a>
           <?php
         }
         ?>

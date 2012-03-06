@@ -4,7 +4,7 @@ if(!defined('ABSPATH'))
 
 class PrliAppController
 {
-  function PrliAppController()
+  function __construct()
   {
     add_action('init', array(&$this,'parse_standalone_request'));
     add_action('admin_notices', array(&$this, 'upgrade_database_headline'));
@@ -42,6 +42,7 @@ class PrliAppController
         !empty($_REQUEST['controller']) and !empty($_REQUEST['action']) )
     {
       $this->standalone_route($_REQUEST['controller'], $_REQUEST['action']);
+      do_action('prli-standalone-route');
       exit;
     }
   }
@@ -62,7 +63,7 @@ class PrliAppController
 
     if( wp_verify_nonce( $_REQUEST['_wpnonce'], "prli-db-upgrade" ) and current_user_can( 'update_core' ) ) {
       prli_install();
-      wp_redirect(admin_url("admin.php?page=pretty-link/prli-links.php&message=" . urlencode(__('Your Database Has Been Successfully Upgraded.', 'pretty-link'))));
+      wp_redirect(admin_url("admin.php?page=pretty-link&message=" . urlencode(__('Your Database Has Been Successfully Upgraded.', 'pretty-link'))));
     }
     else
       wp_redirect(home_url());

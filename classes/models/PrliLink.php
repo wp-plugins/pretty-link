@@ -14,12 +14,12 @@ class PrliLink
 
     function create( $values )
     {
-      global $wpdb, $prli_url_utils;
+      global $wpdb;
 
       if($values['redirect_type'] == 'pixel')
         $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       else
-        $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
+        $values['name'] = (!empty($values['name'])?$values['name']:PrliUtils::get_page_title($values['url'],$values['slug']));
 
       $query_str = "INSERT INTO {$this->table_name} " . 
                      '(url,'.
@@ -48,20 +48,24 @@ class PrliLink
                                (isset($values['group_id'])?(int)$values['group_id']:'NULL') );
       $query_results = $wpdb->query($query);
 
-     if($query_results)
-        return $wpdb->insert_id;
+      if($query_results)
+        $link_id = $wpdb->insert_id;
       else
-        return false;
+        $link_id = false;
+
+      do_action('prli-create-link', $link_id, $values);
+
+      return $link_id;
     }
 
     function update( $id, $values )
     {
-      global $wpdb, $prli_url_utils;
+      global $wpdb;
 
       if($values['redirect_type'] == 'pixel')
         $values['name'] = (!empty($values['name'])?$values['name']:$values['slug']);
       else
-        $values['name'] = (!empty($values['name'])?$values['name']:$prli_url_utils->get_title($values['url'],$values['slug']));
+        $values['name'] = (!empty($values['name'])?$values['name']:PrliUtils::get_page_title($values['url'],$values['slug']));
 
       $query_str = "UPDATE {$this->table_name} " . 
                       'SET url=%s, ' .
@@ -283,7 +287,7 @@ class PrliLink
 
     function is_pretty_link_slug($slug)
     {
-      return $this->getOneFromSlug( urldecode($slug) );
+	  return apply_filters('prli-check-if-slug', $this->getOneFromSlug( urldecode($slug) ), urldecode($slug));
     }
 
     function get_link_min( $id, $return_type = OBJECT )
@@ -410,23 +414,6 @@ class PrliLink
         return $prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . $link->slug;
     }
 
-    // Set defaults and grab get or post of each possible param
-    function get_params_array()
-    {
-      return array(
-         'action'     => (isset($_REQUEST['action'])?$_REQUEST['action']:'list'),
-         'regenerate' => (isset($_REQUEST['regenerate'])?$_REQUEST['regenerate']:'false'),
-         'id'         => (isset($_REQUEST['id'])?$_REQUEST['id']:''),
-         'group_name' => (isset($_REQUEST['group_name'])?$_REQUEST['group_name']:''),
-         'paged'      => (isset($_REQUEST['paged'])?$_REQUEST['paged']:1),
-         'group'      => (isset($_REQUEST['group'])?$_REQUEST['group']:''),
-         'search'     => (isset($_REQUEST['search'])?$_REQUEST['search']:''),
-         'sort'       => (isset($_REQUEST['sort'])?$_REQUEST['sort']:''),
-         'sdir'       => (isset($_REQUEST['sdir'])?$_REQUEST['sdir']:''),
-         'message'    => (isset($_REQUEST['message'])?$_REQUEST['message']:'')
-      );
-    }
-
     function validate( $values )
     {
       global $wpdb, $prli_utils, $prli_blogurl;
@@ -462,5 +449,47 @@ class PrliLink
         $errors[] = "Your parameter forwarding must have at least one parameter specified in the format ex: <code>/%var1%/%var_two%/%varname3% ...</code>";
 
       return $errors;
+    }
+    
+    public function get_target_to_pretty_urls($urls=array(),$create_pretty_links=false) {
+      global $wpdb, $prli_blogurl; 
+
+      if(empty($urls))
+        return false;
+
+      $decoded_urls = array_map( create_function( '$url', 'return html_entity_decode(urldecode($url));' ), $urls );
+      
+      if( count($decoded_urls) > 1 )
+        $where = "IN (" . implode( ',', array_map( create_function( '$url', 'return "\"{$url}\"";' ), $decoded_urls ) ) . ")";
+      else 
+        $where = "= '" . html_entity_decode(urldecode($decoded_urls[0])) . "'";
+
+      $query = "SELECT li.url AS target_url, " .
+                      "CONCAT(%s, li.slug) AS pretty_url " .
+                 "FROM {$this->table_name} AS li " .
+                "WHERE li.url {$where}";
+
+      $query = $wpdb->prepare($query, $prli_blogurl.PrliUtils::get_permalink_pre_slug_uri());
+      
+      $results = (array)$wpdb->get_results($query);
+      
+      $prli_lookup = array();
+      foreach($results as $url_hash) {
+        if(isset($prli_lookup[$url_hash->target_url]))
+          $prli_lookup[$url_hash->target_url][] = $url_hash->pretty_url; 
+        else
+          $prli_lookup[$url_hash->target_url] = array($url_hash->pretty_url); 
+      }
+      
+      if($create_pretty_links) {
+        foreach($decoded_urls as $url) {
+          if(!isset($prli_lookup[$url])) {
+            if( $id = prli_create_pretty_link( $url ) )
+              $prli_lookup[$url] = array(prli_get_pretty_link_url($id));
+          }
+        }
+      }
+
+      return $prli_lookup;
     }
 }

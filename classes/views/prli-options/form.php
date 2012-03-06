@@ -4,8 +4,7 @@ if(!defined('ABSPATH'))
 ?>
 
 <div class="wrap">
-        <div id="icon-options-general" class="icon32"><br /></div>
-<h2 id="prli_title">Pretty Link: Options</h2>
+<?php echo PrliAppHelper::page_title(__('Options', 'pretty-link')); ?>
 <br/>
 <?php
 $permalink_structure = get_option('permalink_structure');
@@ -17,14 +16,14 @@ if(!$permalink_structure or empty($permalink_structure))
 }
 ?>
 <?php do_action('prli-options-message'); ?>
-<a href="admin.php?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php">&laquo Pretty Link Admin</a>
+<a href="admin.php?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php">&laquo; Pretty Link Admin</a>
 
 <form name="form1" method="post" action="<?php echo admin_url("/admin.php?page=pretty-link/prli-options.php"); ?>">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
 <?php wp_nonce_field('update-options'); ?>
 
 <h3><a class="toggle link-toggle-button"><?php _e('Link Options', 'pretty-link') ?> <span class="link-expand" style="display: none;">[+]</span><span class="link-collapse">[-]</span></a></h3>
-<ul class="link-toggle-pane" style="list-style-type: none;">
+<ul class="link-toggle-pane" style="list-style-type: none; padding-left: 10px;">
   <li>
     <h3><?php _e('Link Defaults:', 'pretty-link') ?></h3>
     <input type="checkbox" name="<?php echo $link_track_me; ?>" <?php echo (($prli_options->link_track_me != 0)?'checked="true"':''); ?>/>&nbsp; Track Link
@@ -47,6 +46,7 @@ if(!$permalink_structure or empty($permalink_structure))
     </select>
     <br/><span class="description">Select the type of redirection you want your newly created links to have.</span>
   </li>
+  <?php do_action('prli_custom_link_options'); ?>
   <li>
 	<h3><?php _e('Advanced', 'pretty-link') ?></h3>
     <span><strong><?php _e('WordPress Redirection Action:', 'pretty-link') ?> </strong></span>
