@@ -4,7 +4,7 @@ Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.5.7
+Stable tag: 1.5.8
 
 Shrink, beautify, track, manage and share any URL on or off of your WordPress website. Create links that look however you want using your own domain name!
 
@@ -66,7 +66,7 @@ http://blairwilliams.com/w7a
 
 == Changelog ==
 
-= 1.5.7 =
+= 1.5.8 =
 * *Feature* Re-factored the add/edit link screen to be more intuitive and accurate
 * *Feature* Added the ability to add a new group from the Add / Edit Link screen
 * *Fix* Using uniqid() to generate visitor id for normal & extended tracking now in order to increase performance and avoid issues with mt_rand and pow
@@ -344,7 +344,7 @@ http://blairwilliams.com/w7a
 
 == Upgrade Notice ==
 
-= 1.5.7 =
+= 1.5.8 =
 * This is a major new release that fixes numerous bugs and adds several new features for Lite and Pro users. Everyone should upgrade.
 
 = 1.5.6 =
