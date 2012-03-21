@@ -6,7 +6,7 @@ class PrliGroup
 {
   var $table_name;
 
-  function PrliGroup()
+  function __construct()
   {
     global $wpdb;
     $this->table_name = "{$wpdb->prefix}prli_groups";

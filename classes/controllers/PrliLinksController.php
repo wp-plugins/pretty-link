@@ -1,6 +1,6 @@
 <?php
 if(!defined('ABSPATH'))
-  die(__('You are not allowed to call this page directly.', 'pretty-link'));
+  die('You are not allowed to call this page directly.');
 
 class PrliLinksController
 {
@@ -21,13 +21,15 @@ class PrliLinksController
     else if($action == 'edit')
       return self::edit_link($params);
     else if($action == 'bulk-update')
-      return self::bulk_edit_links($params);
+      return self::bulk_update_links($params);
     else if($action == 'update')
       return self::update_link($params);
     else if($action == 'reset')
       return self::reset_link($params);
     else if($action == 'destroy')
       return self::destroy_link($params);
+    else if($action == 'bulk-destroy')
+      return self::bulk_destroy_links($params);
     else
       return self::list_links($params);
   }
@@ -37,7 +39,19 @@ class PrliLinksController
   }
 
   public static function load_scripts() {
-	wp_enqueue_script( 'prli-admin-links', PRLI_JS_URL . '/prli-admin-links.js', array('jquery') );
+	wp_enqueue_script( 'jquery-clippy', PRLI_JS_URL . '/jquery.clippy.js', array('jquery') );
+	wp_enqueue_script( 'prli-admin-links', PRLI_JS_URL . '/prli-admin-links.js', array('jquery','jquery-clippy') );
+  }
+
+  public static function load_dynamic_scripts() {
+    ?>
+    <script type="text/javascript">
+      jQuery(document).ready(function() {
+        /* Set up the clippies! */
+        jQuery('.list-clippy').clippy({clippy_path: '<?php echo PRLI_JS_URL; ?>/clippy.swf', width: '100px', color: '#F9F9F9'});
+      });
+    </script>
+    <?php
   }
 
   public static function list_links($params) {
@@ -131,14 +145,6 @@ class PrliLinksController
 	require_once PRLI_VIEWS_PATH . '/prli-links/edit.php';
   }
 
-  public static function bulk_update_links($params) {
-	if(apply_filters('prli-bulk-link-update', true))
-	{
-	  $prli_message = __("Your Pretty Links were Successfully Updated", 'pretty-link');
-	  self::display_links_list($params, $prli_message, '', 1);
-	}
-  }
-
   public static function update_link($params) {
 	global $prli_link, $prli_group;
     $errors = $prli_link->validate($_POST);
@@ -164,18 +170,73 @@ class PrliLinksController
     }
   }
   
+  public static function bulk_update_links() {
+    global $prli_link;
+    if(wp_verify_nonce($_REQUEST['_wpnonce'],'prli_bulk_update') and isset($_REQUEST['ids'])) {
+
+      $ids = $_REQUEST['ids'];
+      $params = $_REQUEST['bu'];
+      
+      $prli_link->bulk_update( $ids, $params );
+      do_action('prli-bulk-action-update',$ids,$params);
+      
+      $message = __('Your links were updated successfully', 'pretty-link');
+     
+      //self::display_links_list(self::get_params_array(),$message);
+
+      // We're going to redirect here to avoid having a big nasty url that
+      // can cause problems when doing several activities in a row.
+
+      // Scrub message, action, _wpnonce, ids & bu vars from the arguments and redirect
+      $request_uri = preg_replace( '#\&(message|action|_wpnonce|ids|bu\[[^\]]*?\])=[^\&]*#', '', $_SERVER['REQUEST_URI'] );
+
+      // we assume here that some arguments are set ... if not this value is meaningless anyway
+      $request_uri .= '&message=' . urlencode($message);
+      $redirect_url = 'http' . (empty($_SERVER['HTTPS'])?'':'s') . '://' . $_SERVER['HTTP_HOST'] . $request_uri;
+      
+      require PRLI_VIEWS_PATH . '/shared/jsredirect.php';
+    }
+    else
+      wp_die(__('You are unauthorized to view this page.', 'pretty-link'));
+  }
+
   public static function reset_link($params) {
-	global $prli_link;
+    global $prli_link;
     $prli_link->reset( $params['id'] );
     $prli_message = __("Your Pretty Link was Successfully Reset", 'pretty-link');
     self::display_links_list($params, $prli_message, '', 1);
   }
 
   public static function destroy_link($params) {
-	global $prli_link;
+    global $prli_link;
     $prli_link->destroy( $params['id'] );
     $prli_message = __("Your Pretty Link was Successfully Destroyed", 'pretty-link');
     self::display_links_list($params, $prli_message, '', 1);
+  }
+
+  public static function bulk_destroy_links($params) {
+    global $prli_link;
+    if(wp_verify_nonce($_REQUEST['_wpnonce'],'prli_bulk_update') and isset($_REQUEST['ids'])) {
+      $ids = explode(',', $_REQUEST['ids']);
+
+      foreach($ids as $id) {
+        $prli_link->destroy( $id );
+      }
+      
+      $message = __('Your links were deleted successfully', 'pretty-link');
+     
+      //self::display_links_list($params,$message);
+      // Scrub message, action, _wpnonce, ids & bu vars from the arguments and redirect
+      $request_uri = preg_replace( '#\&(message|action|_wpnonce|ids|bu\[[^\]]*?\])=[^\&]*#', '', $_SERVER['REQUEST_URI'] );
+
+      // we assume here that some arguments are set ... if not this value is meaningless anyway
+      $request_uri .= '&message=' . urlencode($message);
+      $redirect_url = 'http' . (empty($_SERVER['HTTPS'])?'':'s') . '://' . $_SERVER['HTTP_HOST'] . $request_uri;
+      
+      require PRLI_VIEWS_PATH . '/shared/jsredirect.php';
+    }
+    else
+      wp_die(__('You are unauthorized to view this page.', 'pretty-link'));
   }
 
   public static function display_links_list($params, $prli_message, $page_params_ov = false, $current_page_ov = false)
@@ -186,6 +247,8 @@ class PrliLinksController
   
     $where_clause = '';
     $page_params  = '';
+
+    $page_size = (isset($_REQUEST['size']) && is_numeric($_REQUEST['size']) && !empty($_REQUEST['size']))?$_REQUEST['size']:10;
   
     if(!empty($params['group']))
     {

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Pretty Link Lite package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Pretty Link Lite 1.5.7\n"
+"Project-Id-Version: Pretty Link Lite 1.5.9\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/tag/pretty-link\n"
-"POT-Creation-Date: 2012-03-06 06:35:53+00:00\n"
+"POT-Creation-Date: 2012-03-21 15:58:26+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -37,6 +37,51 @@ msgstr ""
 msgid "No hits older than 90 days were found, so nothing was deleted"
 msgstr ""
 
+#: classes/helpers/PrliLinksHelper.php:14 classes/views/prli-links/form.php:44
+msgid "None"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:38 classes/views/prli-links/form.php:8
+msgid "307 (Temporary)"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:39 classes/views/prli-links/form.php:9
+msgid "301 (Permanent)"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:49
+msgid "Bulk Actions"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:50
+msgid "Edit"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:51
+msgid "Delete"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:53
+msgid "Are you sure you want to delete the selected links?"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:53
+msgid "Apply"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:63 classes/views/prli-links/list.php:88
+#: classes/views/prli-links/list.php:91
+msgid "- No Change -"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:64
+msgid "Off"
+msgstr ""
+
+#: classes/helpers/PrliLinksHelper.php:65
+msgid "On"
+msgstr ""
+
 #: classes/controllers/PrliAppController.php:33
 msgid ""
 "Database Upgrade is required for Pretty Link to work properly<br/>%1"
@@ -47,34 +92,38 @@ msgstr ""
 msgid "Your Database Has Been Successfully Upgraded."
 msgstr ""
 
-#: classes/controllers/PrliLinksController.php:3
-#: classes/controllers/PrliGroupsController.php:3
-msgid "You are not allowed to call this page directly."
-msgstr ""
-
-#: classes/controllers/PrliLinksController.php:51
+#: classes/controllers/PrliLinksController.php:65
 msgid "Links in Group: "
 msgstr ""
 
-#: classes/controllers/PrliLinksController.php:96
-#: classes/controllers/PrliLinksController.php:119
+#: classes/controllers/PrliLinksController.php:110
+#: classes/controllers/PrliLinksController.php:133
 msgid "Your Pretty Link was Successfully Created"
 msgstr ""
 
-#: classes/controllers/PrliLinksController.php:137
-msgid "Your Pretty Links were Successfully Updated"
-msgstr ""
-
-#: classes/controllers/PrliLinksController.php:162
+#: classes/controllers/PrliLinksController.php:168
 msgid "Your Pretty Link was Successfully Updated"
 msgstr ""
 
-#: classes/controllers/PrliLinksController.php:170
+#: classes/controllers/PrliLinksController.php:183
+msgid "Your links were updated successfully"
+msgstr ""
+
+#: classes/controllers/PrliLinksController.php:200
+#: classes/controllers/PrliLinksController.php:239
+msgid "You are unauthorized to view this page."
+msgstr ""
+
+#: classes/controllers/PrliLinksController.php:206
 msgid "Your Pretty Link was Successfully Reset"
 msgstr ""
 
-#: classes/controllers/PrliLinksController.php:177
+#: classes/controllers/PrliLinksController.php:213
 msgid "Your Pretty Link was Successfully Destroyed"
+msgstr ""
+
+#: classes/controllers/PrliLinksController.php:226
+msgid "Your links were deleted successfully"
 msgstr ""
 
 #: classes/controllers/PrliGroupsController.php:17
@@ -206,24 +255,57 @@ msgstr ""
 msgid "Links"
 msgstr ""
 
+#: classes/views/prli-links/list.php:79
+msgid "Bulk Edit"
+msgstr ""
+
+#: classes/views/prli-links/list.php:86
+msgid "Basic Link Options"
+msgstr ""
+
+#: classes/views/prli-links/list.php:87
+msgid "Redirect Type"
+msgstr ""
+
+#: classes/views/prli-links/list.php:90 classes/views/prli-links/form.php:41
+#: pro/classes/views/prli-links/form.php:62
+msgid "Group"
+msgstr ""
+
+#: classes/views/prli-links/list.php:93
+msgid "Track"
+msgstr ""
+
+#: classes/views/prli-links/list.php:95
+msgid "Nofollow"
+msgstr ""
+
+#: classes/views/prli-links/list.php:97
+msgid "Forward Params"
+msgstr ""
+
+#: classes/views/prli-links/list.php:104
+msgid "Cancel"
+msgstr ""
+
 #: classes/views/prli-links/list.php:105
+msgid "Update"
+msgstr ""
+
+#: classes/views/prli-links/list.php:105
+msgid "Bulk Update"
+msgstr ""
+
+#: classes/views/prli-links/list.php:144
 msgid "Meta Refresh Redirection"
 msgstr ""
 
-#: classes/views/prli-links/list.php:108
+#: classes/views/prli-links/list.php:147
 msgid "Javascript Redirection"
 msgstr ""
 
 #: classes/views/prli-links/form.php:5
 msgid "Redirection Type*:"
-msgstr ""
-
-#: classes/views/prli-links/form.php:8
-msgid "307 (Temporary)"
-msgstr ""
-
-#: classes/views/prli-links/form.php:9
-msgid "301 (Permanent)"
 msgstr ""
 
 #: classes/views/prli-links/form.php:16
@@ -242,15 +324,6 @@ msgstr ""
 
 #: classes/views/prli-links/form.php:29
 msgid "Title:"
-msgstr ""
-
-#: classes/views/prli-links/form.php:41
-#: pro/classes/views/prli-links/form.php:62
-msgid "Group"
-msgstr ""
-
-#: classes/views/prli-links/form.php:44
-msgid "None"
 msgstr ""
 
 #: classes/views/prli-links/form.php:54
@@ -352,6 +425,14 @@ msgstr ""
 
 #: classes/views/prli-dashboard-widget/widget.php:3
 msgid "Add a Pretty Link from your Dashboard:"
+msgstr ""
+
+#: classes/views/prli-dashboard-widget/widget.php:11
+msgid "Target URL"
+msgstr ""
+
+#: classes/views/prli-dashboard-widget/widget.php:15 prli-main.php:20
+msgid "Pretty Link"
 msgstr ""
 
 #: classes/views/shared/nav.php:8
@@ -464,12 +545,12 @@ msgstr ""
 msgid "There was an error fetching your Pretty Link URL"
 msgstr ""
 
-#: prli-main.php:20
-msgid "Pretty Link | Manage Pretty Links"
+#: prli-bookmarklet.php:33
+msgid "Here's your Pretty Link"
 msgstr ""
 
 #: prli-main.php:20
-msgid "Pretty Link"
+msgid "Pretty Link | Manage Pretty Links"
 msgstr ""
 
 #: prli-main.php:21
@@ -480,7 +561,7 @@ msgstr ""
 msgid "Add New Link"
 msgstr ""
 
-#: prli-main.php:355 prli-main.php:374
+#: prli-main.php:357 prli-main.php:376
 msgid ""
 "Your Pretty Link Pro installation isn't quite complete yet.<br/>%1"
 "$sAutomatically Upgrade to Enable Pretty Link Pro%2$s"
@@ -520,174 +601,174 @@ msgstr ""
 msgid "Delay Redirect must be a number"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1011
+#: pro/pretty-link-pro.php:1007
 msgid "This Link Has additional Target URL rotations"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1589
+#: pro/pretty-link-pro.php:1405
 msgid "Alternate Pretty Bar Attribution URL:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1682
+#: pro/pretty-link-pro.php:1498
 msgid "End-Point URL:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1683
+#: pro/pretty-link-pro.php:1499
 msgid "This can be used to integrate with your twitter client."
 msgstr ""
 
-#: pro/pretty-link-pro.php:1686
+#: pro/pretty-link-pro.php:1502
 msgid "Show TweetDeck Integration Instructions"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1688 pro/pretty-link-pro.php:1694
+#: pro/pretty-link-pro.php:1504 pro/pretty-link-pro.php:1510
 msgid "Follow the"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1688
+#: pro/pretty-link-pro.php:1504
 msgid "TweetDeck Custom URL Instructions"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1688
+#: pro/pretty-link-pro.php:1504
 msgid " and add the following URL to TweetDeck"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1692
+#: pro/pretty-link-pro.php:1508
 msgid "Show Twitter for iPhone Integration Instructions"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1694
+#: pro/pretty-link-pro.php:1510
 msgid "Twitter for iPhone Custom URL Instructions"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1694
+#: pro/pretty-link-pro.php:1510
 msgid " and add the following URL to Twitter for iPhone"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1704
+#: pro/pretty-link-pro.php:1520
 msgid "Label:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1709 pro/prlipro-create-public-link-widget.php:46
+#: pro/pretty-link-pro.php:1525 pro/prlipro-create-public-link-widget.php:46
 msgid "Redirection:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1720 pro/prlipro-create-public-link-widget.php:57
+#: pro/pretty-link-pro.php:1536 pro/prlipro-create-public-link-widget.php:57
 msgid "Tracking Enabled:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1729 pro/prlipro-create-public-link-widget.php:66
+#: pro/pretty-link-pro.php:1545 pro/prlipro-create-public-link-widget.php:66
 msgid "Group:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1835 pro/pretty-link-pro.php:1875
+#: pro/pretty-link-pro.php:1651 pro/pretty-link-pro.php:1691
 msgid "There was an error saving your Twitter account."
 msgstr ""
 
-#: pro/pretty-link-pro.php:1871
+#: pro/pretty-link-pro.php:1687
 msgid "Your Twitter Account was successfully saved."
 msgstr ""
 
-#: pro/pretty-link-pro.php:1889 pro/pretty-link-pro.php:1967
+#: pro/pretty-link-pro.php:1705 pro/pretty-link-pro.php:1783
 msgid "Pretty Bar"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1890
+#: pro/pretty-link-pro.php:1706
 msgid "Cloaked"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1891 pro/pretty-link-pro.php:1969
+#: pro/pretty-link-pro.php:1707 pro/pretty-link-pro.php:1785
 msgid "Pixel"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1892 pro/pretty-link-pro.php:1970
+#: pro/pretty-link-pro.php:1708 pro/pretty-link-pro.php:1786
 msgid "Meta Refresh"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1893 pro/pretty-link-pro.php:1971
+#: pro/pretty-link-pro.php:1709 pro/pretty-link-pro.php:1787
 msgid "Javascript"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1968
+#: pro/pretty-link-pro.php:1784
 msgid "Cloak"
 msgstr ""
 
-#: pro/pretty-link-pro.php:1999
+#: pro/pretty-link-pro.php:1815
 msgid "Image URL:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2002
+#: pro/pretty-link-pro.php:1818
 msgid ""
 "If set, this will replace the logo image on the PrettyBar. The image that "
 "this URL references should be 48x48 Pixels to fit."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2006
+#: pro/pretty-link-pro.php:1822
 msgid "Background Image URL:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2009
+#: pro/pretty-link-pro.php:1825
 msgid ""
 "If set, this will replace the background image on PrettyBar. The image that "
 "this URL references should be 65px tall - this image will be repeated "
 "horizontally across the bar."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2013
+#: pro/pretty-link-pro.php:1829
 msgid "Background Color:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2016
+#: pro/pretty-link-pro.php:1832
 msgid ""
 "This will alter the background color of the PrettyBar if you haven't "
 "specified a PrettyBar background image."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2020
+#: pro/pretty-link-pro.php:1836
 msgid "Text Color:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2023
+#: pro/pretty-link-pro.php:1839
 msgid ""
 "If not set, this defaults to black (RGB value <code>#000000</code>) but you "
 "can change it to whatever color you like."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2027
+#: pro/pretty-link-pro.php:1843
 msgid "Link Color:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2030
+#: pro/pretty-link-pro.php:1846
 msgid ""
 "If not set, this defaults to blue (RGB value <code>#0000ee</code>) but you "
 "can change it to whatever color you like."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2034
+#: pro/pretty-link-pro.php:1850
 msgid "Link Hover Color:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2037
+#: pro/pretty-link-pro.php:1853
 msgid ""
 "If not set, this defaults to RGB value <code>#ababab</code> but you can "
 "change it to whatever color you like."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2041
+#: pro/pretty-link-pro.php:1857
 msgid "Visited Link Color:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2044
+#: pro/pretty-link-pro.php:1860
 msgid ""
 "If not set, this defaults to RGB value <code>#551a8b</code> but you can "
 "change it to whatever color you like."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2048
+#: pro/pretty-link-pro.php:1864
 msgid "Title Char Limit*:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2051
+#: pro/pretty-link-pro.php:1867
 msgid ""
 "If your Website has a long title then you may need to adjust this value so "
 "that it will all fit on the PrettyBar. It is recommended that you keep this "
@@ -695,11 +776,11 @@ msgid ""
 "good across different browsers and screen resolutions."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2055
+#: pro/pretty-link-pro.php:1871
 msgid "Description Char Limit*:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2058
+#: pro/pretty-link-pro.php:1874
 msgid ""
 "If your Website has a long Description (tagline) then you may need to adjust "
 "this value so that it will all fit on the PrettyBar. It is recommended that "
@@ -707,118 +788,118 @@ msgid ""
 "format looks good across different browsers and screen resolutions."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2062
+#: pro/pretty-link-pro.php:1878
 msgid "Target URL Char Limit*:"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2065
+#: pro/pretty-link-pro.php:1881
 msgid ""
 "If you link to a lot of large Target URLs you may want to adjust this value. "
 "It is recommended that you keep this value to <code>40</code> or below so "
 "the PrettyBar's format looks good across different browsers and URL sizes"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2070
+#: pro/pretty-link-pro.php:1886
 msgid "Show Pretty Bar Title"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2071
+#: pro/pretty-link-pro.php:1887
 msgid ""
 "Make sure this is checked if you want the title of your blog (and link) to "
 "show up on the PrettyBar."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2076
+#: pro/pretty-link-pro.php:1892
 msgid "Show Pretty Bar Description"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2077
+#: pro/pretty-link-pro.php:1893
 msgid ""
 "Make sure this is checked if you want your site description to show up on "
 "the PrettyBar."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2082
+#: pro/pretty-link-pro.php:1898
 msgid "Show Pretty Bar Share Links"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2083
+#: pro/pretty-link-pro.php:1899
 msgid ""
 "Make sure this is checked if you want \"share links\" to show up on the "
 "PrettyBar."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2088
+#: pro/pretty-link-pro.php:1904
 msgid "Show Pretty Bar Target URL"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2089
+#: pro/pretty-link-pro.php:1905
 msgid ""
 "Make sure this is checked if you want a link displaying the Target URL to "
 "show up on the PrettyBar."
 msgstr ""
 
-#: pro/pretty-link-pro.php:2119
+#: pro/pretty-link-pro.php:1935
 msgid "Logo Image URL must be a correctly formatted URL"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2122
+#: pro/pretty-link-pro.php:1938
 msgid "Background Image URL must be a correctly formatted URL"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2125
+#: pro/pretty-link-pro.php:1941
 msgid "PrettyBar Background Color must be an actual RGB Value"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2128
+#: pro/pretty-link-pro.php:1944
 msgid "PrettyBar Text Color must be an actual RGB Value"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2131
+#: pro/pretty-link-pro.php:1947
 msgid "PrettyBar Link Color must be an actual RGB Value"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2134 pro/pretty-link-pro.php:2137
+#: pro/pretty-link-pro.php:1950 pro/pretty-link-pro.php:1953
 msgid "PrettyBar Hover Color must be an actual RGB Value"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2140
+#: pro/pretty-link-pro.php:1956
 msgid "PrettyBar Title Character Limit must not be blank"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2143
+#: pro/pretty-link-pro.php:1959
 msgid "PrettyBar Description Character Limit must not be blank"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2146
+#: pro/pretty-link-pro.php:1962
 msgid "PrettyBar Link Character Limit must not be blank"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2149
+#: pro/pretty-link-pro.php:1965
 msgid "PrettyBar Title Character Limit must be a number"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2152
+#: pro/pretty-link-pro.php:1968
 msgid "PrettyBar Description Character Limit must be a number"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2155
+#: pro/pretty-link-pro.php:1971
 msgid "PrettyBar Link Character Limit must be a number"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2278
+#: pro/pretty-link-pro.php:2094
 msgid "You are unauthorized to view this resource"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2308
+#: pro/pretty-link-pro.php:2124
 msgid "View QR Code for this link: %s"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2316
+#: pro/pretty-link-pro.php:2132
 msgid "Download QR Code for this link: %s"
 msgstr ""
 
-#: pro/pretty-link-pro.php:2410
+#: pro/pretty-link-pro.php:2226
 msgid "Double Redirection Enabled"
 msgstr ""
 
@@ -907,8 +988,17 @@ msgid ""
 "automatically download a %sQR Code%s for each individual Pretty Link."
 msgstr ""
 
+#: pro/classes/views/prli-links/bulk-edit.php:6
+msgid "Advanced Link Options"
+msgstr ""
+
 #: pro/classes/views/prli-links/bulk-edit.php:7
-msgid "Bulk Edit Links"
+msgid "Double Redirect"
+msgstr ""
+
+#: pro/classes/views/prli-links/bulk-edit.php:12
+#: pro/classes/models/PrliProUtils.php:276
+msgid "Google Analytics"
 msgstr ""
 
 #: pro/classes/views/prlipro-import-export/form.php:7
@@ -1001,6 +1091,10 @@ msgstr ""
 msgid "Link Split-Test Report"
 msgstr ""
 
+#: pro/classes/views/prli-reports/split-test-report.php:12
+msgid "Back to Links"
+msgstr ""
+
 #: pro/classes/views/prli-reports/edit.php:7
 msgid "Edit Link Report"
 msgstr ""
@@ -1011,10 +1105,6 @@ msgstr ""
 
 #: pro/classes/models/PrliProUtils.php:274
 msgid "Google Analytics for WordPress"
-msgstr ""
-
-#: pro/classes/models/PrliProUtils.php:276
-msgid "Google Analytics"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

@@ -6,7 +6,7 @@ class PrliLink
 {
     var $table_name;
 
-    function PrliLink()
+    function __construct()
     {
       global $wpdb;
       $this->table_name = "{$wpdb->prefix}prli_links";
@@ -95,6 +95,48 @@ class PrliLink
 
       $query_results = $wpdb->query($query);
       return $query_results;
+    }
+
+    function bulk_update( $ids, $values ) {
+      if( !empty($ids) and is_array($values) and !empty($values) ) {
+        global $wpdb;
+        $query = "UPDATE {$this->table_name} SET ";
+
+        $link_columns = array( 'name',
+                               'description',
+                               'url',
+                               'slug',
+                               'nofollow',
+                               'track_me',
+                               'param_forwarding',
+                               'param_struct',
+                               'redirect_type',
+                               'group_id' );
+        
+        $sets = array();
+        foreach($values as $lnkkey => $lnkval) {
+          // make sure this is an option contained in the links table
+          if(in_array($lnkkey, $link_columns)) {
+            // check to see if this is a checkbox
+            if(in_array(strtolower($lnkval), array('on','off')))
+              $sets[] = $wpdb->prepare("{$lnkkey}=%d", (strtolower($lnkval)=='on')); 
+            else
+              $sets[] = $wpdb->prepare("{$lnkkey}=%s", $lnkval); 
+          }
+        }
+
+        $query .= implode(',', $sets);
+        
+        if(preg_match('/,/',$ids))
+          $query .= " WHERE id IN ({$ids})";
+        else
+          $query .= $wpdb->prepare(" WHERE id=%d", $ids);
+         
+        $query_results = $wpdb->query($query);
+        return $query_results;
+      }
+      
+      return false;
     }
 
     function update_group( $id, $value, $group_id )

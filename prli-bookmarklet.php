@@ -30,7 +30,15 @@ if(isset($_GET['k']))
 <html>
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-  <title>Here's your Pretty Link</title>
+  <title><?php echo __('Here\'s your Pretty Link', 'pretty-link'); ?></title>
+  <script type='text/javascript' src='<?php echo site_url('/wp-includes/js/jquery/jquery.js'); ?>'></script>
+  <script type='text/javascript' src='<?php echo PRLI_JS_URL . '/jquery.clippy.js'; ?>'></script>
+  <script type="text/javascript">
+    jQuery(document).ready(function() {
+      /* Set up the clippies! */
+      jQuery('.clippy').clippy({clippy_path: '<?php echo PRLI_JS_URL; ?>/clippy.swf', width: '100px'});
+    });
+  </script>
      <style type="text/css">
        body {
          font-family: Arial;
@@ -57,12 +65,15 @@ if(isset($_GET['k']))
          text-decoration: none;
          color: blue;
        }
+       .clippy {
+         padding-left: 75px;
+       }
      </style>
    </head>
    <body>
      <p><img src="<?php echo PRLI_IMAGES_URL; ?>/prettylink_logo.jpg" /></p>
      <h4><em>here's your pretty link for:</em><br/><?php echo $target_url_title; ?><br/>(<span title="<?php echo $target_url; ?>"><?php echo substr($target_url,0,50) . ((strlen($target_url)>50)?"...":''); ?></span>)</h4>
-     <h2><a href="<?php echo $pretty_link; ?>"><?php echo $pretty_link; ?></a></h2>
+     <h2><a href="<?php echo $pretty_link; ?>"><?php echo $pretty_link; ?></a><br/><span class="clippy"><?php echo $pretty_link; ?></span></h2>
      <p>send this link to:<br/>
      <a href="http://del.icio.us/post?url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_IMAGES_URL; ?>/delicious_32.png" title="delicious" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
      <a href="http://www.stumbleupon.com/submit?url=<?php echo urlencode($pretty_link) ?>&title=<?php echo urlencode($target_url_title); ?>" target="_blank"><img src="<?php echo PRLI_IMAGES_URL; ?>/stumbleupon_32.png" title="stumbleupon" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;

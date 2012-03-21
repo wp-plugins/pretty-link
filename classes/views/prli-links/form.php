@@ -60,14 +60,14 @@
         <input type="checkbox" name="nofollow" <?php echo esc_html($values['nofollow']); ?>/>&nbsp; <?php _e("'Nofollow' this Link", 'pretty-link') ?>
         <p class="description"><?php _e('Add a nofollow and noindex to this link\'s http redirect header', 'pretty-link')?>
       </div>
-	  <div id="prli_time_delay" style="display: none">
-	    <br/>
-	    <h3><?php _e('Delay Redirect (Seconds):', 'pretty-link'); ?></h3>
-	    <div class="pane">
-	      <input type="text" name="delay" value="<?php echo esc_attr($values['delay']); ?>" />
-	      <p class="description"><?php _e('Time in seconds to wait before redirecting', 'pretty-link') ?></p>
-	    </div>
-	  </div>
+      <div id="prli_time_delay" style="display: none">
+        <br/>
+        <h3><?php _e('Delay Redirect (Seconds):', 'pretty-link'); ?></h3>
+        <div class="pane">
+          <input type="text" name="delay" value="<?php echo esc_attr($values['delay']); ?>" />
+          <p class="description"><?php _e('Time in seconds to wait before redirecting', 'pretty-link') ?></p>
+        </div>
+      </div>
     </td>
     <td valign="top" width="50%">
       <h3><?php _e("Parameter Forwarding", 'pretty-link') ?></h3>
@@ -79,24 +79,24 @@
       <div class="pane">
         <input type="checkbox" name="track_me" <?php echo esc_html($values['track_me']); ?>/>&nbsp; <?php _e("Track Hits on this Link", 'pretty-link') ?>
         <p class="description"><?php _e('Enable Pretty Link\'s built-in hit (click) tracking', 'pretty-link') ?></p>
-	    <div id="prli_google_analytics" style="display: none">
-	      <input type="checkbox" name="google_tracking" <?php echo esc_attr($values['google_tracking']); ?>/>&nbsp; <?php _e('Enable Google Analytics Tracking on this Link', 'pretty-link') ?>
-	      <p class="description"><?php _e('Requires the Google Analyticator, Google Analytics for WordPress or Google Analytics Plugin installed and configured for this to work.', 'pretty-link') ?></p>
-	      <?php
-		  global $prli_update;
-		  if($prli_update->pro_is_installed_and_authorized()):
-		    if($ga_info = PrliProUtils::ga_installed()):
-		      ?>
-		      <p class="description"><?php printf(__('It appears that <strong>%s</strong> is currently installed. Pretty Link will attempt to use its settings to track this link.', 'pretty-link'), $ga_info['name']); ?></p>
-		      <?php
-		    else:
-		      ?>
-	          <p class="description"><strong><?php _e('No Google Analytics Plugin is currently installed. Pretty Link cannot track links using Google Analytics until one is.', 'pretty-link'); ?></strong></p>
-		      <?php
-		    endif;
-		  endif;
-		  ?>
-	    </div>
+        <div id="prli_google_analytics" style="display: none">
+          <input type="checkbox" name="google_tracking" <?php echo esc_attr($values['google_tracking']); ?>/>&nbsp; <?php _e('Enable Google Analytics Tracking on this Link', 'pretty-link') ?>
+          <p class="description"><?php _e('Requires the Google Analyticator, Google Analytics for WordPress or Google Analytics Plugin installed and configured for this to work.', 'pretty-link') ?></p>
+          <?php
+          global $prli_update;
+          if($prli_update->pro_is_installed_and_authorized()):
+            if($ga_info = PrliProUtils::ga_installed()):
+              ?>
+              <p class="description"><?php printf(__('It appears that <strong>%s</strong> is currently installed. Pretty Link will attempt to use its settings to track this link.', 'pretty-link'), $ga_info['name']); ?></p>
+              <?php
+            else:
+              ?>
+                <p class="description"><strong><?php _e('No Google Analytics Plugin is currently installed. Pretty Link cannot track links using Google Analytics until one is.', 'pretty-link'); ?></strong></p>
+              <?php
+            endif;
+          endif;
+          ?>
+        </div>
       </div><br/>
     </td>
   </tr>
