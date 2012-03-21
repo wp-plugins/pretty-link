@@ -63,11 +63,11 @@ if(!defined('ABSPATH'))
           <div class="group_actions">
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Edit</a>&nbsp;|
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=destroy&id=<?php echo $group->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo htmlspecialchars(stripslashes($group->name)); ?> Pretty Link Group?');" title="Delete <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Delete</a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $group->id; ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Links</a>&nbsp;|
+            <a href="<?php echo admin_url("admin.php?page=pretty-link&group={$group->id}"); ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Links</a>&nbsp;|
             <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo htmlspecialchars(stripslashes($group->name)); ?>">Hits</a>
           </div>
         </td>
-        <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-links.php&group=<?php echo $group->id; ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo $group->link_count; ?></a></td>
+        <td><a href="<?php echo admin_url("admin.php?page=pretty-link&group={$group->id}"); ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo $group->link_count; ?></a></td>
         <td><?php echo $group->created_at; ?></td>
       </tr>
       <?php

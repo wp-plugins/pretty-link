@@ -36,6 +36,8 @@ function prli_menu()
 
   add_action('admin_print_styles-' . $prli_menu_hook, 'PrliLinksController::load_styles');
   add_action('admin_print_styles-' . $prli_add_links_menu_hook, 'PrliLinksController::load_styles');
+
+  add_action('admin_head-' . $prli_menu_hook, 'PrliLinksController::load_dynamic_scripts', 100);
 }
 
 /* Add header to prli-options page */

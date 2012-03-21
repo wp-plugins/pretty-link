@@ -42,6 +42,9 @@ global $prli_app_controller;
 
 $prli_app_controller = new PrliAppController();
 
+// Load Helpers
+require_once( PRLI_HELPERS_PATH . '/PrliLinksHelper.php' );
+
 function prli_get_main_message($message='',$expiration=1800) // Get new messages every 1/2 hour
 {
   global $prli_update;

@@ -1,6 +1,6 @@
 <?php
 if(!defined('ABSPATH'))
-  die(__('You are not allowed to call this page directly.', 'pretty-link'));
+  die('You are not allowed to call this page directly.');
 
 // We'll do a full refactor later -- for now we'll just implement the add group ajax method
 class PrliGroupsController

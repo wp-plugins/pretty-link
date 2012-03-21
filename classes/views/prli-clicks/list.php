@@ -16,7 +16,7 @@
   ?>
 <?php
   if(!empty($params['l']) and $params['l'] != 'all')
-    echo '<br/><a href="?page='. PRLI_PLUGIN_NAME .'/prli-links.php">&laquo Back to Links</a>';
+    echo '<br/><a href="' . admin_url("admin.php?page=pretty-link") . '">&laquo Back to Links</a>';
   else if(!empty($params['ip']) or !empty($params['vuid']))
     echo '<br/><a href="?page='. PRLI_PLUGIN_NAME .'/prli-clicks.php">&laquo Back to Hits</a>';
 
@@ -129,12 +129,12 @@
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
         <td><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&vuid=<?php echo $click->vuid; ?>" title="View All Activity for Visitor: <?php echo $click->vuid; ?>"><?php echo $click->vuid; ?><?php echo (($click->vuid != null)?" ($click->vuid_count)":''); ?></a></td>
     <?php } ?>
-        <td><?php echo gmdate('Y-m-d H:i:s', (strtotime($click->created_at) + (get_option('gmt_offset') * 3600))); ?></td>
+        <td><?php echo $click->created_at; ?></td>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
         <td><?php echo $click->host; ?></td>
     <?php } ?>
         <td><?php echo $click->uri; ?></td>
-        <td><?php echo $click->referer; ?></td>
+        <td><a href="<?php echo $click->referer; ?>"><?php echo $click->referer; ?></a></td>
         <td><a href="?page=<?php print PRLI_PLUGIN_NAME; ?>/prli-clicks.php&l=<?php echo $click->link_id; ?>" title="View clicks for <?php echo stripslashes($click->link_name); ?>"><?php echo stripslashes($click->link_name); ?></a></td>
       </tr>
       <?php

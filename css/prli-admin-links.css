@@ -35,3 +35,40 @@
   padding-left: 5px;
   display: inline;
 }
+
+.prli-clipboard {
+  padding: 2px 0 2px 0;
+  width: 100px;
+  display: block;
+}
+
+#prli-bulk-action-form .title {
+  width: 100px !important;
+}
+
+#prli_bulk_action_dropdown {
+  padding-top: 2px;
+  float: left;
+  display: inline;
+}
+
+.bacheck-title {
+  display: inline-block;
+  width: 100px !important;
+}
+
+.inline-edit-col-left, .inline-edit-col-center, .inline-edit-col-right {
+  width: 33% !important;
+}
+
+/*
+.keyword-replacements {
+  width: 45%;
+  clear: none !important;
+}
+*/
+
+.advanced-link-options {
+  width: 100%;
+  clear: none !important;
+}
