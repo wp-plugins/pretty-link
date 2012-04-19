@@ -481,7 +481,8 @@ class PrliLink
       if( preg_match('#/$#', $values['slug']) )
         $errors[] = "Pretty Link slugs must not end with a slash (\"/\")";
 
-      if( !$prli_utils->slugIsAvailable($values['slug'],$values['id']) )
+      $id = isset($values['id'])?$values['id']:null;
+      if( !$prli_utils->slugIsAvailable($values['slug'],$id) )
         $errors[] = "This Pretty Link Slug is already taken. Check to make sure it isn't being used by another pretty link, post, page, category or tag slug. If none of these are true then check to see that this slug isn't the name of a file in the root folder of your wordpress install.";
 
       if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and empty($values['param_struct']) )
@@ -533,5 +534,11 @@ class PrliLink
       }
 
       return $prli_lookup;
+    }
+
+    public static function bookmarklet_link() {
+      global $prli_options;
+      $site_url = site_url();
+      return "javascript:location.href='{$site_url}/index.php?action=prli_bookmarklet&k={$prli_options->bookmarklet_auth}&target_url='+escape(location.href);";
     }
 }

@@ -1,6 +1,8 @@
 <?php
 if(!defined('ABSPATH'))
   die('You are not allowed to call this page directly.');
+
+  $name = isset($_POST['name']) ? esc_html($_POST['name']) : '';
 ?>
 
 <div class="wrap">
@@ -18,7 +20,7 @@ if(!defined('ABSPATH'))
 <table class="form-table">
   <tr class="form-field">
     <td width="75px" valign="top">Name*: </td>
-    <td><input type="text" name="name" value="<?php echo (($_POST['name'] != null)?$_POST['name']:''); ?>" size="75">
+    <td><input type="text" name="name" value="<?php echo $name; ?>" size="75">
       <br/><span class="setting-description">This is how you'll identify your Group.</span></td>
   </tr>
   <tr class="form-field">

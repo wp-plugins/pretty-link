@@ -39,10 +39,13 @@ class PrliAppController
   public function parse_standalone_request()
   {
     if( !empty($_REQUEST['plugin']) and $_REQUEST['plugin'] == 'pretty-link' and 
-        !empty($_REQUEST['controller']) and !empty($_REQUEST['action']) )
-    {
+        !empty($_REQUEST['controller']) and !empty($_REQUEST['action']) ) {
       $this->standalone_route($_REQUEST['controller'], $_REQUEST['action']);
       do_action('prli-standalone-route');
+      exit;
+    }
+    else if( !empty($_GET['action']) and $_GET['action']=='prli_bookmarklet' ) {
+      PrliBookmarkletController::route();
       exit;
     }
   }
