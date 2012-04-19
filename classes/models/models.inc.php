@@ -35,6 +35,7 @@ $prlipro_db_version = 3; // this is the version of the database we're moving to
 require_once( PRLI_CONTROLLERS_PATH . '/PrliAppController.php' );
 require_once( PRLI_CONTROLLERS_PATH . '/PrliLinksController.php' );
 require_once( PRLI_CONTROLLERS_PATH . '/PrliGroupsController.php' );
+require_once( PRLI_CONTROLLERS_PATH . '/PrliBookmarkletController.php' );
 
 PrliGroupsController::load_hooks();
 

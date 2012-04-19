@@ -4,7 +4,7 @@ Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 3.0
 Tested up to: 3.3.1
-Stable tag: 1.5.9
+Stable tag: 1.6.0
 
 Shrink, beautify, track, manage and share any URL on or off of your WordPress website. Create links that look how you want using your own domain name!
 
@@ -65,6 +65,9 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%year%/%month%/%postname%/" for the simplest possible URL slugs with the best performance.
 
 == Changelog ==
+
+= 1.6.0 =
+* *Fix* Fixed some potential security vulnerabilities
 
 = 1.5.9 =
 * *Feature* Added Bulk Actions for Pretty Link Management page
@@ -351,6 +354,9 @@ http://blairwilliams.com/w7a
 * Fixed some issues surrounding keyword content caching in Pro
 
 == Upgrade Notice ==
+
+= 1.6.0 =
+* This adds some security fixes. Everyone should upgrade.
 
 = 1.5.9 =
 * This adds some very useful features for link managment in Lite & Pro ... everyone should upgrade.

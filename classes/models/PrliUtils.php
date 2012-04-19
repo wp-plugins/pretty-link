@@ -1187,9 +1187,10 @@ class PrliUtils
   {
     $characters = '0123456789abcdefghijklmnopqrstuvwxyz';
     $string = '';
+    $max_index = strlen($characters) - 1;
     
     for($p = 0; $p < $length; $p++)
-      $string .= $characters[mt_rand(0, strlen($characters))];
+      $string .= $characters[mt_rand(0, $max_index)];
     
     return $string;
   }
@@ -1213,5 +1214,10 @@ class PrliUtils
       return $slug;
 
     return $title;
+  }
+
+  public static function is_url($url) {
+    return ( preg_match('/^http.?:\/\/.*\..*$/', $url ) or
+             preg_match('!^(http|https)://(localhost|127\.0\.0\.1)(:\d+)?(/[\w- ./?%&=]*)?!', $url ) );
   }
 }
