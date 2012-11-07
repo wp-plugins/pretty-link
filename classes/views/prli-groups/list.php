@@ -13,7 +13,7 @@ if(!defined('ABSPATH'))
       <?php wp_nonce_field('prli-groups'); ?>
       <input type="hidden" name="sort" id="sort" value="<?php echo $sort_str; ?>" />
       <input type="hidden" name="sdir" id="sort" value="<?php echo $sdir_str; ?>" />
-      <input type="text" name="search" id="search" value="<?php echo $search_str; ?>" style="display:inline;"/>
+      <input type="text" name="search" id="search" value="<?php echo esc_attr($search_str); ?>" style="display:inline;"/>
       <div class="submit" style="display: inline;"><input type="submit" name="Submit" value="Search"/>
       <?php
       if(!empty($search_str))
