@@ -251,6 +251,20 @@ class PrliUpdate
 
     return $client->getResponse();
   }
+  
+  public function get_current_info($version, $force=false)
+  {
+    include_once( ABSPATH . 'wp-includes/class-IXR.php' );
+
+    $client = new IXR_Client( $this->pro_mothership_xmlrpc_url );
+
+    $force = ($force ? 'true' : 'false');
+    
+    if( !$client->query( 'proplug.get_current_info', $this->pro_username, $this->pro_password, $version, $force ) )
+      return false;
+
+    return $client->getResponse();
+  }
 
   public function get_current_version()
   {
@@ -264,39 +278,17 @@ class PrliUpdate
     return $client->getResponse();
   }
 
-  public function queue_update($transient, $force=false)
-  {
-    if($this->pro_is_authorized())
-    {
-      // If pro is authorized but not installed then we need to force an upgrade
-      if(!$this->pro_is_installed())
-        $force=true;
+  public function queue_update($transient, $force=false) {
+    if( empty( $transient->checked ) )
+      return $transient;
+    
+    if( $this->pro_is_authorized() ) {
+      if( !$this->pro_is_installed() ) { $force = true; }
       
-      $curr_version = $this->get_current_version();
-      $installed_version = $transient->checked[$this->plugin_name];
-	  
-      if( $force or version_compare( $curr_version, $installed_version, '>' ) )
-      {
-        $download_url = $this->get_download_url($curr_version);
-        
-        if(!empty($download_url) and $download_url and $this->user_allowed_to_download())
-        {
-          if(isset($transient->response[$this->plugin_name]))
-            unset($transient->response[$this->plugin_name]);
-          
-          $transient->response[$this->plugin_name]              = new stdClass();
-          $transient->response[$this->plugin_name]->id          = '0';
-          $transient->response[$this->plugin_name]->slug        = $this->plugin_slug;
-          $transient->response[$this->plugin_name]->new_version = $curr_version;
-          $transient->response[$this->plugin_name]->url         = $this->plugin_url;
-          $transient->response[$this->plugin_name]->package     = $download_url;
-        }
-      }
-      else
-      {
-        if(isset($transient->response[$this->plugin_name]))
-          unset($transient->response[$this->plugin_name]);
-      }
+      $update = $this->get_current_info( $transient->checked[ $this->plugin_name ], $force );
+      
+      if( $update and !empty( $update ) )
+        $transient->response[ $this->plugin_name ] = (object) $update;
     }
 
     return $transient;
