@@ -106,6 +106,7 @@
 <?php
   global $prli_update;
   if($prli_update->pro_is_installed_and_authorized()) {
+    $id = isset($id)?$id:false;
     // Add stuff to the form here
     do_action('prli_link_fields',$id);
   }

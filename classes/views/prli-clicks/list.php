@@ -45,7 +45,7 @@
   </form>
 </div>
 
-  <div id="my_chart"></div>
+<div id="my_chart"></div>
 
 <?php
   }

@@ -18,12 +18,12 @@ if(!defined('ABSPATH'))
 <table class="form-table">
   <tr class="form-field">
     <td width="75px" valign="top">Name: </td>
-    <td><input type="text" name="name" value="<?php echo htmlspecialchars(stripslashes((($_POST['name'] != null and $record == null)?$_POST['name']:$record->name))); ?>" size="75">
+    <td><input type="text" name="name" value="<?php echo htmlspecialchars(stripslashes(((isset($_POST['name']) and $record == null)?$_POST['name']:$record->name))); ?>" size="75">
       <br/><span class="setting-description">This is how you'll identify your Group.</span></td>
   </tr>
   <tr class="form-field">
     <td valign="top">Description: </td>
-    <td><textarea style="height: 100px;" name="description"><?php echo (($_POST['description'] != null and $record == null)?$_POST['description']:$record->description); ?></textarea>
+    <td><textarea style="height: 100px;" name="description"><?php echo ((isset($_POST['description']) and $record == null)?$_POST['description']:$record->description); ?></textarea>
     <br/><span class="setting-description">A Description of this group.</span></td>
   </tr>
   <tr class="form-field" valign="top">

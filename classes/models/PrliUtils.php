@@ -1008,7 +1008,7 @@ class PrliUtils
         $upper_limit = $block_size - 1;
         $tweet_table = "{$wpdb->prefix}prli_tweets";
 
-        $query = $wpdb->prepare("SELECT count(DISTINCT twid) FROM {$tweet_table}");
+        $query = "SELECT count(DISTINCT twid) FROM {$tweet_table}";
         $twid_count = $wpdb->get_var($query);
 
         for($offset=0; $offset < $twid_count; $offset += $block_size)
@@ -1019,7 +1019,7 @@ class PrliUtils
 
           if(is_array($tweet_ids) and count($tweet_ids) > 0)
           {
-            $query = $wpdb->prepare("DELETE FROM {$tweet_table} WHERE id not in (" . implode(',', $tweet_ids) . ")");
+            $query = "DELETE FROM {$tweet_table} WHERE id not in (" . implode(',', $tweet_ids) . ")";
             $wpdb->query($query);
           }
         }
