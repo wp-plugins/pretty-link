@@ -214,70 +214,36 @@ class PrliClick
 
       return $counts_array;
     }
-
-
-    function setupClickLineGraph($start_timestamp,$end_timestamp, $link_id = "all", $type = "all", $group = '')
+    
+    function setupClickLineGraph($start_timestamp,$end_timestamp, $link_id = "all", $type = "all", $group = '', $title_only = false)
     {
       global $wpdb, $prli_utils, $prli_link, $prli_group;
-
-      $dates_array = $this->get_counts_by_days($start_timestamp,$end_timestamp,$link_id,$type,$group);
-
-      $top_click_count = $prli_utils->getTopValue(array_values($dates_array));
-
+      
       if(!empty($group))
-        $link_slug = "group: '" . $wpdb->get_var("SELECT name FROM ".$prli_group->table_name." WHERE id=$group") . "'";
+        $link_slug = "group: '".$wpdb->get_var($wpdb->prepare("SELECT name FROM {$prli_group->table_name} WHERE id = %d", $group))."'";
       else if($link_id == "all")
         $link_slug = "all links";
       else
-        $link_slug = "'/".$wpdb->get_var("SELECT slug FROM ".$prli_link->table_name." WHERE id=$link_id") . "'";
-
+        $link_slug = "'/".$wpdb->get_var($wpdb->prepare("SELECT slug FROM {$prli_link->table_name} WHERE id = %d", $link_id))."'";
+      
       if($type == "all")
         $type_string = "All hits";
       else
         $type_string = "Unique hits";
-
-      $json_array = array(
-        "elements" => array( array( 
-          "type" => "line", 
-          "values" => array_values($dates_array),
-          "dot-style" => array( 
-            "type" => "dot",
-            "dot-size" => 4,
-            "colour" => "#ffc94e",
-            "halo-size" => 1,
-            "tip" => "#val# Hits<br>#x_label#"
-          ),
-          "width" => 2
-        ) ),
-        "title" => array(
-          "text" => 'Pretty Link: '.$type_string.' on '.$link_slug. ' between ' . date("Y-n-j",$start_timestamp) . ' and ' . date("Y-n-j",$end_timestamp),
-          "style" => "font-size: 16px; font-weight: bold; color: #3030d0; text-align: center; padding-bottom: 5px;"
-        ),
-        "bg_colour" => "-1",
-        "y_axis" => array(
-          "min" => 0,
-          "max" => $top_click_count,
-          "steps" => (int)(($top_click_count>=10)?$top_click_count/10:1),
-          "colour" => "#A2ACBA"
-        ),
-        "x_axis" => array(
-          "colour" => "#A2ACBA",
-          "grid-colour" => "#ffefa7",
-          "offset" => false,
-          "steps" => 4,
-          "labels" => array(
-            "steps" => 2,
-            "rotate" => 25,
-            "colour" => "#000000",
-            "labels" => array_keys($dates_array) 
-          )
-        )
-      );
-
-      return $prli_utils->prli_json_encode($json_array);
+      
+      if($title_only)
+        return __('Pretty Link:').' '.$type_string.' '.__('on').' '.$link_slug.' '.__('between').' '.date("Y-n-j", $start_timestamp).' '.__('and').' '.date("Y-n-j", $end_timestamp);
+      
+      $dates_array = $this->get_counts_by_days($start_timestamp,$end_timestamp,$link_id,$type,$group);
+      
+      $chart_data = array('cols' => array(array("label" => __('Date'), 'type' => 'string'), array("label" => __('Hits'), 'type' => 'number')));
+      
+      foreach($dates_array as $key => $value)
+        $chart_data['rows'][] = array('c' => array(array('v' => $key, 'f' => null), array('v' => (int)$value, 'f' => null)));
+      
+      return json_encode($chart_data);
     }
-
-
+    
     // Set defaults and grab get or post of each possible param
     function get_params_array()
     {

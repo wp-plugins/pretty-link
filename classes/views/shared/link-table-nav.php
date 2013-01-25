@@ -110,9 +110,9 @@ if(!defined('ABSPATH'))
         <span class="displaying-num">Displaying <?php echo "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
         <select class="prli-page-size" onchange="location='<?php echo admin_url("admin.php?page=" . esc_html($_REQUEST['page'].$page_params) . "&paged=1&size='+this.options[this.selectedIndex].value"); ?>">
           <option value="10" selected="selected">10</option>
-          <option value="25" <?php if($_REQUEST['size'] == 25) echo 'selected="selected"'; ?>>25</option>
-          <option value="50" <?php if($_REQUEST['size'] == 50) echo 'selected="selected"'; ?>>50</option>
-          <option value="100" <?php if($_REQUEST['size'] == 100) echo 'selected="selected"'; ?>>100&nbsp;</option>
+          <option value="25" <?php if(isset($_REQUEST['size']) and $_REQUEST['size'] == 25) echo 'selected="selected"'; ?>>25</option>
+          <option value="50" <?php if(isset($_REQUEST['size']) and $_REQUEST['size'] == 50) echo 'selected="selected"'; ?>>50</option>
+          <option value="100" <?php if(isset($_REQUEST['size']) and $_REQUEST['size'] == 100) echo 'selected="selected"'; ?>>100&nbsp;</option>
         </select>
       </div>
       <?php if(!$footer): ?>

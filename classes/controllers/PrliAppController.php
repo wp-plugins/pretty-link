@@ -8,6 +8,20 @@ class PrliAppController
   {
     add_action('init', array(&$this,'parse_standalone_request'));
     add_action('admin_notices', array(&$this, 'upgrade_database_headline'));
+    add_action('admin_enqueue_scripts', array(&$this, 'enqueue_admin_scripts'));
+  }
+  
+  public function enqueue_admin_scripts($hook)
+  {
+    $wp_scripts = new WP_Scripts();
+    $ui = $wp_scripts->query('jquery-ui-core');
+    $url = "//ajax.googleapis.com/ajax/libs/jqueryui/{$ui->ver}/themes/smoothness/jquery-ui.css";
+    if(strstr($hook, 'pretty') !== false)
+    {
+      wp_enqueue_style('pl-ui-smoothness', $url);
+      wp_enqueue_script('jquery');
+      wp_enqueue_script('jquery-ui-datepicker');
+    }
   }
   
   public function upgrade_database_headline()

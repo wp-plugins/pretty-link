@@ -25,7 +25,7 @@ if(!defined('ABSPATH'))
   </tr>
   <tr class="form-field">
     <td valign="top">Description: </td>
-    <td><textarea style="height: 100px;" name="description"><?php echo (($_POST['description'] != null)?$_POST['description']:''); ?></textarea>
+    <td><textarea style="height: 100px;" name="description"><?php echo ((isset($_POST['description']))?$_POST['description']:''); ?></textarea>
     <br/><span class="setting-description">A Description of this group.</span></td>
   </tr>
   <tr class="form-field" valign="top">
