@@ -9,7 +9,7 @@
     foreach( $errors as $error )
     {
       ?>
-      <li><strong>ERROR</strong>: <?php echo esc_html($error); ?></li>
+      <li><strong><?php _e('ERROR', 'pretty-link'); ?></strong>: <?php echo esc_html($error); ?></li>
       <?php
     }
   ?>

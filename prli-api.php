@@ -96,7 +96,7 @@ function prli_create_pretty_link( $target_url,
       return $id;
     else
     {
-      $prli_error_messages[] = "An error prevented your Pretty Link from being created";
+      $prli_error_messages[] = __("An error prevented your Pretty Link from being created", 'pretty-link');
       return false;
     }
   }
@@ -121,7 +121,7 @@ function prli_update_pretty_link( $id,
 
   if(empty($id))
   {
-    $prli_error_messages[] = "Pretty Link ID must be set for successful update.";
+    $prli_error_messages[] = __("Pretty Link ID must be set for successful update.", 'pretty-link');
     return false;
   }
 
@@ -156,7 +156,7 @@ function prli_update_pretty_link( $id,
       return true;
     else
     {
-      $prli_error_messages[] = "An error prevented your Pretty Link from being created";
+      $prli_error_messages[] = __("An error prevented your Pretty Link from being created", 'pretty-link');
       return false;
     }
   }

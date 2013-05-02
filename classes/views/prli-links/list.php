@@ -15,7 +15,7 @@ if(!defined('ABSPATH'))
     if(!$permalink_structure or empty($permalink_structure))
     {
     ?>
-      <div class="error" style="padding-top: 5px; padding-bottom: 5px;"><strong>WordPress Must be Configured:</strong> Pretty Link won't work until you select a Permalink Structure other than "Default" ... <a href="<?php echo $prli_siteurl; ?>/wp-admin/options-permalink.php">Permalink Settings</a></div>
+      <div class="error" style="padding-top: 5px; padding-bottom: 5px;"><strong><?php _e("WordPress Must be Configured:</strong> Pretty Link won't work until you select a Permalink Structure other than 'Default'", 'pretty-link'); ?> ... <a href="<?php echo $prli_siteurl; ?>/wp-admin/options-permalink.php"><?php _e('Permalink Settings', 'pretty-link'); ?></a></div>
     <?php
     }
   ?>
@@ -32,7 +32,7 @@ if(!defined('ABSPATH'))
       if(!empty($search_str))
       {
       ?>
-      or <a href="<?php echo admin_url('admin.php?page=pretty-link&action=reset'); ?>">Reset</a>
+      or <a href="<?php echo admin_url('admin.php?page=pretty-link&action=reset'); ?>"><?php _e('Reset', 'pretty-link'); ?></a>
       <?php
       }
       ?>
@@ -40,8 +40,8 @@ if(!defined('ABSPATH'))
     </form>
   </div>
   <div id="button_bar">
-    <p><a href="<?php echo admin_url('admin.php?page=add-new-pretty-link'); ?>"><img src="<?php echo PRLI_IMAGES_URL . '/pretty-link-add.png'; ?>"/> Add a Pretty Link</a>
-    &nbsp;|&nbsp;<a href="http://blairwilliams.com/plintro">Watch Pretty Link Intro Video</a>
+    <p><a href="<?php echo admin_url('admin.php?page=add-new-pretty-link'); ?>"><img src="<?php echo PRLI_IMAGES_URL . '/pretty-link-add.png'; ?>"/> <?php _e('Add a Pretty Link', 'pretty-link'); ?></a>
+    &nbsp;|&nbsp;<a href="http://blairwilliams.com/plintro"><?php _e('Watch Pretty Link Intro Video', 'pretty-link'); ?></a>
     <?php do_action('prli-link-nav'); ?>
     </p>
   </div>
@@ -51,7 +51,7 @@ if(!defined('ABSPATH'))
   {
   ?>
   <h3><?php echo $prli_message; ?></h3> 
-  <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php">&laquo Back to Groups</a>
+  <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php">&laquo <?php _e('Back to Groups', 'pretty-link'); ?></a>
   <br/><br/>
   <?php
   }
@@ -60,12 +60,12 @@ if(!defined('ABSPATH'))
 <table class="prli-edit-table widefat post fixed" cellspacing="0">
     <thead>
     <tr>
-      <th class="manage-column" width="30%"><input type="checkbox" name="check-all" class="select-all-link-action-checkboxes" style="margin-left: 1px;"/>&nbsp;&nbsp;<a href="<?php echo admin_url('admin.php?page=pretty-link&sort=name' . (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>">Name<?php echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="30%"><input type="checkbox" name="check-all" class="select-all-link-action-checkboxes" style="margin-left: 1px;"/>&nbsp;&nbsp;<a href="<?php echo admin_url('admin.php?page=pretty-link&sort=name' . (($sort_str == 'name' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>"><?php _e('Name', 'pretty-link'); echo (($sort_str == 'name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
       <?php do_action('prli_link_column_header'); ?>
-      <th class="manage-column" width="10%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=clicks' . (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>">Hits / Uniq<?php echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="5%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=group_name' . (($sort_str == 'group_name' and $sdir_str == 'asc')?'&sdir=desc':'')) ?>">Group<?php echo (($sort_str == 'group_name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="12%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=created_at' . (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>">Created<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
-      <th class="manage-column" width="20%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=slug' . (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>">Links<?php echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="10%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=clicks' . (($sort_str == 'clicks' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>"><?php _e('Hits / Uniq', 'pretty-link'); echo (($sort_str == 'clicks')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="5%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=group_name' . (($sort_str == 'group_name' and $sdir_str == 'asc')?'&sdir=desc':'')) ?>"><?php _e('Group', 'pretty-link'); echo (($sort_str == 'group_name')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="12%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=created_at' . (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>"><?php _e('Created', 'pretty-link'); echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
+      <th class="manage-column" width="20%"><a href="<?php echo admin_url('admin.php?page=pretty-link&sort=slug' . (($sort_str == 'slug' and $sdir_str == 'asc')?'&sdir=desc':'')); ?>"><?php _e('Links', 'pretty-link'); echo (($sort_str == 'slug')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL . '/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a></th>
     </tr>
     </thead>
     <tr id="bulk-edit" class="inline-edit-row inline-edit-row-post inline-edit-post bulk-edit-row bulk-edit-row-post bulk-edit-post" style="display: none;">
@@ -113,7 +113,7 @@ if(!defined('ABSPATH'))
   {
       ?>
     <tr>
-      <td colspan="5">Watch this video to see how to get started! -- <a href="http://blairwilliams.com/xba"><strong>Get More Video Tutorials like this one...</strong></a><br/><object width="640" height="385"><param name="movie" value="http://www.youtube.com/v/i6C2Bljby3k&hl=en&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/i6C2Bljby3k&hl=en&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object></td>
+      <td colspan="5"><?php _e('Watch this video to see how to get started!', 'pretty-link'); ?> -- <a href="http://blairwilliams.com/xba"><strong><?php _e('Get More Video Tutorials like this one', 'pretty-link'); ?>...</strong></a><br/><object width="640" height="385"><param name="movie" value="http://www.youtube.com/v/i6C2Bljby3k&hl=en&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/i6C2Bljby3k&hl=en&fs=1&rel=0&color1=0x3a3a3a&color2=0x999999" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="640" height="385"></embed></object></td>
     </tr>
     <?php
   }
@@ -184,18 +184,18 @@ if(!defined('ABSPATH'))
         <a class="slug_name" href="<?php echo admin_url('admin.php?page=pretty-link&action=edit&id=' . $link->id); ?>" title="Edit <?php echo stripslashes($link->name); ?>"><?php echo stripslashes($link->name); ?></a>
           <br/>
           <div class="link_actions">
-            <a href="<?php echo admin_url('admin.php?page=pretty-link&action=edit&id=' . $link->id); ?>" title="Edit <?php echo $link->slug; ?>">Edit</a>&nbsp;|
-            <a href="<?php echo admin_url('admin.php?page=pretty-link&action=destroy&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>">Delete</a>
-            |&nbsp;<a href="<?php echo admin_url('admin.php?page=pretty-link&action=reset&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>">Reset</a>
+            <a href="<?php echo admin_url('admin.php?page=pretty-link&action=edit&id=' . $link->id); ?>" title="Edit <?php echo $link->slug; ?>"><?php _e('Edit', 'pretty-link'); ?></a>&nbsp;|
+            <a href="<?php echo admin_url('admin.php?page=pretty-link&action=destroy&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>"><?php _e('Delete', 'pretty-link'); ?></a>
+            |&nbsp;<a href="<?php echo admin_url('admin.php?page=pretty-link&action=reset&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>"><?php _e('Reset', 'pretty-link'); ?></a>
             <?php if( $link->track_me and $prli_options->extended_tracking!='count' ) { ?>
-            |&nbsp;<a href="<?php echo admin_url("admin.php?page=pretty-link/prli-clicks.php&l={$link->id}"); ?>" title="View clicks for <?php echo $link->slug; ?>">Hits</a>
+            |&nbsp;<a href="<?php echo admin_url("admin.php?page=pretty-link/prli-clicks.php&l={$link->id}"); ?>" title="View clicks for <?php echo $link->slug; ?>"><?php _e('Hits', 'pretty-link'); ?></a>
             <?php do_action('prli-link-action',$link->id); ?>
             <?php } ?>
             <?php if( $link->redirect_type != 'pixel' )
             {
             ?>
-            |&nbsp;<a href="http://twitter.com/home?status=<?php echo $pretty_link_url; ?>" target="_blank" title="Post <?php echo $pretty_link_url; ?> to Twitter">Tweet</a>&nbsp;|
-            <a href="mailto:?subject=Pretty Link&body=<?php echo $pretty_link_url; ?>" target="_blank" title="Send <?php echo $pretty_link_url; ?> in an Email">Email</a>
+            |&nbsp;<a href="http://twitter.com/home?status=<?php echo $pretty_link_url; ?>" target="_blank" title="Post <?php echo $pretty_link_url; ?> to Twitter"><?php _e('Tweet', 'pretty-link'); ?></a>&nbsp;|
+            <a href="mailto:?subject=Pretty Link&body=<?php echo $pretty_link_url; ?>" target="_blank" title="Send <?php echo $pretty_link_url; ?> in an Email"><?php _e('Email', 'pretty-link'); ?></a>
             <?php
             }
             ?>
@@ -218,7 +218,7 @@ if(!defined('ABSPATH'))
         <?php if( $link->redirect_type != 'pixel' )
         {
         ?>
-        <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong>Target URL:</strong> <?php echo htmlentities((substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':'')),ENT_COMPAT,'UTF-8'); ?></span></td>
+        <span style="font-size: 8px;" title="<?php echo $link->url; ?>"><strong><?php _e('Target URL:', 'pretty-link'); ?></strong> <?php echo htmlentities((substr($link->url,0,47) . ((strlen($link->url) >= 47)?'...':'')),ENT_COMPAT,'UTF-8'); ?></span></td>
         <?php
         }
         ?>
@@ -229,12 +229,12 @@ if(!defined('ABSPATH'))
   ?>
     <tfoot>
     <tr>
-      <th class="manage-column"><?php do_action('prli-list-header-icon'); ?>Name</th>
+      <th class="manage-column"><?php do_action('prli-list-header-icon'); ?><?php _e('Name', 'pretty-link'); ?></th>
       <?php do_action('prli_link_column_footer'); ?>
-      <th class="manage-column">Hits / Uniq</th>
-      <th class="manage-column">Group</th>
-      <th class="manage-column">Created</th>
-      <th class="manage-column">Links</th>
+      <th class="manage-column"><?php _e('Hits / Uniq', 'pretty-link'); ?></th>
+      <th class="manage-column"><?php _e('Group', 'pretty-link'); ?></th>
+      <th class="manage-column"><?php _e('Created', 'pretty-link'); ?></th>
+      <th class="manage-column"><?php _e('Links', 'pretty-link'); ?></th>
     </tr>
     </tfoot>
 </table>

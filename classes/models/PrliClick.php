@@ -232,11 +232,11 @@ class PrliClick
         $type_string = "Unique hits";
       
       if($title_only)
-        return __('Pretty Link:').' '.$type_string.' '.__('on').' '.$link_slug.' '.__('between').' '.date("Y-n-j", $start_timestamp).' '.__('and').' '.date("Y-n-j", $end_timestamp);
+        return __('Pretty Link:', 'pretty-link').' '.$type_string.' '.__('on', 'pretty-link').' '.$link_slug.' '.__('between', 'pretty-link').' '.date("Y-n-j", $start_timestamp).' '.__('and', 'pretty-link').' '.date("Y-n-j", $end_timestamp);
       
       $dates_array = $this->get_counts_by_days($start_timestamp,$end_timestamp,$link_id,$type,$group);
       
-      $chart_data = array('cols' => array(array("label" => __('Date'), 'type' => 'string'), array("label" => __('Hits'), 'type' => 'number')));
+      $chart_data = array('cols' => array(array("label" => __('Date', 'pretty-link'), 'type' => 'string'), array("label" => __('Hits', 'pretty-link'), 'type' => 'number')));
       
       foreach($dates_array as $key => $value)
         $chart_data['rows'][] = array('c' => array(array('v' => $key, 'f' => null), array('v' => (int)$value, 'f' => null)));
@@ -249,7 +249,7 @@ class PrliClick
     {
       $values = array(
          'paged'  => (isset($_GET['paged'])?$_GET['paged']:(isset($_POST['paged'])?$_POST['paged']:1)),
-         'l'      => (isset($_GET['l'])?$_GET['l']:(isset($_POST['l'])?$_POST['l']:'all')),
+         'l'      => (isset($_GET['l'])?(int)$_GET['l']:(isset($_POST['l'])?(int)$_POST['l']:'all')),
          'group'  => (isset($_GET['group'])?$_GET['group']:(isset($_POST['group'])?$_POST['group']:'')),
          'ip'     => (isset($_GET['ip'])?$_GET['ip']:(isset($_POST['ip'])?$_POST['ip']:'')),
          'vuid'   => (isset($_GET['vuid'])?$_GET['vuid']:(isset($_POST['vuid'])?$_POST['vuid']:'')),
@@ -260,7 +260,7 @@ class PrliClick
          'sort'   => (isset($_GET['sort'])?$_GET['sort']:(isset($_POST['sort'])?$_POST['sort']:'')),
          'sdir'   => (isset($_GET['sdir'])?$_GET['sdir']:(isset($_POST['sdir'])?$_POST['sdir']:''))
       );
-
+      
       return $values;
     }
 

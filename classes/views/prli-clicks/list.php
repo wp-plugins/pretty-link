@@ -4,21 +4,21 @@
   require(PRLI_VIEWS_PATH.'/shared/nav.php');
 ?>
   <?php echo PrliAppHelper::page_title(__('Hits', 'pretty-link')); ?>
-  <span style="font-size: 14px; font-weight: bold;">For <?php echo stripslashes($link_name); ?>: </span>
+  <span style="font-size: 14px; font-weight: bold;"><?php echo __('For', 'pretty-link').' '.stripslashes($link_name); ?>: </span>
   <?php
   // Don't show this sheesh if we're displaying the vuid or ip grouping
   if(empty($params['ip']) and empty($params['vuid']))
   {
   ?>
-  <a href="#" style="display:inline;" class="filter_toggle">Customize Report</a>
+  <a href="#" style="display:inline;" class="filter_toggle"><?php _e('Customize Report', 'pretty-link'); ?></a>
   <?php
   }
   ?>
 <?php
   if(!empty($params['l']) and $params['l'] != 'all')
-    echo '<br/><a href="' . admin_url("admin.php?page=pretty-link") . '">&laquo Back to Links</a>';
+    echo '<br/><a href="'.admin_url("admin.php?page=pretty-link").'">&laquo '.__("Back to Links", 'pretty-link').'</a>';
   else if(!empty($params['ip']) or !empty($params['vuid']))
-    echo '<br/><a href="?page='. PRLI_PLUGIN_NAME .'/prli-clicks.php">&laquo Back to Hits</a>';
+    echo '<br/><a href="?page='. PRLI_PLUGIN_NAME .'/prli-clicks.php">&laquo '.__("Back to Hits", 'pretty-link').'</a>';
 
   if(empty($params['ip']) and empty($params['vuid']))
   {
@@ -28,20 +28,20 @@
 <div class="filter_pane">
   <form class="form-fields" name="form2" method="post" action="">
     <?php wp_nonce_field('prli-reports'); ?>
-    <span>Type:</span>&nbsp;
+    <span><?php _e('Type:', 'pretty-link'); ?></span>&nbsp;
     <select id="type" name="type" style="display: inline;">
-      <option value="all"<?php print ((empty($params['type']) or $params['type'] == "all")?" selected=\"true\"":""); ?>>All Hits&nbsp;</option>
-      <option value="unique"<?php print (($params['type'] == "unique")?" selected=\"true\"":""); ?>>Unique Hits&nbsp;</option>
+      <option value="all"<?php print ((empty($params['type']) or $params['type'] == "all")?" selected=\"true\"":""); ?>><?php _e('All Hits', 'pretty-link'); ?>&nbsp;</option>
+      <option value="unique"<?php print (($params['type'] == "unique")?" selected=\"true\"":""); ?>><?php _e('Unique Hits', 'pretty-link'); ?>&nbsp;</option>
     </select>
     <br/>
     <br/>
-    <span>Date Range:</span>
+    <span><?php _e('Date Range:', 'pretty-link'); ?></span>
     <div id="dateselectors" style="display: inline;">
-      <input type="text" name="sdate" id="sdate" value="<?php echo $params['sdate']; ?>" style="display:inline;"/>&nbsp;to&nbsp;<input type="text" name="edate" id="edate" value="<?php echo $params['edate']; ?>" style="display:inline;"/>
+      <input type="text" name="sdate" id="sdate" value="<?php echo $params['sdate']; ?>" style="display:inline;"/>&nbsp;<?php _e('to', 'pretty-link'); ?>&nbsp;<input type="text" name="edate" id="edate" value="<?php echo $params['edate']; ?>" style="display:inline;"/>
     </div>
     <br/>
     <br/>
-    <div class="submit" style="display: inline;"><input type="submit" name="Submit" value="Customize"/> or <a href="#" class="filter_toggle">Cancel</a></div>
+    <div class="submit" style="display: inline;"><input type="submit" name="Submit" value="Customize"/> <?php _e('or', 'pretty-link'); ?> <a href="#" class="filter_toggle"><?php _e('Cancel', 'pretty-link'); ?></a></div>
   </form>
 </div>
 
@@ -65,7 +65,7 @@
       if(!empty($search_str))
       {
       ?>
-      or <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo (!empty($params['l'])?'&l='.$params['l']:''); ?>">Reset</a>
+      <?php _e('or', 'pretty-link'); ?> <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo (!empty($params['l'])?'&l='.$params['l']:''); ?>"><?php _e('Reset', 'pretty-link'); ?></a>
       <?php
       }
       ?>
@@ -76,33 +76,33 @@
     <thead>
     <tr>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
-      <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=btype<?php echo (($sort_str == 'btype' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Browser<?php echo (($sort_str == 'btype')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+      <th class="manage-column" width="5%"><a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=btype<?php echo (($sort_str == 'btype' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('Browser', 'pretty-link'); echo (($sort_str == 'btype')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
     <?php } ?>
       <th class="manage-column" width="12%">
-        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=ip<?php echo (($sort_str == 'ip' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">IP<?php echo (($sort_str == 'ip')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=ip<?php echo (($sort_str == 'ip' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('IP', 'pretty-link'); echo (($sort_str == 'ip')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column" width="12%">
-        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=vuid<?php echo (($sort_str == 'vuid' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Visitor<?php echo (($sort_str == 'vuid')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=vuid<?php echo (($sort_str == 'vuid' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('Visitor', 'pretty-link'); echo (($sort_str == 'vuid')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
     <?php } ?>
       <th class="manage-column" width="13%">
-        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Timestamp<?php echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=created_at<?php echo (($sort_str == 'created_at' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('Timestamp', 'pretty-link'); echo ((empty($sort_str) or $sort_str == 'created_at')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.((empty($sort_str) or $sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
       <th class="manage-column" width="16%">
-        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=host<?php echo (($sort_str == 'host' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Host<?php echo (($sort_str == 'host')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=host<?php echo (($sort_str == 'host' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('Host', 'pretty-link'); echo (($sort_str == 'host')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
     <?php } ?>
       <th class="manage-column" width="16%">
-        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=uri<?php echo (($sort_str == 'uri' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">URI<?php echo (($sort_str == 'uri')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=uri<?php echo (($sort_str == 'uri' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('URI', 'pretty-link'); echo (($sort_str == 'uri')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
       <th class="manage-column" width="16%">
-        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=referer<?php echo (($sort_str == 'referer' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Referrer<?php echo (($sort_str == 'referer')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=referer<?php echo (($sort_str == 'referer' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('Referrer', 'pretty-link'); echo (($sort_str == 'referer')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
       <th class="manage-column" width="13%">
-        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=link<?php echo (($sort_str == 'link' and $sdir_str == 'asc')?'&sdir=desc':''); ?>">Link<?php echo (($sort_str == 'link')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
+        <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php<?php echo $sort_params; ?>&sort=link<?php echo (($sort_str == 'link' and $sdir_str == 'asc')?'&sdir=desc':''); ?>"><?php _e('Link', 'pretty-link'); echo (($sort_str == 'link')?'&nbsp;&nbsp;&nbsp;<img src="'.PRLI_IMAGES_URL.'/'.(($sdir_str == 'desc')?'arrow_down.png':'arrow_up.png').'"/>':'') ?></a>
       </th>
     </tr>
     </thead>
@@ -112,7 +112,7 @@
   {
       ?>
     <tr>
-      <td colspan="7">No Hits have been recorded yet</td>
+      <td colspan="7"><?php _e('No Hits have been recorded yet', 'pretty-link'); ?></td>
     </tr>
     <?php
   }
@@ -144,24 +144,24 @@
     <tfoot>
     <tr>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
-      <th class="manage-column">Browser</th>
+      <th class="manage-column"><?php _e('Browser', 'pretty-link'); ?></th>
     <?php } ?>
-      <th class="manage-column">IP</th>
+      <th class="manage-column"><?php _e('IP', 'pretty-link'); ?></th>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
-      <th class="manage-column">Visitor</th>
+      <th class="manage-column"><?php _e('Visitor', 'pretty-link'); ?></th>
     <?php } ?>
-      <th class="manage-column">Timestamp</th>
+      <th class="manage-column"><?php _e('Timestamp', 'pretty-link'); ?></th>
     <?php if( isset($prli_options->extended_tracking) and $prli_options->extended_tracking == "extended" ) { ?>
-      <th class="manage-column">Host</th>
+      <th class="manage-column"><?php _e('Host', 'pretty-link'); ?></th>
     <?php } ?>
-      <th class="manage-column">URI</th>
-      <th class="manage-column">Referrer</th>
-      <th class="manage-column">Link</th>
+      <th class="manage-column"><?php _e('URI', 'pretty-link'); ?></th>
+      <th class="manage-column"><?php _e('Referrer', 'pretty-link'); ?></th>
+      <th class="manage-column"><?php _e('Link', 'pretty-link'); ?></th>
     </tr>
     </tfoot>
 </table>
 
-<a href="?page=pretty-link/prli-clicks.php&action=csv<?php echo $page_params; ?>">Download CSV (<?php echo stripslashes($link_name); ?>)</a>
+<a href="?page=pretty-link/prli-clicks.php&action=csv<?php echo $page_params; ?>"><?php _e('Download CSV', 'pretty-link'); ?> (<?php echo stripslashes($link_name); ?>)</a>
 
 <?php
   require(PRLI_VIEWS_PATH.'/shared/table-nav.php');

@@ -462,34 +462,34 @@ class PrliLink
 
       $errors = array();
       if( ( $values['url'] == null or $values['url'] == '') and $values['redirect_type'] != 'pixel' )
-        $errors[] = "Target URL can't be blank";
+        $errors[] = __("Target URL can't be blank", 'pretty-link');
 
       if( $values['slug'] == null or $values['slug'] == '' )
-        $errors[] = "Pretty Link can't be blank";
+        $errors[] = __("Pretty Link can't be blank", 'pretty-link');
 
       if( $values['url'] == $prli_blogurl.PrliUtils::get_permalink_pre_slug_uri().$values['slug'] )
-        $errors[] = "Target URL must be different than the Pretty Link";
+        $errors[] = __("Target URL must be different than the Pretty Link", 'pretty-link');
 
       if( !empty($values['url']) and
           !preg_match('/^http.?:\/\/.*\..*$/', $values['url'] ) and
           !preg_match('!^(http|https)://(localhost|127\.0\.0\.1)(:\d+)?(/[\w- ./?%&=]*)?!', $values['url'] ) )
-        $errors[] = "Link URL must be a correctly formatted url";
+        $errors[] = __("Link URL must be a correctly formatted url", 'pretty-link');
 
       if( preg_match('/^[\?\&\#]+$/', $values['slug'] ) )
-        $errors[] = "Pretty Link slugs must not contain question marks, ampersands or number signs.";
+        $errors[] = __("Pretty Link slugs must not contain question marks, ampersands or number signs.", 'pretty-link');
 
       if( preg_match('#/$#', $values['slug']) )
-        $errors[] = "Pretty Link slugs must not end with a slash (\"/\")";
+        $errors[] = __("Pretty Link slugs must not end with a slash (\"/\")", 'pretty-link');
 
       $id = isset($values['id'])?$values['id']:null;
       if( !$prli_utils->slugIsAvailable($values['slug'],$id) )
-        $errors[] = "This Pretty Link Slug is already taken. Check to make sure it isn't being used by another pretty link, post, page, category or tag slug. If none of these are true then check to see that this slug isn't the name of a file in the root folder of your wordpress install.";
+        $errors[] = __("This Pretty Link Slug is already taken. Check to make sure it isn't being used by another pretty link, post, page, category or tag slug. If none of these are true then check to see that this slug isn't the name of a file in the root folder of your wordpress install.", 'pretty-link');
 
       if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and empty($values['param_struct']) )
-        $errors[] = "If Custom Parameter Forwarding has been selected then you must specify a forwarding format.";
+        $errors[] = __("If Custom Parameter Forwarding has been selected then you must specify a forwarding format.", 'pretty-link');
 
       if( isset($values['param_forwarding']) and $values['param_forwarding'] == 'custom' and !preg_match('#%.*?%#', $values['param_struct']) )
-        $errors[] = "Your parameter forwarding must have at least one parameter specified in the format ex: <code>/%var1%/%var_two%/%varname3% ...</code>";
+        $errors[] = __("Your parameter forwarding must have at least one parameter specified in the format ex: <code>/%var1%/%var_two%/%varname3% ...</code>", 'pretty-link');
 
       return $errors;
     }

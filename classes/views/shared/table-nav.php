@@ -5,7 +5,7 @@
   {
       ?>
     <div class="tablenav"<?php echo (isset($navstyle)?" style=\"" . esc_html($navstyle) . "\"":''); ?>>
-      <div class='tablenav-pages'><span class="displaying-num">Displaying <?php echo esc_html("$page_first_record&#8211;$page_last_record of $record_count"); ?></span>
+      <div class='tablenav-pages'><span class="displaying-num"><?php _e('Displaying', 'pretty-link'); echo esc_html("$page_first_record&#8211;$page_last_record of $record_count"); ?></span>
         
         <?php
         // Only show the prev page button if the current page is not the first page

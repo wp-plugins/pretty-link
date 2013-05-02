@@ -60,7 +60,7 @@ $twitter_status   = esc_html( $twitter_status );
   <p><a href="http://prettylinkpro.com"><img src="<?php echo PRLI_IMAGES_URL; ?>/prettylink_logo.jpg" /></a></p>
   <h4><em><?php _e('here\'s your pretty link for:', 'pretty-link'); ?></em><br/><?php echo $target_url_title; ?><br/>(<span title="<?php echo $target_url; ?>"><?php echo substr($target_url,0,50) . ((strlen($target_url)>50)?"...":''); ?></span>)</h4>
   <h2><a href="<?php echo $pretty_link_raw; ?>"><?php echo $pretty_link; ?></a><br/><span class="clippy"><?php echo $pretty_link_raw; ?></span></h2>
-  <p>send this link to:<br/>
+  <p><?php _e('send this link to:', 'pretty-link'); ?><br/>
   <a href="http://www.delicious.com/save" onclick="window.open('http://www.delicious.com/save?v=5&noui&jump=close&url=<?php echo urlencode($pretty_link_raw); ?>&title=<?php echo urlencode($target_url_title); ?>', 'delicious','toolbar=no,width=550,height=550'); return false;"><img src="<?php echo PRLI_IMAGES_URL; ?>/delicious_32.png" title="delicious" width="32px" height="32px" border="0" /></a>&nbsp;&nbsp;
   <!-- Place this tag where you want the su badge to render -->
   <su:badge layout="6"></su:badge>&nbsp;&nbsp;

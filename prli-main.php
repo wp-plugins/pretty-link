@@ -158,7 +158,7 @@ function prli_add_dashboard_widgets() {
   get_currentuserinfo();
   if($current_user->user_level >= 8)
   {
-    wp_add_dashboard_widget('prli_dashboard_widget', 'Pretty Link Quick Add', 'prli_dashboard_widget_function');   
+    wp_add_dashboard_widget('prli_dashboard_widget', __('Pretty Link Quick Add', 'pretty-link'), 'prli_dashboard_widget_function');   
 
     // Globalize the metaboxes array, this holds all the widgets for wp-admin
     global $wp_meta_boxes;
