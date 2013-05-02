@@ -11,12 +11,12 @@ $permalink_structure = get_option('permalink_structure');
 if(!$permalink_structure or empty($permalink_structure))
 {
 ?>
-  <div class="error" style="padding-top: 5px; padding-bottom: 5px;"><strong>WordPress Must be Configured:</strong> Pretty Link won't work until you select a Permalink Structure other than "Default" ... <a href="<?php echo $prli_siteurl; ?>/wp-admin/options-permalink.php">Permalink Settings</a></div>
+  <div class="error" style="padding-top: 5px; padding-bottom: 5px;"><strong><?php _e('WordPress Must be Configured:', 'pretty-link'); ?></strong> <?php _e("Pretty Link won't work until you select a Permalink Structure other than 'Default'", 'pretty-link'); ?> ... <a href="<?php echo $prli_siteurl; ?>/wp-admin/options-permalink.php"><?php _e('Permalink Settings', 'pretty-link'); ?></a></div>
 <?php
 }
 ?>
 <?php do_action('prli-options-message'); ?>
-<a href="<?php echo admin_url("admin.php?page=pretty-link"); ?>">&laquo; Pretty Link Admin</a>
+<a href="<?php echo admin_url("admin.php?page=pretty-link"); ?>">&laquo; <?php _e('Pretty Link Admin', 'pretty-link'); ?></a>
 
 <form name="form1" method="post" action="<?php echo admin_url("/admin.php?page=pretty-link/prli-options.php"); ?>">
 <input type="hidden" name="<?php echo $hidden_field_name; ?>" value="Y">
@@ -26,25 +26,25 @@ if(!$permalink_structure or empty($permalink_structure))
 <ul class="link-toggle-pane" style="list-style-type: none; padding-left: 10px;">
   <li>
     <h3><?php _e('Link Defaults:', 'pretty-link') ?></h3>
-    <input type="checkbox" name="<?php echo $link_track_me; ?>" <?php echo (($prli_options->link_track_me != 0)?'checked="true"':''); ?>/>&nbsp; Track Link
-    <br/><span class="description">Default all new links to be tracked.</span>
+    <input type="checkbox" name="<?php echo $link_track_me; ?>" <?php echo (($prli_options->link_track_me != 0)?'checked="true"':''); ?>/>&nbsp; <?php _e('Track Link', 'pretty-link'); ?>
+    <br/><span class="description"><?php _e('Default all new links to be tracked.', 'pretty-link'); ?></span>
   </li>
   <li>
-    <input type="checkbox" name="<?php echo $link_nofollow; ?>" <?php echo (($prli_options->link_nofollow != 0)?'checked="true"':''); ?>/>&nbsp; Add <code>nofollow</code> to Link
-<br/><span class="description">Add the <code>nofollow</code> attribute by default to new links.</span>
+    <input type="checkbox" name="<?php echo $link_nofollow; ?>" <?php echo (($prli_options->link_nofollow != 0)?'checked="true"':''); ?>/>&nbsp; <?php _e('Add <code>nofollow</code> to Link', 'pretty-link'); ?>
+<br/><span class="description"><?php _e('Add the <code>nofollow</code> attribute by default to new links.', 'pretty-link'); ?></span>
   </li>
   <li>
-    <input type="checkbox" name="<?php echo $link_prefix; ?>" <?php echo (($prli_options->link_prefix != 0)?'checked="true"':''); ?>/>&nbsp; Use a prefix from your Permalink structure in your Pretty Links
-<br/><span class="description">This option should only be checked if you have elements in your permalink structure that must be present in any link on your site. For example, some WordPress installs don't have the benefit of full rewrite capabilities and in this case you'd need an index.php included in each link (http://example.com/index.php/mycoolslug instead of http://example.com/mycoolslug). If this is the case for you then check this option but the vast majority of users will want to keep this unchecked.</span>
+    <input type="checkbox" name="<?php echo $link_prefix; ?>" <?php echo (($prli_options->link_prefix != 0)?'checked="true"':''); ?>/>&nbsp; <?php _e('Use a prefix from your Permalink structure in your Pretty Links', 'pretty-link'); ?>
+<br/><span class="description"><?php _e("This option should only be checked if you have elements in your permalink structure that must be present in any link on your site. For example, some WordPress installs don't have the benefit of full rewrite capabilities and in this case you'd need an index.php included in each link (http://example.com/index.php/mycoolslug instead of http://example.com/mycoolslug). If this is the case for you then check this option but the vast majority of users will want to keep this unchecked.", 'pretty-link'); ?></span>
   </li>
   <li>
     <span><strong><?php _e('Default Link Redirection Type:', 'pretty-link') ?> </strong></span>
     <select name="<?php echo $link_redirect_type; ?>">
-        <option value="307" <?php echo (($prli_options->link_redirect_type == '307')?' selected="selected"':''); ?>>Temporary (307)</option>
-        <option value="301" <?php echo (($prli_options->link_redirect_type == '301')?' selected="selected"':''); ?>>Permanent (301)</option>
+        <option value="307" <?php echo (($prli_options->link_redirect_type == '307')?' selected="selected"':''); ?>><?php _e('Temporary (307)', 'pretty-link'); ?></option>
+        <option value="301" <?php echo (($prli_options->link_redirect_type == '301')?' selected="selected"':''); ?>><?php _e('Permanent (301)', 'pretty-link'); ?></option>
         <?php do_action('prli_default_redirection_types',$prli_options->link_redirect_type); ?>
     </select>
-    <br/><span class="description">Select the type of redirection you want your newly created links to have.</span>
+    <br/><span class="description"><?php _e('Select the type of redirection you want your newly created links to have.', 'pretty-link'); ?></span>
   </li>
   <?php do_action('prli_custom_link_options'); ?>
   <li>
@@ -58,14 +58,14 @@ if(!$permalink_structure or empty($permalink_structure))
   </li>
 </ul>
 <?php do_action('prli_custom_option_pane'); ?>
-<h3><a class="toggle reporting-toggle-button">Reporting Options <span class="reporting-expand" style="display: none;">[+]</span><span class="reporting-collapse">[-]</span></a></h3>
+<h3><a class="toggle reporting-toggle-button"><?php _e('Reporting Options', 'pretty-link'); ?> <span class="reporting-expand" style="display: none;">[+]</span><span class="reporting-collapse">[-]</span></a></h3>
 <table class="reporting-toggle-pane form-table">
   <tr class="form-field">
-    <td valign="top">Excluded IP Addresses: </td>
+    <td valign="top"><?php _e('Excluded IP Addresses:', 'pretty-link'); ?> </td>
     <td>
       <input type="text" name="<?php echo $prli_exclude_ips; ?>" value="<?php echo $prli_options->prli_exclude_ips; ?>"> 
-      <br/><span class="description">Enter IP Addresses or IP Ranges you want to exclude from your Hit data and Stats. Each IP Address should be separated by commas. Example: <code>192.168.0.1, 192.168.2.1, 192.168.3.4 or 192.168.*.*</code></span>
-      <br/><span class="description" style="color: red;">Your Current IP Address is <?php echo $_SERVER['REMOTE_ADDR']; ?></span>
+      <br/><span class="description"><?php _e('Enter IP Addresses or IP Ranges you want to exclude from your Hit data and Stats. Each IP Address should be separated by commas. Example: <code>192.168.0.1, 192.168.2.1, 192.168.3.4 or 192.168.*.*</code>', 'pretty-link'); ?></span>
+      <br/><span class="description" style="color: red;"><?php _e('Your Current IP Address is', 'pretty-link'); echo $_SERVER['REMOTE_ADDR']; ?></span>
     </td>
   </tr>
   <tr>
@@ -108,18 +108,18 @@ if(!$permalink_structure or empty($permalink_structure))
 </p>
 
 
-<h3>Trim Hit Database</h3>
+<h3><?php _e('Trim Hit Database', 'pretty-link'); ?></h3>
 
 <?php if($prli_options->extended_tracking != 'count') { ?>
-<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_30day_clicks" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data that is older than 30 days. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete this data because there is no going back!');">Delete Hits older than 30 days</a>
-<br/><span class="description">This will clear all hits in your database that are older than 30 days.</span></p>
+<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_30day_clicks" onclick="return confirm('<?php _e('***WARNING*** If you click OK you will delete ALL of the Hit data that is older than 30 days. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete this data because there is no going back!', 'pretty-link'); ?>');"><?php _e('Delete Hits older than 30 days', 'pretty-link'); ?></a>
+<br/><span class="description"><?php _e('This will clear all hits in your database that are older than 30 days.', 'pretty-link'); ?></span></p>
 
-<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_90day_clicks" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data that is older than 90 days. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete this data because there is no going back!');">Delete Hits older than 90 days</a>
-<br/><span class="description">This will clear all hits in your database that are older than 90 days.</span></p>
+<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_90day_clicks" onclick="return confirm('<?php _e('***WARNING*** If you click OK you will delete ALL of the Hit data that is older than 90 days. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete this data because there is no going back!', 'pretty-link'); ?>');"><?php _e('Delete Hits older than 90 days', 'pretty-link'); ?></a>
+<br/><span class="description"><?php _e('This will clear all hits in your database that are older than 90 days.', 'pretty-link'); ?></span></p>
 <?php } ?>
 
-<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_all_clicks" onclick="return confirm('***WARNING*** If you click OK you will delete ALL of the Hit data in your Database. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete all your data because there is no going back!');">Delete All Hits</a>
-<br/><span class="description">Seriously, only click this link if you want to delete all the Hit data in your database.</span></p>
+<p><a href="<?php echo str_replace( '%7E', '~', $_SERVER['REQUEST_URI'] ); ?>&action=clear_all_clicks" onclick="return confirm('<?php _e('***WARNING*** If you click OK you will delete ALL of the Hit data in your Database. Your data will be gone forever -- no way to retreive it. Do not click OK unless you are absolutely sure you want to delete all your data because there is no going back!', 'pretty-link'); ?>');"><?php _e('Delete All Hits', 'pretty-link'); ?></a>
+<br/><span class="description"><?php _e('Seriously, only click this link if you want to delete all the Hit data in your database.', 'pretty-link'); ?></span></p>
 
 </form>
 </div>

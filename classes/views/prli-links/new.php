@@ -20,7 +20,7 @@ if(!defined('ABSPATH'))
 ?>
 
 <p class="submit">
-<input type="submit" name="Submit" value="Create" />&nbsp;or&nbsp;<a href="<?php admin_url('admin.php?page=pretty-link'); ?>">Cancel</a>
+<input type="submit" name="Submit" value="Create" />&nbsp;<?php _e('or', 'pretty-link'); ?>&nbsp;<a href="<?php admin_url('admin.php?page=pretty-link'); ?>"><?php _e('Cancel', 'pretty-link'); ?></a>
 </p>
 
 </form>

@@ -50,7 +50,7 @@ if(!isset($_REQUEST['action']))
   else if(!empty($params['ip']))
   {
     $link_name = __("IP Address: ", 'pretty-link') . esc_html($params['ip']);
-    $where_clause .= $wpdb->prepare(" AND cl.ip=%d", $params['ip']);
+    $where_clause .= $wpdb->prepare(" AND cl.ip=%s", $params['ip']);
     $page_params .= "&ip={$params['ip']}";
   }
   else if(!empty($params['vuid']))

@@ -7,7 +7,7 @@ if(!defined('ABSPATH'))
   {
       ?>
     <div class="tablenav"<?php echo (isset($navstyle)?" style=\"$navstyle\"":''); ?>>
-      <div class='tablenav-pages'><span class="displaying-num">Displaying <?php echo "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
+      <div class='tablenav-pages'><span class="displaying-num"><?php _e('Displaying', 'pretty-link'); echo "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
         
         <?php
         // Only show the prev page button if the current page is not the first page
@@ -107,7 +107,7 @@ if(!defined('ABSPATH'))
     ?>
     <div class="tablenav"<?php echo (isset($navstyle)?" style=\"$navstyle\"":''); ?>>
       <div class='tablenav-pages'>
-        <span class="displaying-num">Displaying <?php echo "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
+        <span class="displaying-num"><?php _e('Displaying', 'pretty-link'); echo "$page_first_record&#8211;$page_last_record of $record_count"; ?></span>
         <select class="prli-page-size" onchange="location='<?php echo admin_url("admin.php?page=" . esc_html($_REQUEST['page'].$page_params) . "&paged=1&size='+this.options[this.selectedIndex].value"); ?>">
           <option value="10" selected="selected">10</option>
           <option value="25" <?php if(isset($_REQUEST['size']) and $_REQUEST['size'] == 25) echo 'selected="selected"'; ?>>25</option>

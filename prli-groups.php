@@ -9,7 +9,7 @@ $params = $prli_group->get_params_array();
 
 if($params['action'] == 'list')
 {
-  $prli_message = "Create a group and use it to organize your Pretty Links.";
+  $prli_message = __("Create a group and use it to organize your Pretty Links.", 'pretty-link');
   prli_display_groups_list($params, $prli_message);
 }
 else if($params['action'] == 'new')
@@ -29,7 +29,7 @@ else if($params['action'] == 'create')
   {
     $insert_id = $prli_group->create( $_POST );
     prli_update_groups($insert_id, $_POST['link']);
-    $prli_message = "Your Pretty Link Group was Successfully Created";
+    $prli_message = __("Your Pretty Link Group was Successfully Created", 'pretty-link');
     prli_display_groups_list($params, $prli_message, '', 1);
   }
 }
@@ -53,14 +53,14 @@ else if($params['action'] == 'update')
   {
     $record = $prli_group->update( $_POST['id'], $_POST );
     prli_update_groups($_POST['id'],$_POST['link']);
-    $prli_message = "Your Pretty Link Group was Successfully Updated";
+    $prli_message = __("Your Pretty Link Group was Successfully Updated", 'pretty-link');
     prli_display_groups_list($params, $prli_message, '', 1);
   }
 }
 else if($params['action'] == 'destroy')
 {
   $prli_group->destroy( $params['id'] );
-  $prli_message = "Your Pretty Link Group was Successfully Deleted";
+  $prli_message = __("Your Pretty Link Group was Successfully Deleted", 'pretty-link');
   prli_display_groups_list($params, $prli_message, '', 1);
 }
 
