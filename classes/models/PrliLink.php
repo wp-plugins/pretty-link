@@ -4,15 +4,15 @@ if(!defined('ABSPATH'))
 
 class PrliLink
 {
-    var $table_name;
+    public $table_name;
 
-    function __construct()
+    public function __construct()
     {
       global $wpdb;
       $this->table_name = "{$wpdb->prefix}prli_links";
     }
 
-    function create( $values )
+    public function create( $values )
     {
       global $wpdb;
 
@@ -58,7 +58,7 @@ class PrliLink
       return $link_id;
     }
 
-    function update( $id, $values )
+    public function update( $id, $values )
     {
       global $wpdb;
 
@@ -97,7 +97,7 @@ class PrliLink
       return $query_results;
     }
 
-    function bulk_update( $ids, $values ) {
+    public function bulk_update( $ids, $values ) {
       if( !empty($ids) and is_array($values) and !empty($values) ) {
         global $wpdb;
         $query = "UPDATE {$this->table_name} SET ";
@@ -139,7 +139,7 @@ class PrliLink
       return false;
     }
 
-    function update_group( $id, $value, $group_id )
+    public function update_group( $id, $value, $group_id )
     {
       global $wpdb;
       $query = 'UPDATE ' . $this->table_name . 
@@ -149,7 +149,7 @@ class PrliLink
       return $query_results;
     }
 
-    function destroy( $id )
+    public function destroy( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
       global $wpdb, $prli_click, $prli_link_meta;
@@ -164,7 +164,7 @@ class PrliLink
       return $wpdb->query($destroy);
     }
 
-    function reset( $id )
+    public function reset( $id )
     {
       require_once(PRLI_MODELS_PATH.'/models.inc.php');
       global $wpdb, $prli_click, $prli_link_meta;
@@ -176,7 +176,7 @@ class PrliLink
       return $wpdb->query($reset);
     }
 
-    function getOneFromSlug( $slug, $return_type = OBJECT, $include_stats = false )
+    public function getOneFromSlug( $slug, $return_type = OBJECT, $include_stats = false )
     {
       global $wpdb, $prli_click, $prli_options, $prli_link_meta;
       if($include_stats)
@@ -215,7 +215,7 @@ class PrliLink
       return $link;
     }
 
-    function getOne( $id, $return_type = OBJECT, $include_stats = false )
+    public function getOne( $id, $return_type = OBJECT, $include_stats = false )
     {
       global $wpdb, $prli_click, $prli_link_meta, $prli_options;
       if( !isset($id) or empty($id) )
@@ -249,7 +249,7 @@ class PrliLink
       return $wpdb->get_row($query, $return_type);
     }
 
-    function find_first_target_url($target_url)
+    public function find_first_target_url($target_url)
     {
       global $wpdb;
       $query_str = "SELECT id FROM {$this->table_name} WHERE url=%s LIMIT 1";
@@ -257,28 +257,26 @@ class PrliLink
       return $wpdb->get_var($query);
     }
 
-    function &get_or_create_pretty_link_for_target_url( $target_url, $group=0 )
+    public function get_or_create_pretty_link_for_target_url( $target_url, $group=0 )
     {
-      $pretty_link_id = $this->find_first_target_url( $target_url );
-      $pretty_link = $this->getOne($pretty_link_id);
+      global $wpdb;
+      $query_str = "SELECT * FROM {$this->table_name} WHERE url=%s LIMIT 1";
+      $query = $wpdb->prepare($query_str,$target_url);
+      $pretty_link = $wpdb->get_row($query);
 
       if(empty($pretty_link) or !$pretty_link)
       {
         $pl_insert_id = prli_create_pretty_link( $target_url, '', '', '', $group );
         $pretty_link = $this->getOne($pl_insert_id);
       }
-      else
-        prli_update_pretty_link( $pretty_link->id, '', '', '', '', $group );
 
-      if( !isset($pretty_link) or
-          empty($pretty_link) or
-          !$pretty_link )
+      if( !isset($pretty_link) or empty($pretty_link) or !$pretty_link )
         return false;
       else
         return $pretty_link;
     }
 
-    function is_pretty_link($url, $check_domain=true)
+    public function is_pretty_link($url, $check_domain=true)
     {
       global $prli_blogurl;
 
@@ -299,7 +297,7 @@ class PrliLink
         {
           // Match longest slug -- this is the most common
           $params = (isset($match_val[3])?$match_val[3]:'');
-          if( $pretty_link_found =& $this->is_pretty_link_slug( $match_val[2] ) )
+          if( $pretty_link_found = $this->is_pretty_link_slug( $match_val[2] ) )
             return compact('pretty_link_found','pretty_link_params');
 
           // Trim down the matched link
@@ -315,7 +313,7 @@ class PrliLink
             $new_match_str ="#^{$subdir_str}({$struct})({$matched_link})(.*?)?$#";
 
             $params = (isset($match_val[3])?$match_val:'');
-            if( $pretty_link_found =& $this->is_pretty_link_slug( $match_val[2] ) )
+            if( $pretty_link_found = $this->is_pretty_link_slug( $match_val[2] ) )
               return compact('pretty_link_found','pretty_link_params');
 
             // Trim down the matched link and try again
@@ -327,12 +325,12 @@ class PrliLink
       return false;
     }
 
-    function is_pretty_link_slug($slug)
+    public function is_pretty_link_slug($slug)
     {
 	  return apply_filters('prli-check-if-slug', $this->getOneFromSlug( urldecode($slug) ), urldecode($slug));
     }
 
-    function get_link_min( $id, $return_type = OBJECT )
+    public function get_link_min( $id, $return_type = OBJECT )
     {
       global $wpdb;
       $query_str = "SELECT * FROM {$this->table_name} WHERE id=%d";
@@ -340,7 +338,7 @@ class PrliLink
       return $wpdb->get_row($query, $return_type);
     }
 
-    function getAll($where = '', $order_by = '', $return_type = OBJECT, $include_stats = false)
+    public function getAll($where = '', $order_by = '', $return_type = OBJECT, $include_stats = false)
     {
       global $wpdb, $prli_click, $prli_group, $prli_link_meta, $prli_options, $prli_utils;
 
@@ -378,19 +376,19 @@ class PrliLink
     }
 
     // Pagination Methods
-    function getRecordCount($where="")
+    public function getRecordCount($where="")
     {
       global $wpdb, $prli_utils;
       $query = 'SELECT COUNT(*) FROM ' . $this->table_name . ' li' . $prli_utils->prepend_and_or_where(' WHERE', $where);
       return $wpdb->get_var($query);
     }
 
-    function getPageCount($p_size, $where="")
+    public function getPageCount($p_size, $where="")
     {
       return ceil((int)$this->getRecordCount($where) / (int)$p_size);
     }
 
-    function getPage($current_p,$p_size, $where = "", $order_by = '', $return_type = OBJECT)
+    public function getPage($current_p,$p_size, $where = "", $order_by = '', $return_type = OBJECT)
     {
       global $wpdb, $prli_click, $prli_utils, $prli_group, $prli_link_meta, $prli_options;
       $end_index = $current_p * $p_size;
@@ -437,7 +435,7 @@ class PrliLink
       return $slug;
     }
     
-    function get_pretty_link_url($slug)
+    public function get_pretty_link_url($slug)
     {
       global $prli_blogurl;
 
@@ -456,7 +454,7 @@ class PrliLink
         return $prli_blogurl . PrliUtils::get_permalink_pre_slug_uri() . $link->slug;
     }
 
-    function validate( $values )
+    public function validate( $values )
     {
       global $wpdb, $prli_utils, $prli_blogurl;
 

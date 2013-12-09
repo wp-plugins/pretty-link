@@ -3,8 +3,8 @@ Contributors: supercleanse
 Donate link: http://prettylinkpro.com
 Tags: links, link, url, urls, affiliate, affiliates, pretty, marketing, redirect, forward, plugin, twitter, tweet, rewrite, shorturl, hoplink, hop, shortlink, short, shorten, click, clicks, track, tracking, tiny, tinyurl, budurl, shrinking, domain, shrink, mask, masking, cloak, cloaking, slug, slugs, admin, administration, stats, statistics, stat, statistic, email, ajax, javascript, ui, csv, download, page, post, pages, posts, shortcode, seo, automation, widget, widgets, dashboard
 Requires at least: 3.4
-Tested up to: 3.5.1
-Stable tag: 1.6.4
+Tested up to: 3.8
+Stable tag: 1.6.5
 
 Shrink, beautify, track, manage and share any URL on or off of your WordPress website. Create links that look how you want using your own domain name!
 
@@ -65,6 +65,13 @@ http://blairwilliams.com/w7a
 3. Make sure you have changed your permalink Common Settings in Settings -> Permalinks away from "Default" to something else. I prefer using custom and then "/%year%/%month%/%postname%/" for the simplest possible URL slugs with the best performance.
 
 == Changelog ==
+
+= 1.6.5 =
+* Fixed bug with some reports not showing
+* Fixed twitter auto-posting issue
+* Fixed scheduled posts not auto tweeting
+* Upgraded code to work with PHP 5.4+
+* Other minor bug fixes and code improvements
 
 = 1.6.4 =
 * i18n enhancements

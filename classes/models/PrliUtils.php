@@ -91,7 +91,7 @@ class PrliUtils
       return ($this->getLastRecordNum($r_count,($current_p - 1),$p_size) + 1);
   }
   
-  function slugIsAvailable( $full_slug, $id = '' )
+  public static function slugIsAvailable( $full_slug, $id = '' )
   {
     global $wpdb, $prli_blogurl, $prli_link;
   
@@ -148,9 +148,9 @@ class PrliUtils
     if(!isset($browsecap_ini))
     {
       if( version_compare(PHP_VERSION, '5.3.0') >= 0 )
-        $browsecap_ini =& parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true, INI_SCANNER_RAW );
+        $browsecap_ini = parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true, INI_SCANNER_RAW );
       else
-        $browsecap_ini =& parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true );
+        $browsecap_ini = parse_ini_file( PRLI_PATH . "/includes/php/php_browsecap.ini", true );
     }
     
     return $browsecap_ini;
@@ -165,7 +165,7 @@ class PrliUtils
     $yu=array();
     $q_s=array("#\.#","#\*#","#\?#");
     $q_r=array("\.",".*",".?");
-    $brows =& $this->php_get_browsercap_ini();
+    $brows = $this->php_get_browsercap_ini();
 
     if(!empty($brows) and $brows and is_array($brows))
     {
@@ -1102,7 +1102,7 @@ class PrliUtils
     return 0;
   }
 
-  function get_permalink_pre_slug_uri($force=false,$trim=false)
+  public static function get_permalink_pre_slug_uri($force=false,$trim=false)
   {
     global $prli_options;
 
@@ -1124,7 +1124,7 @@ class PrliUtils
       return '/';
   }
 
-  function get_permalink_pre_slug_regex()
+  public static function get_permalink_pre_slug_regex()
   {
     $pre_slug_uri = PrliUtils::get_permalink_pre_slug_uri(true);
 
@@ -1141,7 +1141,7 @@ class PrliUtils
     return ($permalink_structure and !empty($permalink_structure));
   }
 
-  function get_prli_post_meta($post_id, $key, $single=false)
+  public static function get_prli_post_meta($post_id, $key, $single=false)
   {
     if( isset($post_id) and !empty($post_id) and
         $post_id and is_numeric($post_id) ) 
@@ -1150,7 +1150,7 @@ class PrliUtils
       return false;
   }
 
-  function update_prli_post_meta($post_id, $meta_key, $meta_value)
+  public static function update_prli_post_meta($post_id, $meta_key, $meta_value)
   {
     if( isset($post_id) and !empty($post_id) and
         $post_id and is_numeric($post_id) ) 
@@ -1219,5 +1219,16 @@ class PrliUtils
   public static function is_url($url) {
     return ( preg_match('/^http.?:\/\/.*\..*$/', $url ) or
              preg_match('!^(http|https)://(localhost|127\.0\.0\.1)(:\d+)?(/[\w- ./?%&=]*)?!', $url ) );
+  }
+
+  public static function get_plp_permalink($link) {
+    global $prli_blogurl;
+
+    $struct = PrliUtils::get_permalink_pre_slug_uri();
+
+    if(isset($link->slug))
+      return "{$prli_blogurl}{$struct}{$link->slug}";
+    else
+      return false;
   }
 }
