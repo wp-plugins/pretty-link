@@ -113,7 +113,7 @@ function setup_edit_vars($groups,$record)
   $values['name'] = htmlspecialchars(stripslashes(((isset($_REQUEST['name']) and $record == null)?$_REQUEST['name']:$record->name)));
   $values['description'] = htmlspecialchars(stripslashes(((isset($_REQUEST['description']) and $record == null)?$_REQUEST['description']:$record->description)));
   $values['track_me'] = (((isset($_REQUEST['track_me']) or $record->track_me) and ((isset($_REQUEST['track_me']) and $_REQUEST['track_me'] == 'on') or $record->track_me == 1))?'checked="true"':'');
-  $values['nofollow'] = (((isset($_REQUEST['nofollow']) or $record->nofollow) and ($_REQUEST['nofollow'] == 'on' or $record->nofollow == 1))?'checked="true"':'');
+  $values['nofollow'] = (((isset($_REQUEST['nofollow']) and $_REQUEST['nofollow'] == 'on') or (isset($record->nofollow) && $record->nofollow == 1))?'checked="true"':'');
 
   $values['groups'] = array();
   foreach($groups as $group)
