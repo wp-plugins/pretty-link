@@ -17,7 +17,7 @@ class PrliGroup
     global $wpdb;
 
     $query = "INSERT INTO {$this->table_name} (name,description,created_at) VALUES (%s, %s, NOW())";
-    $query = $wpdb->prepare( $query, $values['name'], $values['description'] );
+    $query = $wpdb->prepare( $query, esc_html($values['name']), esc_html($values['description']) );
     $query_results = $wpdb->query($query);
     return $wpdb->insert_id;
   }
@@ -27,8 +27,8 @@ class PrliGroup
     global $wpdb;
 
     $query = 'UPDATE ' . $this->table_name . 
-                ' SET name=\'' . $values['name'] . '\', ' .
-                    ' description=\'' . $values['description'] . '\' ' .
+                ' SET name=\'' . esc_html($values['name']) . '\', ' .
+                    ' description=\'' . esc_html($values['description']) . '\' ' .
                 ' WHERE id='.$id;
     $query_results = $wpdb->query($query);
     return $query_results;

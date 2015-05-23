@@ -58,16 +58,16 @@ if(!defined('ABSPATH'))
       ?>
       <tr>
         <td class="edit_group">
-        <a class="group_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo htmlspecialchars(stripslashes($group->name)); ?></a>
+        <a class="group_name" href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo esc_html(stripslashes($group->name)); ?>"><?php echo esc_html(stripslashes($group->name)); ?></a>
           <br/>
           <div class="group_actions">
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php _e('Edit', 'pretty-link'); ?></a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=destroy&id=<?php echo $group->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo htmlspecialchars(stripslashes($group->name)); ?> Pretty Link Group?');" title="Delete <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php _e('Delete', 'pretty-link'); ?></a>&nbsp;|
-            <a href="<?php echo admin_url("admin.php?page=pretty-link&group={$group->id}"); ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php _e('Links', 'pretty-link'); ?></a>&nbsp;|
-            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php _e('Hits', 'pretty-link'); ?></a>
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=edit&id=<?php echo $group->id; ?>" title="Edit <?php echo esc_html(stripslashes($group->name)); ?>"><?php _e('Edit', 'pretty-link'); ?></a>&nbsp;|
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-groups.php&action=destroy&id=<?php echo $group->id; ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo esc_html(stripslashes($group->name)); ?> Pretty Link Group?');" title="Delete <?php echo esc_html(stripslashes($group->name)); ?>"><?php _e('Delete', 'pretty-link'); ?></a>&nbsp;|
+            <a href="<?php echo admin_url("admin.php?page=pretty-link&group={$group->id}"); ?>" title="View links in <?php echo esc_html(stripslashes($group->name)); ?>"><?php _e('Links', 'pretty-link'); ?></a>&nbsp;|
+            <a href="?page=<?php echo PRLI_PLUGIN_NAME; ?>/prli-clicks.php&group=<?php echo $group->id; ?>" title="View hits in <?php echo esc_html(stripslashes($group->name)); ?>"><?php _e('Hits', 'pretty-link'); ?></a>
           </div>
         </td>
-        <td><a href="<?php echo admin_url("admin.php?page=pretty-link&group={$group->id}"); ?>" title="View links in <?php echo htmlspecialchars(stripslashes($group->name)); ?>"><?php echo $group->link_count; ?></a></td>
+        <td><a href="<?php echo admin_url("admin.php?page=pretty-link&group={$group->id}"); ?>" title="View links in <?php echo esc_html(stripslashes($group->name)); ?>"><?php echo $group->link_count; ?></a></td>
         <td><?php echo $group->created_at; ?></td>
       </tr>
       <?php

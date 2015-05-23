@@ -18,12 +18,12 @@ if(!defined('ABSPATH'))
 <table class="form-table">
   <tr class="form-field">
     <td width="75px" valign="top"><?php _e('Name:', 'pretty-link'); ?> </td>
-    <td><input type="text" name="name" value="<?php echo htmlspecialchars(stripslashes(((isset($_POST['name']) and $record == null)?$_POST['name']:$record->name))); ?>" size="75">
+    <td><input type="text" name="name" value="<?php echo esc_html(stripslashes(((isset($_POST['name']) and $record == null)?$_POST['name']:$record->name))); ?>" size="75">
       <br/><span class="setting-description"><?php _e("This is how you'll identify your Group.", 'pretty-link'); ?></span></td>
   </tr>
   <tr class="form-field">
     <td valign="top"><?php _e('Description:', 'pretty-link'); ?> </td>
-    <td><textarea style="height: 100px;" name="description"><?php echo ((isset($_POST['description']) and $record == null)?$_POST['description']:$record->description); ?></textarea>
+    <td><textarea style="height: 100px;" name="description"><?php echo esc_html((isset($_POST['description']) and $record == null)?$_POST['description']:$record->description); ?></textarea>
     <br/><span class="setting-description"><?php _e('A Description of this group.', 'pretty-link'); ?></span></td>
   </tr>
   <tr class="form-field" valign="top">
