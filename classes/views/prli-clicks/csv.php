@@ -18,7 +18,7 @@ if(!defined('ABSPATH'))
     {
       $link = $prli_link->getOne($click->link_id);
      
-      echo "\"$click->btype\",\"$click->bversion\",\"$click->os\",\"$click->ip\",\"$click->vuid\",\"$click->created_at\",\"$click->host\",\"$click->uri\",\"$click->referer\",\"" . ((empty($link->name))?$link->slug:$link->name) . "\"\n";
+      echo "\"$click->btype\",\"$click->bversion\",\"$click->os\",\"$click->ip\",\"$click->vuid\",\"$click->created_at\",\"$click->host\",\"$click->uri\",\"$click->referer\",\"" . ((empty($link->name))?$link->slug:esc_html($link->name)) . "\"\n";
     }
   }
   else

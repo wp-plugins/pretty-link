@@ -43,7 +43,7 @@ if(!defined('ABSPATH'))
             $link = $links[$i];
             ?>
             <tr style="line-height: 15px; font-size: 12px;<?php echo (($i%2)?' background-color: #efefef;':''); ?>">
-              <td style="min-width: 50%; width: 50%;"><input type="checkbox" style="width: 15px;" name="link[<?php echo $link->id; ?>]" <?php echo ((isset($_POST['link'][$link->id]) and $_POST['link'][$link->id] == 'on')?'checked="true"':''); ?>/>&nbsp;<?php echo htmlspecialchars(stripslashes($link->name)) . " <strong>(" . $link->slug . ")</strong>"; ?></td>
+              <td style="min-width: 50%; width: 50%;"><input type="checkbox" style="width: 15px;" name="link[<?php echo $link->id; ?>]" <?php echo ((isset($_POST['link'][$link->id]) and $_POST['link'][$link->id] == 'on')?'checked="true"':''); ?>/>&nbsp;<?php echo esc_html(stripslashes($link->name)) . " <strong>(" . $link->slug . ")</strong>"; ?></td>
               <td style="min-width: 50%; width: 50%;"><?php echo htmlspecialchars(stripslashes($link->group_name)); ?></td>
             </tr>
             <?php

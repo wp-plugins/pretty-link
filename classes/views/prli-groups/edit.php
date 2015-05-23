@@ -41,7 +41,7 @@ if(!defined('ABSPATH'))
             $link = $links[$i];
             ?>
             <tr style="line-height: 15px; font-size: 12px;<?php echo (($i%2)?' background-color: #efefef;':''); ?>">
-              <td style="min-width: 50%; width: 50%"><input type="checkbox" style="display:inline;width: 15px; padding: 0; margin: 0; float: left; text-align: left;" name="link[<?php echo $link->id; ?>]" <?php echo (((isset($_POST['link'][$link->id]) and $_POST['link'][$link->id] == 'on') or (empty($_POST) and $link->group_id == $record->id))?'checked="true"':''); ?>/><span>&nbsp;<?php echo htmlspecialchars(stripslashes($link->name)) . " <strong>(" . $link->slug . ")</strong>"; ?></span></td>
+              <td style="min-width: 50%; width: 50%"><input type="checkbox" style="display:inline;width: 15px; padding: 0; margin: 0; float: left; text-align: left;" name="link[<?php echo $link->id; ?>]" <?php echo (((isset($_POST['link'][$link->id]) and $_POST['link'][$link->id] == 'on') or (empty($_POST) and $link->group_id == $record->id))?'checked="true"':''); ?>/><span>&nbsp;<?php echo esc_html(stripslashes($link->name)) . " <strong>(" . $link->slug . ")</strong>"; ?></span></td>
               <td style="min-width: 50%; width: 50%"><?php echo htmlspecialchars(stripslashes($link->group_name)); ?></td>
             </tr>
             <?php

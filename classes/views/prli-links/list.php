@@ -128,7 +128,7 @@ if(!defined('ABSPATH'))
       <tr class="link_row">
         <td class="edit_link">
 
-        <input type="checkbox" name="link-action[<?php echo $link->id; ?>]" class="link-action-checkbox" data-id="<?php echo $link->id; ?>" data-title="<?php echo stripslashes($link->name); ?>" />&nbsp;&nbsp;
+        <input type="checkbox" name="link-action[<?php echo $link->id; ?>]" class="link-action-checkbox" data-id="<?php echo $link->id; ?>" data-title="<?php echo esc_html(stripslashes($link->name)); ?>" />&nbsp;&nbsp;
         <?php do_action('prli_list_icon',$link->id); ?>
 
         <?php if( $link->redirect_type == 'prettybar' ) { ?>
@@ -181,12 +181,12 @@ if(!defined('ABSPATH'))
         }
         do_action('prli-special-link-action',$link->id);
         ?>
-        <a class="slug_name" href="<?php echo admin_url('admin.php?page=pretty-link&action=edit&id=' . $link->id); ?>" title="Edit <?php echo stripslashes($link->name); ?>"><?php echo stripslashes($link->name); ?></a>
+        <a class="slug_name" href="<?php echo admin_url('admin.php?page=pretty-link&action=edit&id=' . $link->id); ?>" title="Edit <?php echo esc_html(stripslashes($link->name)); ?>"><?php echo esc_html(stripslashes($link->name)); ?></a>
           <br/>
           <div class="link_actions">
             <a href="<?php echo admin_url('admin.php?page=pretty-link&action=edit&id=' . $link->id); ?>" title="Edit <?php echo $link->slug; ?>"><?php _e('Edit', 'pretty-link'); ?></a>&nbsp;|
-            <a href="<?php echo admin_url('admin.php?page=pretty-link&action=destroy&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo $link->name; ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>"><?php _e('Delete', 'pretty-link'); ?></a>
-            |&nbsp;<a href="<?php echo admin_url('admin.php?page=pretty-link&action=reset&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo $link->name; ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo $link->name; ?>"><?php _e('Reset', 'pretty-link'); ?></a>
+            <a href="<?php echo admin_url('admin.php?page=pretty-link&action=destroy&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to delete your <?php echo esc_html($link->name); ?> Pretty Link? This will delete the Pretty Link and all of the statistical data about it in your database.');" title="Delete <?php echo $link->slug; ?>"><?php _e('Delete', 'pretty-link'); ?></a>
+            |&nbsp;<a href="<?php echo admin_url('admin.php?page=pretty-link&action=reset&id=' . $link->id); ?>"  onclick="return confirm('Are you sure you want to reset your <?php echo esc_html($link->name); ?> Pretty Link? This will delete all of the statistical data about this Pretty Link in your database.');" title="Reset <?php echo esc_html($link->name); ?>"><?php _e('Reset', 'pretty-link'); ?></a>
             <?php if( $link->track_me and $prli_options->extended_tracking!='count' ) { ?>
             |&nbsp;<a href="<?php echo admin_url("admin.php?page=pretty-link/prli-clicks.php&l={$link->id}"); ?>" title="View clicks for <?php echo $link->slug; ?>"><?php _e('Hits', 'pretty-link'); ?></a>
             <?php do_action('prli-link-action',$link->id); ?>
