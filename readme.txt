@@ -66,6 +66,9 @@ http://blairwilliams.com/w7a
 
 == Changelog ==
 
+= 1.6.7 =
+* A fix to remove url encoding from target urls
+
 = 1.6.6 =
 * Two security fixes
 
@@ -108,6 +111,9 @@ http://blairwilliams.com/w7a
 * *Fix* Fixed some potential security vulnerabilities
 
 == Upgrade Notice ==
+
+= 1.6.7 =
+* A fix to remove url encoding from target urls. Everyone needs to upgrade asap.
 
 = 1.6.6 =
 * Two security fixes. Everyone should upgrade.

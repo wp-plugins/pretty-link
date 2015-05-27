@@ -36,12 +36,12 @@ class PrliLink
                       'VALUES (%s,%s,%s,%s,%s,%s,%s,%d,%d,%d,NOW())';
 
       $query = $wpdb->prepare( $query_str,
-                               esc_html($values['url']),
-                               esc_html($values['slug']),
+                               $values['url'],
+                               $values['slug'],
                                esc_html($values['name']),
-                               esc_html($values['param_forwarding']),
-                               esc_html($values['param_struct']),
-                               esc_html($values['redirect_type']),
+                               $values['param_forwarding'],
+                               $values['param_struct'],
+                               $values['redirect_type'],
                                esc_html($values['description']),
                                (int)isset($values['track_me']),
                                (int)isset($values['nofollow']),
@@ -81,12 +81,12 @@ class PrliLink
                      ' WHERE id=%d';
 
       $query = $wpdb->prepare( $query_str,
-                               isset($values['url'])?esc_html($values['url']):'',
-                               isset($values['slug'])?esc_html($values['slug']):'',
+                               isset($values['url'])?$values['url']:'',
+                               isset($values['slug'])?$values['slug']:'',
                                isset($values['name'])?esc_html($values['name']):'',
-                               isset($values['param_forwarding'])?esc_html($values['param_forwarding']):'',
-                               isset($values['param_struct'])?esc_html($values['param_struct']):'',
-                               isset($values['redirect_type'])?esc_html($values['redirect_type']):'',
+                               isset($values['param_forwarding'])?$values['param_forwarding']:'',
+                               isset($values['param_struct'])?$values['param_struct']:'',
+                               isset($values['redirect_type'])?$values['redirect_type']:'',
                                isset($values['description'])?esc_html($values['description']):'',
                                (int)isset($values['track_me']),
                                (int)isset($values['nofollow']),
@@ -540,3 +540,4 @@ class PrliLink
       return "javascript:location.href='{$site_url}/index.php?action=prli_bookmarklet&k={$prli_options->bookmarklet_auth}&target_url='+escape(location.href);";
     }
 }
+
