@@ -3,7 +3,7 @@
 Plugin Name: Pretty Link Lite
 Plugin URI: http://blairwilliams.com/pretty-link
 Description: Shrink, track and share any URL on the Internet from your WordPress website!
-Version: 1.6.6
+Version: 1.6.7
 Author: Caseproof
 Author URI: http://caseproof.com
 Text Domain: pretty-link
