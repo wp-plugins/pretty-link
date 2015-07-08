@@ -353,7 +353,7 @@ class PrliLinksController
        'id'         => (isset($_REQUEST['id'])?$_REQUEST['id']:''),
        'group_name' => (isset($_REQUEST['group_name'])?$_REQUEST['group_name']:''),
        'paged'      => (isset($_REQUEST['paged'])?$_REQUEST['paged']:1),
-       'group'      => (isset($_REQUEST['group'])?$_REQUEST['group']:''),
+       'group'      => (isset($_REQUEST['group'])?(int)$_REQUEST['group']:''),
        'search'     => (isset($_REQUEST['search'])?$_REQUEST['search']:''),
        'sort'       => (isset($_REQUEST['sort'])?$_REQUEST['sort']:''),
        'sdir'       => (isset($_REQUEST['sdir'])?$_REQUEST['sdir']:''),
